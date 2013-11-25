@@ -1,0 +1,16 @@
+name:                mksite
+version:             0.0.0.0
+synopsis:            static site generator
+homepage:            https://github.com/trofi/trofi.github.io.gen
+license:             PublicDomain
+author:              Sergei Trofimovich
+maintainer:          slyfox@gentoo.org
+category:            Web
+build-type:          Simple
+cabal-version:       >=1.10
+
+executable trofi.github.io.gen
+    main-is:             site.hs
+    build-depends:       base, pandoc, hakyll
+    hs-source-dirs:      src
+    default-language:    Haskell2010

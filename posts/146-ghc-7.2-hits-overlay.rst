@@ -1,0 +1,108 @@
+---
+title: ghc 7.2 hits overlay!
+date: July 23, 2011
+---
+
+:PostID: 146
+:Title: ghc 7.2 hits overlay!
+:Keywords: ghc, 7.2, cabal
+:Categories: notes
+
+Пару дней назад **MrFenix** спросил как бы это ему написать новый ебилд для **ghc**.
+Я ему что-то начал невнятно объяснять и решил, что проще добавить ебилд самому
+и по горячим следам писануть микродок. Собственно `результат <https://github.com/gentoo-haskell/gentoo-haskell/blob/master/projects/doc/HOWTO-bump-ghc.rst>`_.
+
+Но обычно при обновлении мажорной версии **ghc** проблемы приносит не сам компилятор, а либы
+которые он с собой тянет. В нашем случае обновились **Cabal** до **1.12**, **integer-gmp** до
+**0.3** и **base** до **4.4**. Остальное - мелочи. И теперь пакеты **haskell98** и **base**
+мешать нельзя.
+
+.. raw:: html
+
+   <!--more-->
+
+Как бы там ни было, приличное число пакеров разваливается и надо их понемногу фиксить.
+В этом нам помогает **ebuild**. Он нам помогает разбить установку пакета в систему на фазы
+и редактировать пакет на ходу.
+
+Рассмотрим пример исправления такого пакета: **data-inttrie**.
+
+.. code-block:: bash
+
+    [1 of 1] Compiling Main             ( /tmp/portage/dev-haskell/data-inttrie-0.0.4/work/data-inttrie-0.0.4/Setup.hs, /tmp/portage/dev-haskell/data-inttrie-0.0.4/work/data-inttrie-0.0.4/Setup.o )
+    Linking setup ...
+    Configuring data-inttrie-0.0.4...
+    setup: At least the following dependencies are missing:
+    base >=3 && <=4.4
+
+Заходим в каталог с ебилдом и запускаем **ebuild data-inttrie-0.0.4.ebuild clean prepare**.
+Эта команда удаляет старый мусор, распаковывает исходник и накладывает патчи (если есть).
+
+Теперь мы можем создать внутри репозиторий **git**, чтобы не париться созданием патчей позже.
+Для этого у меня есть суперскипт **gitify**:
+
+.. code-block:: bash
+
+    # cat ~/bin/gitify
+    #!/bin/sh -e
+    git init
+    git add .
+    git commit -a -s -m "initial $(pwd)"
+
+переходим в **...work/data-inttrie-0.0.4/** и запускаем **gitify**.
+Теперь запускаем **ebuild path/to/data-inttrie-0.0.4.ebuild compile** и ловим ошибку сборки:
+
+.. code-block:: bash
+
+    [st@st] ~/portage/gentoo-haskell/dev-haskell/data-inttrie:ebuild ~/portage/gentoo-haskell/dev-haskell/data-inttrie/data-inttrie-0.0.4.ebuild compile
+    >>> Existing ${T}/environment for 'data-inttrie-0.0.4' will be sourced.
+    >>> Run 'clean' to start with a fresh environment.
+    ...
+    >>> It appears that 'data-inttrie-0.0.4' is already setup; skipping.
+    >>> Remove '/tmp/portage/dev-haskell/data-inttrie-0.0.4/.setuped' to force setup.
+    >>> Checking data-inttrie-0.0.4.tar.gz's mtime...
+    >>> WORKDIR is up-to-date, keeping...
+    >>> It appears that 'data-inttrie-0.0.4' is already prepared; skipping.
+    >>> Remove '/tmp/portage/dev-haskell/data-inttrie-0.0.4/.prepared' to force prepare.
+    >>> Configuring source in /tmp/portage/dev-haskell/data-inttrie-0.0.4/work/data-inttrie-0.0.4 ...
+     * Using cabal-1.11.1.20110721.
+     [1 of 1] Compiling Main             ( /tmp/portage/dev-haskell/data-inttrie-0.0.4/work/data-inttrie-0.0.4/Setup.hs, /tmp/portage/dev-haskell/data-inttrie-0.0.4/work/data-inttrie-0.0.4/Setup.o )
+     Linking setup ...
+     Configuring data-inttrie-0.0.4...
+     setup: At least the following dependencies are missing:
+     base >=3 && <=4.4
+
+Видно, что исходник не перераспаковывался заново. Можно фиксить и прбовать собирать и тестировать
+всё прямо на месте. Когда результат будет готов, **git diff** выдаст нам готовый патч.
+
+Чтобы каждый раз не париться созданием **git** репозитория вкатим такую штуку в **/etc/portage/bashrc**.
+Ради нее я пост и начал писать:
+
+.. code-block:: bash
+
+    # cat /etc/portage/bashrc
+    post_src_prepare() {
+        pushd "${S}"
+        if [ ! -d .git ]; then
+                git init .
+                git config user.name "Sergei Trofimovich"
+                git config user.email "slyfox@gentoo.org"
+                git add .
+                git commit -s -m "inital $(pwd)"
+        fi
+        popd
+    }
+
+**post_src_prepare** вызывается **emerge** сразу после фазы **src_prepare** (в этой фазе обычно завершается
+работа с самим исходником: всё патчится и автогенерится).
+
+Теперь вернемся к **data-inttrie**: **base >=3 && <=4.4** исправляем **base >=3 && <4.5** (отношение **<=** практически всегда неправильное).
+
+Запускаем **ebuild path/to/data-inttrie-0.0.4.ebuild compile test** и убеждаемся, что пакет собирается и его тесты
+работают (если есть).
+
+- генерим патч: **git diff > data-inttrie-0.0.4-ghc-7.2.patch**
+- добавляем `в оверлей <https://github.com/gentoo-haskell/gentoo-haskell/commit/c6a06ae227ffffc732fec8f6733575723fd6e1fc>`_
+- дурим голову аффтору, чтобы он принял наш патч в апстрим
+
+Готово! :]

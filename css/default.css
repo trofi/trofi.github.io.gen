@@ -1,0 +1,81 @@
+html {
+    overflow-y: scroll;
+}
+
+body {
+    color: #000;
+    font: 1em "Courier New", Courier, mono;
+    margin: 0px auto 0px auto;
+    width: 80%;
+}
+
+div#header {
+    border-bottom: 1px solid black;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+
+    padding: 0;
+}
+
+div#header a {
+    font-size: 2em;
+    font-weight: normal;
+    text-decoration: none;
+    text-align: center;
+    display: block; /* fill 100% of header */
+}
+
+div#navigation {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+
+    font-size: 1.5em;
+    text-align: right;
+}
+
+p {
+    margin: 0px;
+}
+
+a {
+    text-decoration:none;
+    color: black;
+    background-color:#FFFFE0;
+    font-weight: bold;
+}
+a:hover {
+    text-decoration: none;
+    background-color:#000000;
+    color:#FFFFFF;
+    font-weight: bold;
+}
+
+div#header #navigation a {
+    /*color: black;
+    background-color:#FFFFE0;*/
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+div#footer {
+    border-top: solid 1px black;
+    color: #555;
+    font-size: 12px;
+    margin-top: 30px;
+    padding: 12px 0px 12px 0px;
+    text-align: right;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+h2 {
+    font-size: 20px;
+}
+
+div.info {
+    color: #555;
+    font-size: 14px;
+    font-style: italic;
+}

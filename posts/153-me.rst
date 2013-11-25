@@ -1,0 +1,11 @@
+---
+title: me
+date: September 27, 2011
+---
+
+:PostID: 153
+:Title: me
+:Keywords: me, snowboard
+:Categories: notes
+
+`Я :] <http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo/misc/dev-pics/slyfox.jpg?view=markup>`_
