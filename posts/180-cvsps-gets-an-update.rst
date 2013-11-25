@@ -1,5 +1,5 @@
 ---
-title: cvsps gets update
+title: cvsps gets an update
 date: January 10, 2013
 ---
 

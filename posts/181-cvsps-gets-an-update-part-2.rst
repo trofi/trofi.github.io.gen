@@ -1,5 +1,5 @@
 ---
-title: cvsps gets update part 2
+title: cvsps gets an update part 2
 date: January 12, 2013
 ---
 

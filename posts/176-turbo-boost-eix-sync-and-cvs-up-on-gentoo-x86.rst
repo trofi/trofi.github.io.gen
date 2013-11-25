@@ -1,10 +1,10 @@
 ---
-title: turbo boost emerge ----sync and cvs up on gentoo-x86
+title: turbo boost emerge --sync and cvs up on gentoo-x86
 date: November 17, 2012
 ---
 
 :PostID: 176
-:Title: turbo boost emerge ----sync and cvs up on gentoo-x86
+:Title: turbo boost emerge --sync and cvs up on gentoo-x86
 :Keywords: emerge, portage, gentoo, gentoo-x86, btrfs, loop, speed, english
 :Categories: notes
 
