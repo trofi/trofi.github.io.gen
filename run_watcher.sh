@@ -10,4 +10,4 @@ ghc --make -O2 Setup.hs -o "${setup_exe}"
 "${setup_exe}" build
 
 "${site_exe}" clean
-"${site_exe}" watch
+"${site_exe}" watch "$@"
