@@ -1,6 +1,6 @@
 ---
 title: fixing ghc on sparc ia64 and friends
-date: Sept 13, 2014
+date: Sep 13, 2014
 ---
 
 :PostID: 187
