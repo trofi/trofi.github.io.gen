@@ -439,4 +439,6 @@ All these nested functions, **setjmp()**, **longjmp()** were only distractions
 hiding very old and simple code bug. Ancient **grub-0.92** from 2002
 (available `here <ftp://alpha.gnu.org/gnu/grub/>`_) also had that flaw.
 
+The patch is already `in gentoo <https://gitweb.gentoo.org/repo/gentoo.git/tree/sys-boot/grub/files/grub-0.97-Add-esp-to-list-of-clobbered-registers.patch>`_.
+
 The smarter compilers the funnier life :)
