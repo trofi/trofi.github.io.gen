@@ -1,0 +1,31 @@
+<map id="re2c::compile" name="re2c::compile">
+<area shape="rect" id="node2" href="$structre2c_1_1OutputFile.html#ab3a6fb2ce214d00b3ed8f761eb768bcc" title="re2c::OutputFile::get\l_block_line" alt="" coords="164,5,309,47"/>
+<area shape="rect" id="node3" href="$namespacere2c.html#a150ad146436379eceb6e93786732ccf7" title="re2c::make_name" alt="" coords="170,71,303,98"/>
+<area shape="rect" id="node4" href="$classre2c_1_1RegExp.html#a3bf18cb6999ccf3abcb53723f5479dcf" title="re2c::RegExp::split" alt="" coords="168,122,305,149"/>
+<area shape="rect" id="node5" href="$namespacere2c.html#ac7942ddae8972f1096ccd57382722ee1" title="re2c::minimization" alt="" coords="170,173,303,199"/>
+<area shape="rect" id="node14" href="$namespacere2c.html#a76a4b94c3965b3743b22b2239700df64" title="re2c::fillpoints" alt="" coords="183,223,290,250"/>
+<area shape="rect" id="node18" href="$classre2c_1_1DFA.html#a6461c809344e1c6fa02c21384655d14f" title="re2c::DFA::reorder" alt="" coords="169,274,305,301"/>
+<area shape="rect" id="node19" href="$classre2c_1_1DFA.html#ad01735865b181c53abc4904bc52f836b" title="re2c::DFA::prepare" alt="" coords="167,329,306,355"/>
+<area shape="rect" id="node27" href="$classre2c_1_1DFA.html#a2aacaa0f3a63c451945ca0c08dff529b" title="re2c::DFA::calc_stats" alt="" coords="161,379,313,406"/>
+<area shape="rect" id="node29" href="$structre2c_1_1OutputFile.html#aa4d37fb1122e47cac1c18498eaaba258" title="re2c::OutputFile::set\l_used_yyaccept" alt="" coords="165,431,309,472"/>
+<area shape="rect" id="node30" href="$namespacere2c.html#a39a0380439df288898e2c914a8c58ee6" title="re2c::make_smart_ptr" alt="" coords="157,497,316,523"/>
+<area shape="rect" id="node6" href="$namespacere2c.html#af775c8d2b544a7df19d00b4e6331050f" title="re2c::minimization\l_table" alt="" coords="383,40,516,81"/>
+<area shape="rect" id="node7" href="$namespacere2c.html#ae6ecd2d5d450b8d638dace7d4d74f6cb" title="re2c::minimization\l_moore" alt="" coords="383,105,516,147"/>
+<area shape="rect" id="node8" href="$namespacere2c__test.html#af46967171834bbd371692f75b8cac510" title="re2c_test::diff" alt="" coords="605,113,711,139"/>
+<area shape="rect" id="node9" href="$namespacere2c__test.html#a254a15630be8d5050b5681c69b36e23a" title="re2c_test::equal" alt="" coords="781,87,903,114"/>
+<area shape="rect" id="node13" href="$namespacere2c__test.html#a2f43a3010912fd8965d08f49dbb506d5" title="re2c_test::show" alt="" coords="782,138,902,165"/>
+<area shape="rect" id="node10" href="$classre2c_1_1Range.html#a46e9fa66a22efcd7adb55cf2b5ab6372" title="re2c::Range::next" alt="" coords="955,62,1086,89"/>
+<area shape="rect" id="node11" href="$classre2c_1_1Range.html#af4b6668bea94d5d90f6f9f6eef98c772" title="re2c::Range::lower" alt="" coords="951,113,1090,139"/>
+<area shape="rect" id="node12" href="$classre2c_1_1Range.html#a7c6f7798e98ad786809a9d230d68be85" title="re2c::Range::upper" alt="" coords="951,163,1091,190"/>
+<area shape="rect" id="node15" href="$namespacere2c.html#aacaecf52c7da4a573c2de3d88c30ad78" title="re2c::scc" alt="" coords="411,171,488,198"/>
+<area shape="rect" id="node17" href="$namespacere2c.html#a3f8fd42c1e4246e2360c4fa2d830b9b5" title="re2c::calc_fill" alt="" coords="398,222,501,249"/>
+<area shape="rect" id="node16" href="$namespacere2c.html#a357f55647667bfce789c324845c8a268" title="re2c::loopback" alt="" coords="602,171,714,198"/>
+<area shape="rect" id="node20" href="$classre2c_1_1Action.html#ad63a0247eb7c0d44bbe9ed7b2674f73c" title="re2c::Action::set_rule" alt="" coords="374,273,525,299"/>
+<area shape="rect" id="node21" href="$classre2c_1_1uniq__vector__t.html#a1e202127dd55315aff20ad0871e8ae24" title="re2c::uniq_vector_t\l::find_or_add" alt="" coords="379,324,520,365"/>
+<area shape="rect" id="node22" href="$classre2c_1_1Action.html#a067bcdb556e98941484df5f29eb2df0d" title="re2c::Action::set_save" alt="" coords="370,390,529,417"/>
+<area shape="rect" id="node23" href="$classre2c_1_1Action.html#a817987b07425deaf705bed983c74ee28" title="re2c::Action::set_accept" alt="" coords="364,441,535,467"/>
+<area shape="rect" id="node24" href="$classre2c_1_1BitMap.html#a50d63ed39d32c07521b55c00a4a373b3" title="re2c::BitMap::find" alt="" coords="385,491,514,518"/>
+<area shape="rect" id="node25" href="$namespacere2c.html#a79ad7b02c4996a9bab41faabd451d624" title="re2c::matches" alt="" coords="603,466,713,493"/>
+<area shape="rect" id="node26" href="$classre2c_1_1BitMap.html#af4547f7d81b66ec8d044c68a57fb9ed4" title="re2c::BitMap::BitMap" alt="" coords="583,517,733,543"/>
+<area shape="rect" id="node28" href="$classre2c_1_1uniq__vector__t.html#a33cce57bfa779a3dca81b195c03af0c3" title="re2c::uniq_vector_t\l::size" alt="" coords="379,543,520,584"/>
+</map>

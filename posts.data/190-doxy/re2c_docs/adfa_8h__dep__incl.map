@@ -1,0 +1,11 @@
+<map id="ir/adfa/adfa.h" name="ir/adfa/adfa.h">
+<area shape="rect" id="node2" href="$emit_8h.html" title="codegen/emit.h" alt="" coords="126,80,245,107"/>
+<area shape="rect" id="node3" href="$emit__action_8cc.html" title="codegen/emit_action.cc" alt="" coords="5,155,176,181"/>
+<area shape="rect" id="node4" href="$emit__dfa_8cc.html" title="codegen/emit_dfa.cc" alt="" coords="204,155,356,181"/>
+<area shape="rect" id="node5" href="$go__construct_8cc.html" title="codegen/go_construct.cc" alt="" coords="320,80,499,107"/>
+<area shape="rect" id="node6" href="$go__emit_8cc.html" title="codegen/go_emit.cc" alt="" coords="523,80,671,107"/>
+<area shape="rect" id="node7" href="$go__used__labels_8cc.html" title="codegen/go_used_labels.cc" alt="" coords="695,80,891,107"/>
+<area shape="rect" id="node8" href="$adfa_8cc.html" title="ir/adfa/adfa.cc" alt="" coords="915,80,1026,107"/>
+<area shape="rect" id="node9" href="$prepare_8cc.html" title="ir/adfa/prepare.cc" alt="" coords="1051,80,1184,107"/>
+<area shape="rect" id="node10" href="$compile_8cc.html" title="ir/compile.cc" alt="" coords="1208,80,1307,107"/>
+</map>

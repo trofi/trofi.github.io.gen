@@ -1,0 +1,10 @@
+<map id="re2c::Scanner::mkDot" name="re2c::Scanner::mkDot">
+<area shape="rect" id="node2" href="$classre2c_1_1Enc.html#a66b9beb9ffc595c9c22fecee1eb06a4f" title="re2c::Enc::fullRange" alt="" coords="209,56,354,83"/>
+<area shape="rect" id="node5" href="$classre2c_1_1Range.html#a257a46bb7e14a77fee7055a3cb345f21" title="re2c::Range::sub" alt="" coords="423,107,549,133"/>
+<area shape="rect" id="node6" href="$classre2c_1_1Enc.html#ac01dfd6d0e55f7cfdf12139013252be0" title="re2c::Enc::encode" alt="" coords="215,5,348,32"/>
+<area shape="rect" id="node7" href="$classre2c_1_1Scanner.html#a08ffc7bcee9b5af3fdb9c767b53ed0e6" title="re2c::Scanner::fatalf" alt="" coords="208,157,355,184"/>
+<area shape="rect" id="node9" href="$classre2c_1_1Range.html#aeddf2187e274d22ad41eac1c66114d46" title="re2c::Range::sym" alt="" coords="217,208,346,235"/>
+<area shape="rect" id="node3" href="$classre2c_1_1Range.html#a85e29fbf9c1020ab43ee9cd7b48c5d1c" title="re2c::Range::ran" alt="" coords="423,56,549,83"/>
+<area shape="rect" id="node4" href="$classre2c_1_1Enc.html#a3c1dcebbc924ab5525f67481cd127d99" title="re2c::Enc::nCodePoints" alt="" coords="403,5,569,32"/>
+<area shape="rect" id="node8" href="$classre2c_1_1Scanner.html#afafc19ac0714e423bdabd26e3da5a2e2" title="re2c::Scanner::fatal" alt="" coords="415,157,557,184"/>
+</map>

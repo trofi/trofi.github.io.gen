@@ -1,0 +1,9 @@
+<map id="re2c::is_space" name="re2c::is_space">
+<area shape="rect" id="node2" href="$namespacere2c.html#a18e53144944b38744dd7943973769081" title="re2c::prtChOrHex" alt="" coords="165,81,297,108"/>
+<area shape="rect" id="node3" href="$structre2c_1_1OutputFile.html#a623f2cc282de17cdd02dd6fb165e7e97" title="re2c::OutputFile::wc_hex" alt="" coords="345,81,519,108"/>
+<area shape="rect" id="node4" href="$namespacere2c.html#a7a4ff24cff794da6094c1e9718541eac" title="re2c::output_if" alt="" coords="573,56,682,83"/>
+<area shape="rect" id="node7" href="$structre2c_1_1Case.html#afde14ff632adff222d6bc5a7277744fb" title="re2c::Case::emit" alt="" coords="567,107,688,133"/>
+<area shape="rect" id="node5" href="$structre2c_1_1Binary.html#ab65f42d6baff8813bac6a45b46a31abb" title="re2c::Binary::emit" alt="" coords="736,5,864,32"/>
+<area shape="rect" id="node6" href="$structre2c_1_1Linear.html#a296897e640f94a39afdc0a76562406c9" title="re2c::Linear::emit" alt="" coords="736,56,864,83"/>
+<area shape="rect" id="node8" href="$structre2c_1_1Cases.html#a11246c161de1849011682612c0a306ce" title="re2c::Cases::emit" alt="" coords="736,107,864,133"/>
+</map>

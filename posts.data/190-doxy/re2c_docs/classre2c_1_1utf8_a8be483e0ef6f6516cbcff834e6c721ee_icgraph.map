@@ -1,0 +1,7 @@
+<map id="re2c::utf8::rune_to_bytes" name="re2c::utf8::rune_to_bytes">
+<area shape="rect" id="node2" href="$namespacere2c.html#aa39b4eb8aaf9451fe05ac28bed2ce1fb" title="re2c::UTF8addContinuous" alt="" coords="187,5,372,32"/>
+<area shape="rect" id="node6" href="$namespacere2c.html#a984140e5889ecb0c0a61904b93311ba6" title="re2c::UTF8Symbol" alt="" coords="211,56,347,83"/>
+<area shape="rect" id="node3" href="$namespacere2c.html#a02ecfe7dde721207fe2adec10bd8bbaf" title="re2c::UTF8splitByContinuity" alt="" coords="420,5,615,32"/>
+<area shape="rect" id="node4" href="$namespacere2c.html#a20dcc208a05046663578b841384d2ee9" title="re2c::UTF8splitByRuneLength" alt="" coords="663,5,872,32"/>
+<area shape="rect" id="node5" href="$namespacere2c.html#a2a984c3e130ade9212e15d9b05e156e7" title="re2c::UTF8Range" alt="" coords="920,5,1053,32"/>
+</map>

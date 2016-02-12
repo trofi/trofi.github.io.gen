@@ -1,0 +1,7 @@
+<map id="re2c::RegExp::calc_size" name="re2c::RegExp::calc_size">
+<area shape="rect" id="node2" href="$classre2c_1_1AltOp.html#a2e952652888ba20a6c27d93a62e98ca6" title="re2c::AltOp::calc_size" alt="" coords="234,5,389,32"/>
+<area shape="rect" id="node3" href="$classre2c_1_1CatOp.html#a68b5b6361de8f41ebe00e1abc38cfcfc" title="re2c::CatOp::calc_size" alt="" coords="231,56,392,83"/>
+<area shape="rect" id="node4" href="$classre2c_1_1CloseOp.html#a25f738a6ce950a209ed87429c770744f" title="re2c::CloseOp::calc_size" alt="" coords="224,107,399,133"/>
+<area shape="rect" id="node5" href="$classre2c_1_1RuleOp.html#a89f3dcfa5eefdf896186511fb960cf5a" title="re2c::RuleOp::calc_size" alt="" coords="228,157,395,184"/>
+<area shape="rect" id="node6" href="$classre2c_1_1RuleOp.html#a388eac0f3485d030949f12751dabbd2e" title="re2c::RuleOp::compile" alt="" coords="233,208,390,235"/>
+</map>

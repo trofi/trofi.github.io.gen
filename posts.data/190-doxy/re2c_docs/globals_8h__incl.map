@@ -1,0 +1,15 @@
+<map id="globals.h" name="globals.h">
+<area shape="rect" id="node3" href="$opt_8h.html" title="src/conf/opt.h" alt="" coords="707,80,814,107"/>
+<area shape="rect" id="node4" href="$c99__stdint_8h.html" title="src/util/c99_stdint.h" alt="" coords="803,408,945,435"/>
+<area shape="rect" id="node20" href="$warn_8h.html" title="src/conf/warn.h" alt="" coords="1148,162,1267,189"/>
+<area shape="rect" id="node7" href="$input__api_8h.html" title="src/codegen/input_api.h" alt="" coords="849,162,1021,189"/>
+<area shape="rect" id="node8" href="$dfa_8h.html" title="src/ir/dfa/dfa.h" alt="" coords="515,162,627,189"/>
+<area shape="rect" id="node14" href="$forbid__copy_8h.html" title="src/util/forbid_copy.h" alt="" coords="5,333,156,360"/>
+<area shape="rect" id="node18" href="$empty__class__policy_8h.html" title="src/ir/regexp/empty\l_class_policy.h" alt="" coords="349,155,492,196"/>
+<area shape="rect" id="node19" href="$enc_8h.html" title="src/ir/regexp/encoding\l/enc.h" alt="" coords="679,244,842,285"/>
+<area shape="rect" id="node10" href="$regexp_8h.html" title="src/ir/regexp/regexp.h" alt="" coords="293,251,453,278"/>
+<area shape="rect" id="node15" href="$rules_8h.html" title="src/parse/rules.h" alt="" coords="477,251,604,278"/>
+<area shape="rect" id="node13" href="$free__list_8h.html" title="src/util/free_list.h" alt="" coords="180,333,307,360"/>
+<area shape="rect" id="node17" href="$rule__rank_8h.html" title="src/ir/rule_rank.h" alt="" coords="535,333,661,360"/>
+<area shape="rect" id="node21" href="$way_8h.html" title="src/ir/skeleton/way.h" alt="" coords="1211,251,1361,278"/>
+</map>

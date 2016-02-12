@@ -1,0 +1,20 @@
+<map id="ir/skeleton/unreachable.cc" name="ir/skeleton/unreachable.cc">
+<area shape="rect" id="node2" href="$c99__stdint_8h.html" title="src/util/c99_stdint.h" alt="" coords="646,468,789,495"/>
+<area shape="rect" id="node7" href="$warn_8h.html" title="src/conf/warn.h" alt="" coords="1090,237,1209,263"/>
+<area shape="rect" id="node12" href="$rules_8h.html" title="src/parse/rules.h" alt="" coords="1845,319,1971,345"/>
+<area shape="rect" id="node13" href="$rule__rank_8h.html" title="src/ir/rule_rank.h" alt="" coords="1650,393,1777,420"/>
+<area shape="rect" id="node15" href="$globals_8h.html" title="src/globals.h" alt="" coords="761,80,861,107"/>
+<area shape="rect" id="node25" href="$path_8h.html" title="src/ir/skeleton/path.h" alt="" coords="1289,319,1442,345"/>
+<area shape="rect" id="node26" href="$skeleton_8h.html" title="src/ir/skeleton/skeleton.h" alt="" coords="1692,237,1871,263"/>
+<area shape="rect" id="node10" href="$way_8h.html" title="src/ir/skeleton/way.h" alt="" coords="1466,319,1617,345"/>
+<area shape="rect" id="node16" href="$opt_8h.html" title="src/conf/opt.h" alt="" coords="488,155,595,181"/>
+<area shape="rect" id="node18" href="$input__api_8h.html" title="src/codegen/input_api.h" alt="" coords="281,237,453,263"/>
+<area shape="rect" id="node19" href="$dfa_8h.html" title="src/ir/dfa/dfa.h" alt="" coords="848,237,960,263"/>
+<area shape="rect" id="node22" href="$forbid__copy_8h.html" title="src/util/forbid_copy.h" alt="" coords="755,393,906,420"/>
+<area shape="rect" id="node23" href="$empty__class__policy_8h.html" title="src/ir/regexp/empty\l_class_policy.h" alt="" coords="579,229,722,271"/>
+<area shape="rect" id="node24" href="$enc_8h.html" title="src/ir/regexp/encoding\l/enc.h" alt="" coords="93,229,256,271"/>
+<area shape="rect" id="node20" href="$regexp_8h.html" title="src/ir/regexp/regexp.h" alt="" coords="805,319,965,345"/>
+<area shape="rect" id="node21" href="$free__list_8h.html" title="src/util/free_list.h" alt="" coords="1083,393,1210,420"/>
+<area shape="rect" id="node28" href="$local__increment_8h.html" title="src/util/local_increment.h" alt="" coords="2175,319,2351,345"/>
+<area shape="rect" id="node29" href="$u32lim_8h.html" title="src/util/u32lim.h" alt="" coords="1421,393,1539,420"/>
+</map>

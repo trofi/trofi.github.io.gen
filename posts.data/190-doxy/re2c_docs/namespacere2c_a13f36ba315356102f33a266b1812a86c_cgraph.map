@@ -1,0 +1,5 @@
+<map id="re2c::UTF16Symbol" name="re2c::UTF16Symbol">
+<area shape="rect" id="node2" href="$classre2c_1_1Range.html#aeddf2187e274d22ad41eac1c66114d46" title="re2c::Range::sym" alt="" coords="209,5,338,32"/>
+<area shape="rect" id="node3" href="$classre2c_1_1utf16.html#a65cb5fd5013fbb4d93f6489113388ba8" title="re2c::utf16::lead_surr" alt="" coords="197,56,349,83"/>
+<area shape="rect" id="node4" href="$classre2c_1_1utf16.html#a70411cf5ec6633fcf39ab44cd493cebc" title="re2c::utf16::trail_surr" alt="" coords="199,107,347,133"/>
+</map>

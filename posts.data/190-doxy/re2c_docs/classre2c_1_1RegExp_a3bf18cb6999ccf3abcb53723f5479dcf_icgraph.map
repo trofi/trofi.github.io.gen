@@ -1,0 +1,7 @@
+<map id="re2c::RegExp::split" name="re2c::RegExp::split">
+<area shape="rect" id="node2" href="$namespacere2c.html#ab7179e31e097328e2f5fbe4dafb1ebe0" title="re2c::compile" alt="" coords="210,5,314,32"/>
+<area shape="rect" id="node3" href="$classre2c_1_1AltOp.html#a5c9a50f790582470e1a5c2700874bb0e" title="re2c::AltOp::split" alt="" coords="201,56,323,83"/>
+<area shape="rect" id="node4" href="$classre2c_1_1CatOp.html#a82127a3c661f72359a2be4e7096df591" title="re2c::CatOp::split" alt="" coords="198,107,326,133"/>
+<area shape="rect" id="node5" href="$classre2c_1_1CloseOp.html#a2afb9542675032c6dcc51417ff446dfa" title="re2c::CloseOp::split" alt="" coords="191,157,333,184"/>
+<area shape="rect" id="node6" href="$classre2c_1_1RuleOp.html#a3a745c7b00de35f1761032352cd3ee13" title="re2c::RuleOp::split" alt="" coords="195,208,329,235"/>
+</map>

@@ -1,0 +1,27 @@
+<map id="re2c::Go" name="re2c::Go">
+<area shape="rect" id="node9" href="$structre2c_1_1State.html" title="re2c::State" alt="" coords="1141,281,1231,308"/>
+<area shape="rect" id="node24" href="$classre2c_1_1BitMap.html" title="re2c::BitMap" alt="" coords="1313,499,1413,525"/>
+<area shape="rect" id="node2" href="$structre2c_1_1SwitchIf.html" title="re2c::SwitchIf" alt="" coords="1788,668,1893,695"/>
+<area shape="rect" id="node23" href="$structre2c_1_1GoBitmap.html" title="re2c::GoBitmap" alt="" coords="1971,505,2089,532"/>
+<area shape="rect" id="node25" href="$structre2c_1_1Cpgoto.html" title="re2c::Cpgoto" alt="" coords="1979,668,2081,695"/>
+<area shape="rect" id="node3" href="$structre2c_1_1If.html" title="re2c::If" alt="" coords="1615,797,1679,824"/>
+<area shape="rect" id="node5" href="$structre2c_1_1Binary.html" title="re2c::Binary" alt="" coords="1793,841,1889,868"/>
+<area shape="rect" id="node4" href="$structre2c_1_1Linear.html" title="re2c::Linear" alt="" coords="1315,797,1411,824"/>
+<area shape="rect" id="node6" href="$structre2c_1_1Cond.html" title="re2c::Cond" alt="" coords="1601,887,1692,913"/>
+<area shape="rect" id="node7" href="$structre2c_1_1Cases.html" title="re2c::Cases" alt="" coords="1599,313,1695,340"/>
+<area shape="rect" id="node28" href="$structre2c_1_1Dot.html" title="re2c::Dot" alt="" coords="1801,180,1880,207"/>
+<area shape="rect" id="node8" href="$structre2c_1_1Case.html" title="re2c::Case" alt="" coords="1319,281,1408,308"/>
+<area shape="rect" id="node26" href="$structre2c_1_1CpgotoTable.html" title="re2c::CpgotoTable" alt="" coords="1437,553,1575,580"/>
+<area shape="rect" id="node27" href="$structre2c_1_1Span.html" title="re2c::Span" alt="" coords="1319,395,1408,421"/>
+<area shape="rect" id="node10" href="$classre2c_1_1label__t.html" title="re2c::label_t" alt="" coords="517,259,615,285"/>
+<area shape="rect" id="node21" href="$structre2c_1_1Initial.html" title="re2c::Initial" alt="" coords="739,160,829,187"/>
+<area shape="rect" id="node11" href="$classre2c_1_1RuleOp.html" title="re2c::RuleOp" alt="" coords="733,84,835,111"/>
+<area shape="rect" id="node20" href="$classre2c_1_1Action.html" title="re2c::Action" alt="" coords="956,151,1051,177"/>
+<area shape="rect" id="node12" href="$classre2c_1_1RegExp.html" title="re2c::RegExp" alt="" coords="513,73,619,100"/>
+<area shape="rect" id="node13" href="$classre2c_1_1free__list.html" title="re2c::free_list\&lt; re2c\l::RegExp * \&gt;" alt="" coords="243,66,389,107"/>
+<area shape="rect" id="node15" href="$classre2c_1_1rule__rank__t.html" title="re2c::rule_rank_t" alt="" coords="503,5,629,32"/>
+<area shape="rect" id="node16" href="$structre2c_1_1Loc.html" title="re2c::Loc" alt="" coords="277,140,355,167"/>
+<area shape="rect" id="node17" href="$structre2c_1_1Code.html" title="re2c::Code" alt="" coords="521,189,611,216"/>
+<area shape="rect" id="node18" href="$classre2c_1_1free__list.html" title="re2c::free_list\&lt; const\l re2c::Code * \&gt;" alt="" coords="240,201,392,242"/>
+<area shape="rect" id="node22" href="$classre2c_1_1uniq__vector__t.html" title="re2c::uniq_vector_t\l\&lt; value_t \&gt;" alt="" coords="713,211,855,253"/>
+</map>

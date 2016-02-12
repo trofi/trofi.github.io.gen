@@ -1,0 +1,8 @@
+<map id="re2c::cover_one" name="re2c::cover_one">
+<area shape="rect" id="node2" href="$classre2c_1_1path__t.html#a6ff0b0b55f56a90ed4b3e233a5dcd8c2" title="re2c::path_t::len" alt="" coords="209,5,330,32"/>
+<area shape="rect" id="node3" href="$classu32lim__t.html#a2774cb78b50885f51abf0049a6c2ad7e" title="u32lim_t::from64" alt="" coords="207,56,331,83"/>
+<area shape="rect" id="node4" href="$classu32lim__t.html#a635f5fe3990fabf17a86585774047f77" title="u32lim_t::overflow" alt="" coords="203,107,336,133"/>
+<area shape="rect" id="node5" href="$classu32lim__t.html#a987de8ade9680a37058102685ab4cbbd" title="u32lim_t::uint32" alt="" coords="210,157,329,184"/>
+<area shape="rect" id="node6" href="$classre2c_1_1path__t.html#a05d6e5c9987d08f8bdb5e8d950edba94" title="re2c::path_t::len_matching" alt="" coords="176,208,363,235"/>
+<area shape="rect" id="node7" href="$classre2c_1_1path__t.html#a45c7feed4b091ac9e89fb758eec7140f" title="re2c::path_t::match" alt="" coords="199,259,339,285"/>
+</map>

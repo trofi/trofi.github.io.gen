@@ -1,0 +1,6 @@
+<map id="re2c::need" name="re2c::need">
+<area shape="rect" id="node2" href="$namespacere2c.html#a740a378c9e66ad5d48534f87e098ea97" title="re2c::emit_match" alt="" coords="141,5,269,32"/>
+<area shape="rect" id="node4" href="$namespacere2c.html#a402c2b15cf6ab0a528509a000aee6312" title="re2c::emit_initial" alt="" coords="144,56,267,83"/>
+<area shape="rect" id="node5" href="$namespacere2c.html#a91a2bf72b03f281f158433d9b520f8ac" title="re2c::emit_save" alt="" coords="145,107,265,133"/>
+<area shape="rect" id="node3" href="$namespacere2c.html#af516415ccc27a4153fed5689c9680a9b" title="re2c::emit_action" alt="" coords="317,56,445,83"/>
+</map>

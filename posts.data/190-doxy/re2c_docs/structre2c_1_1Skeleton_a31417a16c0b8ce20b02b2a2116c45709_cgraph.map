@@ -1,0 +1,18 @@
+<map id="re2c::Skeleton::warn_undefined_control_flow" name="re2c::Skeleton::warn_undefined_control_flow">
+<area shape="rect" id="node2" href="$classu32lim__t.html#a5645b3bea6dbc3858c14bfbc49e7a82a" title="u32lim_t::from32" alt="" coords="255,71,379,98"/>
+<area shape="rect" id="node3" href="$structre2c_1_1Node.html#ab8934597144aec982ac1554ef4716f36" title="re2c::Node::naked_ways" alt="" coords="229,122,404,149"/>
+<area shape="rect" id="node7" href="$classu32lim__t.html#a635f5fe3990fabf17a86585774047f77" title="u32lim_t::overflow" alt="" coords="465,173,598,199"/>
+<area shape="rect" id="node8" href="$classre2c_1_1Warn.html#ad82698617a837d2a1cd058d3d1b23801" title="re2c::Warn::undefined\l_control_flow" alt="" coords="452,275,611,316"/>
+<area shape="rect" id="node16" href="$classre2c_1_1Warn.html#ab006c232fad9c76f1686eae8fc6d3839" title="re2c::Warn::fail" alt="" coords="259,223,374,250"/>
+<area shape="rect" id="node4" href="$classre2c_1_1rule__rank__t.html#a1100b8f9b2eb5330c5286bea138df4b3" title="re2c::rule_rank_t::\lis_none" alt="" coords="465,5,598,47"/>
+<area shape="rect" id="node5" href="$structre2c_1_1Node.html#aec72230b2b50d1deb0cfd40eb0d2c029" title="re2c::Node::end" alt="" coords="471,71,591,98"/>
+<area shape="rect" id="node6" href="$classu32lim__t.html#a2774cb78b50885f51abf0049a6c2ad7e" title="u32lim_t::from64" alt="" coords="469,122,593,149"/>
+<area shape="rect" id="node9" href="$namespacere2c.html#afe2fe4aef7551f04703ceb0aecdfd45e" title="re2c::cmp_ways" alt="" coords="669,282,791,309"/>
+<area shape="rect" id="node11" href="$namespacere2c.html#aec453a8e5705d30c890edbb7d916d1fc" title="re2c::warning_start" alt="" coords="659,231,801,258"/>
+<area shape="rect" id="node12" href="$namespacere2c.html#ac2f2ac03ce8a4695ed6ad6b72113bd12" title="re2c::incond" alt="" coords="681,333,779,359"/>
+<area shape="rect" id="node13" href="$namespacere2c.html#aea0531452a6fb1c9b6db7cc67dae3d4a" title="re2c::fprint_way" alt="" coords="669,383,791,410"/>
+<area shape="rect" id="node15" href="$namespacere2c.html#ad81f33e4e40dfcd1249d35de9c3d9863" title="re2c::warning_end" alt="" coords="661,181,799,207"/>
+<area shape="rect" id="node10" href="$namespacere2c.html#a7efe71835c0d65bb1b92049c19e9d1f8" title="re2c::cmp_way_arcs" alt="" coords="849,282,1000,309"/>
+<area shape="rect" id="node14" href="$namespacere2c.html#a2af9eebb79aa91ac5aed63e56722e5df" title="re2c::fprint_way_arc" alt="" coords="850,383,999,410"/>
+<area shape="rect" id="node17" href="$namespacere2c.html#a495f9fd59cbedbbf2b13a4d5e95e66c2" title="re2c::warning" alt="" coords="478,223,585,250"/>
+</map>

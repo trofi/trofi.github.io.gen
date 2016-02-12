@@ -1,0 +1,13 @@
+<map id="util/uniq_vector.h" name="util/uniq_vector.h">
+<area shape="rect" id="node2" href="$action_8h.html" title="ir/adfa/action.h" alt="" coords="924,80,1039,107"/>
+<area shape="rect" id="node3" href="$emit__action_8cc.html" title="codegen/emit_action.cc" alt="" coords="5,304,176,331"/>
+<area shape="rect" id="node4" href="$emit__dfa_8cc.html" title="codegen/emit_dfa.cc" alt="" coords="1063,304,1215,331"/>
+<area shape="rect" id="node5" href="$adfa_8h.html" title="ir/adfa/adfa.h" alt="" coords="790,155,895,181"/>
+<area shape="rect" id="node11" href="$prepare_8cc.html" title="ir/adfa/prepare.cc" alt="" coords="1176,229,1309,256"/>
+<area shape="rect" id="node6" href="$emit_8h.html" title="codegen/emit.h" alt="" coords="982,229,1101,256"/>
+<area shape="rect" id="node7" href="$go__construct_8cc.html" title="codegen/go_construct.cc" alt="" coords="128,229,307,256"/>
+<area shape="rect" id="node8" href="$go__emit_8cc.html" title="codegen/go_emit.cc" alt="" coords="331,229,479,256"/>
+<area shape="rect" id="node9" href="$go__used__labels_8cc.html" title="codegen/go_used_labels.cc" alt="" coords="503,229,699,256"/>
+<area shape="rect" id="node10" href="$adfa_8cc.html" title="ir/adfa/adfa.cc" alt="" coords="723,229,834,256"/>
+<area shape="rect" id="node12" href="$compile_8cc.html" title="ir/compile.cc" alt="" coords="859,229,957,256"/>
+</map>

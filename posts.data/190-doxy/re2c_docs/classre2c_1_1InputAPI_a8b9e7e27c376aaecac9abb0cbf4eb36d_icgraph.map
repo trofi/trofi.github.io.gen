@@ -1,0 +1,9 @@
+<map id="re2c::InputAPI::stmt_skip" name="re2c::InputAPI::stmt_skip">
+<area shape="rect" id="node2" href="$namespacere2c.html#a740a378c9e66ad5d48534f87e098ea97" title="re2c::emit_match" alt="" coords="423,35,551,62"/>
+<area shape="rect" id="node4" href="$namespacere2c.html#a402c2b15cf6ab0a528509a000aee6312" title="re2c::emit_initial" alt="" coords="425,90,548,117"/>
+<area shape="rect" id="node5" href="$classre2c_1_1InputAPI.html#af0f6fea1240461fbee81a35200f1d256" title="re2c::InputAPI::stmt\l_skip_peek" alt="" coords="231,28,372,69"/>
+<area shape="rect" id="node6" href="$classre2c_1_1InputAPI.html#a63c05c76a2f58e38f96687dba7c2c8d3" title="re2c::InputAPI::stmt\l_skip_backup" alt="" coords="231,145,372,187"/>
+<area shape="rect" id="node8" href="$classre2c_1_1InputAPI.html#aeedbf91001e7b203cf54ea70537f0071" title="re2c::InputAPI::stmt\l_skip_backup_peek" alt="" coords="228,211,375,252"/>
+<area shape="rect" id="node3" href="$namespacere2c.html#af516415ccc27a4153fed5689c9680a9b" title="re2c::emit_action" alt="" coords="599,90,727,117"/>
+<area shape="rect" id="node7" href="$namespacere2c.html#a91a2bf72b03f281f158433d9b520f8ac" title="re2c::emit_save" alt="" coords="427,153,547,179"/>
+</map>

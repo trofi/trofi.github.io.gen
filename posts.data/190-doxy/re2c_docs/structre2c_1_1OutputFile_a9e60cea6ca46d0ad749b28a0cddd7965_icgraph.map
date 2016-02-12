@@ -1,0 +1,34 @@
+<map id="re2c::OutputFile::wstring" name="re2c::OutputFile::wstring">
+<area shape="rect" id="node2" href="$classre2c_1_1BitMap.html#a03ea969f453e927555fded339f8f9e00" title="re2c::BitMap::gen" alt="" coords="243,28,374,54"/>
+<area shape="rect" id="node3" href="$classre2c_1_1DFA.html#afb6dfab504cab12f4395140789ef4160" title="re2c::DFA::emit" alt="" coords="677,145,791,172"/>
+<area shape="rect" id="node4" href="$structre2c_1_1Skeleton.html#a22406fac319037e854ea85644ac71211" title="re2c::Skeleton::emit\l_start" alt="" coords="459,79,602,120"/>
+<area shape="rect" id="node5" href="$namespacere2c.html#af516415ccc27a4153fed5689c9680a9b" title="re2c::emit_action" alt="" coords="848,728,976,754"/>
+<area shape="rect" id="node6" href="$namespacere2c.html#a740a378c9e66ad5d48534f87e098ea97" title="re2c::emit_match" alt="" coords="670,753,798,780"/>
+<area shape="rect" id="node7" href="$namespacere2c.html#a402c2b15cf6ab0a528509a000aee6312" title="re2c::emit_initial" alt="" coords="673,829,795,856"/>
+<area shape="rect" id="node8" href="$namespacere2c.html#a91a2bf72b03f281f158433d9b520f8ac" title="re2c::emit_save" alt="" coords="674,880,794,906"/>
+<area shape="rect" id="node9" href="$namespacere2c.html#ac1e52099fb106915ab34e39d497367a7" title="re2c::emit_accept_binary" alt="" coords="441,382,620,409"/>
+<area shape="rect" id="node10" href="$namespacere2c.html#aa9a4b32cd72f6b2f81dff643a074f332" title="re2c::emit_accept" alt="" coords="668,458,800,485"/>
+<area shape="rect" id="node11" href="$namespacere2c.html#a44779b9f2fbe875a4572c90b0d7ac19b" title="re2c::emit_rule" alt="" coords="474,601,587,628"/>
+<area shape="rect" id="node12" href="$namespacere2c.html#adb701b1e1163de8fd9c1d245f3cc2035" title="re2c::need" alt="" coords="487,841,575,868"/>
+<area shape="rect" id="node13" href="$namespacere2c.html#a392fc1eebc12064fdceb8b188c204622" title="re2c::genYYFill" alt="" coords="251,854,366,881"/>
+<area shape="rect" id="node14" href="$namespacere2c.html#a30fa70891f1ec2cc6f55303100f68b3d" title="re2c::genSetCondition" alt="" coords="228,585,389,612"/>
+<area shape="rect" id="node15" href="$namespacere2c.html#a351c904891a510de9edd8c669cab5f3d" title="re2c::genSetState" alt="" coords="241,905,376,932"/>
+<area shape="rect" id="node16" href="$namespacere2c.html#ae3c5674a6ba77f408f90fbcf907ea664" title="re2c::genGoTo" alt="" coords="251,433,367,460"/>
+<area shape="rect" id="node17" href="$namespacere2c.html#a9027de7bc1a6175ee67ac4c64336af12" title="re2c::emit_state" alt="" coords="248,1057,369,1084"/>
+<area shape="rect" id="node18" href="$namespacere2c.html#abfead668df22f3cb53a98e07fb1d3073" title="re2c::genCondTable" alt="" coords="456,145,605,172"/>
+<area shape="rect" id="node19" href="$namespacere2c.html#a569f9bb83dcfe8bc6fb3234709f3ba62" title="re2c::genCondGotoSub" alt="" coords="225,230,393,257"/>
+<area shape="rect" id="node20" href="$namespacere2c.html#af6d5512ae61a9ad871cd8304f03f1b93" title="re2c::genCondGoto" alt="" coords="458,196,603,222"/>
+<area shape="rect" id="node21" href="$namespacere2c.html#a7a4ff24cff794da6094c1e9718541eac" title="re2c::output_if" alt="" coords="254,1108,363,1134"/>
+<area shape="rect" id="node24" href="$namespacere2c.html#a7f34dbb80a55b24f1a3be80d35fa5fe8" title="re2c::output_goto" alt="" coords="243,1158,374,1185"/>
+<area shape="rect" id="node25" href="$structre2c_1_1Cases.html#a11246c161de1849011682612c0a306ce" title="re2c::Cases::emit" alt="" coords="467,1209,595,1236"/>
+<area shape="rect" id="node26" href="$structre2c_1_1GoBitmap.html#a288f5bb533dff1f4a35e61d705568e91" title="re2c::GoBitmap::emit" alt="" coords="455,1260,606,1286"/>
+<area shape="rect" id="node27" href="$namespacere2c.html#aba8b1dd76bc847e5d21e1ff102eaf815" title="re2c::output_hgo" alt="" coords="245,1310,372,1337"/>
+<area shape="rect" id="node28" href="$structre2c_1_1Cpgoto.html#a26f464d1316f20b01ea9e2221a461761" title="re2c::Cpgoto::emit" alt="" coords="463,1361,598,1388"/>
+<area shape="rect" id="node29" href="$structre2c_1_1CpgotoTable.html#a7813e552bcd80dcba589e62c92992d6d" title="re2c::CpgotoTable::emit" alt="" coords="224,1412,393,1438"/>
+<area shape="rect" id="node30" href="$structre2c_1_1OutputFile.html#a109780214e0ec793c2b64ed34d266c3e" title="re2c::OutputFile::wuser\l_start_label" alt="" coords="449,251,612,292"/>
+<area shape="rect" id="node31" href="$structre2c_1_1Skeleton.html#a854009c4deb80e40da974b5a4398683d" title="re2c::Skeleton::emit_end" alt="" coords="443,326,618,353"/>
+<area shape="rect" id="node32" href="$structre2c_1_1Skeleton.html#a98984bbc857befcb076dda5ba762050b" title="re2c::Skeleton::emit\l_epilog" alt="" coords="237,1463,380,1504"/>
+<area shape="rect" id="node33" href="$structre2c_1_1Skeleton.html#a7b4565d37df3df60a522f7f240cb77b0" title="re2c::Skeleton::emit\l_action" alt="" coords="237,636,380,678"/>
+<area shape="rect" id="node22" href="$structre2c_1_1Binary.html#ab65f42d6baff8813bac6a45b46a31abb" title="re2c::Binary::emit" alt="" coords="467,1108,595,1134"/>
+<area shape="rect" id="node23" href="$structre2c_1_1Linear.html#a296897e640f94a39afdc0a76562406c9" title="re2c::Linear::emit" alt="" coords="467,1158,595,1185"/>
+</map>

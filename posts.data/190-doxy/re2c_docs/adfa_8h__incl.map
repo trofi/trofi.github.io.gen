@@ -1,0 +1,12 @@
+<map id="ir/adfa/adfa.h" name="ir/adfa/adfa.h">
+<area shape="rect" id="node3" href="$c99__stdint_8h.html" title="src/util/c99_stdint.h" alt="" coords="434,304,577,331"/>
+<area shape="rect" id="node7" href="$go_8h.html" title="src/codegen/go.h" alt="" coords="396,80,527,107"/>
+<area shape="rect" id="node14" href="$label_8h.html" title="src/codegen/label.h" alt="" coords="1260,229,1404,256"/>
+<area shape="rect" id="node17" href="$forbid__copy_8h.html" title="src/util/forbid_copy.h" alt="" coords="244,229,394,256"/>
+<area shape="rect" id="node18" href="$action_8h.html" title="src/ir/adfa/action.h" alt="" coords="1098,80,1236,107"/>
+<area shape="rect" id="node20" href="$regexp_8h.html" title="src/ir/regexp/regexp.h" alt="" coords="127,80,287,107"/>
+<area shape="rect" id="node10" href="$output_8h.html" title="src/codegen/output.h" alt="" coords="602,155,756,181"/>
+<area shape="rect" id="node16" href="$counter_8h.html" title="src/util/counter.h" alt="" coords="617,229,741,256"/>
+<area shape="rect" id="node19" href="$uniq__vector_8h.html" title="src/util/uniq_vector.h" alt="" coords="984,155,1134,181"/>
+<area shape="rect" id="node21" href="$free__list_8h.html" title="src/util/free_list.h" alt="" coords="42,155,169,181"/>
+</map>

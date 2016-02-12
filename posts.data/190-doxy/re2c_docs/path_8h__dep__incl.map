@@ -1,0 +1,14 @@
+<map id="ir/skeleton/path.h" name="ir/skeleton/path.h">
+<area shape="rect" id="node2" href="$control__flow_8cc.html" title="ir/skeleton/control\l_flow.cc" alt="" coords="5,155,140,196"/>
+<area shape="rect" id="node3" href="$generate__data_8cc.html" title="ir/skeleton/generate\l_data.cc" alt="" coords="164,155,312,196"/>
+<area shape="rect" id="node4" href="$match__empty_8cc.html" title="ir/skeleton/match_empty.cc" alt="" coords="337,162,529,189"/>
+<area shape="rect" id="node5" href="$skeleton_8h.html" title="ir/skeleton/skeleton.h" alt="" coords="829,80,983,107"/>
+<area shape="rect" id="node13" href="$unreachable_8cc.html" title="ir/skeleton/unreachable.cc" alt="" coords="1719,162,1904,189"/>
+<area shape="rect" id="node6" href="$emit__action_8cc.html" title="codegen/emit_action.cc" alt="" coords="917,162,1087,189"/>
+<area shape="rect" id="node7" href="$emit__dfa_8cc.html" title="codegen/emit_dfa.cc" alt="" coords="1111,162,1263,189"/>
+<area shape="rect" id="node8" href="$adfa_8cc.html" title="ir/adfa/adfa.cc" alt="" coords="1288,162,1399,189"/>
+<area shape="rect" id="node9" href="$compile_8cc.html" title="ir/compile.cc" alt="" coords="1423,162,1522,189"/>
+<area shape="rect" id="node10" href="$generate__code_8cc.html" title="ir/skeleton/generate\l_code.cc" alt="" coords="1547,155,1695,196"/>
+<area shape="rect" id="node11" href="$maxlen_8cc.html" title="ir/skeleton/maxlen.cc" alt="" coords="553,162,707,189"/>
+<area shape="rect" id="node12" href="$skeleton_8cc.html" title="ir/skeleton/skeleton.cc" alt="" coords="731,162,892,189"/>
+</map>

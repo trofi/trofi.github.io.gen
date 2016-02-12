@@ -1,0 +1,8 @@
+<map id="parse/input.h" name="parse/input.h">
+<area shape="rect" id="node2" href="$main_8cc.html" title="main.cc" alt="" coords="5,229,75,256"/>
+<area shape="rect" id="node3" href="$input_8cc.html" title="parse/input.cc" alt="" coords="27,80,136,107"/>
+<area shape="rect" id="node4" href="$scanner_8h.html" title="parse/scanner.h" alt="" coords="161,80,285,107"/>
+<area shape="rect" id="node5" href="$regexp_8cc.html" title="ir/regexp/regexp.cc" alt="" coords="78,155,221,181"/>
+<area shape="rect" id="node6" href="$parser_8h.html" title="parse/parser.h" alt="" coords="245,155,360,181"/>
+<area shape="rect" id="node7" href="$scanner_8cc.html" title="parse/scanner.cc" alt="" coords="384,155,515,181"/>
+</map>

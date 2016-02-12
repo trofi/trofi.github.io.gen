@@ -1,0 +1,17 @@
+<map id="ir/nfa/split.cc" name="ir/nfa/split.cc">
+<area shape="rect" id="node2" href="$c99__stdint_8h.html" title="src/util/c99_stdint.h" alt="" coords="603,319,746,345"/>
+<area shape="rect" id="node5" href="$regexp_8h.html" title="src/ir/regexp/regexp.h" alt="" coords="274,169,434,196"/>
+<area shape="rect" id="node10" href="$regexp__alt_8h.html" title="src/ir/regexp/regexp\l_alt.h" alt="" coords="68,80,217,121"/>
+<area shape="rect" id="node11" href="$regexp__cat_8h.html" title="src/ir/regexp/regexp\l_cat.h" alt="" coords="241,80,390,121"/>
+<area shape="rect" id="node12" href="$regexp__close_8h.html" title="src/ir/regexp/regexp\l_close.h" alt="" coords="414,80,564,121"/>
+<area shape="rect" id="node13" href="$regexp__match_8h.html" title="src/ir/regexp/regexp\l_match.h" alt="" coords="761,80,910,121"/>
+<area shape="rect" id="node14" href="$range_8h.html" title="src/util/range.h" alt="" coords="717,169,832,196"/>
+<area shape="rect" id="node18" href="$regexp__null_8h.html" title="src/ir/regexp/regexp\l_null.h" alt="" coords="588,80,737,121"/>
+<area shape="rect" id="node19" href="$regexp__rule_8h.html" title="src/ir/regexp/regexp\l_rule.h" alt="" coords="985,80,1134,121"/>
+<area shape="rect" id="node8" href="$free__list_8h.html" title="src/util/free_list.h" alt="" coords="859,244,986,271"/>
+<area shape="rect" id="node9" href="$forbid__copy_8h.html" title="src/util/forbid_copy.h" alt="" coords="279,244,430,271"/>
+<area shape="rect" id="node17" href="$test_8h.html" title="src/test/range/test.h" alt="" coords="601,244,748,271"/>
+<area shape="rect" id="node21" href="$rule__rank_8h.html" title="src/ir/rule_rank.h" alt="" coords="956,169,1083,196"/>
+<area shape="rect" id="node22" href="$code_8h.html" title="src/parse/code.h" alt="" coords="1107,169,1234,196"/>
+<area shape="rect" id="node23" href="$loc_8h.html" title="src/parse/loc.h" alt="" coords="1208,244,1322,271"/>
+</map>

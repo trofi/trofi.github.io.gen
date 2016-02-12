@@ -1,0 +1,8 @@
+<map id="codegen/go_destruct.cc" name="codegen/go_destruct.cc">
+<area shape="rect" id="node2" href="$c99__stdint_8h.html" title="src/util/c99_stdint.h" alt="" coords="223,304,365,331"/>
+<area shape="rect" id="node6" href="$go_8h.html" title="src/codegen/go.h" alt="" coords="247,80,378,107"/>
+<area shape="rect" id="node9" href="$output_8h.html" title="src/codegen/output.h" alt="" coords="436,155,589,181"/>
+<area shape="rect" id="node18" href="$forbid__copy_8h.html" title="src/util/forbid_copy.h" alt="" coords="32,229,183,256"/>
+<area shape="rect" id="node15" href="$label_8h.html" title="src/codegen/label.h" alt="" coords="650,229,794,256"/>
+<area shape="rect" id="node17" href="$counter_8h.html" title="src/util/counter.h" alt="" coords="451,229,575,256"/>
+</map>

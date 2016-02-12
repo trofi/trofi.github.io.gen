@@ -1,0 +1,16 @@
+<map id="re2c::UTF16Range" name="re2c::UTF16Range">
+<area shape="rect" id="node2" href="$classre2c_1_1Range.html#a46e9fa66a22efcd7adb55cf2b5ab6372" title="re2c::Range::next" alt="" coords="238,56,369,83"/>
+<area shape="rect" id="node3" href="$namespacere2c.html#ab86b9a0f3e8beb43ee361c940556a8ca" title="re2c::UTF16splitByRuneLength" alt="" coords="195,107,412,133"/>
+<area shape="rect" id="node9" href="$classre2c_1_1Range.html#af4b6668bea94d5d90f6f9f6eef98c772" title="re2c::Range::lower" alt="" coords="234,157,373,184"/>
+<area shape="rect" id="node10" href="$classre2c_1_1Range.html#a7c6f7798e98ad786809a9d230d68be85" title="re2c::Range::upper" alt="" coords="233,208,373,235"/>
+<area shape="rect" id="node11" href="$namespacere2c.html#ade3246db5d97fc168152986de67a44a4" title="re2c::to_regexp" alt="" coords="243,259,363,285"/>
+<area shape="rect" id="node4" href="$namespacere2c.html#a0c87422b8bdac0dd2fe6d11551f3c7c2" title="re2c::UTF16addContinuous1" alt="" coords="461,5,662,32"/>
+<area shape="rect" id="node5" href="$classre2c_1_1utf16.html#a65cb5fd5013fbb4d93f6489113388ba8" title="re2c::utf16::lead_surr" alt="" coords="485,56,637,83"/>
+<area shape="rect" id="node6" href="$classre2c_1_1utf16.html#a70411cf5ec6633fcf39ab44cd493cebc" title="re2c::utf16::trail_surr" alt="" coords="487,107,635,133"/>
+<area shape="rect" id="node7" href="$namespacere2c.html#a95b6bf1f324588eef3a27d004f37e1cf" title="re2c::UTF16splitByContinuity" alt="" coords="460,157,663,184"/>
+<area shape="rect" id="node8" href="$namespacere2c.html#a469a62d8bfb1471423b3278c38afa9ee" title="re2c::UTF16addContinuous2" alt="" coords="711,157,912,184"/>
+<area shape="rect" id="node12" href="$namespacere2c.html#ab200d40964220d9dc03733ac7bce226e" title="re2c::emit" alt="" coords="520,259,603,285"/>
+<area shape="rect" id="node13" href="$namespacere2c.html#a89dfc5435a0e3024e37178da124cbeb9" title="re2c::doCat" alt="" coords="764,208,859,235"/>
+<area shape="rect" id="node14" href="$classre2c_1_1Range.html#a85e29fbf9c1020ab43ee9cd7b48c5d1c" title="re2c::Range::ran" alt="" coords="749,259,874,285"/>
+<area shape="rect" id="node15" href="$namespacere2c.html#a314df70bc80b9fe6bf9e16761b57a4cf" title="re2c::doAlt" alt="" coords="767,309,855,336"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="conf/warn.cc" name="conf/warn.cc">
+<area shape="rect" id="node6" href="$msg_8h.html" title="src/conf/msg.h" alt="" coords="603,80,717,107"/>
+<area shape="rect" id="node11" href="$warn_8h.html" title="src/conf/warn.h" alt="" coords="358,80,477,107"/>
+<area shape="rect" id="node8" href="$attribute_8h.html" title="src/util/attribute.h" alt="" coords="713,155,839,181"/>
+<area shape="rect" id="node9" href="$c99__stdint_8h.html" title="src/util/c99_stdint.h" alt="" coords="371,304,514,331"/>
+<area shape="rect" id="node13" href="$way_8h.html" title="src/ir/skeleton/way.h" alt="" coords="203,155,354,181"/>
+<area shape="rect" id="node14" href="$rules_8h.html" title="src/parse/rules.h" alt="" coords="481,155,607,181"/>
+<area shape="rect" id="node17" href="$rule__rank_8h.html" title="src/ir/rule_rank.h" alt="" coords="481,229,607,256"/>
+</map>

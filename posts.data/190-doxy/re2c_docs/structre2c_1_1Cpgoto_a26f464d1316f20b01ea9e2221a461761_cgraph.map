@@ -1,0 +1,15 @@
+<map id="re2c::Cpgoto::emit" name="re2c::Cpgoto::emit">
+<area shape="rect" id="node2" href="$namespacere2c.html#aba8b1dd76bc847e5d21e1ff102eaf815" title="re2c::output_hgo" alt="" coords="209,56,336,83"/>
+<area shape="rect" id="node7" href="$structre2c_1_1OutputFile.html#a753849458b0c0417fa33110ad7d6457f" title="re2c::OutputFile::wind" alt="" coords="413,107,568,133"/>
+<area shape="rect" id="node9" href="$structre2c_1_1OutputFile.html#af57c4d6d73f286bc2118764b8dedb812" title="re2c::OutputFile::ws" alt="" coords="419,157,562,184"/>
+<area shape="rect" id="node10" href="$structre2c_1_1OutputFile.html#a9e60cea6ca46d0ad749b28a0cddd7965" title="re2c::OutputFile::wstring" alt="" coords="405,208,576,235"/>
+<area shape="rect" id="node12" href="$structre2c_1_1CpgotoTable.html#a7813e552bcd80dcba589e62c92992d6d" title="re2c::CpgotoTable::emit" alt="" coords="188,208,357,235"/>
+<area shape="rect" id="node3" href="$namespacere2c.html#a19d60d7188649333082481b4cd16243c" title="re2c::output_yych" alt="" coords="425,56,556,83"/>
+<area shape="rect" id="node11" href="$structre2c_1_1SwitchIf.html#af636707397fe2c7329660cffe860f171" title="re2c::SwitchIf::emit" alt="" coords="422,5,559,32"/>
+<area shape="rect" id="node4" href="$classre2c_1_1InputAPI.html#ab1d21c63ebe57753d1b99e8d9a8f43a3" title="re2c::InputAPI::expr\l_peek_save" alt="" coords="624,45,767,86"/>
+<area shape="rect" id="node5" href="$structre2c_1_1Opt.html#ae25a935060a0d96e6a9c1cb1275731c5" title="re2c::Opt::yychConversion" alt="" coords="815,27,1001,53"/>
+<area shape="rect" id="node6" href="$classre2c_1_1InputAPI.html#a633d69de1e298aae34e904bdaf66ad95" title="re2c::InputAPI::expr_peek" alt="" coords="817,77,999,104"/>
+<area shape="rect" id="node8" href="$namespacere2c.html#a1adb81c04affa827f13cc9c7fb2be8fa" title="re2c::indent" alt="" coords="648,111,743,137"/>
+<area shape="rect" id="node13" href="$classre2c_1_1label__t.html#ac6f83d18c57f59a6eb29858fd6d1c22f" title="re2c::label_t::width" alt="" coords="423,309,559,336"/>
+<area shape="rect" id="node14" href="$structre2c_1_1OutputFile.html#a5e334e1901a780524775e0e8a30e64e7" title="re2c::OutputFile::wlabel" alt="" coords="409,259,573,285"/>
+</map>

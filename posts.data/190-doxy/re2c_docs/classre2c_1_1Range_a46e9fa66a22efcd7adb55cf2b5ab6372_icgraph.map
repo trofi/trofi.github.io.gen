@@ -1,0 +1,15 @@
+<map id="re2c::Range::next" name="re2c::Range::next">
+<area shape="rect" id="node2" href="$structre2c_1_1dfa__t.html#a1dcf85261439e58c80dc632491dc242e" title="re2c::dfa_t::dfa_t" alt="" coords="193,5,320,32"/>
+<area shape="rect" id="node3" href="$classre2c_1_1MatchOp.html#a7a4645258834071984ce87a104f11bae" title="re2c::MatchOp::split" alt="" coords="184,56,329,83"/>
+<area shape="rect" id="node4" href="$namespacere2c.html#a49a3d987f61c2d15331568fdd74a032f" title="re2c::UTF16Range" alt="" coords="186,107,327,133"/>
+<area shape="rect" id="node5" href="$namespacere2c.html#a2a984c3e130ade9212e15d9b05e156e7" title="re2c::UTF8Range" alt="" coords="190,157,323,184"/>
+<area shape="rect" id="node6" href="$namespacere2c__test.html#a254a15630be8d5050b5681c69b36e23a" title="re2c_test::equal" alt="" coords="196,208,317,235"/>
+<area shape="rect" id="node14" href="$namespacere2c__test.html#a2f43a3010912fd8965d08f49dbb506d5" title="re2c_test::show" alt="" coords="197,259,317,285"/>
+<area shape="rect" id="node7" href="$namespacere2c__test.html#af46967171834bbd371692f75b8cac510" title="re2c_test::diff" alt="" coords="377,233,484,260"/>
+<area shape="rect" id="node8" href="$namespacere2c.html#ae6ecd2d5d450b8d638dace7d4d74f6cb" title="re2c::minimization\l_moore" alt="" coords="545,161,679,202"/>
+<area shape="rect" id="node11" href="$classre2c_1_1Scanner.html#a87f584cb71a1cce8bb28428d4e5c139e" title="re2c::Scanner::restore\l_state" alt="" coords="532,226,692,267"/>
+<area shape="rect" id="node12" href="$namespacere2c__test.html#a84ef210f2691843d5543d78e5470a27f" title="re2c_test::test" alt="" coords="557,292,667,319"/>
+<area shape="rect" id="node9" href="$namespacere2c.html#ac7942ddae8972f1096ccd57382722ee1" title="re2c::minimization" alt="" coords="740,168,873,195"/>
+<area shape="rect" id="node10" href="$namespacere2c.html#ab7179e31e097328e2f5fbe4dafb1ebe0" title="re2c::compile" alt="" coords="921,168,1025,195"/>
+<area shape="rect" id="node13" href="$range_2test_8cc.html#ae66f6b31b5ad750f1fe042a706a4e3d4" title="main" alt="" coords="781,292,833,319"/>
+</map>

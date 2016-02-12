@@ -1,0 +1,5 @@
+<map id="re2c::UTF8addContinuous" name="re2c::UTF8addContinuous">
+<area shape="rect" id="node2" href="$namespacere2c.html#a02ecfe7dde721207fe2adec10bd8bbaf" title="re2c::UTF8splitByContinuity" alt="" coords="239,5,433,32"/>
+<area shape="rect" id="node3" href="$namespacere2c.html#a20dcc208a05046663578b841384d2ee9" title="re2c::UTF8splitByRuneLength" alt="" coords="481,5,691,32"/>
+<area shape="rect" id="node4" href="$namespacere2c.html#a2a984c3e130ade9212e15d9b05e156e7" title="re2c::UTF8Range" alt="" coords="739,5,872,32"/>
+</map>

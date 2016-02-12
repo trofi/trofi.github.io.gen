@@ -1,0 +1,20 @@
+<map id="ir/skeleton/control_flow.cc" name="ir/skeleton/control_flow.cc">
+<area shape="rect" id="node5" href="$warn_8h.html" title="src/conf/warn.h" alt="" coords="1282,251,1401,278"/>
+<area shape="rect" id="node9" href="$way_8h.html" title="src/ir/skeleton/way.h" alt="" coords="574,333,725,360"/>
+<area shape="rect" id="node13" href="$rule__rank_8h.html" title="src/ir/rule_rank.h" alt="" coords="917,408,1043,435"/>
+<area shape="rect" id="node15" href="$globals_8h.html" title="src/globals.h" alt="" coords="1931,95,2031,121"/>
+<area shape="rect" id="node25" href="$path_8h.html" title="src/ir/skeleton/path.h" alt="" coords="1002,333,1155,360"/>
+<area shape="rect" id="node26" href="$skeleton_8h.html" title="src/ir/skeleton/skeleton.h" alt="" coords="748,251,927,278"/>
+<area shape="rect" id="node29" href="$u32lim_8h.html" title="src/util/u32lim.h" alt="" coords="1567,333,1684,360"/>
+<area shape="rect" id="node6" href="$c99__stdint_8h.html" title="src/util/c99_stdint.h" alt="" coords="1677,483,1819,509"/>
+<area shape="rect" id="node11" href="$rules_8h.html" title="src/parse/rules.h" alt="" coords="749,333,875,360"/>
+<area shape="rect" id="node16" href="$opt_8h.html" title="src/conf/opt.h" alt="" coords="2029,169,2136,196"/>
+<area shape="rect" id="node18" href="$input__api_8h.html" title="src/codegen/input_api.h" alt="" coords="2121,251,2293,278"/>
+<area shape="rect" id="node19" href="$dfa_8h.html" title="src/ir/dfa/dfa.h" alt="" coords="1832,251,1944,278"/>
+<area shape="rect" id="node22" href="$forbid__copy_8h.html" title="src/util/forbid_copy.h" alt="" coords="1675,408,1826,435"/>
+<area shape="rect" id="node23" href="$empty__class__policy_8h.html" title="src/ir/regexp/empty\l_class_policy.h" alt="" coords="2317,244,2459,285"/>
+<area shape="rect" id="node24" href="$enc_8h.html" title="src/ir/regexp/encoding\l/enc.h" alt="" coords="2484,244,2647,285"/>
+<area shape="rect" id="node20" href="$regexp_8h.html" title="src/ir/regexp/regexp.h" alt="" coords="1332,333,1492,360"/>
+<area shape="rect" id="node21" href="$free__list_8h.html" title="src/util/free_list.h" alt="" coords="1263,408,1390,435"/>
+<area shape="rect" id="node28" href="$local__increment_8h.html" title="src/util/local_increment.h" alt="" coords="373,333,549,360"/>
+</map>

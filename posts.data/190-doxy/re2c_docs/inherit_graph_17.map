@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classre2c_1_1free__list.html" title="re2c::free_list\&lt; const\l re2c::Code * \&gt;" alt="" coords="96,5,248,47"/>
+<area shape="rect" id="node3" href="$classre2c_1_1free__list.html" title="re2c::free_list\&lt; re2c\l::Range * \&gt;" alt="" coords="99,71,245,112"/>
+<area shape="rect" id="node4" href="$classre2c_1_1free__list.html" title="re2c::free_list\&lt; re2c\l::RangeSuffix * \&gt;" alt="" coords="99,136,245,177"/>
+<area shape="rect" id="node5" href="$classre2c_1_1free__list.html" title="re2c::free_list\&lt; re2c\l::RegExp * \&gt;" alt="" coords="99,201,245,243"/>
+<area shape="rect" id="node6" href="$classre2c_1_1free__list.html" title="re2c::free_list\&lt; _Ty \&gt;" alt="" coords="95,267,249,294"/>
+</map>

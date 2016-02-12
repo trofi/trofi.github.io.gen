@@ -1,0 +1,17 @@
+<map id="re2c::warning_start" name="re2c::warning_start">
+<area shape="rect" id="node2" href="$namespacere2c.html#a495f9fd59cbedbbf2b13a4d5e95e66c2" title="re2c::warning" alt="" coords="245,202,351,229"/>
+<area shape="rect" id="node14" href="$classre2c_1_1Warn.html#ad82698617a837d2a1cd058d3d1b23801" title="re2c::Warn::undefined\l_control_flow" alt="" coords="219,355,377,396"/>
+<area shape="rect" id="node15" href="$classre2c_1_1Warn.html#af98409fb5c8b8b3d70e1d4c59c87f0d7" title="re2c::Warn::unreachable_rule" alt="" coords="196,421,400,447"/>
+<area shape="rect" id="node3" href="$classre2c_1_1Warn.html#ab006c232fad9c76f1686eae8fc6d3839" title="re2c::Warn::fail" alt="" coords="481,319,595,346"/>
+<area shape="rect" id="node6" href="$classre2c_1_1Warn.html#a63880685baac2cdc0a85b2460959d714" title="re2c::Warn::condition\l_order" alt="" coords="461,136,615,177"/>
+<area shape="rect" id="node9" href="$classre2c_1_1Warn.html#a2d1d98b11eb081eaf0cbacaec039125c" title="re2c::Warn::empty_class" alt="" coords="451,202,625,229"/>
+<area shape="rect" id="node10" href="$classre2c_1_1Warn.html#a9d52fc5e7eaeee20f8f12025f774bf03" title="re2c::Warn::match_empty\l_string" alt="" coords="448,253,628,295"/>
+<area shape="rect" id="node12" href="$classre2c_1_1Warn.html#ab237f944eccbccf267baf2935bad1f1d" title="re2c::Warn::swapped\l_range" alt="" coords="461,5,615,47"/>
+<area shape="rect" id="node13" href="$classre2c_1_1Warn.html#a65011f12a2a02b4d964de62b70e417da" title="re2c::Warn::useless\l_escape" alt="" coords="467,71,609,112"/>
+<area shape="rect" id="node4" href="$structre2c_1_1Skeleton.html#a31417a16c0b8ce20b02b2a2116c45709" title="re2c::Skeleton::warn\l_undefined_control_flow" alt="" coords="676,340,852,381"/>
+<area shape="rect" id="node5" href="$classre2c_1_1DFA.html#afb6dfab504cab12f4395140789ef4160" title="re2c::DFA::emit" alt="" coords="919,347,1033,374"/>
+<area shape="rect" id="node7" href="$structre2c_1_1OutputFile.html#a44813005bf7d352bd1de96f7aa5ff408" title="re2c::OutputFile::emit" alt="" coords="689,143,839,170"/>
+<area shape="rect" id="node8" href="$structre2c_1_1Output.html#a1cc81b46a98f3ada41135bb395df0c55" title="re2c::Output::~Output" alt="" coords="900,143,1052,170"/>
+<area shape="rect" id="node11" href="$structre2c_1_1Skeleton.html#a497852eeb084f9ac82d37db3e8524628" title="re2c::Skeleton::warn\l_match_empty" alt="" coords="690,268,838,309"/>
+<area shape="rect" id="node16" href="$structre2c_1_1Skeleton.html#a4f7f08531755acc322d4ccaa8ce3886b" title="re2c::Skeleton::warn\l_unreachable_rules" alt="" coords="690,409,838,451"/>
+</map>

@@ -1,0 +1,31 @@
+<map id="ir/regexp/regexp.cc" name="ir/regexp/regexp.cc">
+<area shape="rect" id="node3" href="$opt_8h.html" title="src/conf/opt.h" alt="" coords="1313,177,1420,203"/>
+<area shape="rect" id="node10" href="$regexp_8h.html" title="src/ir/regexp/regexp.h" alt="" coords="2277,348,2437,375"/>
+<area shape="rect" id="node18" href="$empty__class__policy_8h.html" title="src/ir/regexp/empty\l_class_policy.h" alt="" coords="1750,259,1893,300"/>
+<area shape="rect" id="node19" href="$enc_8h.html" title="src/ir/regexp/encoding\l/enc.h" alt="" coords="688,259,851,300"/>
+<area shape="rect" id="node20" href="$warn_8h.html" title="src/conf/warn.h" alt="" coords="545,266,663,293"/>
+<area shape="rect" id="node24" href="$globals_8h.html" title="src/globals.h" alt="" coords="889,87,989,114"/>
+<area shape="rect" id="node25" href="$case_8h.html" title="src/ir/regexp/encoding\l/case.h" alt="" coords="245,80,408,121"/>
+<area shape="rect" id="node26" href="$utf16__regexp_8h.html" title="src/ir/regexp/encoding\l/utf16/utf16_regexp.h" alt="" coords="453,80,616,121"/>
+<area shape="rect" id="node28" href="$utf8__regexp_8h.html" title="src/ir/regexp/encoding\l/utf8/utf8_regexp.h" alt="" coords="16,80,179,121"/>
+<area shape="rect" id="node30" href="$regexp__alt_8h.html" title="src/ir/regexp/regexp\l_alt.h" alt="" coords="1795,169,1944,211"/>
+<area shape="rect" id="node31" href="$regexp__cat_8h.html" title="src/ir/regexp/regexp\l_cat.h" alt="" coords="2141,169,2291,211"/>
+<area shape="rect" id="node32" href="$regexp__close_8h.html" title="src/ir/regexp/regexp\l_close.h" alt="" coords="2052,80,2201,121"/>
+<area shape="rect" id="node33" href="$regexp__match_8h.html" title="src/ir/regexp/regexp\l_match.h" alt="" coords="1968,169,2117,211"/>
+<area shape="rect" id="node34" href="$range_8h.html" title="src/util/range.h" alt="" coords="1985,266,2100,293"/>
+<area shape="rect" id="node37" href="$regexp__null_8h.html" title="src/ir/regexp/regexp\l_null.h" alt="" coords="2237,80,2387,121"/>
+<area shape="rect" id="node38" href="$scanner_8h.html" title="src/parse/scanner.h" alt="" coords="1528,266,1675,293"/>
+<area shape="rect" id="node4" href="$c99__stdint_8h.html" title="src/util/c99_stdint.h" alt="" coords="687,497,830,524"/>
+<area shape="rect" id="node7" href="$input__api_8h.html" title="src/codegen/input_api.h" alt="" coords="1027,348,1199,375"/>
+<area shape="rect" id="node8" href="$dfa_8h.html" title="src/ir/dfa/dfa.h" alt="" coords="1236,266,1348,293"/>
+<area shape="rect" id="node14" href="$forbid__copy_8h.html" title="src/util/forbid_copy.h" alt="" coords="1491,423,1642,449"/>
+<area shape="rect" id="node15" href="$rules_8h.html" title="src/parse/rules.h" alt="" coords="622,348,749,375"/>
+<area shape="rect" id="node13" href="$free__list_8h.html" title="src/util/free_list.h" alt="" coords="2193,423,2319,449"/>
+<area shape="rect" id="node17" href="$rule__rank_8h.html" title="src/ir/rule_rank.h" alt="" coords="695,423,822,449"/>
+<area shape="rect" id="node21" href="$way_8h.html" title="src/ir/skeleton/way.h" alt="" coords="345,348,495,375"/>
+<area shape="rect" id="node27" href="$utf16_8h.html" title="src/ir/regexp/encoding\l/utf16/utf16.h" alt="" coords="323,169,485,211"/>
+<area shape="rect" id="node29" href="$utf8_8h.html" title="src/ir/regexp/encoding\l/utf8/utf8.h" alt="" coords="5,169,168,211"/>
+<area shape="rect" id="node36" href="$test_8h.html" title="src/test/range/test.h" alt="" coords="1971,423,2117,449"/>
+<area shape="rect" id="node39" href="$input_8h.html" title="src/parse/input.h" alt="" coords="1275,348,1402,375"/>
+<area shape="rect" id="node40" href="$attribute_8h.html" title="src/util/attribute.h" alt="" coords="1731,348,1858,375"/>
+</map>

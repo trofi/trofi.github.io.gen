@@ -1,0 +1,13 @@
+<map id="re2c::warning" name="re2c::warning">
+<area shape="rect" id="node2" href="$classre2c_1_1Warn.html#ab006c232fad9c76f1686eae8fc6d3839" title="re2c::Warn::fail" alt="" coords="193,75,307,102"/>
+<area shape="rect" id="node5" href="$classre2c_1_1Warn.html#a63880685baac2cdc0a85b2460959d714" title="re2c::Warn::condition\l_order" alt="" coords="173,177,327,219"/>
+<area shape="rect" id="node8" href="$classre2c_1_1Warn.html#a2d1d98b11eb081eaf0cbacaec039125c" title="re2c::Warn::empty_class" alt="" coords="163,126,337,153"/>
+<area shape="rect" id="node9" href="$classre2c_1_1Warn.html#a9d52fc5e7eaeee20f8f12025f774bf03" title="re2c::Warn::match_empty\l_string" alt="" coords="160,8,340,49"/>
+<area shape="rect" id="node11" href="$classre2c_1_1Warn.html#ab237f944eccbccf267baf2935bad1f1d" title="re2c::Warn::swapped\l_range" alt="" coords="173,243,327,284"/>
+<area shape="rect" id="node12" href="$classre2c_1_1Warn.html#a65011f12a2a02b4d964de62b70e417da" title="re2c::Warn::useless\l_escape" alt="" coords="179,308,321,349"/>
+<area shape="rect" id="node3" href="$structre2c_1_1Skeleton.html#a31417a16c0b8ce20b02b2a2116c45709" title="re2c::Skeleton::warn\l_undefined_control_flow" alt="" coords="388,71,564,112"/>
+<area shape="rect" id="node4" href="$classre2c_1_1DFA.html#afb6dfab504cab12f4395140789ef4160" title="re2c::DFA::emit" alt="" coords="631,46,745,73"/>
+<area shape="rect" id="node6" href="$structre2c_1_1OutputFile.html#a44813005bf7d352bd1de96f7aa5ff408" title="re2c::OutputFile::emit" alt="" coords="401,185,551,211"/>
+<area shape="rect" id="node7" href="$structre2c_1_1Output.html#a1cc81b46a98f3ada41135bb395df0c55" title="re2c::Output::~Output" alt="" coords="612,185,764,211"/>
+<area shape="rect" id="node10" href="$structre2c_1_1Skeleton.html#a497852eeb084f9ac82d37db3e8524628" title="re2c::Skeleton::warn\l_match_empty" alt="" coords="402,5,550,47"/>
+</map>

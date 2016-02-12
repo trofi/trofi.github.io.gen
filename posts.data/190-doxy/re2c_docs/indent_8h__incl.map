@@ -1,0 +1,16 @@
+<map id="codegen/indent.h" name="codegen/indent.h">
+<area shape="rect" id="node3" href="$globals_8h.html" title="src/globals.h" alt="" coords="1217,80,1317,107"/>
+<area shape="rect" id="node4" href="$opt_8h.html" title="src/conf/opt.h" alt="" coords="638,155,745,181"/>
+<area shape="rect" id="node5" href="$c99__stdint_8h.html" title="src/util/c99_stdint.h" alt="" coords="804,483,947,509"/>
+<area shape="rect" id="node21" href="$warn_8h.html" title="src/conf/warn.h" alt="" coords="1268,237,1387,263"/>
+<area shape="rect" id="node8" href="$input__api_8h.html" title="src/codegen/input_api.h" alt="" coords="919,237,1091,263"/>
+<area shape="rect" id="node9" href="$dfa_8h.html" title="src/ir/dfa/dfa.h" alt="" coords="418,237,530,263"/>
+<area shape="rect" id="node15" href="$forbid__copy_8h.html" title="src/util/forbid_copy.h" alt="" coords="5,408,156,435"/>
+<area shape="rect" id="node19" href="$empty__class__policy_8h.html" title="src/ir/regexp/empty\l_class_policy.h" alt="" coords="752,229,895,271"/>
+<area shape="rect" id="node20" href="$enc_8h.html" title="src/ir/regexp/encoding\l/enc.h" alt="" coords="675,319,838,360"/>
+<area shape="rect" id="node11" href="$regexp_8h.html" title="src/ir/regexp/regexp.h" alt="" coords="289,326,449,353"/>
+<area shape="rect" id="node16" href="$rules_8h.html" title="src/parse/rules.h" alt="" coords="473,326,600,353"/>
+<area shape="rect" id="node14" href="$free__list_8h.html" title="src/util/free_list.h" alt="" coords="232,408,359,435"/>
+<area shape="rect" id="node18" href="$rule__rank_8h.html" title="src/ir/rule_rank.h" alt="" coords="536,408,663,435"/>
+<area shape="rect" id="node22" href="$way_8h.html" title="src/ir/skeleton/way.h" alt="" coords="1245,326,1396,353"/>
+</map>

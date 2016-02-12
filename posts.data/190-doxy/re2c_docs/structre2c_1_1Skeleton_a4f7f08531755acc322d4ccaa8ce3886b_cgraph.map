@@ -1,0 +1,10 @@
+<map id="re2c::Skeleton::warn_unreachable_rules" name="re2c::Skeleton::warn_unreachable_rules">
+<area shape="rect" id="node2" href="$structre2c_1_1Node.html#acd230d0e41235693fb8ecbe2dda14944" title="re2c::Node::calc_reachable" alt="" coords="208,5,399,32"/>
+<area shape="rect" id="node4" href="$classre2c_1_1rule__rank__t.html#a1100b8f9b2eb5330c5286bea138df4b3" title="re2c::rule_rank_t::\lis_none" alt="" coords="237,57,370,98"/>
+<area shape="rect" id="node5" href="$classre2c_1_1rule__rank__t.html#ad183469b775344d8784bc7a56ceb8669" title="re2c::rule_rank_t::\lis_def" alt="" coords="237,122,370,163"/>
+<area shape="rect" id="node6" href="$classre2c_1_1Warn.html#af98409fb5c8b8b3d70e1d4c59c87f0d7" title="re2c::Warn::unreachable_rule" alt="" coords="201,188,405,215"/>
+<area shape="rect" id="node3" href="$structre2c_1_1Node.html#aec72230b2b50d1deb0cfd40eb0d2c029" title="re2c::Node::end" alt="" coords="465,5,585,32"/>
+<area shape="rect" id="node7" href="$namespacere2c.html#aec453a8e5705d30c890edbb7d916d1fc" title="re2c::warning_start" alt="" coords="453,137,596,164"/>
+<area shape="rect" id="node8" href="$namespacere2c.html#ac2f2ac03ce8a4695ed6ad6b72113bd12" title="re2c::incond" alt="" coords="475,188,574,215"/>
+<area shape="rect" id="node9" href="$namespacere2c.html#ad81f33e4e40dfcd1249d35de9c3d9863" title="re2c::warning_end" alt="" coords="455,239,594,265"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="main" name="main">
+<area shape="rect" id="node2" href="$namespacere2c.html#aff4d3dce98077c78b392f37479d1f726" title="re2c::parse_opts" alt="" coords="123,5,250,32"/>
+<area shape="rect" id="node3" href="$structre2c_1_1Input.html#a86bc3f9945620826326b37e0d216e639" title="re2c::Input::open" alt="" coords="124,56,249,83"/>
+<area shape="rect" id="node4" href="$namespacere2c.html#a7db4a0fcb8dc25c50e9d8a62e833304d" title="re2c::error" alt="" coords="143,107,230,133"/>
+<area shape="rect" id="node5" href="$structre2c_1_1OutputFile.html#aa5478b5cdbc32ec390ef8fcc46c0f8cc" title="re2c::OutputFile::open" alt="" coords="108,157,265,184"/>
+<area shape="rect" id="node6" href="$structre2c_1_1HeaderFile.html#a4498d90bd8222f5d29c37b6949840651" title="re2c::HeaderFile::open" alt="" coords="105,208,268,235"/>
+<area shape="rect" id="node7" href="$namespacere2c.html#aabeb3989b9a848091ceaf408481abc1c" title="re2c::parse" alt="" coords="141,259,233,285"/>
+<area shape="rect" id="node8" href="$classre2c_1_1Warn.html#ad3431c6f3a23c460a3b4bbdd5386c4f9" title="re2c::Warn::error" alt="" coords="123,309,250,336"/>
+</map>

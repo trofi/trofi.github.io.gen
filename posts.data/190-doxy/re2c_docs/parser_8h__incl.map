@@ -1,0 +1,18 @@
+<map id="parse/parser.h" name="parse/parser.h">
+<area shape="rect" id="node4" href="$output_8h.html" title="src/codegen/output.h" alt="" coords="1299,244,1452,271"/>
+<area shape="rect" id="node17" href="$regexp_8h.html" title="src/ir/regexp/regexp.h" alt="" coords="503,244,663,271"/>
+<area shape="rect" id="node19" href="$regexp__rule_8h.html" title="src/ir/regexp/regexp\l_rule.h" alt="" coords="923,155,1073,196"/>
+<area shape="rect" id="node23" href="$scanner_8h.html" title="src/parse/scanner.h" alt="" coords="1821,162,1967,189"/>
+<area shape="rect" id="node26" href="$spec_8h.html" title="src/parse/spec.h" alt="" coords="904,80,1031,107"/>
+<area shape="rect" id="node5" href="$c99__stdint_8h.html" title="src/util/c99_stdint.h" alt="" coords="773,393,916,420"/>
+<area shape="rect" id="node13" href="$label_8h.html" title="src/codegen/label.h" alt="" coords="773,319,917,345"/>
+<area shape="rect" id="node15" href="$counter_8h.html" title="src/util/counter.h" alt="" coords="1328,319,1452,345"/>
+<area shape="rect" id="node16" href="$forbid__copy_8h.html" title="src/util/forbid_copy.h" alt="" coords="1717,319,1868,345"/>
+<area shape="rect" id="node18" href="$free__list_8h.html" title="src/util/free_list.h" alt="" coords="384,319,511,345"/>
+<area shape="rect" id="node20" href="$rule__rank_8h.html" title="src/ir/rule_rank.h" alt="" coords="181,319,308,345"/>
+<area shape="rect" id="node21" href="$code_8h.html" title="src/parse/code.h" alt="" coords="935,244,1061,271"/>
+<area shape="rect" id="node22" href="$loc_8h.html" title="src/parse/loc.h" alt="" coords="941,319,1055,345"/>
+<area shape="rect" id="node24" href="$input_8h.html" title="src/parse/input.h" alt="" coords="1831,244,1957,271"/>
+<area shape="rect" id="node25" href="$attribute_8h.html" title="src/util/attribute.h" alt="" coords="2033,244,2160,271"/>
+<area shape="rect" id="node27" href="$rules_8h.html" title="src/parse/rules.h" alt="" coords="105,244,232,271"/>
+</map>

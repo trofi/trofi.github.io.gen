@@ -1,0 +1,8 @@
+<map id="re2c::prtChOrHex" name="re2c::prtChOrHex">
+<area shape="rect" id="node2" href="$structre2c_1_1OutputFile.html#a623f2cc282de17cdd02dd6fb165e7e97" title="re2c::OutputFile::wc_hex" alt="" coords="185,81,359,108"/>
+<area shape="rect" id="node3" href="$namespacere2c.html#a7a4ff24cff794da6094c1e9718541eac" title="re2c::output_if" alt="" coords="413,56,522,83"/>
+<area shape="rect" id="node6" href="$structre2c_1_1Case.html#afde14ff632adff222d6bc5a7277744fb" title="re2c::Case::emit" alt="" coords="407,107,528,133"/>
+<area shape="rect" id="node4" href="$structre2c_1_1Binary.html#ab65f42d6baff8813bac6a45b46a31abb" title="re2c::Binary::emit" alt="" coords="576,5,704,32"/>
+<area shape="rect" id="node5" href="$structre2c_1_1Linear.html#a296897e640f94a39afdc0a76562406c9" title="re2c::Linear::emit" alt="" coords="576,56,704,83"/>
+<area shape="rect" id="node7" href="$structre2c_1_1Cases.html#a11246c161de1849011682612c0a306ce" title="re2c::Cases::emit" alt="" coords="576,107,704,133"/>
+</map>

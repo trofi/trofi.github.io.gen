@@ -1,0 +1,17 @@
+<map id="codegen/input_api.cc" name="codegen/input_api.cc">
+<area shape="rect" id="node3" href="$input__api_8h.html" title="src/codegen/input_api.h" alt="" coords="1381,311,1553,338"/>
+<area shape="rect" id="node7" href="$indent_8h.html" title="src/codegen/indent.h" alt="" coords="1261,80,1415,107"/>
+<area shape="rect" id="node8" href="$globals_8h.html" title="src/globals.h" alt="" coords="1205,155,1305,181"/>
+<area shape="rect" id="node9" href="$opt_8h.html" title="src/conf/opt.h" alt="" coords="939,229,1046,256"/>
+<area shape="rect" id="node4" href="$c99__stdint_8h.html" title="src/util/c99_stdint.h" alt="" coords="889,557,1032,584"/>
+<area shape="rect" id="node23" href="$warn_8h.html" title="src/conf/warn.h" alt="" coords="1085,311,1204,338"/>
+<area shape="rect" id="node11" href="$dfa_8h.html" title="src/ir/dfa/dfa.h" alt="" coords="570,311,682,338"/>
+<area shape="rect" id="node17" href="$forbid__copy_8h.html" title="src/util/forbid_copy.h" alt="" coords="5,483,156,509"/>
+<area shape="rect" id="node21" href="$empty__class__policy_8h.html" title="src/ir/regexp/empty\l_class_policy.h" alt="" coords="867,304,1009,345"/>
+<area shape="rect" id="node22" href="$enc_8h.html" title="src/ir/regexp/encoding\l/enc.h" alt="" coords="859,393,1022,435"/>
+<area shape="rect" id="node13" href="$regexp_8h.html" title="src/ir/regexp/regexp.h" alt="" coords="317,401,477,427"/>
+<area shape="rect" id="node18" href="$rules_8h.html" title="src/parse/rules.h" alt="" coords="556,401,683,427"/>
+<area shape="rect" id="node16" href="$free__list_8h.html" title="src/util/free_list.h" alt="" coords="232,483,359,509"/>
+<area shape="rect" id="node20" href="$rule__rank_8h.html" title="src/ir/rule_rank.h" alt="" coords="536,483,663,509"/>
+<area shape="rect" id="node24" href="$way_8h.html" title="src/ir/skeleton/way.h" alt="" coords="1148,401,1299,427"/>
+</map>

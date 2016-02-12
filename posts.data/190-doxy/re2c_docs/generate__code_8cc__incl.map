@@ -1,0 +1,24 @@
+<map id="ir/skeleton/generate_code.cc" name="ir/skeleton/generate_code.cc">
+<area shape="rect" id="node2" href="$c99__stdint_8h.html" title="src/util/c99_stdint.h" alt="" coords="1526,483,1669,509"/>
+<area shape="rect" id="node8" href="$bitmap_8h.html" title="src/codegen/bitmap.h" alt="" coords="94,333,250,360"/>
+<area shape="rect" id="node10" href="$output_8h.html" title="src/codegen/output.h" alt="" coords="619,251,773,278"/>
+<area shape="rect" id="node18" href="$opt_8h.html" title="src/conf/opt.h" alt="" coords="1273,169,1380,196"/>
+<area shape="rect" id="node25" href="$rule__rank_8h.html" title="src/ir/rule_rank.h" alt="" coords="2370,408,2497,435"/>
+<area shape="rect" id="node27" href="$enc_8h.html" title="src/ir/regexp/encoding\l/enc.h" alt="" coords="1865,244,2028,285"/>
+<area shape="rect" id="node28" href="$globals_8h.html" title="src/globals.h" alt="" coords="1583,95,1683,121"/>
+<area shape="rect" id="node32" href="$skeleton_8h.html" title="src/ir/skeleton/skeleton.h" alt="" coords="2164,251,2343,278"/>
+<area shape="rect" id="node9" href="$forbid__copy_8h.html" title="src/util/forbid_copy.h" alt="" coords="889,408,1039,435"/>
+<area shape="rect" id="node15" href="$label_8h.html" title="src/codegen/label.h" alt="" coords="572,408,716,435"/>
+<area shape="rect" id="node17" href="$counter_8h.html" title="src/util/counter.h" alt="" coords="515,333,639,360"/>
+<area shape="rect" id="node19" href="$input__api_8h.html" title="src/codegen/input_api.h" alt="" coords="1070,251,1242,278"/>
+<area shape="rect" id="node20" href="$dfa_8h.html" title="src/ir/dfa/dfa.h" alt="" coords="1317,251,1429,278"/>
+<area shape="rect" id="node26" href="$empty__class__policy_8h.html" title="src/ir/regexp/empty\l_class_policy.h" alt="" coords="1453,244,1595,285"/>
+<area shape="rect" id="node21" href="$regexp_8h.html" title="src/ir/regexp/regexp.h" alt="" coords="1248,333,1408,360"/>
+<area shape="rect" id="node23" href="$rules_8h.html" title="src/parse/rules.h" alt="" coords="2063,333,2190,360"/>
+<area shape="rect" id="node22" href="$free__list_8h.html" title="src/util/free_list.h" alt="" coords="1179,408,1306,435"/>
+<area shape="rect" id="node29" href="$warn_8h.html" title="src/conf/warn.h" alt="" coords="1722,251,1841,278"/>
+<area shape="rect" id="node30" href="$way_8h.html" title="src/ir/skeleton/way.h" alt="" coords="1889,333,2039,360"/>
+<area shape="rect" id="node34" href="$path_8h.html" title="src/ir/skeleton/path.h" alt="" coords="2317,333,2470,360"/>
+<area shape="rect" id="node35" href="$local__increment_8h.html" title="src/util/local_increment.h" alt="" coords="2572,333,2748,360"/>
+<area shape="rect" id="node36" href="$u32lim_8h.html" title="src/util/u32lim.h" alt="" coords="2077,408,2195,435"/>
+</map>

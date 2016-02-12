@@ -1,0 +1,7 @@
+<map id="re2c::UTF16splitByRuneLength" name="re2c::UTF16splitByRuneLength">
+<area shape="rect" id="node2" href="$namespacere2c.html#a0c87422b8bdac0dd2fe6d11551f3c7c2" title="re2c::UTF16addContinuous1" alt="" coords="271,5,473,32"/>
+<area shape="rect" id="node3" href="$classre2c_1_1utf16.html#a65cb5fd5013fbb4d93f6489113388ba8" title="re2c::utf16::lead_surr" alt="" coords="296,56,448,83"/>
+<area shape="rect" id="node4" href="$classre2c_1_1utf16.html#a70411cf5ec6633fcf39ab44cd493cebc" title="re2c::utf16::trail_surr" alt="" coords="298,107,446,133"/>
+<area shape="rect" id="node5" href="$namespacere2c.html#a95b6bf1f324588eef3a27d004f37e1cf" title="re2c::UTF16splitByContinuity" alt="" coords="271,157,473,184"/>
+<area shape="rect" id="node6" href="$namespacere2c.html#a469a62d8bfb1471423b3278c38afa9ee" title="re2c::UTF16addContinuous2" alt="" coords="521,157,723,184"/>
+</map>

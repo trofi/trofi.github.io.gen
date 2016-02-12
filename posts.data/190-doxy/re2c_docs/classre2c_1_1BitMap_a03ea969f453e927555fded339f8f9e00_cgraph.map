@@ -1,0 +1,13 @@
+<map id="re2c::BitMap::gen" name="re2c::BitMap::gen">
+<area shape="rect" id="node2" href="$structre2c_1_1OutputFile.html#a753849458b0c0417fa33110ad7d6457f" title="re2c::OutputFile::wind" alt="" coords="201,5,356,32"/>
+<area shape="rect" id="node4" href="$structre2c_1_1OutputFile.html#af57c4d6d73f286bc2118764b8dedb812" title="re2c::OutputFile::ws" alt="" coords="207,56,350,83"/>
+<area shape="rect" id="node5" href="$structre2c_1_1OutputFile.html#a9e60cea6ca46d0ad749b28a0cddd7965" title="re2c::OutputFile::wstring" alt="" coords="193,107,364,133"/>
+<area shape="rect" id="node6" href="$namespacere2c.html#a912fbb39ffd6e19e54e77299b47d8453" title="re2c::doGen" alt="" coords="229,157,328,184"/>
+<area shape="rect" id="node7" href="$structre2c_1_1OutputFile.html#a910f62fbb9738faa0362caa95458f692" title="re2c::OutputFile::wu32" alt="" coords="199,208,358,235"/>
+<area shape="rect" id="node8" href="$structre2c_1_1OutputFile.html#ab782585bd3b9d63c3c3dfb95bccdacaa" title="re2c::OutputFile::wu32_hex" alt="" coords="184,259,373,285"/>
+<area shape="rect" id="node12" href="$structre2c_1_1OutputFile.html#adf8cb0480b51e8bbf9c50a74014f11db" title="re2c::OutputFile::wu32\l_width" alt="" coords="199,310,358,351"/>
+<area shape="rect" id="node3" href="$namespacere2c.html#a1adb81c04affa827f13cc9c7fb2be8fa" title="re2c::indent" alt="" coords="423,5,518,32"/>
+<area shape="rect" id="node9" href="$namespacere2c.html#acc5d06c4476daa5b7fd51ed17a77de1e" title="re2c::prtHex" alt="" coords="421,259,520,285"/>
+<area shape="rect" id="node10" href="$classre2c_1_1Enc.html#a0b367a4ab4e54b147ad8329cb5f5ee4a" title="re2c::Enc::szCodeUnit" alt="" coords="568,233,727,260"/>
+<area shape="rect" id="node11" href="$namespacere2c.html#ad6e7e4ad3f8a148b4812cc81c9f7abb1" title="re2c::hexCh" alt="" coords="599,284,696,311"/>
+</map>

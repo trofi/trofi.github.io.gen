@@ -1,0 +1,13 @@
+<map id="re2c::emit_accept_binary" name="re2c::emit_accept_binary">
+<area shape="rect" id="node2" href="$structre2c_1_1OutputFile.html#a753849458b0c0417fa33110ad7d6457f" title="re2c::OutputFile::wind" alt="" coords="451,5,606,32"/>
+<area shape="rect" id="node4" href="$structre2c_1_1OutputFile.html#af57c4d6d73f286bc2118764b8dedb812" title="re2c::OutputFile::ws" alt="" coords="457,157,600,184"/>
+<area shape="rect" id="node5" href="$structre2c_1_1OutputFile.html#a9e60cea6ca46d0ad749b28a0cddd7965" title="re2c::OutputFile::wstring" alt="" coords="443,208,614,235"/>
+<area shape="rect" id="node6" href="$structre2c_1_1OutputFile.html#af942f0fe38bb1f7ed92c10a881d558a9" title="re2c::OutputFile::wu64" alt="" coords="232,259,391,285"/>
+<area shape="rect" id="node7" href="$namespacere2c.html#ae3c5674a6ba77f408f90fbcf907ea664" title="re2c::genGoTo" alt="" coords="253,107,369,133"/>
+<area shape="rect" id="node3" href="$namespacere2c.html#a1adb81c04affa827f13cc9c7fb2be8fa" title="re2c::indent" alt="" coords="691,27,785,53"/>
+<area shape="rect" id="node8" href="$structre2c_1_1OutputFile.html#a5e334e1901a780524775e0e8a30e64e7" title="re2c::OutputFile::wlabel" alt="" coords="447,56,611,83"/>
+<area shape="rect" id="node9" href="$classre2c_1_1InputAPI.html#a460fb7c8fa03ed8dbccd1d6f96e78b9a" title="re2c::InputAPI::stmt_peek" alt="" coords="439,107,619,133"/>
+<area shape="rect" id="node10" href="$classre2c_1_1InputAPI.html#ab1d21c63ebe57753d1b99e8d9a8f43a3" title="re2c::InputAPI::expr\l_peek_save" alt="" coords="667,99,809,141"/>
+<area shape="rect" id="node11" href="$structre2c_1_1Opt.html#ae25a935060a0d96e6a9c1cb1275731c5" title="re2c::Opt::yychConversion" alt="" coords="857,81,1044,108"/>
+<area shape="rect" id="node12" href="$classre2c_1_1InputAPI.html#a633d69de1e298aae34e904bdaf66ad95" title="re2c::InputAPI::expr_peek" alt="" coords="859,132,1042,159"/>
+</map>
