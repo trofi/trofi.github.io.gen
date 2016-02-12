@@ -15,6 +15,10 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
 
+    match "posts.data/**" $ do
+        route   idRoute
+        compile copyFileCompiler
+
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ pandocCompilerWith HWP.defaultHakyllReaderOptions{TPO.readerStandalone = True} HWP.defaultHakyllWriterOptions
