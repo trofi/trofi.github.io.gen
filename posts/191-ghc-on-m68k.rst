@@ -115,8 +115,6 @@ It appears to be as simple as building cross-gcc:
 
     ghc-m68k $ ./configure --target=m68k-unknown-linux-gnu --enable-unregisterised \
                            \
-                           --with-gmp-includes=/usr/m68k-unknown-linux-gnu/usr/include \
-                           --with-gmp-libraries=/usr/m68k-unknown-linux-gnu/usr/lib \
                            --enable-bfd-debug
 
 That's it! The first line is enough but it's faster for subsequent rebuilds
