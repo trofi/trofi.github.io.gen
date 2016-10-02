@@ -1,5 +1,5 @@
 ---
-title: ANNOUNCE: uselex.rb - useless exports extinguisher
+title: "ANNOUNCE: uselex.rb - useless exports extinguisher"
 date: July 7, 2013
 ---
 

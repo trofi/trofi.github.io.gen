@@ -1,5 +1,5 @@
 ---
-title: Noumena: Suomalainen musiikki
+title: "Noumena: Suomalainen musiikki"
 date: October 11, 2011
 ---
 
