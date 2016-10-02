@@ -83,7 +83,7 @@ Quite unreadable. At least it contains a part of hot function: **ghc_Pretty_bufL
 marks internal assembly entry points
 as **\@object**s (normal **C** code does **\@function** annotations).
 
-So let's try to undo this hack and built ghc with debugging symbols:
+So let's try to undo this hack and build ghc with debugging symbols:
 
 .. code-block:: diff
 
