@@ -8,6 +8,14 @@ date: October 1, 2016
 :Keywords: ghc, haskell, perf, threadscope
 :Categories: notes
 
+Tl;DR: to speedup build of a haskell package use:
+
+.. code-block:: bash
+
+    $ ghc --make -j +RTS -A256M -qb0 -RTS <your-args>
+
+Story mode:
+
 In the previous post I've shown a tiny hack on how to make
 sense out of ghc using **perf**. My actual goal was to get
 basic understanding on why **ghc \-\-make** does not scale
