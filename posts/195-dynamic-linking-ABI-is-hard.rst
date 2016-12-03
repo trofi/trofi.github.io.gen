@@ -215,7 +215,7 @@ We see here a lot of interesting facts:
 - LOAD read/write segment increased for +40 bytes
 
 It means array contents is copied from library **.data** section to an executable
-**.bss** section at each exectution startup time.
+**.bss** section at each execution startup time.
 
 Why does it behave like that?
 =============================
@@ -406,6 +406,6 @@ A few takeaways
 - Exporting a pointer (const char *) instead of an array (const char []) would be not so devastating
 - Dynamic linking is hard :)
 - To learn more it's worth reading Ulrich Drepper's `DSO howto <https://software.intel.com/sites/default/files/m/a/1/e/dsohowto.pdf>`_
-- Another good book is `Linkers and Loader <https://wh0rd.org/books/linkers-and-loaders/>`_ by Jonh R. Levine.
+- Another good book is `Linkers and Loaders <https://wh0rd.org/books/linkers-and-loaders/>`_ by Jonh R. Levine.
 
 Have fun!
