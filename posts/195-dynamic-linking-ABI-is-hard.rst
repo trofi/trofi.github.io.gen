@@ -292,7 +292,7 @@ One way of adjusting this address is to use a relocation in code segment (also k
 But such relocations are unwelcome in linux systems. They have a few disadvantages:
 
 - [insecurity] **.text** sections that contain **TEXTREL**s need to be mapped with **RWX** permissions.
-- [inefficiency] Fixing up these relocation has to be done before before program takes control.
+- [inefficiency] Fixing up these relocation has to be done before program takes control.
   Even if code will never be executed.
 - [inefficiency] Each fixed relocation unshares code page where relocation was fixed up.
 
