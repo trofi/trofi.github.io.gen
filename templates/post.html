@@ -10,7 +10,14 @@ $body$
 <!-- disqus integration as-is: -->
 <div id="disqus_thread"></div>
     <script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_config = function () {
+        <!-- I pin to 'http://' as a canonical URL to keep existing discussions.
+             One day I should switch to 'https://' and migrate existing data:
+             https://help.disqus.com/customer/en/portal/articles/286778-migration-tools
+          -->
+        this.page.url        = 'http://trofi.github.io' + '$url$';
+        this.page.identifier = '$url$';
+    };
     var disqus_shortname = 'trofi'; // required: replace example with your forum shortname
 
     (function() {
