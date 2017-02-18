@@ -3,7 +3,7 @@ title: nix on gentoo howto
 date: January 19, 2017
 ---
 
-:PostID: 197
+:PostID: 196
 :Title: nix on gentoo howto
 :Keywords: nix, gentoo, howto
 :Categories: notes
