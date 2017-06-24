@@ -48,10 +48,12 @@ The problem with it is that it's not usable on selinux profiles due to systemd m
 Thus our goal is to mask this package on selinux profiles. Unfortunately it
 requires quite a few steps to do it:
 
-1. Add **profiles/profiles.desc** file and populate it with all profiles we want to override.
+1. Add **profiles/profiles.desc** file and populate it with all profiles we want
+   to override.
 
-   Repoman already shows us **3** profiles we need to override. Here is the
-   rough contents of **profiles/profiles.desc**:
+   Repoman already shows us **3** profiles we need to override.
+
+   We need to create **profiles/profiles.desc** file with the following contents:
 
    .. code-block::
 
@@ -61,7 +63,7 @@ requires quite a few steps to do it:
 
 2. Create **package.mask** which we will use for our overrides.
 
-   I'll our mask to **profiles/features/selinux/package.mask**:
+   I've added our mask to new **profiles/features/selinux/package.mask** file:
 
    .. code-block::
 
@@ -71,9 +73,10 @@ requires quite a few steps to do it:
 
 3. Create profile overrides for each profile.
 
-   Let's look in detail on **hardened/linux/x86/selinux** profile.
-   It's overriede will require a single file: **profiles/hardened/linux/x86/selinux/parent**
-   with the following contents:
+   Let's look in detail on **hardened/linux/x86/selinux** profile. It's override requires
+   a single file.
+
+   Let's create **profiles/hardened/linux/x86/selinux/parent** with the following contents:
 
    .. code-block::
 
@@ -86,8 +89,9 @@ requires quite a few steps to do it:
 4. Enable **portage-2** extension to **metadata/layout.conf**.
 
    Unfortunately **[repo]:<absolute-path>** is not described in **PMS** and is not portable across
-   all Gentoo package managers. To enable it for portage we need to add the following in
-   **metadata/layout.conf**:
+   all Gentoo package managers.
+
+   To enable it for portage we need to add the following in **metadata/layout.conf**:
 
    .. code-block::
 
