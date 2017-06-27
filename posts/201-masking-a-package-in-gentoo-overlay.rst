@@ -26,7 +26,7 @@ Here is how our ebuild looks like:
     LICENSE="public-domain"
     SLOT="0"
     
-    # systemd is masked on celinux profiles
+    # systemd is masked on selinux profiles
     DEPEND="sys-apps/systemd"
     RDEPEND=${DEPEND}
 
