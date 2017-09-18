@@ -135,7 +135,7 @@ Alpha
 =====
 
 Alpha is a 64-bit architecture. Does not support unaligned reads
-in it's basic ISA. **You have been warned**.
+in its basic ISA. **You have been warned**.
 
 .. code-block:: asm
 
@@ -169,11 +169,29 @@ In this case **Alpha** handles unsigned load slightly nicer (does not require
 arithmetic shift and shift offset computation). It takes quite a bit of time
 to understand **sc2sl** implementation.
 
+**creemj** noted on **#gentoo-alpha** **BWX** ISA extension
+(enabled with **-mbwx** in **gcc**):
+
+.. code-block:: asm
+
+    ; alpha-unknown-linux-gnu-gcc -O2 -mbwx -c a.c && objdump -d a.o
+
+    sc2sl:
+        ldbu    v0,0(a0)
+        sextb   v0,v0 ; sign-extend-byte
+        ret
+    uc2ul:
+        ldbu    v0,0(a0)
+        ret
+
+Here signed load requires one instruction to amend
+default-unsigned load semantics.
+
 HPPA (PA-RISC)
 ==============
 
 Currently HPPA userland supports only 32-bit mode on linux.
-Similar to many RICS architectures it's branching instructions
+Similar to many RISC architectures its branching instructions
 take two clock cycles to execute. By convention it means
 the next instruction right after branch (bv) is also executed.
 
@@ -254,7 +272,7 @@ same bundle or it's a "Write ; Read-Write" conflict on r8 in a single bundle)
             nop.i 0x0
             br.ret.sptk.many b0;;
 
-Unsigned char load requires less instructions (no additional shift required).
+Unsigned char load requires fewer instructions (no additional shift required).
 
 m68k
 ====
