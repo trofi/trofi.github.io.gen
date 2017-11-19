@@ -210,7 +210,7 @@ An interesting observation: the bitfield order on **powerpc** happens to be
 the desired order (as **6LoWPAN** **RFC** defines it).
 
 It means **radvd** code indeed happened to generate correct bitstream on big-endian
-platforms (as Rolf predicted) but did not work on little-endian systems. Unfortunately
+platforms (as Eike predicted) but did not work on little-endian systems. Unfortunately
 golden **expected[]** output was generated on little-endian system.
 
 Thus the 3 fixes:
