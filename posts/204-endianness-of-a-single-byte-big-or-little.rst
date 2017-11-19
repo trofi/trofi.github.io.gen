@@ -25,7 +25,7 @@ daemon and more) on **sparc**. Both tests failed likely due to endianness issue:
 
 I've confirmed the same failure on **powerpc**.
 
-Rolf noted that it's unusual because sparc is a big-endian architecture and network byteorder
+Eike noted that it's unusual because sparc is a big-endian architecture and network byteorder
 is also big-endian (thus no need to flip bytes). Something very specific must have lurked in **radvd**
 code to break endianness in this case. Curiously all the **radvd** tests were working fine on **amd64**.
 
