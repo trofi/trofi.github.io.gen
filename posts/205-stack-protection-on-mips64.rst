@@ -177,7 +177,8 @@ reproduce the same failure on **master** branch:
           --enable-add-ons=libidn \
           --without-selinux \
           --without-cvs \
-          --disable-werror --enable-bind-now \
+          --disable-werror \
+          --enable-bind-now \
           --build=x86_64-pc-linux-gnu \
           --host=mips64-unknown-linux-gnu \
           --disable-profile \
@@ -186,10 +187,10 @@ reproduce the same failure on **master** branch:
           --prefix=/usr \
           --sysconfdir=/etc \
           --localstatedir=/var \
-          --libdir=$(prefix)/lib32 \
-          --mandir=$(prefix)/share/man \
-          --infodir=$(prefix)/share/info \
-          --libexecdir=$(libdir)/misc/glibc \
+          --libdir='$(prefix)/lib32' \
+          --mandir='$(prefix)/share/man' \
+          --infodir='$(prefix)/share/info' \
+          --libexecdir='$(libdir)/misc/glibc' \
           --disable-multi-arch \
           --disable-systemtap \
           --disable-nscd \
