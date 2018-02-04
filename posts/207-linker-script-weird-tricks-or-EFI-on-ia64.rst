@@ -8,13 +8,6 @@ date: February 2, 2018
 :Keywords: gcc, ia64, EFI, gentoo, ELF, **PE32**, **PE32+**, linker scripts
 :Categories: notes
 
-TODO:
-
-- MCA
-- iLO
-- BMC
-- others
-
 One of **gentoo** `bugs <https://bugs.gentoo.org/579278>`_
 was about **gentoo** install CD not being able to boot **Itanium** boxes.
 
@@ -39,8 +32,8 @@ I had neither.
 
 My plan was to extend **ski** emulator to be able to handle
 early **EFI** stuff. I started reading `docs on early itanium boot life <https://www.thailand.intel.com/content/dam/www/public/us/en/documents/specification-updates/itanium-system-abstraction-layer-specification.pdf>`_:
-on **SAL**s, **PAL**s, monarch processors, rendevouz protocols
-to handle **MCA**s and expected system state when hand off to **EFI**
+on **SAL**s (system abstraction layers), **PAL**s (platform abstration layers), monarch processors, rendevouz protocols
+to handle **MCA**s (machine check aborts) and expected system state when hand off to **EFI**
 happens.
 
 But **SAL** spec touches **EFI** only at **SAL**->**EFI** interface
@@ -51,7 +44,7 @@ How ia64 actually boots
 =======================
 
 But recently I got access to real management processor (sometimes also called **MP**,
-**BMC**, **iLO**) on **rx3600** machine and I gave up on extending **ski** for a while.
+**BMC** (baseboard managenet controller), **iLO** (integrated lights-out)) on **rx3600** machine and I gave up on extending **ski** for a while.
 
 The very first thing I attempted is to get to serial console of operating system
 from **iLO**. It happened to be not as straightforward as passing **console=ttyS0** to kernel.
