@@ -8,7 +8,7 @@ date: April 14, 2018
 :Keywords: gcc, gentoo, crossdev, hurd, ghc, debian
 :Categories: notes
 
-Tl:DR: **crossdev** is a tool to generate a cross-compiler for you in **gentoo**
+Tl;DR: **crossdev** is a tool to generate a cross-compiler for you in **gentoo**
 and with some hacks (see below) you can even cross-compile to **hurd**!
 
 **FOSDEM** 2018 conference happened recently and a lot of cool talks
