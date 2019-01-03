@@ -38,7 +38,24 @@ p {
     margin: 0.5em 0 0.5em 0;
 }
 
-a {
+/* front links */
+li > a {
+    text-decoration:none;
+    color: black;
+    background-color:#FFFFE0;
+    font-weight: bold;
+}
+
+/* header links */
+div > a {
+    text-decoration:none;
+    color: black;
+    background-color:#FFFFE0;
+    font-weight: bold;
+}
+
+/* text inline links */
+p > a {
     text-decoration:none;
     color: black;
     background-color:#FFFFE0;
