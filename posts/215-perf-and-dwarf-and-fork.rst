@@ -5,14 +5,14 @@ date: April 10, 2020
 
 :PostID: 215
 :Title: "perf and DWARF and fork()"
-:Keywords: perf, DRAWF, fork, bash
+:Keywords: perf, DWARF, fork, bash
 :Categories: notes
 
 Tl;DR
 -----
 
 If you wonder why **perf record -g** does not collect nice callstacks for your prorgams
-try **perf record -g --call-graph=dwarf** instead.
+try **perf record -g \-\-call-graph=dwarf** instead.
 
 Case study
 ----------
@@ -41,7 +41,7 @@ It's because perf uses frame pointer unwinding by default. gcc's **-O2** optimiz
 avoids them (**-fomit-frame-pointer**) to generate shorter entry/exit code.
 
 Luckily basic debugging information has a way to encode equivalent information
-using **DRAWF** format. **perf** knows how to unwind **DWARF** using call stack
+using **DWARF** format. **perf** knows how to unwind **DWARF** using call stack
 snapshots with **--call-graph=dwarf**:
 
 .. code-block::
@@ -64,7 +64,9 @@ Most symbols are resolved now and seem to match reality.
 
 The trick is to build profiled binaries (and their shared libraries) at
 least with **-g1** compiler flags. (Something like
-**CFLAGS="-O2 -g1" / CXXFLAGS="-O2 -g1"**.
+**CFLAGS="-O2 -g1" / CXXFLAGS="-O2 -g1"**. Note: **-g** is equivalent to **-g2**
+and contains all that **-g1** has. **-g1** is the minimum level to get
+stack unwinding working.
 
 In Gentoo I'm using the following setup to build a few packages with
 extra debugging:
@@ -91,14 +93,13 @@ extra debugging:
 Real example
 ------------
 
-Now let's try to profile something more heavyweight chan **clang**:
-**bash** (from https://bugs.gentoo.org/688922).
-
+Now let's try to profile something more heavyweight than **clang**,
+namely **bash**. Example is taken from https://bugs.gentoo.org/688922 bug.
 There **texlive-module-collection-fontsextra** package unpacks quickly
 (within a minute) and then hangs up for 20 minutes doing something.
 
 To try to figure out what that something is I ran unpack
-process in one terminal, wait when unpacking finishes, and then run
+process in one terminal, waited when unpacking finishes, and then ran
 **perf** sampling for a few seconds:
 
 .. code-block::
@@ -108,6 +109,8 @@ process in one terminal, wait when unpacking finishes, and then run
     ...
     >>> Unpacking texlive-module-collection-fontsextra-2019.tar.xz to /tmp/portage/dev-texlive/texlive-fontsextra-2019/work
     <seems to have hung>
+
+.. code-block::
     
     # in another, after unpacking is seemingly done
     root # perf record -a -g --call-graph=dwarf
@@ -116,25 +119,25 @@ process in one terminal, wait when unpacking finishes, and then run
     [ perf record: Captured and wrote 257,906 MB perf.data (35102 samples) ]
     
     # perf report
-       Children      Self  Command          Shared Object                                        Symbol
-    +   18,86%     0,12%  ebuild.sh        [kernel.kallsyms]                                    [k] entry_SYSCALL_64_after_hwframe              ◆
-    +   18,56%     1,21%  ebuild.sh        [kernel.kallsyms]                                    [k] do_syscall_64                               ▒
-    +   13,13%     0,00%  swapper          [kernel.kallsyms]                                    [k] secondary_startup_64                        ▒
-    +   13,13%     0,00%  swapper          [kernel.kallsyms]                                    [k] cpu_startup_entry                           ▒
-    +   13,13%     0,02%  swapper          [kernel.kallsyms]                                    [k] do_idle                                     ▒
-    +   12,48%     0,01%  swapper          [kernel.kallsyms]                                    [k] cpuidle_enter                               ▒
-    +   12,47%     0,03%  swapper          [kernel.kallsyms]                                    [k] cpuidle_enter_state                         ▒
-    +   11,92%     0,01%  swapper          [kernel.kallsyms]                                    [k] intel_idle                                  ▒
-    +   11,89%    11,89%  swapper          [kernel.kallsyms]                                    [k] mwait_idle_with_hints.constprop.0           ▒
-    +    7,71%     0,00%  ebuild.sh        libc-2.31.so                                         [.] __GI_munmap (inlined)                       ▒
-    +    6,76%     0,04%  ebuild.sh        [kernel.kallsyms]                                    [k] __x64_sys_munmap                            ▒
-    +    6,72%     0,05%  ebuild.sh        [kernel.kallsyms]                                    [k] __vm_munmap                                 ▒
-    +    6,68%     0,04%  dirname          [kernel.kallsyms]                                    [k] entry_SYSCALL_64_after_hwframe              ▒
-    +    6,55%     0,17%  ebuild.sh        [kernel.kallsyms]                                    [k] __do_munmap                                 ▒
-    +    6,54%     0,55%  dirname          [kernel.kallsyms]                                    [k] do_syscall_64                               ▒
-    +    5,31%     0,00%  ebuild.sh        libc-2.31.so                                         [.] __GI___mmap64 (inlined)                     ▒
-    +    5,19%     0,04%  ebuild.sh        [kernel.kallsyms]                                    [k] page_fault                                  ▒
-    +    4,74%     0,68%  ebuild.sh        libsandbox.so                                        [.] malloc    
+       Children      Self  Command          Shared Object       Symbol
+    +   18,86%     0,12%  ebuild.sh        [kernel.kallsyms]   [k] entry_SYSCALL_64_after_hwframe
+    +   18,56%     1,21%  ebuild.sh        [kernel.kallsyms]   [k] do_syscall_64
+    +   13,13%     0,00%  swapper          [kernel.kallsyms]   [k] secondary_startup_64
+    +   13,13%     0,00%  swapper          [kernel.kallsyms]   [k] cpu_startup_entry
+    +   13,13%     0,02%  swapper          [kernel.kallsyms]   [k] do_idle
+    +   12,48%     0,01%  swapper          [kernel.kallsyms]   [k] cpuidle_enter
+    +   12,47%     0,03%  swapper          [kernel.kallsyms]   [k] cpuidle_enter_state
+    +   11,92%     0,01%  swapper          [kernel.kallsyms]   [k] intel_idle
+    +   11,89%    11,89%  swapper          [kernel.kallsyms]   [k] mwait_idle_with_hints.constprop.0
+    +    7,71%     0,00%  ebuild.sh        libc-2.31.so        [.] __GI_munmap (inlined)
+    +    6,76%     0,04%  ebuild.sh        [kernel.kallsyms]   [k] __x64_sys_munmap
+    +    6,72%     0,05%  ebuild.sh        [kernel.kallsyms]   [k] __vm_munmap
+    +    6,68%     0,04%  dirname          [kernel.kallsyms]   [k] entry_SYSCALL_64_after_hwframe
+    +    6,55%     0,17%  ebuild.sh        [kernel.kallsyms]   [k] __do_munmap
+    +    6,54%     0,55%  dirname          [kernel.kallsyms]   [k] do_syscall_64
+    +    5,31%     0,00%  ebuild.sh        libc-2.31.so        [.] __GI___mmap64 (inlined)
+    +    5,19%     0,04%  ebuild.sh        [kernel.kallsyms]   [k] page_fault
+    +    4,74%     0,68%  ebuild.sh        libsandbox.so       [.] malloc
 
 To make sense out of this data I used @brendangregg's FlameGraph tools (https://github.com/brendangregg/FlameGraph).
 I generated interactive **.svg** files as:
@@ -253,8 +256,8 @@ We can also shrink **mv** process creations overhead down to one per target dire
             done
      }
 
-That cuts it further down from 11 minutes to 30 seconds. That is 22x speedup
-from previous state, 34x from initial state.
+That cuts it further down from 11 minutes to 30 seconds. That is **22x** speedup
+from previous state, **34x** from initial state.
 
 While it's not the best solution I think it's a good enough proof of concept
 to get the idea what gains we can potentially have here.
@@ -343,7 +346,9 @@ Parting words
 -------------
 
 - **perf** is not that complicated to use. Give it a try!
-- Process **fork()**/**exec()** is not cheap and spends most of time creting and destroying page tables.
+- **perf record -g \-\-call-graph=dwarf** can extract call stacks from optimized binaries.
+- Flame graphs are nice :)
+- Process **fork()**/**exec()** is not cheap and spends most of time creating and destroying page tables.
   Eliminating heavyweight process creation can easily be a 30x performance speedup.
 - **bash** should consider using **vfork()** and/or **posix_spawn()** (I assume it does not yet do it).
 
