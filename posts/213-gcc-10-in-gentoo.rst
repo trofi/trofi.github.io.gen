@@ -267,7 +267,7 @@ applied ang we got broken binary. The fix is trivial: `patch <https://github.com
 Arguably **vim** should not use known-broken C constructs and use something else instead.
 Be it manually managed **void \*** memory chunks or flexible arrays on modern compilers.
 
-I would not be surprised if **gcc** already geenrates invalid code for **vim** assuming
+I would not be surprised if **gcc** already generates invalid code for **vim** assuming
 that out-of-bounds array access is not supposed to happen in the code. That would allow
 **gcc** to delete most of code working with 1-byte arrays as dead.
 
