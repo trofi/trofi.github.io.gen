@@ -255,7 +255,7 @@ To see why let's look at the **configure.ac** around **_FORTIFY_SOURCE** handlin
     AC_MSG_RESULT(no)
   fi
 
-Do you see the bug here? **vim** assumes **gcc -dumpverion** has format of **<digit>.<anything>**.
+Do you see the bug here? **vim** assumes **gcc -dumpversion** has format of **<digit>.<anything>**.
 But **gcc-10.0.1** is **<digit><digit>.<anything>**. As a result **-D_FORTIFY_SOURCE=1** was not
 applied ang we got broken binary. The fix is trivial: `patch <https://github.com/vim/vim/commit/7077892a7918845a00ce8d7833b43cc6cbed2081>`_.
 
