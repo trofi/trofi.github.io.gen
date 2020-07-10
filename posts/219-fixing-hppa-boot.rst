@@ -468,7 +468,7 @@ was transformed into:
         if (! len)
             return;
 
-        memset(p, 0, len0;
+        memset(p, 0, len);
     }
 
 The result is similar: a call to **memset()** and infinite
