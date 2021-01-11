@@ -313,6 +313,8 @@ allocating 128MB chunks at a time and run **memmove()** on newly
 allocated **RAM** to cover all available pages. Test would either
 find bad memory or **OOM**-fail.
 
+Full program source is at https://github.com/trofi/xmm-ram-test.
+
 And bingo! It took only 30 seconds to reproduce the failure. The test
 usually started reporting the first problem when it got to 17GB of
 **RAM** usage.
