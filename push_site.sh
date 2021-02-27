@@ -11,4 +11,4 @@ if [ ! -d .git ]; then
 fi
 git add .
 git commit -s -m "sync trofi.github.io.git:${commit_id}" .
-git push --force -u origin master
+git push --force -u origin main
