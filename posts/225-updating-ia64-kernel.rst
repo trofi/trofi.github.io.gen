@@ -77,11 +77,11 @@ the clues
 ---------
 
 At first I thought it to be a simpler form of
-`alpha's off-by-one bug </211-page-fault-handling-on-alpha.html>`_ where we
+`alpha's off-by-one bug </posts/211-page-fault-handling-on-alpha.html>`_ where we
 encoded incorrect offsets to **struct pt_regs**.
 
 The fun and scary thing about **ia64** compared to many other arches
-is that it's use of **pt_regs** is a lot more `involved </210-ptrace-and-accidental-boot-fix-on-ia64.html>`_:
+is that it's use of **pt_regs** is a lot more `involved </posts/210-ptrace-and-accidental-boot-fix-on-ia64.html>`_:
 register access requires kernel stack unwindind up to the userspace boundary.
 But complex unwinnding also happens to make it more uniform compared to other arches:
 most of the time you just use slow unwinder instead of hardcoding anything
