@@ -1,4 +1,7 @@
-#!/bin/sh
+#! /usr/bin/env nix-shell
+#! nix-shell -p "haskellPackages.ghcWithPackages (p: [p.pandoc p.hakyll])"
+#! nix-shell -p bash
+#! nix-shell -i bash
 
 setup_exe=./Setup
 site_exe=dist/build/trofi.github.io.gen/trofi.github.io.gen
