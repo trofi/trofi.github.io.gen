@@ -73,7 +73,7 @@ get much worse for a brand new linux target.
 Testing it on **x86_64** host is trivial by overriding **crossSystem**
 parameter:
 
-.. code-blocks::
+.. code-block::
 
         $ nix-build --arg crossSystem '{ config = "s390x-unknown-linux-gnu"; }' -A re2c
         $ file ./result/bin/re2c
