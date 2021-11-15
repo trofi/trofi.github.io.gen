@@ -191,7 +191,8 @@ warnings-as-errors in a few packages libe **libjxl**.
 The only yet unsolved mystery is 4 newly failing tests on **llvm-13**
 package. Somehow **llvm** generates FunctionLength=0 unwind information
 for learly non-empty functions. I suspect (hope) it's another **gcc** bug.
-I'm trying to debug it right now.
+I'm trying to debug it right now. **UPDATE:** confirmed and extracted
+example to illustrate **gcc** bug https://gcc.gnu.org/PR103266
 
 Fun facts
 ---------
