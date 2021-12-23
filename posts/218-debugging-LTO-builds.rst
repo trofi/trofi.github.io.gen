@@ -203,7 +203,7 @@ Gentoo provides an easy way to do it:
         undefined reference to `libintl_dgettext'
 
 Now we can see where that reference comes from: **libcpp/files.c:1439**. Rerunning above
-**/xg++*8 command with appended **-save-temps** generates useful **res** file:
+**/xg++** command with appended **-save-temps** generates useful **res** file:
 
 .. code-block::
 
