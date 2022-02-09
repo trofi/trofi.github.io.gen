@@ -28,7 +28,7 @@ More fun commands
 
 - install a package: **nix-env -iA nixpkgs.firefox**
 - uninstall a package: **nix-env -e nixpkgs.firefox**
-- start a new shell with only specified package(s) in environment: **nix-shell --pure -p chromium**
+- start a new shell with only specified package(s) in environment: **nix-shell \-\-pure -p chromium**
 
 More words
 ==========
