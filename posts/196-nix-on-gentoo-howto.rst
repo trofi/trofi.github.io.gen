@@ -41,7 +41,7 @@ WARNING: I've been using nix only for a week and wrote like 3 **.nix** packages
 for a few binaries and libraries. Take all I write here with a grain of salt.
 
 Nix is not gentoo-specific at all. Nix is not even haskell-specific.
-The implementation language is **C++**, **Perl** and `**Nix Expression Language** <https://nixos.org/releases/nix/latest/manual.pdf>`_.
+The implementation language is **C++**, **Perl** and `Nix Expression Language <https://nixos.org/releases/nix/latest/manual.pdf>`_.
 
 Nix tries to solve (among other things) an interesting problem of software
 distribution: make packages (binaries + everything else) runnable on machines
