@@ -35,7 +35,7 @@ in various conformant orders and expect the same result. Modulo missing
 dependencies in the graph.
 
 In practice **GNU make** happens to traverse the graph in very specific
-topological order: it maintaing syntactic ordering as much as possible.
+topological order: it maintains syntactic order as much as possible.
 
 Here is an example **Makefile**:
 
@@ -100,22 +100,22 @@ c
 
 I added newlines where 1-second pauses visibly happen.
 
-Note that in this **Makefile** **a1** does not depend on
+Note that in this example **a1** does not depend on
 **c2**. But **c2** practically always starts execution after **a1**
 finishes.
 
-The "only" way to run **a1** and **c2** them in parallel
-is to run **make** with at least **-j8**. Which is a lot.
+The "only" way to run **a1** and **c2** in parallel is to run
+**make** with at least **-j8**. Which is a lot.
 
 Or do something with the system that stalls task execution for
 indefinite amount of time (like, adding various nice levels
 or put system under high memory or CPU pressure).
 
 Very occasionally already stressed system naturally gets into
-unusual task execution order. You get the failure and struggle
-to repeat it again. Which makes it very hard to test the fix
-unless you know where exactly to put the **sleep** command
-to make it more reproducible.
+unusual task execution order. You get the one-off failure and
+struggle to repeat it ever again. Which makes it very hard to
+test the fix unless you know where exactly to put the **sleep**
+command to make it more reproducible.
 
 # An old idea
 
@@ -124,7 +124,7 @@ and it will be increasingly painful to work with sequentially built
 projects :) Bugs will come back again and again on you the more cores
 you throw at the **Makefiles**.
 
-I had a silly idea back then ([in russian](/posts/143-make-idea.html)):
+I had a silly idea back then (post [in russian](/posts/143-make-idea.html)):
 what if we arbitrarily reorder the prerequisites in **Makefile**s? Or
 maybe even trace spawned processes to know for sure what files targets
 access? That might allow us to weed out most of the parallel bugs with
@@ -226,7 +226,7 @@ usually built along with other small runtimes way before **g++** or
 
 Fun fact: while running the build I stumbled on a **GNU make** bug
 not related to my change: <https://lists.gnu.org/archive/html/bug-make/2022-02/msg00037.html>.
-The following snippet make **GNU make** to loop for a while until
+The following snippet tricks **GNU make** to loop for a while until
 it crashes with argument list exhaustion (or inode exhaustion in
 **/tmp**):
 
@@ -240,17 +240,17 @@ This bug is not present in any releases yet. And hopefully will not be.
 I'd like to land the **\-\-shuffle** change upstream in some form before
 sending bug reports and trivial fixes to upstreams.
 
-# How to try
+# How you can test it
 
 If you are keen to try this shuffling mode on your **make**-based
-projects (manually written, **automake**-based, **cmake**-based are all
-fine) here is a rough instruction to do it:
+projects (be it manually written, **automake**-based ro **cmake**-based)
+here is a rough instruction to do it:
 
 - grab current git tree of **GNU make** at <https://git.savannah.gnu.org/git/make.git>
 - apply [v4-0001-Add-shuffle-argument-support.patch](https://savannah.gnu.org/bugs/download.php?file_id=52908) from <https://savannah.gnu.org/bugs/index.php?62100>
-- build **make** with **./bothstrap && configure && make**
+- build **make** as typical **./bothstrap && configure && make**
 - use it as **path/to/make \-\-shuffle \<your-typical-make-arguments\>** against your project
-- check if the build succeeds
+- check if the build succeeds, run it a few times
 
 Both sequential and parallel modes should work fine. I suggest trying
 both. The shuffling overhead should be negligible.
