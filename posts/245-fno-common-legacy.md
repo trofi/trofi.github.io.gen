@@ -31,7 +31,7 @@ failures. My intuition was saying that most of those packages should
 be **python**, **ruby**, **perl**, **php** packages (probably unaffeched)
 and thus the final number would be lower than 100.
 
-When Toralf ran **CFLAGS=-fcommon** **tinderbox** build test
+When Toralf ran **CFLAGS=-fno-common** **tinderbox** build test
 on the repository he started discovering more failures. I proposed fixes for
 first few ten and was quickly overwhelmed. After a few weeks of **tinderbox**
 run the bug list
