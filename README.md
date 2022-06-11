@@ -1,4 +1,6 @@
-Hello! This is the source of <https://trofi.github.io/> blog.
+Hello!
+
+This is the source of <https://trofi.github.io/> blog.
 
 # Navigating
 
@@ -6,6 +8,8 @@ Hello! This is the source of <https://trofi.github.io/> blog.
 - [posts.data/](./posts.data): post-specific images, example binaries and similar.
 - [src/](./src): source code for the size generator itself.
 - [run_watcher.sh](./run_watcher.sh): main script to generate site and run a preview web server locally.
+- [trofi.github.io](https://github.com/trofi/trofi.github.io/): repository in
+  [GtHub pages](https://pages.github.com/) format with auto-generated content.
 
 # Trying it out
 
