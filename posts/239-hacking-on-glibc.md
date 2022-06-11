@@ -98,30 +98,32 @@ Preprocessing was straightforward. Ideally translation should not
 depend on glibc specifics. In practice it might but we'll ignore it here.
 
 Let's now look at linking phase.
-We'll use **-Wl,\-\-verbose** flag to get details of what linker actually
+We'll use **-Wl,\-t** flag (thanks MaskRay!) to get details of what linker actually
 pulls in:
 
 ```
-$ LANG=C gcc hello.o -o hello -Wl,--verbose | fgrep succeeded | unnix
+$ LANG=C gcc hello.o -o hello -Wl,-t |& unnix
 
-attempt to open /<<NIX>>/glibc-2.33-108/lib/crt1.o succeeded
-attempt to open /<<NIX>>/glibc-2.33-108/lib/crti.o succeeded
-attempt to open /<<NIX>>/gcc-11.2.0/lib/gcc/x86_64-unknown-linux-gnu/11.2.0/crtbegin.o succeeded
-attempt to open hello.o succeeded
-attempt to open /<<NIX>>/gcc-11.2.0/lib/gcc/x86_64-unknown-linux-gnu/11.2.0/libgcc.a succeeded
-attempt to open /<<NIX>>/glibc-2.33-108/lib/libgcc_s.so succeeded
-attempt to open /<<NIX>>/glibc-2.33-108/lib/libgcc_s.so.1 succeeded
-attempt to open /<<NIX>>/gcc-11.2.0/lib/gcc/x86_64-unknown-linux-gnu/11.2.0/libgcc.a succeeded
-attempt to open /<<NIX>>/glibc-2.33-108/lib/libc.so succeeded
-attempt to open /<<NIX>>/glibc-2.33-108/lib/libc.so.6 succeeded
-attempt to open /<<NIX>>/glibc-2.33-108/lib/libc_nonshared.a succeeded
-attempt to open /<<NIX>>/glibc-2.33-108/lib/ld-linux-x86-64.so.2 succeeded
-attempt to open /<<NIX>>/gcc-11.2.0/lib/gcc/x86_64-unknown-linux-gnu/11.2.0/libgcc.a succeeded
-attempt to open /<<NIX>>/glibc-2.33-108/lib/libgcc_s.so succeeded
-attempt to open /<<NIX>>/glibc-2.33-108/lib/libgcc_s.so.1 succeeded
-attempt to open /<<NIX>>/gcc-11.2.0/lib/gcc/x86_64-unknown-linux-gnu/11.2.0/libgcc.a succeeded
-attempt to open /<<NIX>>/gcc-11.2.0/lib/gcc/x86_64-unknown-linux-gnu/11.2.0/crtend.o succeeded
-attempt to open /<<NIX>>/glibc-2.33-108/lib/crtn.o succeeded
+/<<NIX>>/glibc-2.33-108/lib/crt1.o
+/<<NIX>>/glibc-2.33-108/lib/crti.o
+/<<NIX>>/gcc-11.2.0/lib/gcc/x86_64-unknown-linux-gnu/12.1.0/crtbegin.o
+hello.o
+/<<NIX>>/gcc-11.2.0/lib/gcc/x86_64-unknown-linux-gnu/12.1.0/libgcc.a
+/<<NIX>>/glibc-2.33-108/lib/libgcc_s.so
+/<<NIX>>/glibc-2.33-108/lib/libgcc_s.so.1
+/<<NIX>>/gcc-11.2.0/lib/gcc/x86_64-unknown-linux-gnu/12.1.0/libgcc.a
+/<<NIX>>/glibc-2.33-108/lib/libc.so
+/<<NIX>>/glibc-2.33-108/lib/libc.so.6
+/<<NIX>>/glibc-2.33-108/lib/libc_nonshared.a
+/<<NIX>>/glibc-2.33-108/lib/ld-linux-x86-64.so.2
+/<<NIX>>/glibc-2.33-108/lib/libc_nonshared.a
+/<<NIX>>/glibc-2.33-108/lib/ld-linux-x86-64.so.2
+/<<NIX>>/gcc-11.2.0/lib/gcc/x86_64-unknown-linux-gnu/12.1.0/libgcc.a
+/<<NIX>>/glibc-2.33-108/lib/libgcc_s.so
+/<<NIX>>/glibc-2.33-108/lib/libgcc_s.so.1
+/<<NIX>>/gcc-11.2.0/lib/gcc/x86_64-unknown-linux-gnu/12.1.0/libgcc.a
+/<<NIX>>/gcc-11.2.0/lib/gcc/x86_64-unknown-linux-gnu/12.1.0/crtend.o
+/<<NIX>>/glibc-2.33-108/lib/crtn.o
 ```
 
 That is a lot of output! But be not afraid. Some things repeat here 4
@@ -187,7 +189,7 @@ From the above we see that **libc.so**, **libdl.so** and
 to load such libraries only if they were built against same or older
 **glibc** versions. All thanks to **glibc** being backwards compatible.
 
-If we would, say, use use **glibc-2.8** as a custom version thighs would
+If we would, say, use use **glibc-2.8** as a custom version things would
 probaby fail to load as those libraries depend on fresh symbols:
 
 ```
@@ -219,7 +221,7 @@ $ gcc -E hello.c -o - -I/tmp/custom-glibc-install/include | head -n 10 | unnix
 ```
 
 For complex cases **gcc** supports many other flavours of handling include
-paths: **-isystem**, **-idirafter**, **-isysroot**, **-Iquote** and
+paths: **-isystem**, **-idirafter**, **-isysroot**, **-iquote** and
 many more :) We will use simplest **-I**.
 
 Now let's deal with the **libc.so** location. Normally **-L** option would
@@ -354,9 +356,9 @@ A few related options you might want to explore in **gcc** are:
 - **-nostartfiles**
 - **-ffreestanding**
 
-They explicitly disable search paths for: include paths, startup files or
-standard and runtime support libraries. Their interaction is subtle. I won't
-get into detail here either.
+They explicitly disable search paths or object files inclusion for:
+include paths, startup files or standard and runtime support libraries.
+Their interaction is subtle. I won't get into detail here either.
 
 # Parting words
 
