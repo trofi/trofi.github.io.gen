@@ -307,7 +307,7 @@ $ LD_DEBUG=all ./hello |& fgrep reloc | unnix
 ```
 
 **LD_DEBUG=all** hints at dynamic loader from our system **glibc**
-and not from custom **glibc**. That path is embedded into *gcc** itself:
+and not from custom **glibc**. That path is embedded into **gcc** itself:
 
 ```
 gcc -dumpspecs |& fgrep ld-linux | unnix
