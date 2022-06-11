@@ -26,6 +26,10 @@ main = hakyll $ do
             >>= loadAndApplyTemplate "templates/default.html" postCtx
             >>= relativizeUrls
 
+    match "static/README.md" $ do
+        route   (constRoute "README.md")
+        compile copyFileCompiler
+
     create ["archive.html"] $ do
         route idRoute
         compile $ do
