@@ -15,6 +15,10 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
 
+    match "posts.data/**.dot" $ do
+        route   $ setExtension "svg"
+        compile $ getResourceLBS >>= withItemBody (unixFilterLBS "dot" ["-Tsvg"])
+
     match "posts.data/**" $ do
         route   idRoute
         compile copyFileCompiler

@@ -1,5 +1,6 @@
 #! /usr/bin/env nix-shell
 #! nix-shell -p "haskellPackages.ghcWithPackages (p: [p.pandoc p.hakyll])"
+#! nix-shell -p graphviz
 #! nix-shell -p bash
 #! nix-shell -i bash
 

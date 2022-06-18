@@ -1,4 +1,3 @@
-// $ dot -Tsvg fig-3.dot > fig-3.svg
 digraph {
   label="Which lib_name() will be used?"
   node [shape=record];

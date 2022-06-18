@@ -18,4 +18,3 @@ done
 } | egrep -v "libc.so.6|libgcc_s.so.1|libm.so.6|ld-linux-x86-64.so.2|libpthread.so.0|libdl.so.2|libstdc[+][+].so.6|librt.so.1" | sort -u
 printf "}\n"
 } > fig-5.dot
-dot -Tsvg fig-5.dot > fig-5.svg

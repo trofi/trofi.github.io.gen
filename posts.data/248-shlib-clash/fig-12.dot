@@ -1,4 +1,3 @@
-// $ dot -Tsvg fig-12.dot > fig-12.svg
 digraph {
   node [shape=record]
 

@@ -18,4 +18,3 @@ done
 } | sort -u
 printf "}\n"
 } > fig-4.dot
-dot -Tsvg fig-4.dot > fig-4.svg
