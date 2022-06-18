@@ -1,0 +1,17 @@
+// $ dot -Tsvg fig-10.dot > fig-10.svg
+digraph {
+  node [shape=record]
+
+  "strip-2.38" -> ".../binutils/.../2.38/libbfd-2.38.so" [style=dotted]
+  "ld-2.38" -> ".../binutils/.../2.38/libbfd-2.38.so" [style=dotted]
+  "..." -> ".../binutils/.../2.38/libbfd-2.38.so" [style=dotted]
+  "strip-2.38" -> "/usr/lib64/libbfd-2.38.so" [color="red"]
+  "ld-2.38" -> "/usr/lib64/libbfd-2.38.so" [color="red"]
+  "..." -> "/usr/lib64/libbfd-2.38.so" [color="red"]
+  "ld-2.37" -> ".../binutils/.../2.37/libbfd-2.37.so"
+  "... " -> ".../binutils/.../2.37/libbfd-2.37.so"
+
+  "perf" -> "/usr/lib64/libbfd-2.38.so"
+  "ghc" -> "/usr/lib64/libbfd-2.38.so"
+  "...  " -> "/usr/lib64/libbfd-2.38.so"
+}

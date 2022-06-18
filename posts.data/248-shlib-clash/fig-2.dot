@@ -1,0 +1,17 @@
+// $ dot -Tsvg fig-2.dot > fig-2.svg
+digraph {
+  node [shape=record];
+
+  qtwebengine
+  "ffmpeg-4"  [style="filled" fillcolor="pink"]
+  "..."
+  qtwebengine -> "ffmpeg-4"
+  qtwebengine -> "..."
+
+  amarok
+  "ffmpeg-5" [style="filled" fillcolor="pink"]
+  "... "
+  amarok -> "ffmpeg-5"
+  amarok -> qtwebengine
+  amarok -> "... "
+}

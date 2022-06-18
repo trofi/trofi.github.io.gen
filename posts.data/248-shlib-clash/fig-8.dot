@@ -1,0 +1,16 @@
+// $ dot -Tsvg fig-8.dot > fig-8.svg
+digraph {
+  node [shape=record]
+
+   "libncurses.so.6" [style="filled" fillcolor="pink"]
+   "libncursesw.so.6" [style="filled" fillcolor="pink"]
+   "libtinfo.so.6" [style="filled" fillcolor="red"]
+   "libtinfow.so.6" [style="filled" fillcolor="red"]
+
+  "gdb" -> "libtinfo.so.6"
+  "gdb" -> "libreadline.so.7"
+  "gdb" -> "libncursesw.so.6"
+
+  "libreadline.so.7" -> "libncurses.so.6"
+  "libncursesw.so.6" -> "libtinfow.so.6"
+}

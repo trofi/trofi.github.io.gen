@@ -1,0 +1,12 @@
+// $ dot -Tsvg fig-3.dot > fig-3.svg
+digraph {
+  label="Which lib_name() will be used?"
+  node [shape=record];
+
+  main [label="main:\nuses lib_name()"];
+  "libl1.so" [label="libl1.so:\nprovides lib_name()"];
+  "libl2.so" [label="libl2.so:\nalso provides lib_name()"];
+
+  main -> "libl1.so" [color="red"]
+  main -> "libl2.so" [color="red"]
+}

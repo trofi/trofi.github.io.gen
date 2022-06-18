@@ -1,0 +1,25 @@
+// generated with $ ./fig-5-mk.bash
+digraph {
+  node [shape=rect];
+  "gdb" -> "libboost_regex.so.1.77.0"
+  "gdb" -> "libcrypt.so.1"
+  "gdb" -> "libexpat.so.1"
+  "gdb" -> "libgmp.so.10"
+  "gdb" -> "libipt.so.2"
+  "gdb" -> "libmpfr.so.6"
+  "gdb" -> "libncursesw.so.6"
+  "gdb" -> "libpython3.9.so.1.0"
+  "gdb" -> "libreadline.so.8"
+  "gdb" -> "libsource-highlight.so.4"
+  "gdb" -> "libz.so.1"
+  "libboost_regex.so.1.77.0" -> "libicudata.so.71"
+  "libboost_regex.so.1.77.0" -> "libicui18n.so.71"
+  "libboost_regex.so.1.77.0" -> "libicuuc.so.71"
+  "libicui18n.so.71" -> "libicudata.so.71"
+  "libicui18n.so.71" -> "libicuuc.so.71"
+  "libicuuc.so.71" -> "libicudata.so.71"
+  "libmpfr.so.6" -> "libgmp.so.10"
+  "libpython3.9.so.1.0" -> "libcrypt.so.1"
+  "libreadline.so.8" -> "libncursesw.so.6"
+  "libsource-highlight.so.4" -> "libboost_regex.so.1.77.0"
+}

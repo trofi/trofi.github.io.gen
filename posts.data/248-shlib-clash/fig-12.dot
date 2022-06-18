@@ -1,0 +1,19 @@
+// $ dot -Tsvg fig-12.dot > fig-12.svg
+digraph {
+  node [shape=record]
+
+  "libmpfr.so.4" [style="filled" fillcolor="lightgreen"]
+  "libmpfr.so.3" [style="filled" fillcolor="lightgreen"]
+  "cc1" -> "libmpc.so.3"
+  "libmpc.so.3" -> "libmpfr.so.3"
+  "cc1" -> "libmpfr.so.3"
+  "cc1" -> "libmpfr.so.4" [style=invis]
+  "cc1" -> "..."
+
+  "libmpfr.so.4 " [style="filled" fillcolor="pink"]
+  "libmpfr.so.3 " [style="filled" fillcolor="pink"]
+  "cc1 " -> "libmpc.so.3 "
+  "libmpc.so.3 " -> "libmpfr.so.4 " [color="red"]
+  "cc1 " -> "libmpfr.so.3 "
+  "cc1 " -> "... "
+}
