@@ -74,7 +74,7 @@ The seen order is exactly **all**'s prerequisites left-to-right
 recursively.
 
 Adding parallelism does not change the order too much: **make** still
-traverses prerequisited in the same order and starts as many targets
+traverses prerequisites in the same order and starts as many targets
 with satisfied dependencies as possible.
 
 Parallel example:
@@ -154,7 +154,7 @@ c: c1 c2 c3
 a b c a1 a2 a3 b1 b2 b3 c1 c2 c3:; @echo $@ && sleep 1
 ```
 
-I wrote a patch and proposed it to GNU make community:
+I wrote the patch and proposed it to GNU make community:
 <https://lists.gnu.org/archive/html/bug-make/2022-02/msg00005.html>.
 
 The example run of patched **make** shows less determinism now:
