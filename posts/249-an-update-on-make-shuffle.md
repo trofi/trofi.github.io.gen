@@ -42,6 +42,8 @@ A few new bugs were found and/or fixed:
 - vim: <https://github.com/vim/vim/pull/9978>
 - groff: <https://savannah.gnu.org/bugs/?62084>
 - gpm: <https://github.com/telmich/gpm/pull/43>
+- gnu-efi: <https://sourceforge.net/p/gnu-efi/patches/84/>
+- cmigemo: <https://github.com/koron/cmigemo/pull/29>
 
 Nothing complicated. Just a few missing dependencies.
 
