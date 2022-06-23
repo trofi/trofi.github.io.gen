@@ -44,6 +44,7 @@ A few new bugs were found and/or fixed:
 - gpm: <https://github.com/telmich/gpm/pull/43>
 - gnu-efi: <https://sourceforge.net/p/gnu-efi/patches/84/>
 - cmigemo: <https://github.com/koron/cmigemo/pull/29>
+- harvid: <https://github.com/NixOS/nixpkgs/pull/178647>
 
 Nothing complicated. Just a few missing dependencies.
 
