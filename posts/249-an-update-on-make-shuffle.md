@@ -45,6 +45,7 @@ A few new bugs were found and/or fixed:
 - gnu-efi: <https://sourceforge.net/p/gnu-efi/patches/84/>
 - cmigemo: <https://github.com/koron/cmigemo/pull/29>
 - harvid: <https://github.com/NixOS/nixpkgs/pull/178647>
+- subversion: <https://issues.apache.org/jira/browse/SVN-4901>
 
 Nothing complicated. Just a few missing dependencies.
 
