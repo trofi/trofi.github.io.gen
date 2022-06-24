@@ -46,6 +46,7 @@ A few new bugs were found and/or fixed:
 - cmigemo: <https://github.com/koron/cmigemo/pull/29>
 - harvid: <https://github.com/NixOS/nixpkgs/pull/178647>
 - subversion: <https://issues.apache.org/jira/browse/SVN-4901>
+- ocamlbuild: <https://github.com/ocaml/ocamlbuild/pull/318>
 
 Nothing complicated. Just a few missing dependencies.
 
