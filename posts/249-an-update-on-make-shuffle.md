@@ -47,6 +47,7 @@ A few new bugs were found and/or fixed:
 - harvid: <https://github.com/NixOS/nixpkgs/pull/178647>
 - subversion: <https://issues.apache.org/jira/browse/SVN-4901>
 - ocamlbuild: <https://github.com/ocaml/ocamlbuild/pull/318>
+- ghc(!): <https://gitlab.haskell.org/ghc/ghc/-/merge_requests/8531>
 
 Nothing complicated. Just a few missing dependencies.
 
