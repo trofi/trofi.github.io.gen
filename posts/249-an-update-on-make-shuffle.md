@@ -48,6 +48,7 @@ A few new bugs were found and/or fixed:
 - subversion: <https://issues.apache.org/jira/browse/SVN-4901>
 - ocamlbuild: <https://github.com/ocaml/ocamlbuild/pull/318>
 - ghc(!): <https://gitlab.haskell.org/ghc/ghc/-/merge_requests/8531>
+- slang: fixed in slang-pre2.3.3-77 snapshot in 5d36d7c2410cbd640470a9c97cc544d257c64660 commit. Could not find web UI for repository.
 
 Nothing complicated. Just a few missing dependencies.
 
