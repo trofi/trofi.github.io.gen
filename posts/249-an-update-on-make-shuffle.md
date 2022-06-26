@@ -49,6 +49,7 @@ A few new bugs were found and/or fixed:
 - ocamlbuild: <https://github.com/ocaml/ocamlbuild/pull/318>
 - ghc(!): <https://gitlab.haskell.org/ghc/ghc/-/merge_requests/8531>
 - slang: fixed in slang-pre2.3.3-77 snapshot in 5d36d7c2410cbd640470a9c97cc544d257c64660 commit. Could not find web UI for repository.
+- strace: <https://github.com/strace/strace/pull/215>
 
 Nothing complicated. Just a few missing dependencies.
 
