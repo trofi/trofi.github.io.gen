@@ -50,6 +50,7 @@ A few new bugs were found and/or fixed:
 - ghc(!): <https://gitlab.haskell.org/ghc/ghc/-/merge_requests/8531>
 - slang: fixed in slang-pre2.3.3-77 snapshot in 5d36d7c2410cbd640470a9c97cc544d257c64660 commit. Could not find web UI for repository.
 - strace: <https://github.com/strace/strace/pull/215>
+- ski: <https://github.com/trofi/ski/commit/7cc1ced067bf3822ef87c323b6110f38bc0ca1b5>
 
 Nothing complicated. Just a few missing dependencies.
 
