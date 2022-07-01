@@ -53,6 +53,7 @@ A few new bugs were found and/or fixed:
 - ski: <https://github.com/trofi/ski/commit/7cc1ced067bf3822ef87c323b6110f38bc0ca1b5>
 - heimdal: <https://github.com/heimdal/heimdal/pull/999>
 - src-highlite: <https://savannah.gnu.org/patch/index.php?10262>
+- gcc: <https://gcc.gnu.org/PR106162>
 
 Nothing complicated. Just a few missing dependencies.
 
