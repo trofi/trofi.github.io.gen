@@ -54,6 +54,7 @@ A few new bugs were found and/or fixed:
 - heimdal: <https://github.com/heimdal/heimdal/pull/999>
 - src-highlite: <https://savannah.gnu.org/patch/index.php?10262>
 - gcc: <https://gcc.gnu.org/PR106162>
+- openipmi: <https://sourceforge.net/p/openipmi/patches/37/>
 
 Nothing complicated. Just a few missing dependencies.
 
