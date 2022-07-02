@@ -40,7 +40,7 @@ main = hakyll $ do
             posts <- recentFirst =<< loadAll "posts/*"
             let archiveCtx =
                     listField "posts" postCtx (return posts) `mappend`
-                    constField "title" "Archives"            `mappend`
+                    constField "title" "/archive"            `mappend`
                     defaultContext
 
             makeItem ""
@@ -55,7 +55,7 @@ main = hakyll $ do
             posts <- fmap (take 20) . recentFirst =<< loadAll "posts/*"
             let indexCtx =
                     listField "posts" postCtx (return posts) `mappend`
-                    constField "title" "Home"                `mappend`
+                    constField "title" "/"                   `mappend`
                     defaultContext
 
             getResourceBody
@@ -95,6 +95,8 @@ feedConfiguration title = FeedConfiguration
     { feedTitle = "trofi - " ++ title
     , feedDescription = "trofi's blog"
     , feedAuthorName = "Sergei Trofimovich"
-    , feedAuthorEmail = "slyfox@inbox.ru"
+    , feedAuthorEmail = "slyich@gmail.com"
+    -- TODO: switch newer entries to https:// to avoid
+    -- feed spam with outdated entries.
     , feedRoot = "http://trofi.github.io"
     }
