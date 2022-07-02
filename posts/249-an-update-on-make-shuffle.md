@@ -55,6 +55,7 @@ A few new bugs were found and/or fixed:
 - src-highlite: <https://savannah.gnu.org/patch/index.php?10262>
 - gcc: <https://gcc.gnu.org/PR106162>
 - openipmi: <https://sourceforge.net/p/openipmi/patches/37/>
+- avldrums.lv2: <https://github.com/x42/avldrums.lv2/pull/22>
 
 Nothing complicated. Just a few missing dependencies.
 
