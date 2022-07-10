@@ -1,0 +1,40 @@
+digraph {
+  graph [splines=polyline]
+  rankdir=LR
+  node [shape=plaintext  fontname=mono]
+  node [shape=plaintext  fontname=mono fontsize=10]
+
+  prog [ label=<
+      <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0">
+        <TR><TD ALIGN="left"                    >/* lib.c */</TD></TR>
+        <TR><TD ALIGN="left" bgcolor="#aaccaa"
+                                        PORT="g">int g = 42;</TD></TR>
+        <TR><TD ALIGN="left"                    > </TD></TR>
+        <TR><TD ALIGN="left"        PORT="lib_g">int lib_g(void) { return g; }</TD></TR>
+        <HR/>
+        <TR><TD ALIGN="left"                    >/* prog.c */</TD></TR>
+        <TR><TD ALIGN="left"         PORT="main">int main() {</TD></TR>
+        <TR><TD ALIGN="left" bgcolor="#ddffdd"
+                             PORT="print_before">    printf("before: main.g=%i; lib_g()=%i\n", g, lib_g());</TD></TR>
+        <TR><TD ALIGN="left" bgcolor="lightcyan"
+                                 PORT="assign_g">    g = 12345678;</TD></TR>
+        <TR><TD ALIGN="left" bgcolor="#ddffdd"
+                              PORT="print_after">    printf("before: main.g=%i; lib_g()=%i\n", g, lib_g());</TD></TR>
+        <TR><TD ALIGN="left"                    >}</TD></TR>
+    </TABLE>
+  >]
+
+  "read g" [fontcolor=green]
+  "read g " [fontcolor=green]
+  "read g  " [fontcolor=green]
+  "write g" [fontcolor=darkcyan]
+
+  edge[arrowhead=vee]
+  prog:g:e -> "read g" -> prog:lib_g:e [color=green]
+  prog:g:e -> "read g " -> prog:print_before:e [color=green]
+  prog:assign_g:w -> "write g" -> prog:g:w [color=darkcyan]
+  prog:g:e -> "read g  " -> prog:print_after:e [color=green]
+
+  { rank=min; "write g"; }
+  { rank=max; "read g"; "read g "; "read g  "; }
+}

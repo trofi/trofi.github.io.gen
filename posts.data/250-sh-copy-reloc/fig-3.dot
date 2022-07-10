@@ -1,0 +1,73 @@
+digraph {
+  graph [splines=polyline]
+  rankdir=LR
+  node [shape=plaintext fontname=mono fontsize=10]
+
+  prog [ label=<
+      <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0">
+        <TR><TD ALIGN="left"                     >Disassembly of section .text:</TD></TR>
+        <TR><TD ALIGN="left"                     >00000000000010f9 &lt;lib_g&gt;:</TD></TR>
+        <TR><TD ALIGN="left"                     >    10f9:       48 8d 05 20 2f 00 00    lea    0x2f20(%rip),%rax        # 4020 &lt;g&gt;</TD></TR>
+        <TR><TD ALIGN="left" bgcolor="#ddffdd"
+                                    PORT="lib_g" >    1100:       8b 00                   mov    (%rax),%eax</TD></TR>
+        <TR><TD ALIGN="left"                     >    1102:       c3                      ret</TD></TR>
+        <TR><TD ALIGN="left"                     ></TD></TR>
+        <TR><TD ALIGN="left"                     >Disassembly of section .data:</TD></TR>
+        <TR><TD ALIGN="left"                     >        ...</TD></TR>
+        <TR><TD ALIGN="left"      PORT="gl_addr" >0000000000004020 &lt;g&gt;:</TD></TR>
+        <TR><TD ALIGN="left" bgcolor="#aaccaa"
+                                      PORT="gl"  >    4020:       2a 00                                                   # int g = 42;</TD></TR>
+        <TR><TD ALIGN="left"                     >        ...</TD></TR>
+        <TR><TD ALIGN="left"                     ></TD></TR>
+        <TR><TD ALIGN="left"                     >Disassembly of section .text:</TD></TR>
+        <TR><TD ALIGN="left"                     >        ...</TD></TR>
+        <TR><TD ALIGN="left"                     >0000000000401136 &lt;main&gt;:</TD></TR>
+        <TR><TD ALIGN="left"                     >  401136:       48 83 ec 08             sub    $0x8,%rsp</TD></TR>
+        <TR><TD ALIGN="left"                     >  40113a:       e8 f1 fe ff ff          call   401030 &lt;lib_g@plt&gt;</TD></TR>
+        <TR><TD ALIGN="left"                     >  40113f:       89 c2                   mov    %eax,%edx</TD></TR>
+        <TR><TD ALIGN="left" bgcolor="#ddffdd"
+                             PORT="print_before" >  401141:       8b 35 f1 2e 00 00       mov    0x2ef1(%rip),%esi        # 404038 &lt;g@@Base&gt;</TD></TR>
+        <TR><TD ALIGN="left"                     >  401147:       bf 08 20 40 00          mov    $0x402008,%edi</TD></TR>
+        <TR><TD ALIGN="left"                     >  40114c:       b8 00 00 00 00          mov    $0x0,%eax</TD></TR>
+        <TR><TD ALIGN="left"                     >  401151:       e8 ea fe ff ff          call   401040 &lt;printf@plt&gt;</TD></TR>
+        <TR><TD ALIGN="left" bgcolor="lightcyan"
+                                 PORT="assign_g" >  401156:       c7 05 d8 2e 00 00 4e    movl   $0xbc614e,0x2ed8(%rip)   # 404038 &lt;g@@Base&gt;</TD></TR>
+        <TR><TD ALIGN="left"                     >  40115d:       61 bc 00</TD></TR>
+        <TR><TD ALIGN="left"                     >  401160:       e8 cb fe ff ff          call   401030 &lt;lib_g@plt&gt;</TD></TR>
+        <TR><TD ALIGN="left"                     >  401165:       89 c2                   mov    %eax,%edx</TD></TR>
+        <TR><TD ALIGN="left" bgcolor="#ddffdd"
+                              PORT="print_after" >  401167:       8b 35 cb 2e 00 00       mov    0x2ecb(%rip),%esi        # 404038 &lt;g@@Base&gt;</TD></TR>
+        <TR><TD ALIGN="left"                     >  40116d:       bf 28 20 40 00          mov    $0x402028,%edi</TD></TR>
+        <TR><TD ALIGN="left"                     >  401172:       b8 00 00 00 00          mov    $0x0,%eax</TD></TR>
+        <TR><TD ALIGN="left"                     >  401177:       e8 c4 fe ff ff          call   401040 &lt;printf@plt&gt;</TD></TR>
+        <TR><TD ALIGN="left"                     >  40117c:       b8 00 00 00 00          mov    $0x0,%eax</TD></TR>
+        <TR><TD ALIGN="left"                     >  401181:       48 83 c4 08             add    $0x8,%rsp</TD></TR>
+        <TR><TD ALIGN="left"                     >  401185:       c3                      ret</TD></TR>
+        <TR><TD ALIGN="left"                     >...</TD></TR>
+        <TR><TD ALIGN="left"                     >Disassembly of section .bss:</TD></TR>
+        <TR><TD ALIGN="left"                     ></TD></TR>
+        <TR><TD ALIGN="left"                     >0000000000404038 &lt;g&gt;:</TD></TR>
+        <TR><TD ALIGN="left" bgcolor="#aaaacc"
+                                       PORT="gp" >  404038:       00 00                                                   # extern int g;</TD></TR>
+        <TR><TD ALIGN="left" bgcolor="#aaaacc"
+                                                 >                        404038: R_X86_64_COPY   g@@Base</TD></TR>
+        <TR><TD ALIGN="left"                     >        ...</TD></TR>
+    </TABLE>
+  >]
+
+  "read g" [fontcolor=red label="read g (STALE!)"]
+  "read g " [fontcolor=green]
+  "read g  " [fontcolor=green]
+  "write g" [fontcolor=darkcyan]
+  "copy g" [fontcolor=blue]
+
+  edge[arrowhead=vee]
+  prog:gl:e -> "read g" -> prog:lib_g:e [color=red]
+  prog:gp:e -> "read g " -> prog:print_before:e [color=green]
+  prog:assign_g:e -> "write g" -> prog:gp:e [color=darkcyan]
+  prog:gp:e -> "read g  " -> prog:print_after:e [color=green]
+  prog:gl:w -> "copy g" -> prog:gp:w [color=blue]
+
+  { rank=min; "copy g"; }
+  { rank=max; "read g"; "read g "; "read g  "; }
+}
