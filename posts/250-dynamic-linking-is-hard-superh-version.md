@@ -63,7 +63,7 @@ Already see the bug? Me neiter.
 all use **sh**-based chips. **SuperH** also hides in many controllers
 like **CD-ROM**.
 
-**SuperH** recently got extra lifet from development community
+**SuperH** recently got new life in development community
 after a bunch of related patents expired in 2015.
 
 From a software development standpoint (as in, shared bugs) **sh**
@@ -162,7 +162,7 @@ no control of what **gcc** produces. And **gcc** breaks the assumptions.
 
 In **GHC**'s case **-Bsymbolic** is a performance optimization. It's not
 a requirement to get haskell compiler on a platform. Thus the simple fix
-was to avoid use of it in unregi code with
+was to avoid use of it in unregisterised codegen with
 [the patch](https://gitlab.haskell.org/ghc/ghc/-/commit/8ec48990fee9e245bb2fe40dc6f65b61b8612157):
 
 ```diff
@@ -250,7 +250,7 @@ denote intructions that perform reads. Cyan shade shows the
 writes and write instructions.
 
 All the paths directly or indirectly read and write the same **g** location.
-No plase to go wrong, right?
+Seems like no place to go wrong, right?
 
 Now let's add a **-Wl,-Bsymbolic** linker option used by **GHC**. **man ld**
 says:
@@ -284,7 +284,7 @@ after:  main.g=12345678; lib_g()=42
 
 Whoops. What happens here? Why do **g** and **lib_g()** see different values?
 
-Let's look at final generated code. I'll from simplest case without an
+Let's look at final generated code. I'll start from simplest case without an
 external library where things stil worked. Building:
 
 ```
@@ -309,7 +309,7 @@ Disassembly of section .text:
   40113e:       bf 08 20 40 00          mov    $0x402008,%edi
   401143:       b8 00 00 00 00          mov    $0x0,%eax
   401148:       e8 e3 fe ff ff          call   401030 <printf@plt>
-  40114d:       c7 05 d9 2e 00 00 4e    movl   $0xbc614e,0x2ed9(%rip)        # 404030 <g>
+  40114d:       c7 05 d9 2e 00 00 4e    movl   $0xbc614e,0x2ed9(%rip)   # 404030 <g>
   401154:       61 bc 00
   401157:       e8 ca ff ff ff          call   401126 <lib_g>
   40115c:       89 c2                   mov    %eax,%edx
@@ -397,7 +397,7 @@ Disassembly of section .text:
   401147:       bf 08 20 40 00          mov    $0x402008,%edi
   40114c:       b8 00 00 00 00          mov    $0x0,%eax
   401151:       e8 ea fe ff ff          call   401040 <printf@plt>
-  401156:       c7 05 d8 2e 00 00 4e    movl   $0xbc614e,0x2ed8(%rip)        # 404038 <g@@Base>
+  401156:       c7 05 d8 2e 00 00 4e    movl   $0xbc614e,0x2ed8(%rip)   # 404038 <g@@Base>
   40115d:       61 bc 00
   401160:       e8 cb fe ff ff          call   401030 <lib_g@plt>
   401165:       89 c2                   mov    %eax,%edx

@@ -10,7 +10,8 @@ digraph {
         <TR><TD ALIGN="left" bgcolor="#aaccaa"
                                         PORT="g">int g = 42;</TD></TR>
         <TR><TD ALIGN="left"                    > </TD></TR>
-        <TR><TD ALIGN="left"        PORT="lib_g">int lib_g(void) { return g; }</TD></TR>
+        <TR><TD ALIGN="left" bgcolor="#ddffdd"
+                                    PORT="lib_g">int lib_g(void) { return g; }</TD></TR>
         <HR/>
         <TR><TD ALIGN="left"                    >/* prog.c */</TD></TR>
         <TR><TD ALIGN="left"         PORT="main">int main() {</TD></TR>
