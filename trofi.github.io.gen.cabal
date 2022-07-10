@@ -4,7 +4,7 @@ synopsis:            static site generator
 homepage:            https://github.com/trofi/trofi.github.io.gen
 license:             PublicDomain
 author:              Sergei Trofimovich
-maintainer:          slyfox@gentoo.org
+maintainer:          slyich@gmail.com
 category:            Web
 build-type:          Simple
 cabal-version:       >=1.10
