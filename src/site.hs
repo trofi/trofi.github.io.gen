@@ -1,9 +1,12 @@
 {-# LANGUAGE OverloadedStrings #-}
 import           Data.Monoid (mappend, mconcat)
+import qualified Control.Monad as CM
 import           Hakyll
 import qualified Hakyll.Web.Pandoc as HWP
 
 import qualified Text.Pandoc.Options as TPO
+
+import qualified AbsolutizeUrls as AU
 
 main :: IO ()
 main = hakyll $ do
@@ -27,6 +30,7 @@ main = hakyll $ do
         route $ setExtension "html"
         compile $ pandocCompilerWith HWP.defaultHakyllReaderOptions{TPO.readerStandalone = True} HWP.defaultHakyllWriterOptions
             >>= loadAndApplyTemplate "templates/post.html"    postCtx
+            >>= saveSnapshot "content"
             >>= loadAndApplyTemplate "templates/default.html" postCtx
             >>= relativizeUrls
 
@@ -68,15 +72,15 @@ main = hakyll $ do
     create ["feed/atom.xml"] $ do
         route idRoute
         compile $ do
-            loadAll "posts/*"
-                >>= fmap (take 30) . recentFirst
+            loadAllSnapshots "posts/*" "content"
+                >>= fmap (take 30) . recentFirst >>= (CM.mapM $ AU.absolutizeUrls rssRoot)
                 >>= renderAtom (feedConfiguration "All posts") feedCtx
 
     create ["feed/rss.xml"] $ do
         route idRoute
         compile $ do
-            loadAll "posts/*"
-                >>= fmap (take 30) . recentFirst
+            loadAllSnapshots "posts/*" "content"
+                >>= fmap (take 30) . recentFirst >>= (CM.mapM $ AU.absolutizeUrls rssRoot)
                 >>= renderRss (feedConfiguration "All posts") feedCtx
 
 postCtx :: Context String
@@ -100,3 +104,6 @@ feedConfiguration title = FeedConfiguration
     -- feed spam with outdated entries.
     , feedRoot = "http://trofi.github.io"
     }
+
+rssRoot :: String
+rssRoot = feedRoot $ feedConfiguration $ error "title should not be used"
