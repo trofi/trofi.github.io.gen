@@ -56,6 +56,7 @@ A few new bugs were found and/or fixed:
 - gcc: <https://gcc.gnu.org/PR106162>
 - openipmi: <https://sourceforge.net/p/openipmi/patches/37/>
 - avldrums.lv2: <https://github.com/x42/avldrums.lv2/pull/22>
+- exifprobe: <https://github.com/hfiguiere/exifprobe/pull/21>
 
 Nothing complicated. Just a few missing dependencies.
 
