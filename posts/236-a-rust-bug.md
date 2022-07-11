@@ -1,6 +1,6 @@
 ---
 title: "A rust bug"
-date: February 9, 2022
+date: February 8, 2022
 ---
 
 This is a post that documents a few tips to track down elusive problem
