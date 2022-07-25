@@ -1,28 +1,6 @@
-code {
-    font: 1em monospace;
-    padding: 0.3em 0 0.3em 0.5em;
-    margin: 0 0 0 0;
+pre {
+    font: 1.2em monospace;
+    padding: 0.5em 0 0.5em 0.5em;
 
-    border: 1px solid black;
-    border-left: 10px solid #66a;
-    background-color: #eee;
-    display: block;
-    white-space: pre;
-    overflow: auto; /* get scroll when needed */
-}
-div.sourceLine {
-    /* highlightling-kate generates code of the following structure:
-     * <pre>
-     *   <code>
-     *     <div clas="sourceLine"></div>
-     *     <div clas="sourceLine"></div>
-     * ...
-     * As a result we get two newlines after first <div>:
-     * - newline by block div itself
-     * - newline by 'white-space: pre' right after <div>
-     *
-     * We mitigate first by making it not introducing newlines.
-     */
-    /* display: inline-block; */
-    display: inline;
+    background-color: #f8f8f8;
 }
