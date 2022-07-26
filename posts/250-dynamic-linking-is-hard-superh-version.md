@@ -6,7 +6,7 @@ date: July 10, 2022
 I got a bit more free weekend time and I'm slowly going through a
 backlog of topics to write about.
 
-Today I'll write about the **GHC** bug from 4 years ago.
+Today I'll write about the `GHC` bug from 4 years ago.
 
 ## The problem
 

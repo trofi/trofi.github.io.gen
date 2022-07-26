@@ -1,6 +1,16 @@
+/* Used only in ```block``` code. */
 pre {
-    font: 1.2em monospace;
     padding: 0.5em 0 0.5em 0.5em;
+    border-left: 0.3em solid #bbbbbb;
+}
 
-    background-color: #f8f8f8;
+/* Used for both `inline` and ```block``` code. */
+code {
+    font: 1.2em monospace;
+}
+
+/* Used for `inline` only. */
+p > code {
+    color: teal;
+    font-weight: bold;
 }
