@@ -4,6 +4,15 @@ html {
 
 body {
     font-family: sans-serif;
+    width: 80%;
+    margin: 0px auto 0px auto;
+}
+
+/* mobile phones */
+@media (max-width: 1000px) {
+    body {
+        width: 100%;
+    }
 }
 
 div#navigation {
