@@ -6,7 +6,7 @@ pre {
 
 /* Used for both `inline` and ```block``` code. */
 code {
-    font: 1.2em monospace;
+    font-family: monospace;
 }
 
 /* Used for `inline` only. */
