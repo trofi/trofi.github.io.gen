@@ -12,7 +12,7 @@ site_exe=dist/build/trofi.github.io.gen/trofi.github.io.gen
 
 set -e
 
-ghc --make -O2 Setup.hs -o "${setup_exe}" -dynamic
+ghc --make -O2 Setup.hs -o "${setup_exe}" -dynamic -fforce-recomp
 "${setup_exe}" configure --enable-executable-dynamic
 "${setup_exe}" build
 
