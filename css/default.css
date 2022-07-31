@@ -18,7 +18,7 @@ body {
 }
 
 div#navigation {
-    font: 1em "Courier New", Courier, monospace;
+    font-family: monospace;
 
     margin-top: 0;
     margin-bottom: 0;
