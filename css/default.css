@@ -13,7 +13,7 @@ body {
 /* mobile phones */
 @media (max-width: 1000px) {
     body {
-        width: 100%;
+        width: 96%;
     }
 }
 
