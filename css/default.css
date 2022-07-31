@@ -7,7 +7,7 @@ body {
     width: 80%;
     margin: 0px auto 0px auto;
     /* It's hard to read too long lines on huge monitors. */
-    max-width: 80ch;
+    max-width: 72ch;
 }
 
 /* mobile phones */
