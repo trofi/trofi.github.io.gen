@@ -148,7 +148,7 @@ string operations get called from.
 
 Having sorted basic `gprofng` stuff I attempted to package `binutils-2.39`
 in `nixpkgs` in [PR185297](https://github.com/NixOS/nixpkgs/pull/185297).
-I got a few problems when tried to build the system against it. I'll list
+I got a few problems when I tried to build the system against it. I'll list
 a few of them below.
 
 ### Breaking API change: init_disassemble_info()
@@ -238,7 +238,7 @@ or [efi-vars](https://github.com/rhboot/efivar/pull/164) come to mind.
 Users can disable new warning with `--enable-warn-execstack=no` if a
 proper fix is too complicated.
 
-In case of `systemd` upstream decided to be more lenient to warning
+In case of `systemd`, the upstream decided to be more lenient to warning
 for `EFI` linking code. The proper fix was also trivial in this case:
 `gnu-efi` library needed [a few annotations](https://sourceforge.net/p/gnu-efi/code/ci/803b49c40bb0b720b90d9c31d372911f1b946aa7/).
 
@@ -291,8 +291,8 @@ Looking at the reported values the condition is `highpc == lowpc`.
 [DWARF](https://en.wikipedia.org/wiki/DWARF) specification describes
 Debug Info Entries (`DIEs`) each of which consists of:
 
-- a tag (`DW_TAG_*`) like subprogram, [others](https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/generic/dwarf2.h;h=8a0ae403529e87cfc3a1366799a027bcb941cd2c;hb=HEAD#l38))
-- a set of attributes key-value pairs (`DW_AT_*` like source language name, file ranges, file names and [others](https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/generic/dwarf2.h;h=8a0ae403529e87cfc3a1366799a027bcb941cd2c;hb=HEAD#l133))
+- a tag (`DW_TAG_*`) like subprogram, [others](https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/generic/dwarf2.h;h=8a0ae403529e87cfc3a1366799a027bcb941cd2c;hb=HEAD#l38)
+- a set of attributes key-value pairs (`DW_AT_*`) like source language name, file ranges, file names and [others](https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/generic/dwarf2.h;h=8a0ae403529e87cfc3a1366799a027bcb941cd2c;hb=HEAD#l133)
 
 `DWARF` debug sections are named `.debug*`. We can inspect them using
 `readelf --debug-dump`:
