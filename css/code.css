@@ -14,3 +14,7 @@ p > code {
     color: teal;
     font-weight: bold;
 }
+li > code {
+    color: teal;
+    font-weight: bold;
+}
