@@ -15,12 +15,15 @@ Note that **\-\-shuffle** is not enabled by default. You can enable it
 by any of below methods whichever matches best your environment:
 
 - Run **make \-\-shuffle**. For casual testing.
-- Export **MAKEFLAGS=\-\-shuffle** environment variable. For day-to-day
-  development or distribution-wide testing. It is also a safe value
-  for **GNU make** that does not yet understand **\-\-shuffle** option.
+- Export **GNUMAKEFLAGS=\-\-shuffle** environment variable. For
+  day-to-day development or distribution-wide testing. It is also a
+  safe value for **GNU make** that does not yet understand **\-\-shuffle** option.
+
+  Update: changed ~~MAKEFLAGS~~ to **GNUMAKEFLAGS** as **bmake** does not
+  skip unknown options and fails. Noticed by Toralf.
 - Apply <https://slyfox.uni.cx/distfiles/make/make-4.3.90.20220619-random-by-default.patch>
   on top of snapshot tarball. Useful for environments where there is no
-  easy way to pass a parameter to **make** or to set **MAKEFLAGS**
+  easy way to pass a parameter to **make** or to set **GNUMAKEFLAGS**
   variable.
 
 # minor improvements
