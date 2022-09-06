@@ -21,7 +21,7 @@ The warning message told me new name of the field: `nix.systemFeatures`
 -> `nix.settings.system-features`. That was smooth as well.
 
 I don't remember any other maintenance-related activities I had to do
-to make the desktop working. I reeboted 2-3 times each month for
+to make the desktop working. I rebooted 2-3 times each month for
 various unrelated reasons (power loss, multi-day travel, etc.). Reboots
 exposed me to very fresh kernel versions each time. I had no troubles
 with them either.
@@ -94,7 +94,7 @@ I keep being amazed by inclusivity and depth of technical expertise of
 `NixOS` community. Maybe it's just because I did not break anything
 major yet? :)
 
-I almost never see any blame or aggresive behaviour. And when rare
+I almost never see any blame or aggressive behaviour. And when rare
 incidents happen people do step in and explain why it's not OK and
 suggest various ways out of a conflict. That makes the community a great
 collaborative environment. At least from the far viewpoint I interact
@@ -151,7 +151,7 @@ bit with distributed compilation which worked great. Otherwise I did not
 do any major configuration changes on the server. It still serves `HTTP`
 and a few services. Required zero maintenance from me over that period.
 
-Automatic reboots on kernel upgrade makes server's uptime lebow 2-3 days
+Automatic reboots on kernel upgrade makes server's uptime below 2-3 days
 on average. It does not feel disruptive and adds a bit of peace of mind
 against exploits against outdated software.
 
@@ -160,7 +160,7 @@ against exploits against outdated software.
 `NixOS`-specific bugs do certainly happen time to time.
 
 Mostly they stem from the fact that default paths are unusual (usually
-easy to deal with) and split across multipl locations (sometimes
+easy to deal with) and split across multiple locations (sometimes
 requires patching or clever symlink hacks).
 
 Past examples are [libtool](https://github.com/NixOS/nixpkgs/pull/187694)
