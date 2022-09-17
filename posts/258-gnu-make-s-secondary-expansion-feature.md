@@ -491,7 +491,7 @@ list was changed. The patch is
  /* Add extra prereqs to the file in question.  */
 ```
 
-We track all the places wnet prerequisite list is modified and then
+We track all the places where prerequisite list is modified and then
 rebuild shuffle list if any chages happened to the list.
 
 The fix resored shuffling property and fixed `SIGSEGV` when building
