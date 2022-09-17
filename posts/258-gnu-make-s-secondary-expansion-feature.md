@@ -240,6 +240,9 @@ $ make --no-builtin-variables --no-print-directory
 MAKEFLAGS=rR --no-print-directory
 ```
 
+`--no-builtin-variables` and `-R` are equivalent. `GNU make` picks short
+form of an option if available.
+
 Note how short single-letter options get globbed togeted in the first
 word while long options (without short option requivalent) are passed
 separately. `NEWS` file tells us it's another recent behaviour change:
@@ -267,7 +270,7 @@ the fix:
 
 No complications here.
 
-Again, not exactly `--shuffle`-specific bug as use of any long option
+Again, not exactly `--shuffle`-specific bug. Using of any long option
 would break `glibc` build.
 
 ## ghc
@@ -284,7 +287,7 @@ migrates off `GNU make` to own `haskell`-based `hadrian` build system.
 Many distributions still package previous versions of `ghc` and use
 `GNU make` to build it.
 
-In case of `ghc` `GNU make` itself managed to `SIGSEGV` itself:
+In case of `ghc`, `GNU make` itself managed to `SIGSEGV` itself:
 
 ```
 $ make --shuffle
