@@ -56,7 +56,7 @@ A few new bugs were found and/or fixed:
 - ski: <https://github.com/trofi/ski/commit/7cc1ced067bf3822ef87c323b6110f38bc0ca1b5>
 - heimdal: <https://github.com/heimdal/heimdal/pull/999>
 - src-highlite: <https://savannah.gnu.org/patch/index.php?10262>
-- gcc: <https://gcc.gnu.org/PR106162>
+- gcc: <https://gcc.gnu.org/PR106162>, <https://gcc.gnu.org/pipermail/gcc-patches/2022-September/601708.html>
 - openipmi: <https://sourceforge.net/p/openipmi/patches/37/>
 - avldrums.lv2: <https://github.com/x42/avldrums.lv2/pull/22>
 - exifprobe: <https://github.com/hfiguiere/exifprobe/pull/21>
