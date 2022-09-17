@@ -209,7 +209,7 @@ MAKEFLAGS := $(MAKEFLAGS)r
 Normally `MAKEFLAGS` contains options passed to `make`:
 
 ```
-$ make printf 'all:; @echo MAKEFLAGS=$(MAKEFLAGS)' | make -f -
+$ printf 'all:; @echo MAKEFLAGS=$(MAKEFLAGS)' | make -f -
 MAKEFLAGS=
 $ printf 'all:; @echo MAKEFLAGS=$(MAKEFLAGS)' | make -f - -s
 MAKEFLAGS=s
@@ -219,7 +219,7 @@ $ printf 'all:; @echo MAKEFLAGS=$(MAKEFLAGS)' | make -f - -s -r --shuffle
 MAKEFLAGS=rs --shuffle=1663776045
 ```
 
-Note that `MAKEFLAGS` value does not contain dashes in potion names.
+Note that `MAKEFLAGS` value does not contain dashes in option names.
 
 `GNU make` also allows extending `MAKEFLAGS` from within `Makefile`:
 
