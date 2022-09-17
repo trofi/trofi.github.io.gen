@@ -394,7 +394,7 @@ to use.
 
 While this simple example did not crash `GNU make` it did show me a
 symptom of the problem. `make --shuffle` had no effect on prerequisite
-praversal order:
+traversal order:
 
 ```
 $ make --shuffle
