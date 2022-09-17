@@ -309,7 +309,7 @@ is another sign of things went wrong with `make` process itself.
 This time crash happened only if I used `make --shuffle` option.
 
 I was not able to craft a simple crashing example. I spent some time in
-`gdb` to understand the failures mode I found that it has something to
+`gdb` to understand the failures mode. I found that it has something to
 do with another fun `GNU make` extension: `Secondary Expansion`. I'll
 quote another bit of `GNU make` manual entry:
 
