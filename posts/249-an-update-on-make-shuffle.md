@@ -61,6 +61,7 @@ A few new bugs were found and/or fixed:
 - avldrums.lv2: <https://github.com/x42/avldrums.lv2/pull/22>
 - exifprobe: <https://github.com/hfiguiere/exifprobe/pull/21>
 - x264: <https://code.videolan.org/videolan/x264/-/merge_requests/114>
+- ispell: will be fixed in 3.4.06. Could not find web UI for the repository.
 
 Nothing complicated. Just a few missing dependencies.
 
