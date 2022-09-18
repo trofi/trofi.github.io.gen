@@ -33,7 +33,7 @@ Compared to the initial patch announced as a
 there is one extra change: presence of **.NOTPARALLEL:** directive
 in a **Makefile** now disables shuffling in that file.
 
-It was done to accomodate rare projects that rely on execution order
+It was done to accommodate rare projects that rely on execution order
 specified in **Makefile** and don't plan to make dependencies correct
 in near future. The example is **netpbm**:
 <https://sourceforge.net/p/netpbm/code/HEAD/tree/trunk/GNUmakefile#l110>
