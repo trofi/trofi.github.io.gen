@@ -177,7 +177,7 @@ upstream:
 ```
 
 Meanwhile `GNU make` also
-[added gracefull fallback](https://git.savannah.gnu.org/cgit/make.git/commit/?id=70ba0357a080f72b9f5912f16b3ffc095db381e6)
+[added graceful fallback](https://git.savannah.gnu.org/cgit/make.git/commit/?id=70ba0357a080f72b9f5912f16b3ffc095db381e6)
 to this case as exporting empty variable is probably not very useful.
 Thus existing `autoconf` releases should still compile successfully
 with `GNU make` from `master`.
@@ -243,8 +243,8 @@ MAKEFLAGS=rR --no-print-directory
 `--no-builtin-variables` and `-R` are equivalent. `GNU make` picks short
 form of an option if available.
 
-Note how short single-letter options get globbed togeted in the first
-word while long options (without short option requivalent) are passed
+Note how short single-letter options get globbed together in the first
+word while long options (without short option equivalent) are passed
 separately. `NEWS` file tells us it's another recent behaviour change:
 
 ```
@@ -327,7 +327,7 @@ prerequisite list that makes use of this feature.
 ```
 
 I'll start from non-working example to describe an intent for typical
-use of `Secondary Expansion`. Supose you want to use the list of
+use of `Secondary Expansion`. Suppose you want to use the list of
 prerequisites dynamically read from external command (`ghc` for example
 parses `.cabal` build files to extract prerequisites). I will emulate
 external command with a simple `$(shell echo i1 i2 i3)` call.
@@ -445,7 +445,7 @@ lists would happen after. Moving `second expand` step behind it broke
 that assumptions: it cancelled shuffling effect (minor problem)
 and introduced dangling references to freed memory (major problem).
 
-Once understod the fix was trivial: refresh shuffle data if prerequisite
+Once understood the fix was trivial: refresh shuffle data if prerequisite
 list was changed. The patch is
 [a few-liner](https://git.savannah.gnu.org/cgit/make.git/commit/?id=ca4234c4b550618df2194e0617c43bb12524f820):
 
@@ -492,9 +492,9 @@ list was changed. The patch is
 ```
 
 We track all the places where prerequisite list is modified and then
-rebuild shuffle list if any chages happened to the list.
+rebuild shuffle list if any changes happened to the list.
 
-The fix resored shuffling property and fixed `SIGSEGV` when building
+The fix restored shuffling property and fixed `SIGSEGV` when building
 `ghc`:
 
 ```
