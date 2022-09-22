@@ -62,6 +62,7 @@ A few new bugs were found and/or fixed:
 - exifprobe: <https://github.com/hfiguiere/exifprobe/pull/21>
 - x264: <https://code.videolan.org/videolan/x264/-/merge_requests/114>
 - ispell: will be fixed in 3.4.06. Could not find web UI for the repository.
+- mingw-w64: <https://sourceforge.net/p/mingw-w64/mailman/message/37710840/>, <https://sourceforge.net/p/mingw-w64/mailman/message/37710839/>.
 
 Nothing complicated. Just a few missing dependencies.
 
