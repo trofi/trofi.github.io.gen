@@ -262,7 +262,7 @@ Note that initially `foo` does not contain any dependencies.
 `GNU make` has to build `foo.d` part first to see the rest of the
 dependencies.
 
-Interestingly `GNU make` has to re-executes itself after `foo.d` is
+Interestingly `GNU make` has to re-execute itself after `foo.d` is
 availble. We can see it in debug (`-d`) mode by looking up
 `Re-executing` lines:
 
