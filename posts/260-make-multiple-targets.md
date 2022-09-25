@@ -246,7 +246,7 @@ foo:
 
 Here we dynamically generate a part of a `Makefile` by generating
 `foo.d` file and by including it via `-include foo.d`. Leading
-minus(`-`) ignores some error conditions when includeing files.
+minus(`-`) ignores some error conditions when including files.
 
 Let's try it:
 
