@@ -55,7 +55,7 @@ I restore LFS.
 I think I did my first meaningful contribution to nouveau project when they
 collected BIOS dumps for video cards. At that time you would need to patch
 your kernel with Pekka's MMIO trace support and run glxgears on Nvidia's
-binary driver. Then run a script to generate C-looking BIOD dump.
+binary driver. Then run a script to generate C-looking BIOS dump.
 
 If you paste it to nouveau kernel driver it would be enough to get your
 card running under nouveau. Getting if to work for the first time for was
