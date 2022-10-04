@@ -418,7 +418,7 @@ Disassembly of section .bss:
 ```
 
 On the surface **main()** has identical code to our **prog** case as well:
-same **RIP-relatve** addressing to reach local **g**. Except that **g** is
+same **RIP-relative** addressing to reach local **g**. Except that **g** is
 not supposed to be local! It's loaded from unknown address in external shared
 library! How did it get into our binary?
 
