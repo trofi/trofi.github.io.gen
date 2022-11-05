@@ -3,7 +3,7 @@ title: "GCC's new -Wdangling-reference warning"
 date: November 05, 2022
 ---
 
-Tl;DR: `gcc` [just got]()
+Tl;DR: `gcc` [just got](https://gcc.gnu.org/PR106393)
 new `-Wdangling-reference` diagnostic to catch some use-after-free bugs
 related to temporary object lifetimes in `c++` code.
 
