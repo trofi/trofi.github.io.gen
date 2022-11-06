@@ -65,6 +65,7 @@ A few new bugs were found and/or fixed:
 - mingw-w64: <https://sourceforge.net/p/mingw-w64/mingw-w64/ci/e1b0c1420bbd52ef505c71737c57393ac1397b0a/>
 - notion: <https://github.com/raboof/notion/pull/346>
 - jhead: <https://github.com/Matthias-Wandel/jhead/pull/67>
+- ldns: <https://github.com/NLnetLabs/ldns/pull/192>
 
 Nothing complicated. Just a few missing dependencies.
 
