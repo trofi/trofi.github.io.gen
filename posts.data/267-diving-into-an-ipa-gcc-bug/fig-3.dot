@@ -1,0 +1,14 @@
+digraph {
+  node [shape=record];
+  subgraph clusterAfter {
+      label = "after (fixed, actual)";
+
+      "main() " -> "do1() " [label="cb=GOOD"];
+      "do1() " -> "do3() " [label="cb=GOOD"];
+      "do3() " -> "do3() " [label="cb=GOOD"];
+      "seemingly_unused_foo() " -> "do3.constprop() " [label="cb=BAD"];
+      "do3.constprop() " -> "do3.constprop() "
+      "do3.constprop() " -> "L_run() " [label="inlined cb=BAD"];
+      "do3() " -> "(*cb)()"
+  }
+}

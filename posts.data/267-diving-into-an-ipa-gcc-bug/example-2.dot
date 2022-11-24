@@ -1,0 +1,28 @@
+digraph {
+  graph [splines=polyline]
+  rankdir=LR
+  node [shape=plaintext fontname=mono fontsize=10]
+
+  prog [ label=<
+      <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0">
+
+        <TR><TD ALIGN="left" PORT="f" bgcolor="#ddffdd"        >static int f.constprop(int a) {</TD></TR>
+        <TR><TD ALIGN="left"                                   >    return a + 10;</TD></TR>
+        <TR><TD ALIGN="left"                                   >}</TD></TR>
+        <TR><TD ALIGN="left"                                   ></TD></TR>
+        <TR><TD ALIGN="left" PORT="g" bgcolor="#ddffdd"        >static int g.constprop(int a) {</TD></TR>
+        <TR><TD ALIGN="left" PORT="f_call" bgcolor="lightcyan" >    return f.constprop(a);</TD></TR>
+        <TR><TD ALIGN="left"                                   >}</TD></TR>
+        <TR><TD ALIGN="left"                                   ></TD></TR>
+        <TR><TD ALIGN="left"                                   >int main(void) {</TD></TR>
+        <TR><TD ALIGN="left"                                   >  volatile int i = 42;</TD></TR>
+        <TR><TD ALIGN="left" PORT="g_call" bgcolor="lightcyan" >  return g.constprop(i);</TD></TR>
+        <TR><TD ALIGN="left"                                   >}</TD></TR>
+
+    </TABLE>
+  >]
+
+  edge[arrowhead=vee]
+  prog:g_call:e -> "call g.constprop(i)\nb = 10; was inlined" -> prog:g:e
+  prog:f_call:e -> "call f.constprop(a)\nb = 10; was inlined" -> prog:f:e
+}

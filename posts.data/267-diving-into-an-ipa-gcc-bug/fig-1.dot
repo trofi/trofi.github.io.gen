@@ -1,0 +1,26 @@
+digraph {
+  node [shape=record];
+
+  subgraph clusterBefore {
+      label = "before";
+
+      "main()" -> "do1(Expired)" [label = "Expired={cb=GOOD}"];
+      "seemingly_unused_foo()" -> "do1(Expired)" [label = "Expired={cb=BAD}"];
+      "do1(Expired)" -> "do3(punused, Expired)"
+      "do3(punused, Expired)" -> "do3(punused, Expired)"
+      "do3(punused, Expired)" -> "(*cb)()"
+  }
+
+  subgraph clusterAfter {
+      label = "after (good, ideal)";
+
+      "main() " -> "do1.constprop.1() " [label = "cb=GOOD (constprop)" color="green"];
+      "seemingly_unused_foo() " -> "do1.constprop.2() " [label = "cb=BAD (constprop)" color="green"];
+      "do1.constprop.1() " -> "do3.constprop.1(punused) "
+      "do1.constprop.2() " -> "do3.constprop.2(punused) "
+      "do3.constprop.1(punused) " -> "do3.constprop.1(punused) "
+      "do3.constprop.2(punused) " -> "do3.constprop.2(punused) "
+      "do3.constprop.1(punused) " -> "print GOOD " [label = "inlined" color="green"];
+      "do3.constprop.2(punused) " -> "print BAD " [label = "inlined" color="green"];
+  }
+}

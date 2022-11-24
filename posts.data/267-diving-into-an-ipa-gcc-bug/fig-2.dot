@@ -1,0 +1,13 @@
+digraph {
+  node [shape=record];
+  subgraph clusterAfter {
+      label = "after (bad, actual)";
+
+      "main() " -> "print GOOD " [label = "cb=GOOD inlined" color="green"];
+      "main() " -> "do1.constprop() " [label = "Bug!" color="red"];
+      "seemingly_unused_foo() " -> "do1.constprop() " [label = "cb=BAD" color="green"];
+      "do1.constprop() " -> "do3.constprop(punused) "
+      "do3.constprop(punused) " -> "do3.constprop(punused) "
+      "do3.constprop(punused) " -> "print BAD " [label = "inlined" color="green"];
+  }
+}
