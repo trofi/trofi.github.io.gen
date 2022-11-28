@@ -1422,6 +1422,7 @@ from `llvm` to a single-file example and 3 days to derive a
 proof-of-concept fix. After that it took `gcc` developers less than a
 day to write and validate the proper fix.
 
-The fix was almost a one-liner. Now on to the `ffmpeg` miscompilation :)
+The fix was almost a one-liner. Now on to the `ffmpeg`
+[miscompilation](https://gcc.gnu.org/PR107879) :)
 
 Have fun!
