@@ -5,7 +5,7 @@ date: November 28, 2022
 
 After [switching to wayland](/posts/261-trying-out-wayland.html) I got
 most GUI programs to use `wayland` backend render. The two main
-exceptions are `pidgin` (used `gtk-2`) and `wine` (uses lew level `x11`
+exceptions are `pidgin` (used `gtk-2`) and `wine` (uses low level `x11`
 primitives for many things). `pidgin` worked fine in `Xwayland`, but
 `wine` did not always behave: sometimes input focus did not get passed
 to the emulated application, sometimes wine could not use
@@ -64,7 +64,7 @@ surface with `AR24` format (8 bits for each of Red, Blue, Green, Alpha component
 should not be a problem and the call should succeed. Why does it fail here?
 
 To ease exploration I started patching `mesa` and `wine-wayland` locally
-with `fprintf(stderr, ..._;` calls to see what gets passed around.
+with `fprintf(stderr, ...);` calls to see what gets passed around.
 
 `nixpkgs`'s `mesa` clients use `/run/opengl-driver-32` paths to load
 `opengl` `mesa` drivers. That means just rebuilding an application
@@ -90,7 +90,7 @@ immediately observe their effect on `wine-wayland`.
 I found that `wine`'s code at
 [winewayland.drv](https://gitlab.collabora.com/alf/wine/-/blob/wayland/dlls/winewayland.drv/opengl.c#L373-L440).
 calls `wayland_gbm_create_surface()` ->
-[wayland_gl_create_gbm_surface()](https://gitlab.collabora.com/alf/wine/-/blob/wayland/dlls/winewayland.drv/opengl.c#L310-L371),
+[wayland_gl_create_gbm_surface()](https://gitlab.collabora.com/alf/wine/-/blob/wayland/dlls/winewayland.drv/opengl.c#L310-L371)
 -> [wayland_gbm_create_surface()](https://gitlab.collabora.com/alf/wine/-/blob/wayland/dlls/winewayland.drv/gbm.c#L267-L299).
 All of the calls are shallow wrappers of one another. They just pass
 through the request to create surface. I'll paste the latter in full
@@ -276,7 +276,7 @@ result if it fails with `ENOSYS` and switch over to
 modifier presence.
 
 I'm not sure what such a fallback means for other video card types. Will
-it break some tiled worklaods? Or at this point surface creation is
+it break some tiled workloads? Or at this point surface creation is
 already broken beyond repair and any try is better than nothing? I have
 no idea!
 
@@ -302,7 +302,7 @@ surprisingly little extra debugging to what is already available in
 rendering did not produce anything.
 
 `nix`'s ability to build patched `wine` against patched `mesa` without
-destroying existing installation was critical to be able to do
+destroying existing installation was critical for me to be able to do
 side-by-side comparisons.
 
 `mesa`'s `LIBGL_DRIVERS_PATH=` and `libglvnd`'s
