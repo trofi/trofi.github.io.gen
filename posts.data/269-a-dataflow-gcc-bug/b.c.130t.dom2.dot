@@ -1,0 +1,64 @@
+digraph "b.c.130t.dom2" {
+overlap=false;
+subgraph "cluster_build_filter" {
+	style="dashed";
+	color="black";
+	label="build_filter ()";
+	fn_11_basic_block_0 [shape=Mdiamond,style=filled,fillcolor=white,label="ENTRY"];
+
+	fn_11_basic_block_1 [shape=Mdiamond,style=filled,fillcolor=white,label="EXIT"];
+
+	fn_11_basic_block_2 [shape=record,style=filled,fillcolor=lightgrey,label="{COUNT:1073741824\<bb\ 2\>:\l\
+|ph\ =\{v\}\ 0;\l\
+|vf\ =\{v\}\ 1.0e+0;\l\
+|factor_11\ =\{v\}\ vf;\l\
+|ph.4_1\ =\{v\}\ ph;\l\
+|_2\ =\ (double)\ ph.4_1;\l\
+|_3\ =\ -_2;\l\
+|x_12\ =\ _3\ *\ factor_11;\l\
+|if\ (x_12\ ==\ 0.0)\l\
+\ \ goto\ \<bb\ 6\>;\ [50.00%]\l\
+else\l\
+\ \ goto\ \<bb\ 3\>;\ [50.00%]\l\
+}"];
+
+	fn_11_basic_block_3 [shape=record,style=filled,fillcolor=lightgrey,label="{COUNT:633507680\<bb\ 3\>:\l\
+|_4\ =\ 1.0e+0\ /\ x_12;\l\
+|*y_13(D)\ =\ _4;\l\
+|_5\ =\ x_12\ *\ 2.0e+0;\l\
+|w_16\ =\ _5\ /\ factor_11;\l\
+|omww_17\ =\ 1.0e+0\ -\ w_16;\l\
+|if\ (omww_17\ \>\ 0.0)\l\
+\ \ goto\ \<bb\ 5\>;\ [100.00%]\l\
+else\l\
+\ \ goto\ \<bb\ 4\>;\ [0.00%]\l\
+}"];
+
+	fn_11_basic_block_4 [shape=record,style=filled,fillcolor=lightgrey,label="{COUNT:0\<bb\ 4\>:\l\
+}"];
+
+	fn_11_basic_block_5 [shape=record,style=filled,fillcolor=lightgrey,label="{COUNT:1073741824\<bb\ 5\>:\l\
+|#\ iftmp.5_6\ =\ PHI\ \<omww_17(3),\ 0.0(4),\ 0.0(6)\>\l\
+|return\ iftmp.5_6;\l\
+}"];
+
+	fn_11_basic_block_6 [shape=record,style=filled,fillcolor=lightgrey,label="{COUNT:440234144\<bb\ 6\>:\l\
+|#\ cstore_14\ =\ PHI\ \<1.0e+0(2)\>\l\
+|*y_13(D)\ =\ cstore_14;\l\
+|_20\ =\ x_12\ *\ 2.0e+0;\l\
+|w_21\ =\ _20\ /\ factor_11;\l\
+|omww_22\ =\ 1.0e+0\ -\ w_21;\l\
+goto\ \<bb\ 5\>;\ [100.00%]\l\
+}"];
+
+	fn_11_basic_block_0:s -> fn_11_basic_block_2:n [style="solid,bold",color=black,weight=100,constraint=true,label="[100%]"];
+	fn_11_basic_block_2:s -> fn_11_basic_block_6:n [style="solid,bold",color=forestgreen,weight=10,constraint=true,label="[50%]"];
+	fn_11_basic_block_2:s -> fn_11_basic_block_3:n [style="solid,bold",color=darkorange,weight=10,constraint=true,label="[50%]"];
+	fn_11_basic_block_3:s -> fn_11_basic_block_5:n [style="solid,bold",color=forestgreen,weight=10,constraint=true,label="[100%]"];
+	fn_11_basic_block_3:s -> fn_11_basic_block_4:n [style="solid,bold",color=darkorange,weight=10,constraint=true,label="[0%]"];
+	fn_11_basic_block_4:s -> fn_11_basic_block_5:n [style="solid,bold",color=black,weight=100,constraint=true,label="[100%]"];
+	fn_11_basic_block_5:s -> fn_11_basic_block_1:n [style="solid,bold",color=black,weight=10,constraint=true,label="[100%]"];
+	fn_11_basic_block_6:s -> fn_11_basic_block_5:n [style="solid,bold",color=black,weight=100,constraint=true,label="[100%]"];
+	fn_11_basic_block_0:s -> fn_11_basic_block_1:n [style="invis",constraint=true];
+}
+}

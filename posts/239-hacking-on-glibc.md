@@ -320,7 +320,7 @@ gcc -dumpspecs |& fgrep ld-linux | unnix
 ```
 
 Here linker spec always passes **-dynamic-linker /\<\<NIX\>\>/glibc-2.33-108/lib64/ld-linux-x86-64.so.2**
-path to the linker until it's expliictly overridden. Let's override it explicitly.
+path to the linker until it's explicitly overridden. Let's override it explicitly.
 
 Here is our final combined result of overriding headers, libraries,
 object files and dynamic linker:
