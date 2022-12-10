@@ -1,6 +1,6 @@
 ---
 title: "A dataflow gcc bug"
-date: December 12, 2022
+date: December 10, 2022
 ---
 
 Let's look at a simpler `gcc` bug today:
