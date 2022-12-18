@@ -67,6 +67,7 @@ A few new bugs were found and/or fixed:
 - jhead: <https://github.com/Matthias-Wandel/jhead/pull/67>
 - ldns: <https://github.com/NLnetLabs/ldns/pull/192>
 - bitlbee-facebook: <https://github.com/bitlbee/bitlbee-facebook/pull/217>
+- blahtexml: <https://github.com/gvanas/blahtexml/pull/9>
 
 Nothing complicated. Just a few missing dependencies.
 
