@@ -10,6 +10,12 @@ body {
     max-width: 72ch;
 }
 
+img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
 /* mobile phones */
 @media (max-width: 1000px) {
     body {
