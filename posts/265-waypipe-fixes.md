@@ -85,10 +85,12 @@ modifiers).
 What happens when `waypipe` somehow gets format match wrong? Say, uses
 tiled format on one side while unknowingly using `LINEAR` on another side?
 With `waypipe-0.8.3` I got this beauty:
+
 ![broken-gears](/posts.data/265-a-waypipe-bug/gears.png)
 
 It's hard to see on a picture but it's a `es2gears_wayland` application
 output (port of `glxgears`). Supposed to look like that:
+
 ![working gears](https://upload.wikimedia.org/wikipedia/commons/6/62/Xf86_glxgears.png)
 
 In my case colors are fine, but the gears are inclined
