@@ -1,0 +1,37 @@
+digraph G {
+node [shape=box];
+"gcc-11.3.0.drv" [style = filled, fillcolor = "#00ff00"];
+"bootstrap-tools.drv" [style = filled, fillcolor = "#ffff00"];
+"bootstrap-stage0-glibc-bootstrap.drv" [style = filled, fillcolor = "#ffff00"];
+"glibc-2.35-224.drv" [style = filled, fillcolor = "#ff0000"];
+
+"gcc-wrapper-11.3.0.drv" -> "stdenv-linux.drv" [color = "red"];
+"gcc-11.3.0.drv" -> "stdenv-linux.drv" [color = "blue"];
+"glibc-2.35-224.drv" -> "stdenv-linux.drv" [color = "black"];
+"bootstrap-tools.drv" -> "gcc-wrapper-11.3.0.drv" [color = "red"];
+"bootstrap-stage4-stdenv-linux.drv" -> "gcc-wrapper-11.3.0.drv" [color = "blue"];
+"bootstrap-stage3-gcc-wrapper-.drv" -> "bootstrap-stage3-stdenv-linux.drv" [color = "blue"];
+"bootstrap-tools.drv" -> "bootstrap-stage2-gcc-wrapper-.drv" [color = "burlywood"];
+"bootstrap-stage0-stdenv-linux.drv" -> "bootstrap-stage2-gcc-wrapper-.drv" [color = "green"];
+"bootstrap-stage0-glibc-bootstrap.drv" -> "bootstrap-stage2-gcc-wrapper-.drv" [color = "magenta"];
+"bootstrap-tools.drv" -> "gcc-11.3.0.drv" [color = "red"];
+"bootstrap-stage3-stdenv-linux.drv" -> "gcc-11.3.0.drv" [color = "magenta"];
+"bootstrap-stage3-gcc-wrapper-.drv" -> "gcc-11.3.0.drv" [color = "burlywood"];
+"bootstrap-stage2-gcc-wrapper-.drv" -> "glibc-2.35-224.drv" [color = "magenta"];
+"bootstrap-tools.drv" -> "glibc-2.35-224.drv" [color = "burlywood"];
+"bootstrap-stage2-stdenv-linux.drv" -> "glibc-2.35-224.drv" [color = "black"];
+"bootstrap-stage0-glibc-bootstrap.drv" -> "glibc-2.35-224.drv" [color = "magenta"];
+"bootstrap-tools.drv" -> "bootstrap-stage3-gcc-wrapper-.drv" [color = "black"];
+"glibc-2.35-224.drv" -> "bootstrap-stage3-gcc-wrapper-.drv" [color = "red"];
+"bootstrap-stage0-stdenv-linux.drv" -> "bootstrap-stage3-gcc-wrapper-.drv" [color = "burlywood"];
+"bootstrap-stage2-gcc-wrapper-.drv" -> "bootstrap-stage2-stdenv-linux.drv" [color = "burlywood"];
+"bootstrap-tools.drv" -> "bootstrap-stage1-gcc-wrapper-.drv" [color = "magenta"];
+"bootstrap-stage0-stdenv-linux.drv" -> "bootstrap-stage1-gcc-wrapper-.drv" [color = "red"];
+"bootstrap-stage0-glibc-bootstrap.drv" -> "bootstrap-stage1-gcc-wrapper-.drv" [color = "green"];
+"bootstrap-stage1-gcc-wrapper-.drv" -> "bootstrap-stage1-stdenv-linux.drv" [color = "burlywood"];
+"bootstrap-stage4-gcc-wrapper-11.3.0.drv" -> "bootstrap-stage4-stdenv-linux.drv" [color = "blue"];
+"bootstrap-tools.drv" -> "bootstrap-stage4-gcc-wrapper-11.3.0.drv" [color = "black"];
+"gcc-11.3.0.drv" -> "bootstrap-stage4-gcc-wrapper-11.3.0.drv" [color = "magenta"];
+"glibc-2.35-224.drv" -> "bootstrap-stage4-gcc-wrapper-11.3.0.drv" [color = "red"];
+"bootstrap-stage0-stdenv-linux.drv" -> "bootstrap-stage4-gcc-wrapper-11.3.0.drv" [color = "black"];
+}

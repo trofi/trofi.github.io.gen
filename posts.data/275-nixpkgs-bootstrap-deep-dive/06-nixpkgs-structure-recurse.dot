@@ -1,0 +1,38 @@
+digraph G {
+  rankdir=LR;
+  node [shape=box];
+  edge [constraint=false]
+
+  subgraph clusterStdenv1 {
+    label="pkgs1";
+    "gcc-1" [label="gcc"];
+    "glibc-1" [label="glibc"];
+    "stdenv-1" [label="stdenv"];
+    "xz-1" [label="xz"];
+    "...-1" [label="..."];
+
+    "gcc-1" -> "glibc-1" [color=green];
+    "gcc-1" -> "stdenv-1" [color=green];
+    "glibc-1" -> "stdenv-1" [color=green];
+
+    "stdenv-1" -> "xz-1" [color=red];
+  }
+
+  subgraph clusterStdenv2 {
+    label="pkgs2";
+    "gcc-2" [label="gcc"];
+    "glibc-2" [label="glibc"];
+    "stdenv-2" [label="stdenv"];
+    "xz-2" [label="xz"];
+    "...-2" [label="..."];
+
+    "gcc-2" -> "glibc-2" [color=green];
+    "gcc-2" -> "stdenv-2" [color=green];
+    "glibc-2" -> "stdenv-2" [color=green];
+
+    "stdenv-2" -> "xz-2" [color=red];
+
+  }
+
+  "stdenv-1" -> "gcc-2" [color=blue,constraint=true];
+}

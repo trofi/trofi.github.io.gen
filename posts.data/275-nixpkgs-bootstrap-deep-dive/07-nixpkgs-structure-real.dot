@@ -1,0 +1,68 @@
+digraph G {
+  rankdir=LR;
+  node [shape=box];
+  edge [constraint=false]
+
+  subgraph clusterStdenv1 {
+    label="pkgs1";
+    "gcc-1" [label="gcc"];
+    "glibc-1" [label="glibc"];
+    "stdenv-1" [label="stdenv"];
+    "xz-1" [label="xz"];
+    "...-1" [label="..."];
+
+    "gcc-1" -> "stdenv-1" [color=green];
+    "glibc-1" -> "stdenv-1" [color=green];
+    "xz-1" -> "stdenv-1" [color=green];
+  }
+
+  subgraph clusterStdenv2 {
+    label="pkgs2\n(gcc rebuild)";
+    "gcc-2" [label="gcc"];
+    "glibc-2" [label="glibc"];
+    "stdenv-2" [label="stdenv"];
+    "xz-2" [label="xz"];
+    "...-2" [label="..."];
+
+    "gcc-2" -> "stdenv-2" [color=green];
+    "glibc-2" -> "stdenv-2" [color=green];
+    "xz-2" -> "stdenv-2" [color=green];
+  }
+
+  subgraph clusterStdenv3 {
+    label="pkgs3\n(glibc rebuild)";
+    "gcc-3" [label="gcc"];
+    "glibc-3" [label="glibc"];
+    "stdenv-3" [label="stdenv"];
+    "xz-3" [label="xz"];
+    "...-3" [label="..."];
+
+    "gcc-3" -> "stdenv-3" [color=green];
+    "glibc-3" -> "stdenv-3" [color=green];
+    "xz-3" -> "stdenv-3" [color=green];
+  }
+
+  subgraph clusterStdenv4 {
+    label="pkgs4\n(xz rebuild)";
+    "gcc-4" [label="gcc"];
+    "glibc-4" [label="glibc"];
+    "stdenv-4" [label="stdenv"];
+    "xz-4" [label="xz"];
+    "...-4" [label="..."];
+
+    "gcc-4" -> "stdenv-4" [color=green];
+    "glibc-4" -> "stdenv-4" [color=green];
+    "stdenv-4" -> "xz-4" [color=blue,label="rebuild"];
+  }
+
+  "stdenv-1" -> "gcc-2" [color=blue,constraint=true, label="rebuild"];
+  "xz-1" -> "xz-2" [color=cyan,constraint=true,label="reuse"];
+  "glibc-1" -> "glibc-2" [color=cyan,constraint=true,label="reuse"];
+
+  "stdenv-2" -> "glibc-3" [color=blue,constraint=true, label="rebuild"];
+  "gcc-2" -> "gcc-3" [color=cyan,constraint=true,label="reuse"];
+  "xz-2" -> "xz-3" [color=cyan,constraint=true,label="reuse"];
+
+  "gcc-3" -> "gcc-4" [color=cyan,constraint=true,label="reuse"];
+  "glibc-3" -> "glibc-4" [color=cyan,constraint=true,label="reuse"];
+}

@@ -1,0 +1,9 @@
+digraph G {
+"0zhkga32apid60mm7nh92z2970im5837-bootstrap-tools.drv" [label = "bootstrap-tools.drv", shape = box, style = filled];
+"b7irlwi2wjlx5aj1dghx4c8k3ax6m56q-busybox.drv" -> "0zhkga32apid60mm7nh92z2970im5837-bootstrap-tools.drv" [color = "black"];
+"bzq60ip2z5xgi7jk6jgdw8cngfiwjrcm-bootstrap-tools.tar.xz.drv" -> "0zhkga32apid60mm7nh92z2970im5837-bootstrap-tools.drv" [color = "red"];
+"wzdwpgqf2384hr2npma78mqillg5lv08-unpack-bootstrap-tools.sh" -> "0zhkga32apid60mm7nh92z2970im5837-bootstrap-tools.drv" [color = "green"];
+"b7irlwi2wjlx5aj1dghx4c8k3ax6m56q-busybox.drv" [label = "busybox.drv", shape = box, style = filled];
+"bzq60ip2z5xgi7jk6jgdw8cngfiwjrcm-bootstrap-tools.tar.xz.drv" [label = "bootstrap-tools.tar.xz.drv", shape = box, style = filled];
+"wzdwpgqf2384hr2npma78mqillg5lv08-unpack-bootstrap-tools.sh" [label = "unpack-bootstrap-tools.sh", shape = box, style = filled];
+}

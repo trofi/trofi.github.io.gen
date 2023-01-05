@@ -1,0 +1,33 @@
+digraph G {
+  rankdir=TB;
+  node [shape=box];
+  subgraph clusterBoot {
+    label="bootstrapTools";
+    "gcc-boot" [label="gcc-boot\nbuilt by: gcc-boot\nlinked against: glibc-boot", style = filled, fillcolor = "#ffff00"];
+    "glibc-boot" [label="glibc-boot\nbuilt by: gcc-boot\nbundles: libgcc_s.so-boot", style = filled, fillcolor = "#ffff00"];
+
+    "gcc-boot";
+    "glibc-boot";
+  }
+
+  subgraph clusterIntermediate {
+    label="intermediate (or fresh-bootstrapTools)";
+    "gcc-nixpkgs-by-boot" [label="gcc-nixpkgs\nbuilt by: gcc-boot\nlinked against: glibc-boot", style = filled, fillcolor = "#00ff00"];
+    "glibc-nixpkgs-by-nixpkgs" [label="glibc-nixpkgs\nbuilt by: gcc-nixpkgs\nbundles: libgcc_s.so-nixpkgs", style = filled, fillcolor = "#ff0000"];
+    "gcc-nixpkgs-by-boot";
+    "glibc-nixpkgs-by-nixpkgs";
+
+    "gcc-boot" -> "gcc-nixpkgs-by-boot";
+    "gcc-boot" -> "glibc-nixpkgs-by-nixpkgs";
+  }
+
+  subgraph clusterideal {
+    label="ideal";
+    "gcc-nixpkgs-ideal" [label="gcc-nixpkgs\nbuilt by: gcc-nixpkgs\nlinked against: glibc-nixpkgs", style = filled, fillcolor = "#00ffff"];
+    "glibc-nixpkgs-ideal" [label="glibc-nixpkgs\nsame as intermediate, no rebuild\nbuilt by: gcc-nixpkgs\nbundles: libgcc_s.so-nixpkgs"];
+    "gcc-nixpkgs-ideal";
+
+    "gcc-nixpkgs-by-boot" -> "gcc-nixpkgs-ideal";
+    "glibc-nixpkgs-by-nixpkgs" -> "glibc-nixpkgs-ideal";
+  }
+}

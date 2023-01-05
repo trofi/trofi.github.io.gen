@@ -1,0 +1,23 @@
+digraph G {
+"sxdx80lmk4zkhb51f4x5dgqvxgmx55wl-gcc-11.3.0" [label = "gcc-11.3.0", shape = box, style = filled];
+"ayfr5l52xkqqjn3n4h9jfacgnchz1z7s-glibc-2.35-224" -> "sxdx80lmk4zkhb51f4x5dgqvxgmx55wl-gcc-11.3.0" [color = "black"];
+"mmmjp0xcmr0dm307jv1l34hvi95z6d8s-glibc-2.35-224-dev" -> "sxdx80lmk4zkhb51f4x5dgqvxgmx55wl-gcc-11.3.0" [color = "red"];
+"wprxx5zkkk13hpj6k1v6qadjylh3vq9m-gcc-11.3.0-lib" -> "sxdx80lmk4zkhb51f4x5dgqvxgmx55wl-gcc-11.3.0" [color = "green"];
+"zaflwh2nwzj1f0wngd7hqm3nvlf3yhsx-zlib-1.2.13" -> "sxdx80lmk4zkhb51f4x5dgqvxgmx55wl-gcc-11.3.0" [color = "blue"];
+"ayfr5l52xkqqjn3n4h9jfacgnchz1z7s-glibc-2.35-224" [label = "glibc-2.35-224", shape = box, style = filled];
+"6fid553s8qb5vgwq8namz4dcmjpklvr1-libidn2-2.3.2" -> "ayfr5l52xkqqjn3n4h9jfacgnchz1z7s-glibc-2.35-224" [color = "magenta"];
+"6fid553s8qb5vgwq8namz4dcmjpklvr1-libidn2-2.3.2" [label = "libidn2-2.3.2", shape = box, style = filled];
+"crj2i8d82fff4hk94nlxmyzi1ir2z0cz-libunistring-1.0" -> "6fid553s8qb5vgwq8namz4dcmjpklvr1-libidn2-2.3.2" [color = "burlywood"];
+"crj2i8d82fff4hk94nlxmyzi1ir2z0cz-libunistring-1.0" [label = "libunistring-1.0", shape = box, style = filled];
+"mmmjp0xcmr0dm307jv1l34hvi95z6d8s-glibc-2.35-224-dev" [label = "glibc-2.35-224-dev", shape = box, style = filled];
+"ayfr5l52xkqqjn3n4h9jfacgnchz1z7s-glibc-2.35-224" -> "mmmjp0xcmr0dm307jv1l34hvi95z6d8s-glibc-2.35-224-dev" [color = "black"];
+"mb6pgv5w5ki64k5s2m83dqvg8i2b239n-linux-headers-6.0" -> "mmmjp0xcmr0dm307jv1l34hvi95z6d8s-glibc-2.35-224-dev" [color = "red"];
+"s7ip867mrpnnjlppbnxlcsq10gv13x2x-glibc-2.35-224-bin" -> "mmmjp0xcmr0dm307jv1l34hvi95z6d8s-glibc-2.35-224-dev" [color = "green"];
+"mb6pgv5w5ki64k5s2m83dqvg8i2b239n-linux-headers-6.0" [label = "linux-headers-6.0", shape = box, style = filled];
+"s7ip867mrpnnjlppbnxlcsq10gv13x2x-glibc-2.35-224-bin" [label = "glibc-2.35-224-bin", shape = box, style = filled];
+"ayfr5l52xkqqjn3n4h9jfacgnchz1z7s-glibc-2.35-224" -> "s7ip867mrpnnjlppbnxlcsq10gv13x2x-glibc-2.35-224-bin" [color = "blue"];
+"wprxx5zkkk13hpj6k1v6qadjylh3vq9m-gcc-11.3.0-lib" [label = "gcc-11.3.0-lib", shape = box, style = filled];
+"ayfr5l52xkqqjn3n4h9jfacgnchz1z7s-glibc-2.35-224" -> "wprxx5zkkk13hpj6k1v6qadjylh3vq9m-gcc-11.3.0-lib" [color = "magenta"];
+"zaflwh2nwzj1f0wngd7hqm3nvlf3yhsx-zlib-1.2.13" [label = "zlib-1.2.13", shape = box, style = filled];
+"ayfr5l52xkqqjn3n4h9jfacgnchz1z7s-glibc-2.35-224" -> "zaflwh2nwzj1f0wngd7hqm3nvlf3yhsx-zlib-1.2.13" [color = "burlywood"];
+}

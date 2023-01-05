@@ -1,0 +1,26 @@
+digraph G {
+  rankdir=LR;
+  node [shape=box];
+  edge [constraint=false]
+
+  "gcc"
+  "glibc"
+  "stdenv"
+  "re2c"
+  "python3"
+  "php"
+  "xz"
+  "..."
+
+  "gcc" -> "glibc" [color=green];
+  "gcc" -> "stdenv" [color=green];
+  "glibc" -> "stdenv" [color=green];
+
+  "stdenv" -> "re2c" [color=red];
+  "stdenv" -> "python3" [color=red];
+  "stdenv" -> "php" [color=red];
+  "stdenv" -> "xz" [color=red];
+
+  "python3" -> "re2c" [color=cyan];
+  "re2c" -> "php" [color=cyan];
+}

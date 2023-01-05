@@ -1,0 +1,23 @@
+digraph G {
+  rankdir=TB;
+  node [shape=box];
+  subgraph clusterBoot {
+    label="bootstrapTools";
+    "gcc-boot" [label="gcc-boot\nbuilt by: gcc-boot\nlinked against: glibc-boot", style = filled, fillcolor = "#ffff00"];
+    "glibc-boot" [label="glibc-boot\nbuilt by: gcc-boot\nbundles: libgcc_s.so-boot", style = filled, fillcolor = "#ffff00"];
+
+    "gcc-boot";
+    "glibc-boot";
+  }
+
+  subgraph clusterFinal {
+    label="final";
+    "gcc-nixpkgs-by-boot" [label="gcc-nixpkgs\nbuilt by: gcc-boot\nlinked against: glibc-nixpkgs", style = filled, fillcolor = "#00ff00"];
+    "glibc-nixpkgs-by-boot" [label="glibc-nixpkgs\nbuilt by: gcc-boot\nbundles: libgcc_s.so-boot", style = filled, fillcolor = "#ff0000"];
+    "gcc-nixpkgs-by-boot";
+    "glibc-nixpkgs-by-boot";
+
+    "gcc-boot" -> "gcc-nixpkgs-by-boot";
+    "gcc-boot" -> "glibc-nixpkgs-by-boot";
+  }
+}
