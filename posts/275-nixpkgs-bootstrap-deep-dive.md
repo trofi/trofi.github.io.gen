@@ -15,7 +15,7 @@ supposed to come with. Tl;DR  of the issue:
   from `gcc-9`
 
 This version skew causes issues because `gcc-11` relies on symbols
-exported from `libgcc_s.so` versions that were added after `ggc-9`
+exported from `libgcc_s.so` versions that were added after `gcc-9`
 release. Example taken from [Issue #201254](https://github.com/NixOS/nixpkgs/issues/201254):
 
 ```c
@@ -50,7 +50,7 @@ overview presented there is mostly correct. But some details I got
 wrong.
 
 I'll sort them out here to clarify why version skew happens and how
-we could fix it using existing bootstrap framework in `nixpksg`.
+we could fix it using existing bootstrap framework in `nixpkgs`.
 
 ## Bootstrap debugging tips
 
@@ -215,7 +215,7 @@ in `.dot` formatted output:
   find places where we decide to **use** some version of  `gcc` (or
   `glibc`).
 
-This crude grep destorys some intermediary arrows and leaves nodes to
+This crude grep destroys some intermediary arrows and leaves nodes to
 hang in the air. In reality all the `stdenv` nodes are chained in
 sequence via compiler wrappers. But grep does capture most of important
 details. Here is what `.dot` generated us
@@ -270,13 +270,13 @@ undesired reference instead of resorting to `strings` call.
 
 ## An ideal bootstrap
 
-Cleary our bootstrap is problematic right now as it fails to link a
+Clearly our bootstrap is problematic right now as it fails to link a
 subset of binaries and seems to use suspiciously old `gcc` to build
 `glibc` that almost any other package uses.
 
 How would an ideal bootstrap look like?
 
-Let's settle down on more specific goals our bootstrap shold achieve.
+Let's settle down on more specific goals our bootstrap should achieve.
 
 If our goal is to get something that is able to link binaries we could
 just use `bootstrapTools` as our `stdenv`: no need to build anything,
@@ -314,7 +314,7 @@ More specific goals of bootstrap process could be the following:
 
 Goal 2 is a moral equivalent of [1.]: if `bootstrapTools` contained
 a buggy code generator we would like to get rid of its effect by
-rebuilding everything using `nixpkgs` versions of code generatos.
+rebuilding everything using `nixpkgs` versions of code generators.
 
 As it stands today `nixpkgs` achieves `[1.]` but not `[2.]`.
 
