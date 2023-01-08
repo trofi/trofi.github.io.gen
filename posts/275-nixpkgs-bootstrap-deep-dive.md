@@ -206,7 +206,7 @@ nix-store --query --graph $(nix-instantiate -A stdenv) |
     sed 's/"[0-9a-z]\{32\}-/"/g' | dot -Tsvg > gcc-and-glibc.svg
 ```
 
-It's a scary looking grep, but it's idea is to find two types of arrows
+It's a scary looking grep, but its idea is to find two types of arrows
 in `.dot` formatted output:
 
 - arrows from `stdenv` (or `bootstrap`) to `gcc` (or `glibc`): to find
@@ -313,7 +313,7 @@ More specific goals of bootstrap process could be the following:
 2. Avoid use of code generators emitted by `bootstrapTools` binaries.
 
 Goal 2 is a moral equivalent of [1.]: if `bootstrapTools` contained
-a buggy code generator we would like to get rid of it's effect by
+a buggy code generator we would like to get rid of its effect by
 rebuilding everything using `nixpkgs` versions of code generatos.
 
 As it stands today `nixpkgs` achieves `[1.]` but not `[2.]`.
@@ -394,7 +394,7 @@ packages we can construct `pkgs2` by building packages in order:
 
 
 In reality each bootstrap step is split into a few smaller steps where
-each handles it's own part of `stdenv` update:
+each handles its own part of `stdenv` update:
 
 ![](/posts.data/275-nixpkgs-bootstrap-deep-dive/07-nixpkgs-structure-real.svg)
 
@@ -409,7 +409,7 @@ packages as in previous picture:
 It might take quite a bit of mental effort to chase through pointers. It
 is certainly harder to reason about it.
 
-If you ever wondered how actual `gcc` attribute then is defined it's in
+If you ever wondered how actual `gcc` attribute then is defined in
 `pkgs/top-level/all-packages.nix` as:
 
 ```nix
@@ -665,7 +665,7 @@ count also looks excessive. So does `binutils`. All are good candidates
 for cleanup.
 
 Let's move on to existing `gcc` rebuild to see if it follows the same
-override pattern as `bootstrapTools` one. It's override happens in
+override pattern as `bootstrapTools` one. Its override happens in
 `bootstrap-stage3`:
 
 ```nix
@@ -867,7 +867,7 @@ version-specific paths to `libstdc++`, like `.../lib/gcc/x86_64-pc-linux-gnu/11.
 That way parallel `gcc` installs have a chance to keep their `c++`
 business to themselves and not interfere with one another.
 
-Let's fix this error the simialr way by moving it out of default `lib`
+Let's fix this error the similar way by moving it out of default `lib`
 path:
 
 ```diff
@@ -903,7 +903,7 @@ path:
 ```
 
 The only binary using `libstdc++` in `bootstrapTools` is `patchelf`. We
-had to extend it's `RUNPATH` as well.
+had to extend its `RUNPATH` as well.
 
 Once we fixed that the next failure happens way later, in `bootstrap-stage4-gcc`:
 
@@ -922,7 +922,7 @@ For full logs, run 'nix log /nix/store/..-gcc-11.3.0.drv'.
 is `2.35`.
 
 `bootstrap-stage4` should already have a `nixpkgs` `glibc`. Unless I
-broke it's wrapper registration after I rebuilt `gcc`.
+broke its wrapper registration after I rebuilt `gcc`.
 
 Normally `gcc` should be reasonably portable across older `glibc`
 versions (and even non-`glibc`).
@@ -948,7 +948,7 @@ report_heap_memory_use ()
 }
 ```
 
-Let's check it's `config.log` to see why `HAVE_MALLINFO2` was
+Let's check its `config.log` to see why `HAVE_MALLINFO2` was
 detected as available.
 
 I ran the stdenv build with `--keep-failed` to get full `gcc`'s
@@ -1014,7 +1014,7 @@ make[2]: *** [Makefile:4793: all-stage1-gcc] Error 2
 
 Success! We got the same build failure!
 
-Now we can run the command manually to explore it's breakage:
+Now we can run the command manually to explore its breakage:
 
 ```
 bash-5.1$ dev>cd host-x86_64-unknown-linux-gnu/gcc
@@ -1224,7 +1224,7 @@ $ ls $(nix-build -A glibc)/lib/libgcc_s.so.1
 At last!
 
 There is one minor annoyance we need to sort out: `libgcc_s.so.1` remembers
-`glibc` it was linked against in it's `RUNPATH`:
+`glibc` it was linked against in its `RUNPATH`:
 
 ```
 $ readelf -aW $(nix-build -A glibc)/lib/libgcc_s.so.1 | fgrep RUNPATH
@@ -1348,7 +1348,7 @@ different target but about different offset for system library locations.
 It should not affect compiler-specific library locations even if these
 libraries are from `gcc` compiler and not `clang`.
 
-But then again `nixpkgs` has it's own slightly deviating notion of what
+But then again `nixpkgs` has its own slightly deviating notion of what
 is cross-compiling compared other distributions. We could say that
 `nixpkgs` has empty `sysroot` and always passes all the library and
 include paths explicitly.
@@ -1434,7 +1434,7 @@ will land in `nixpkgs`. It looks like a clear improvement.
 
 ## Next steps
 
-I tried to understand `nixpkgs` bootstrap process in depth and it's
+I tried to understand `nixpkgs` bootstrap process in depth and its
 relation to the toolchain setup a few times in the past:
 
 - to sort out `glibc` [objects mismatch](/posts/240-nixpkgs-bootstrap-intro.html)
