@@ -294,7 +294,7 @@ rebuilds would probably make it simpler (or not :).
 Anyway, using `bootstrapTools` directly is not very convenient for local
 toolchain development.
 
-Thus we want something sliglty more complicated: we need to build new
+Thus we want something slightly more complicated: we need to build new
 set of bootstrap tools using current `nixpkgs` expressions as target
 versions of `gcc`, `glibc` and friends and use that instead. This
 creates a logical recursion of `bootstrapTools` -> `nixpkgs` ->
@@ -788,7 +788,7 @@ The natural place to plug our `gcc` rebuild is between
 (where we build special runtime dependencies for `glibc`).
 
 I copied `boostrap-stage2` into `bootstrap-stage1.5-gcc-unwrapped`
-and added only `gcc-unwrapped` definiton there:
+and added only `gcc-unwrapped` definition there:
 
 ```diff
 --- a/pkgs/stdenv/linux/default.nix
@@ -1442,7 +1442,7 @@ relation to the toolchain setup a few times in the past:
 - to fix `binutils` [LTO plumbing](https://github.com/NixOS/nixpkgs/pull/188544)
   (failed, needs more research)
 - to sort `musl` [include order](https://github.com/NixOS/nixpkgs/issues/142066)
-  (pending, needs more reearch)
+  (pending, needs more research)
 - to fix incomplete `mingw` [library list](https://github.com/NixOS/nixpkgs/issues/156343)
   (pending, needs more research)
 - to fix `include-what-you-use` [headers path](https://github.com/NixOS/nixpkgs/issues/189753)
@@ -1501,7 +1501,7 @@ Along the way I found a few minor infelicities in `nixpkgs`:
 And in the end I ended up with [PR #209063](https://github.com/NixOS/nixpkgs/pull/209063)
 to get `libgcc_s.so.1` up to date enough.
 
-Initially I tought that adding one `gcc` rebuild is an easy problem.
+Initially I thought that adding one `gcc` rebuild is an easy problem.
 I tried adding magic lines to `pkgs/stdenv/linux/default.nix` a few
 times and failed. I did not feel I could make it work.
 
