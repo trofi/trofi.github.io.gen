@@ -14,7 +14,7 @@ About 11 years ago I was a year old Gentoo dev who just started getting
 downstream bug reports on mysterious **ghc** build failures like
 <https://bugs.gentoo.org/326347>.
 
-The symptoms were seemingly simple: some file was inacessible while
+The symptoms were seemingly simple: some file was inaccessible while
 it was being written to, or executed.
 
 Years later I mastered the intricacies of **ghc**'s build system on how
@@ -30,9 +30,9 @@ trigger such bugs.
 with a sequence of shell commands attached to a node. There are numerous
 caveats, but they should not break this model too much.
 
-In theory you can topologically sort the graph and execute the dependencies
-in various conformant orders and expect the same result. Modulo missing
-dependencies in the graph.
+In theory you can topologically sort the graph and execute the
+dependencies in various conforming orders and expect the same result.
+Modulo missing dependencies in the graph.
 
 In practice **GNU make** happens to traverse the graph in very specific
 topological order: it maintains syntactic order as much as possible.
@@ -182,7 +182,7 @@ Paul did not seem to object too much to the idea and pointed out
 that implementation will break more complex **Makefiles** as there
 is a simple way to refer to individual prerequisites by number.
 
-To pick Pauls' example:
+To pick Paul's example:
 
 ```Makefile
 %.o : %.c
@@ -238,17 +238,17 @@ $ printf 'all:\n\techo $(CC)' | ./make -sf -
 This bug is not present in any releases yet. And hopefully will not be.
 
 I'd like to land the **\-\-shuffle** change upstream in some form before
-sending bug reports and trivial fixes to upstreams.
+sending bug reports and trivial fixes to upstream projects.
 
 # How you can test it
 
 If you are keen to try this shuffling mode on your **make**-based
-projects (be it manually written, **automake**-based ro **cmake**-based)
+projects (be it manually written, **automake**-based or **cmake**-based)
 here is a rough instruction to do it:
 
 - grab current git tree of **GNU make** at <https://git.savannah.gnu.org/git/make.git>
 - apply [v4-0001-Add-shuffle-argument-support.patch](https://savannah.gnu.org/bugs/download.php?file_id=52908) from <https://savannah.gnu.org/bugs/index.php?62100>
-- build **make** as typical **./bothstrap && configure && make**
+- build **make** as typical **./bootstrap && configure && make**
 - use it as **path/to/make \-\-shuffle \<your-typical-make-arguments\>** against your project
 - check if the build succeeds, run it a few times
 
@@ -305,7 +305,7 @@ it earlier :) The result instantly found existing and new missing
 dependencies in a small subset of real projects. Some of these failures
 are very hard to trigger otherwise.
 
-It would be nice to get **\-\-shuffle** upstreamed to ease reporting
+It would be nice to get **\-\-shuffle** upstream to ease reporting
 ordering problems to other projects without too much detail on how to get
 unusual build orders. Otherwise this post would have to do.
 
