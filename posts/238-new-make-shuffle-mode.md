@@ -167,7 +167,7 @@ c: c1 c2 c3
 a b c a1 a2 a3 b1 b2 b3 c1 c2 c3:; @echo $@ && sleep 1
 ```
 
-I wrote the proof of concent and
+I wrote the proof of concept and
 [proposed](https://lists.gnu.org/archive/html/bug-make/2022-02/msg00005.html)
 it to GNU make community.
 
