@@ -202,7 +202,7 @@ other hand were off-by-two in `urxvt`. But they were working fine on
 `xterm`. So I used `xterm`.
 
 `mcedit` did not support file encoding different from `LC_CTYPE` at the
-time. I rare moments of dire need I used things like
+time. In rare moments of dire need I used things like
 [luit](https://en.wikipedia.org/wiki/Luit) as a cheap hack to get
 something edited. I could not get `iconv` to work right. Fun times.
 
@@ -257,7 +257,7 @@ as it silently corrupts files.
 On top of that I did not like black `vim`'s background: it felt void.
 Plus multiple editing modes confused me. I did not understand why you
 have to print `<ESC>:qa!` and sometimes just `:qa!`. I did not do a
-`vimtutor` as did not know it existed: I did not pay much attention to
+`vimtutor` as I did not know it existed: I did not pay much attention to
 various help banners `vim` pops at you at start.
 
 Being a default editor in the distribution it felt like a handicap
@@ -279,7 +279,7 @@ for most of file editing and read a few books on `Common Lisp`. I did
 not write anything sizable in `Lisp`. Best I could do is to draw an
 `OpenGL` square using `verrazano` `FFI` library for `sbcl`.
 
-In `C++` land tried `ECB`, `CEDET` and `Bovinator` for parsing and
+In `C++` land I tried `ECB`, `CEDET` and `Bovinator` for parsing and
 autocompletion. The result looked suboptimal (manly because our build
 system injected too many defines external parsers did not know about).
 The plugins slowed `emacs` loading a lot. To save on startup time I
@@ -303,8 +303,8 @@ Apparently I even contributed
 and [ebuild.syntax](https://github.com/MidnightCommander/mc/commit/e0eb9ca1cd30cda67732096528e5573a14e5a1f4).
 
 At that time a new `mc` development team was formed by Russian-speaking
-community of `mc` users to revive stalled upstream development. I could
-join and contribute a tiny bit to it. I like to think I helped with
+community of `mc` users to revive stalled upstream development. I joined
+and contributed a tiny bit to `mc`. I like to think I helped with
 `subversion` to `git` migration, fixed a few dire corner cases in
 completion code, fixed a few bugs in `FISH` file transfer protocol,
 basic `alacritty` support and even support for compilation with
@@ -318,7 +318,7 @@ completion (`ESC-Tab`) and many other things I take for granted today.
 `mc` was my IDE for many years and `mcedit` helped editing all the text
 files for me. Be it blog posts like this one, `Makefile`s, `C` projects,
 `Haskell` projects, `/etc/fstab` entries. I even successfully patched
-binary fines with it.
+binary filnes with it.
 
 ## Various snags
 
@@ -342,7 +342,7 @@ the complex problem space. To name a few:
   "strings $(more subshell)")`.
 - `mcedit` while being a large part of `mc` is not the primary feature
   of it. `mc` is primarily a file manager that happens to have an
-  editor. `mcedit` it does not have that many contributors and lacks an
+  editor. `mcedit` does not have that many contributors and lacks an
   easy way to extend it. Things like `tags` completion or `aspell`
   support are implemented directly in C code. There is no easy way to
   hack up a simple equivalent.
@@ -354,7 +354,7 @@ Recently I went through the problems of [AoC 2015](https://adventofcode.com/2015
 just to practice in `rust` a bit more. I encountered a simple `json`
 parsing problem (`2015/12`). It's
 [input](https://raw.githubusercontent.com/trofi/AoC/main/2015/12/input)
-is a single line of `json` text. The line 37K long. Tiny by today's
+is a single line of `json` text. The line was 37K long. Tiny by today's
 standards.
 
 I selected the line in the browser and pressed `Shift+Insert` in
@@ -440,7 +440,7 @@ set shiftwidth=4
 ```
 
 I found that pesky `wrapmargin=8` option that inserted unexpected
-newlines and disabled it first thing.
+newlines and disabled it as a first thing.
 
 Then I looked around for a cozy background that `mcedit` and `nc` both
 had. `colorscheme darkblue` did the trick.
