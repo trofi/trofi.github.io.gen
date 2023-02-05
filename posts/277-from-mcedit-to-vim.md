@@ -355,7 +355,7 @@ just to practice in `rust` a bit more. I encountered a simple `json`
 parsing problem (`2015/12`). It's
 [input](https://raw.githubusercontent.com/trofi/AoC/main/2015/12/input)
 is a single line of `json` text. The line 37K long. Tiny by today's
-standard.
+standards.
 
 I selected the line in the browser and pressed `Shift+Insert` in
 `mcedit` window to paste it.
@@ -508,9 +508,9 @@ pleasant experience.
 Along the way I found a few more advanced substitutes for `mcedit`'s
 features:
 
-- vertical block selectors are done via `Ctrl-Alt-v`
-- adding/removing indent for selected lines are done via `Shift->` /
-  `Shift-<`.
+- vertical block selectors are done via `Ctrl-v`
+- adding/removing indent for selected lines are done via `Shift-,` /
+  `Shift-.`.
 - regex lookups and regex substitutes are occasionally helpful. They
   also work on visual selections and not just full files!
 
