@@ -124,8 +124,8 @@ Russian:
 $ echo 'Ужасы кодировок времен царя Гороха' | iconv -t koi8-r | perl -pe 'tr/\x80-\xFF/\x00-\x7F/' | iconv -f koi8-r
         uVASY KODIROWOK WREMEN CARQ gOROHA
 
-$ echo 'AБВГДЕЁЖЗИЙКЛМПОНРСТУФХЦЧШЩЪЫЬЭЮЯ' | iconv -t koi8-r | perl -pe 'tr/\x80-\xFF/\x00-\x7F/' | iconv -f koi8-r
-        Abwgde3vzijklmponrstufhc~{}yx|`q
+$ echo 'АБВГДЕЁЖЗИЙКЛМПОНРСТУФХЦЧШЩЪЫЬЭЮЯ' | iconv -t koi8-r | perl -pe 'tr/\x80-\xFF/\x00-\x7F/' | iconv -f koi8-r
+        abwgde3vzijklmponrstufhc~{}yx|`q
 
 $ echo 'абвгдеёжзийклмнопрстyфxцчшщъыьэюя' | iconv -t koi8-r | perl -pe 'tr/\x80-\xFF/\x00-\x7F/' | iconv -f koi8-r
         ABWGDE#VZIJKLMNOPRSTyFxC^[]_YX\@Q
