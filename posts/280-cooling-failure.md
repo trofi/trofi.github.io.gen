@@ -95,7 +95,7 @@ Now all the fans in the system blow the air right-to-left including the
 CPU ones. `EFI` shows that CPU temperature dropped down to 30.
 
 I can't distinguish the sound of idle system from sound fully loaded
-system. Both are very quiet. We'll see how it will change in 2 hours.
+system. Both are very quiet. We'll see how it will change in 2 years.
 
 I wonder if I was very unlucky with this water cooler or it's a more
 general pattern.
