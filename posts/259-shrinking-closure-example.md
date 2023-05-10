@@ -57,7 +57,7 @@ Sometime I have to explicitly change the package to not retain
 build-only dependencies. Here is a recent
 [freedroidrpg example](https://github.com/NixOS/nixpkgs/pull/191810/commits/02ba9a3d60c6c45e1df45714a2a3db714eed9c18):
 
-```
+```diff
 Do not embed paths to build-only depends (-I...SDL2-dev and friends)
 into savefile lua comments.
 --- a/src/savestruct_internal.c
