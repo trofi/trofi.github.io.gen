@@ -90,6 +90,11 @@ Here is my full configuration so far:
 # avoid "blue", too dark on my colorscheme
 /set weechat.color.chat_nick_colors "cyan,magenta,green,brown,lightblue,default,lightcyan,lightmagenta,lightgreen"
 
+# Filter most joins/quits/parts:
+#   https://blog.weechat.org/post/2008/10/25/Smart-IRC-join-part-quit-message-filter
+/set irc.look.smart_filter on
+/filter add irc_smart * irc_smart_filter *
+
 /save
 ```
 
