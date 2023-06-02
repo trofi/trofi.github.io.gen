@@ -156,7 +156,7 @@ have reduced functionality not needed for simplest build requirements:
   bootBinutils = binutils.bintools.override { withAllTargets = false; gold = false; enableShared = false; /*...*/ }
 ```
 
-The tarball generaion process is literally copying build files to make
+The tarball generation process is literally copying build files to make
 self-contained archive:
 
 ```
