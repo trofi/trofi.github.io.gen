@@ -1,6 +1,6 @@
 ---
 title: "DNS over TLS"
-date: June 16, 2023
+date: June 18, 2023
 ---
 
 A few months ago I finally got optical internet connection with native
