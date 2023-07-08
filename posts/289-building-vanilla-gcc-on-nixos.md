@@ -84,12 +84,13 @@ non-default include (and library, `PATH` paths) to the `./configure`.
 Or implicitly via `NIX_CFLAGS_COMPILE`.
 
 But sometimes it does not work as smoothly. `gcc` is a perfect example
-of a special package here. Another example is an already built package
-(say, a game).
+of a special package here. Another example is a binary-only package not
+distributed in a source form (say, a game).
 
-To reconcile that mismatch `nixpkgs` provides a few helpers to build
-`FHS` "chroot" out of `/nix/store/...` paths. Helper mounts `/nix/store`
-paths into locations expected by FHS.
+To reconcile that mismatch `nixpkgs` provides a few helpers to build a
+[FHS](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard)
+"chroot" out of `/nix/store/...` paths. Helper mounts `/nix/store` paths
+into locations expected by `FHS`.
 
 One of such helpers is [buildFHSEnv](https://nixos.org/manual/nixpkgs/stable/#sec-fhs-environments).
 I'll use it as an example.
