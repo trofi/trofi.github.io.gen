@@ -50,7 +50,7 @@ neither?
 [nix expression language](https://nixos.wiki/wiki/Overview_of_the_Nix_Language).
 
 It's a pure (immutable values) lazy (call-by-need) dynamically typed
-language. It has simple and short on builtin primitives. The simpler
+language. It is simple and short on builtin primitives. The simpler
 expressions are usually easy to read and reason about.
 
 `nix repl` provides great interactive environment to poke at things:
