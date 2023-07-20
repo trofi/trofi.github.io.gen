@@ -65,6 +65,7 @@ A few new bugs were found and/or fixed:
 - ldns: <https://github.com/NLnetLabs/ldns/pull/192>
 - bitlbee-facebook: <https://github.com/bitlbee/bitlbee-facebook/pull/217>
 - blahtexml: <https://github.com/gvanas/blahtexml/pull/9>
+- efivar: <https://github.com/rhboot/efivar/pull/245>
 
 Nothing complicated. Just a few missing dependencies.
 
