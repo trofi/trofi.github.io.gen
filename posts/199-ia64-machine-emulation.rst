@@ -11,7 +11,7 @@ date: March 19, 2017
 TL;DR
 =====
 
-There is a working **ia64** machine simulator: `ski <http://www.gelato.unsw.edu.au/IA64wiki/SkiSimulator>`_.
+There is a working **ia64** machine simulator: `ski <https://ski.sourceforge.net/>`_.
 It can be used to test linux kernel on any host architecture. Or at least on x86_64 :)
 
 **ski** also supports direct binary translation (in **qemu-user** style) but the simulated kernel is too old.
@@ -178,7 +178,7 @@ of **qemu-ia64** GSOC projects but none of them got to booting anything.
 
 I did encounter **ski** before but did not manage to start anything in it.
 
-**ski** can do both full system emulation and userland emulation: `wiki page <http://www.gelato.unsw.edu.au/IA64wiki/SkiSimulator>`_.
+**ski** can do both full system emulation and userland emulation: `wiki page <https://web.archive.org/web/20200324132913/https://www.gelato.unsw.edu.au/IA64wiki/SkiSimulator>`_.
 
 **ski** is an old piece of software: it requires `some fixes <https://gitweb.gentoo.org/repo/gentoo.git/tree/app-emulation/ski/files>`_ for
 modern toolchain. But otherwise system emulation just works!
