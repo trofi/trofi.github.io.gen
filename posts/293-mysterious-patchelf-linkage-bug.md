@@ -34,15 +34,15 @@ collect2: error: ld returned 1 exit status
 
 It is the `build.log` in almost all of it's entirety. I had a small
 change in `staging-next` branch which should absolutely not cause that
-failure. But I was not sure (one can never be sure when it come to the
+failure. But I was not sure (one can never be sure when it comes to the
 toolchain bugs).
 
 **Quick quiz**: why does it happen? A `gcc` bug? A `binutils` bug? Wrong
 library lookup paths in `cc-wrapper` or `ld-wrapper`? Or a heisenbug?
 
-## First hyporthesis
+## First hypothesis
 
-I had some past experience with error like that in recent the past
+I had some past experience with errors like that in recent the past
 [here](https://github.com/NixOS/nixpkgs/pull/158047) and
 [here](https://github.com/NixOS/nixpkgs/issues/201254).
 
@@ -58,9 +58,9 @@ as the culprit.
 
 My own commit! Uh-on. One of the problems is that it's a merge commit of
 the change, not the change itself. Why did bisect skip the change
-itself? Why the change caused this change at all? It did not make sense.
+itself? Why did the PR cause this failure at all? It did not make sense.
 Reverting the commit on top of `staging-next` did fix the `patchelf`
-linkage. Should be the culprit then? I was about to submit the revert
+linkage. Should it be the culprit then? I was about to submit the revert
 and move on to less cryptic things.
 
 But for some reason just before giving up I tried to run `--rebuild` on
@@ -72,7 +72,7 @@ On one hand `sys-include` commit above is quite relevant to the way
 non-deterministic failures.
 
 I had to start from the first principles to see where and how linkage
-process breasks.
+process breaks.
 
 ## What is this error about?
 
@@ -81,11 +81,11 @@ Let's look at the specifics of code using atomics in `gcc`.
 `libstdc++` (`gcc`s `c++` template library) uses atomic operations in
 various containers. For example `<string>` uses atomics to implement
 copy-on-write semantics. Naturally `patchelf` uses a bit of
-`std::String` as well. Thus it's expected to use a bit of atomics like
+`std::string` as well. Thus it's expected to use a bit of atomics like
 `__atomic_fetch_add()` builtin.
 
-Each architecture implements atomics in slightly different ways: some
-an get away with a single instruction. Some require quite a bit fo code.
+Each architecture implements atomics in a slightly different way: some
+get away with a single instruction, some require quite a bit of code.
 Let's have a look at `x86_64` and `aarch64` to see how close they are.
 
 I'll use the very `/nix/store/c7qmp1dgqf3hh4fjw74y2k662nmaslcy-xgcc-12.3.0/include/c++/12.3.0/ext/atomicity.h:66`
@@ -106,8 +106,8 @@ returns some result.
 ```
 $ gcc -O2 -S a.c -o -
     f:
-        movl    %esi, %eax
-        lock xaddl      %eax, (%rdi)
+        movl         %esi, %eax
+        lock xaddl   %eax, (%rdi)
         ret
 ```
 
@@ -151,7 +151,7 @@ __aarch64_ldadd4_acq_rel:
 
 Quite a bit of code here as well: if CPU supports `ldaddal` then
 `libgcc.a` uses that. Otherwise it falls back to
-`ldaxr / add / stlxr / cbnz`.
+`ldaxr; add; stlxr; cbnz`.
 
 This amount of code is probably the reason why the code is not inlined
 by `gcc`. For comparison `clang` does something a bit different:
@@ -159,16 +159,15 @@ by `gcc`. For comparison `clang` does something a bit different:
 ```
 $ clang -O2 -S a.c -o - -target aarch64-unknown-linux
     f:
-.LBB0_1:
         ldaxr   w8, [x0]
         add     w9, w8, w1
         stlxr   w10, w9, [x0]
-        cbnz    w10, .LBB0_1
+        cbnz    w10, f
         mov     w0, w8
         ret
 ```
 
-Here `clang` inlined `ldaxr / add / stlxr / cbnz` and did not consider
+Here `clang` inlined `ldaxr; add; stlxr; cbnz` and did not consider
 `ldaddal` at all. If we nudge `gcc` a bit we can force it to inline
 `ldaddal` with `-march=` flag:
 
@@ -324,7 +323,7 @@ case for a while. But a few weeks ago the `strip` hook was made parallel
 in [PR #207101](https://github.com/NixOS/nixpkgs/pull/207101)!
 
 As a result two `strip` commands had a chance to open `libgcc.a`, strip
-it and wripte the result back. Sometimes you are lucky and you get
+it and write the result back. Sometimes you are lucky and you get
 something that works. But sometimes you are not so lucky and one of the
 `stip` commands reads incompletely written `libgcc.a` by the previous
 `strip`.
@@ -333,7 +332,7 @@ something that works. But sometimes you are not so lucky and one of the
 
 The fix (or the workaround) is not to attemt to process the same file
 twice. [PR #246164](https://github.com/NixOS/nixpkgs/pull/246164)
-implements naive for of the symlink resolution via `realpath` and
+implements naive form of the symlink resolution via `realpath` and
 double-strip avoidance via `sort -u`:
 
 ```diff
@@ -364,7 +363,6 @@ breakage. I'm glad it was discovered so quickly after introduction.
 [PR #246164](https://github.com/NixOS/nixpkgs/pull/246164) should fix it
 for good.
 
-Turns out `clang` and `gcc` generate a bit different code by default
-around atomics.
+Turns out `clang` and `gcc` generate a bit different code around atomics.
 
 Have fun!
