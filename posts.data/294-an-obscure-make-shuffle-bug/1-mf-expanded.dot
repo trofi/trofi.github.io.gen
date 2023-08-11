@@ -1,0 +1,17 @@
+digraph {
+  node [shape=record]
+
+  "foo" [label="foo\nCFLAGS=-g"];
+  "a.o" [label="a.o\nCFLAGS=-g\n(propagated)"];
+  "b.o" [label="b.o\nCFLAGS=-g\n(propagated)"];
+
+
+  "all" -> "foo"
+  "all" -> "bar"
+
+  "foo" -> "a.o"
+  "foo" -> "b.o"
+
+  "bar" -> "c.o"
+  "bar" -> "d.o"
+}

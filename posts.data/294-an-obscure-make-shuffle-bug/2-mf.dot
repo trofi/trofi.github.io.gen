@@ -1,0 +1,17 @@
+digraph {
+  node [shape=record]
+
+  "foo" [label="foo\nCFLAGS=-ffoo"];
+  "bar" [label="bar\nCFLAGS=-fbar"];
+
+  "all" -> "foo"
+  "all" -> "bar"
+
+  "foo" -> "a.o"
+  "foo" -> "b.o"
+  "foo" -> "shared.o"
+
+  "bar" -> "c.o"
+  "bar" -> "d.o"
+  "bar" -> "shared.o"
+}

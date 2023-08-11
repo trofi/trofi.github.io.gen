@@ -1,0 +1,12 @@
+digraph {
+  node [shape=record]
+  "libefivar.so" [label="libefivar.so\nLIBS=dl"];
+  "efisecdb" [label="efisecdb\nLIBS='efivar efisec dl'"];
+  "libefisec.so" [label="libefisec.so\nLIBS='efivar efisec dl' or none?" color=red];
+
+  "all" -> "libefivar.so"
+  "all" -> "libefisec.so" [color=red]
+  "all" -> "efisecdb"
+
+  "efisecdb" -> "libefisec.so" [color=red]
+}

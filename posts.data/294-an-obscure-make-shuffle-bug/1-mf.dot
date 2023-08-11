@@ -1,0 +1,14 @@
+digraph {
+  node [shape=record]
+
+  "foo" [label="foo\nCFLAGS=-g"];
+
+  "all" -> "foo"
+  "all" -> "bar"
+
+  "foo" -> "a.o"
+  "foo" -> "b.o"
+
+  "bar" -> "c.o"
+  "bar" -> "d.o"
+}

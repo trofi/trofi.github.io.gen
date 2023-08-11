@@ -1,0 +1,22 @@
+digraph {
+  node [shape=record]
+
+  "foo" [label="foo\nCFLAGS=-ffoo"];
+  "bar" [label="bar\nCFLAGS=-fbar"];
+  "a.o" [label="a.o\nCFLAGS=-ffoo\n(propagated)"];
+  "b.o" [label="b.o\nCFLAGS=-ffoo\n(propagated)"];
+  "c.o" [label="c.o\nCFLAGS=-fbar\n(propagated)"];
+  "d.o" [label="d.o\nCFLAGS=-fbar\n(propagated)"];
+  "shared.o" [label="shared.o\nCFLAGS=-fbar\n(propagated)" color=red];
+
+  "all" -> "foo"
+  "all" -> "bar"
+
+  "foo" -> "a.o"
+  "foo" -> "b.o"
+  "foo" -> "shared.o"
+
+  "bar" -> "c.o"
+  "bar" -> "d.o"
+  "bar" -> "shared.o" [color=red]
+}

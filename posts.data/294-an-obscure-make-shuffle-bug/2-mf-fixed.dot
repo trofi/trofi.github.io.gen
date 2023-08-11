@@ -1,0 +1,20 @@
+digraph {
+  node [shape=record]
+
+  "a.o" [label="a.o\nCFLAGS=-ffoo"];
+  "b.o" [label="b.o\nCFLAGS=-ffoo"];
+  "c.o" [label="c.o\nCFLAGS=-fbar"];
+  "d.o" [label="d.o\nCFLAGS=-fbar"];
+  "shared.o" [label="shared.o\nCFLAGS=-fshared\n" color=green];
+
+  "all" -> "foo"
+  "all" -> "bar"
+
+  "foo" -> "a.o"
+  "foo" -> "b.o"
+  "foo" -> "shared.o" [color=green]
+
+  "bar" -> "c.o"
+  "bar" -> "d.o"
+  "bar" -> "shared.o" [color=green]
+}
