@@ -66,6 +66,7 @@ A few new bugs were found and/or fixed:
 - bitlbee-facebook: <https://github.com/bitlbee/bitlbee-facebook/pull/217>
 - blahtexml: <https://github.com/gvanas/blahtexml/pull/9>
 - efivar: <https://github.com/rhboot/efivar/pull/245>
+- liburing: <https://github.com/axboe/liburing/pull/891>
 
 Nothing complicated. Just a few missing dependencies.
 
