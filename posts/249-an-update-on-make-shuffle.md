@@ -67,6 +67,7 @@ A few new bugs were found and/or fixed:
 - blahtexml: <https://github.com/gvanas/blahtexml/pull/9>
 - efivar: <https://github.com/rhboot/efivar/pull/245>
 - liburing: <https://github.com/axboe/liburing/pull/891>
+- angsd: <https://github.com/ANGSD/angsd/pull/590>
 
 Nothing complicated. Just a few missing dependencies.
 
