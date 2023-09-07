@@ -11,6 +11,7 @@ pre > code {
 /* Used for both `inline` and ```block``` code. */
 code {
     font-family: monospace;
+    background-color: whitesmoke;
 }
 
 /* Used for `inline` only. */
