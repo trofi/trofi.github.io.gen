@@ -96,7 +96,7 @@ $$ $(nix-build --no-link '<nixpkgs>' -A patchelf --argstr system i686-linux)/bin
 
 ## Refreshing `bootstrapFiles`
 
-The fix is as simple as regenerating `bootsrrapFiles` for `i686`:
+The fix is as simple as regenerating `bootstrapFiles` for `i686`:
 
 ```
 $ nix-build '<nixpkgs/pkgs/stdenv/linux/make-bootstrap-tools.nix>' -A bootstrapFiles      --arg pkgs 'import <nixpkgs> { system = "i686-linux"; }'
@@ -298,7 +298,7 @@ stat() succeeded
 
 Yep! This is it.
 
-## Why my inode numbers are so big?
+## Why are my inode numbers so big?
 
 4 billion inodes is a lot. Why such a big number? Do I have so many
 files on disk? No, `find /` tells me I have around 25 million files
