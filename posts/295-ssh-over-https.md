@@ -162,6 +162,9 @@ client to send periodic probes to the server to make `HTTP` connection
 look alive. That way an idle session can stay alive for longer periods
 of time.
 
+By default `httpd` uses default `TimeOut 60` seconds of no I/O as a
+signal to close the tunnel.
+
 ## SSH over HTTPS
 
 For some reason `socat` does not support `HTTPS` proxy via `CONNECT`
