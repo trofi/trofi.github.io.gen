@@ -441,7 +441,8 @@ $ for p in ${PATH//:/ }; do [ -f $p/bison ] && ls -li $p/bison; done
 ```
 
 Proposed `which` fix for `nixpkgs` as
-<https://github.com/NixOS/nixpkgs/pull/253382>.
+<https://github.com/NixOS/nixpkgs/pull/253382> and upstream as
+<https://github.com/CarloWood/which/pull/1>.
 
 `which` fix allowed `i686` to progress a bit more and now it stumbled on
 `fontconfig` and `tpm2-tss`. To be debugged.
