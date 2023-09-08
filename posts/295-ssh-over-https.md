@@ -86,9 +86,12 @@ There are various avenues to explore here:
    [the list](https://github.com/yrutschle/sslh/blob/master/probe.c#L50).
 
    Clear pro here is:
+
    - no special `ssh` client configuration is required: you just specify
      non-default port.
+
    The minor cons are:
+
    - and extra service to set up
    - `HTTPS` has to be passed through `sslh` as well, which might hide
      source address of the connections for the backend. Not convenient
@@ -109,11 +112,13 @@ There are various avenues to explore here:
   ```
 
   Clear pros here:
+
   - full encapsulation of one protocol in another: no heuristics needed,
     harder to block by a Deep Packet Inspection software.
   - `HTTPS` itself is not impacted or redirected
 
   The cons might be also substantial:
+
   - possible performance decrease due to double-encryption
   - requires client configuration to use proxy
 
