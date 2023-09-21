@@ -790,7 +790,8 @@ On the bright side `COLLECT_GCC_OPTIONS` is an internal `gcc`
 implementation detail that should be fixable without much external
 impact. Even if we move it to proper argument list it should already
 unlock `2MB` limit. And if we could pass response files through we cloud
-sidestep the limit entirely.
+sidestep the limit entirely. Filed <https://gcc.gnu.org/PR111527> to
+`gcc` upstream.
 
 But meanwhile I'll try to patch `gcc` (and maybe `clang`?) just for
 `nixpkgs` to apply programmatic mangling similar to:
