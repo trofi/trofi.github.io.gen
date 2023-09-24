@@ -793,6 +793,10 @@ unlock `2MB` limit. And if we could pass response files through we cloud
 sidestep the limit entirely. Filed <https://gcc.gnu.org/PR111527> to
 `gcc` upstream.
 
+On top of that as a medium-term workaround I proposed the change to
+`linux` to allow variables as large as the whole limit:
+<https://lkml.org/lkml/2023/9/24/381>.
+
 But meanwhile I'll try to patch `gcc` (and maybe `clang`?) just for
 `nixpkgs` to apply programmatic mangling similar to:
 
