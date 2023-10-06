@@ -1,4 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
+module Main (main) where
+
 import           Data.Monoid (mappend, mconcat)
 import qualified Control.Monad as CM
 import           Hakyll
@@ -7,6 +9,7 @@ import qualified Hakyll.Web.Pandoc as HWP
 import qualified Text.Pandoc.Options as TPO
 
 import qualified AbsolutizeUrls as AU
+import qualified Graphviz as G
 
 main :: IO ()
 main = hakyll $ do
@@ -28,7 +31,7 @@ main = hakyll $ do
 
     match "posts/*" $ do
         route $ setExtension "html"
-        compile $ pandocCompilerWith HWP.defaultHakyllReaderOptions{TPO.readerStandalone = True} HWP.defaultHakyllWriterOptions
+        compile $ pandocCompilerWithTransformM HWP.defaultHakyllReaderOptions{TPO.readerStandalone = True} HWP.defaultHakyllWriterOptions G.inlineDotWithGrapthviz
             >>= loadAndApplyTemplate "templates/post.html"    postCtx
             >>= saveSnapshot "content"
             >>= loadAndApplyTemplate "templates/default.html" postCtx

@@ -44,9 +44,9 @@ Now you can visit <http://127.0.0.1:8000> and explore the result.
 Caveat: [run_watcher.sh](./run_watcher.sh) relies on
 [nix](https://nixos.org/manual/nix/stable/) package manager and would
 not run as is in systems without it. It's not a required dependency:
-To run it on `nix`-less system you will need to install `ghc`,
-`pandoc` and `hakyll`. After you tweak the script header you should
-be able to run it.
+To run it on `nix`-less system you will need to install `ghc`, `text`,
+`pandoc-types`, `pandoc` and `hakyll`. After you tweak the script header
+you should be able to run it.
 
 # Credits
 
