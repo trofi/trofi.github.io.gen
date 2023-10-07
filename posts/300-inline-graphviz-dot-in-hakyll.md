@@ -60,6 +60,6 @@ Here we traverse the `pandoc` representation of `markdown` and substitute
 `{render=dot}` for the raw output of `dot -Tsvg` tool call. Easy!
 
 If you never saw what `graphviz` is capable have a loot at
-[their gallery](ihttps://graphviz.org/gallery/).
+[their gallery](https://graphviz.org/gallery/).
 
 Have fun!
