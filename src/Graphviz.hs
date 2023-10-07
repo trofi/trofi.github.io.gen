@@ -20,7 +20,7 @@ inlineDotWithGrapthviz = TPW.walkM inlineDot
  -}
 inlineDot :: TP.Block -> Compiler TP.Block
 inlineDot cb@(TP.CodeBlock (id, classes, namevals) contents)
-  | lookup "render" namevals == Just "dot"
+  | ("render", "dot") `elem` namevals
   = TP.RawBlock (TP.Format "html") . DT.pack <$> (unixFilter "dot" ["-Tsvg"] (DT.unpack contents))
 inlineDot x = return x
 
