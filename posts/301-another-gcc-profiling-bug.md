@@ -46,7 +46,7 @@ I had to do two minor tweaks:
 1. set `--enable-checking=yes` for `gcc_debug`
 2. change `python3` `nixpkgs` package to use `gcc_debug`
 
-Out of laziness I patched `--enable-checkoing=yes` into local checkout
+Out of laziness I patched `--enable-checking=yes` into local checkout
 and changed `python3` dependency in development shell invocation. Both
 tweaks are below:
 
@@ -411,7 +411,7 @@ can somehow work around the failure and see if `gcc_debug` crashes
 somewhere else as well.
 
 Even before looking at the `gcc` code I knew quite a bit about the
-failure: the identical code folding fails on a functions most of which
+failure: the identical code folding fails on a function most of which
 bodies is not executed: `if (p)` is always `false`.
 
 Before doing `gcc` bisection I had a look at recent `gcc` commits.
@@ -504,8 +504,9 @@ Here is the initial probability value we are about to overwrite:
 always
 ```
 
-I proposed the conservative fix by ignoring such "unitializing" updates
-as an ["ipa-utils: avoid uninitialized probabilities on ICF [PR111559]" commit](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=043a6fcbc27f8721301eb2f72a7839f54f393003):
+I proposed the conservative fix by ignoring such updates that change
+probability from "initialized" to "uninitialized" as an
+["ipa-utils: avoid uninitialized probabilities on ICF [PR111559]" commit](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=043a6fcbc27f8721301eb2f72a7839f54f393003):
 
 ```diff
 --- a/gcc/ipa-utils.cc
@@ -538,8 +539,8 @@ It might not be the best fix as we discard the fact that branch was
 never executed during the profile run. But at least we don't compromise
 correctness.
 
-This fixed reduced example and actual `python` `PGO` build for me. Yay!
-That was easier than I expected.
+This fixed the reduced example and the actual `python` `PGO` build for
+me. Yay! That was easier than I expected.
 
 ## A minor comment
 
@@ -587,7 +588,7 @@ during IPA pass: inline
 Please submit a full bug report, with preprocessed source (by using -freport-bug).
 ```
 
-There `gcc`'s own build using profile feedback information. That made
+There `gcc`'s own build is using profile feedback information. That made
 sense: there is a big chance `STL` (or other `gcc` internals) produces
 identical functions worth folding. And looking at the crash log in
 Franz's case `handle_noclone_attribute()` was folded with something else.
@@ -686,10 +687,10 @@ Or if we put the picture in words:
 All of `[2.]-[3.]-[4.]` added are faster than single `[1.]` as all of
 them use  `-O2` option. And `[1.]` uses `CFLAGS=-O0` by default.
 
-The speed-up workaround was to build optimized `stage1-gcc` with
-optimizations (`-O2` instead of default `-O0`). `gcc` build system
-provides `STAGE1_CFLAGS` option for that. And while at it we will enable
-`-ggdb3` instead of default `-g` option:
+The speed-up workaround was to build `stage1-gcc` with optimizations
+(`-O2` instead of default `-O0`). `gcc` build system provides
+`STAGE1_CFLAGS` option for that. And while at it we will enable `-ggdb3`
+instead of default `-g` option:
 
 ```
 $ ~/dev/git/gcc/configure
