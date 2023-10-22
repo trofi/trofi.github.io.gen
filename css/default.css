@@ -46,3 +46,11 @@ div.info {
 div#footer {
     color: #555;
 }
+
+table, th, td {
+  border: 1px solid;
+}
+
+table {
+  border-collapse: collapse;
+}
