@@ -31,7 +31,14 @@ main = hakyll $ do
 
     match "posts/*" $ do
         route $ setExtension "html"
-        compile $ pandocCompilerWithTransformM HWP.defaultHakyllReaderOptions{TPO.readerStandalone = True} HWP.defaultHakyllWriterOptions G.inlineDotWithGrapthviz
+        compile $ pandocCompilerWithTransformM
+                    HWP.defaultHakyllReaderOptions{
+                      TPO.readerStandalone = True
+                    }
+                    HWP.defaultHakyllWriterOptions{
+                      TPO.writerHTMLMathMethod = TPO.MathML
+                    }
+                    G.inlineDotWithGrapthviz
             >>= loadAndApplyTemplate "templates/post.html"    postCtx
             >>= saveSnapshot "content"
             >>= loadAndApplyTemplate "templates/default.html" postCtx
