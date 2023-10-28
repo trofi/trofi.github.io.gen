@@ -48,7 +48,6 @@ main = hakyll $ do
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ pageCompiler
-            >>= loadAndApplyTemplate "templates/post.html"    postCtx
             >>= saveSnapshot "content"
             >>= loadAndApplyTemplate "templates/default.html" postCtx
             >>= relativizeUrls
