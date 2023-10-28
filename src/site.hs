@@ -57,32 +57,18 @@ main = hakyll $ do
         route   (constRoute "README.md")
         compile copyFileCompiler
 
-    create ["archive.html"] $ do
+    create ["blog.html"] $ do
         route idRoute
         compile $ do
             posts <- recentFirst =<< loadAll "posts/*"
-            let archiveCtx =
+            let blogCtx =
                     listField "posts" postCtx (return posts) `mappend`
-                    constField "title" "/archive"            `mappend`
+                    constField "title" "blog"                `mappend`
                     defaultContext
 
             makeItem ""
-                >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
-                >>= loadAndApplyTemplate "templates/default.html" archiveCtx
-                >>= relativizeUrls
-
-    match "index.html" $ do
-        route idRoute
-        compile $ do
-            posts <- fmap (take 20) . recentFirst =<< loadAll "posts/*"
-            let indexCtx =
-                    listField "posts" postCtx (return posts) `mappend`
-                    constField "title" "/"                   `mappend`
-                    defaultContext
-
-            getResourceBody
-                >>= applyAsTemplate indexCtx
-                >>= loadAndApplyTemplate "templates/default.html" indexCtx
+                >>= loadAndApplyTemplate "templates/blog.html" blogCtx
+                >>= loadAndApplyTemplate "templates/default.html" blogCtx
                 >>= relativizeUrls
 
     match "templates/*" $ compile templateCompiler

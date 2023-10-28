@@ -43,10 +43,6 @@ div.info {
     font-style: italic;
 }
 
-div#footer {
-    color: #555;
-}
-
 table, th, td {
   border: 1px solid;
 }
