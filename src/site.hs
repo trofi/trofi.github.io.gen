@@ -39,6 +39,12 @@ main = hakyll $ do
         route   idRoute
         compile copyFileCompiler
 
+    match "pages/*" $ do
+        route $ gsubRoute "pages/" (const "") `composeRoutes` setExtension "html"
+        compile $ pageCompiler
+            >>= loadAndApplyTemplate "templates/default.html" postCtx
+            >>= relativizeUrls
+
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ pageCompiler
