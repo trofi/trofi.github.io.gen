@@ -11,6 +11,16 @@ import qualified Text.Pandoc.Options as TPO
 import qualified AbsolutizeUrls as AU
 import qualified Graphviz as G
 
+pageCompiler :: Compiler (Item String)
+pageCompiler = pandocCompilerWithTransformM
+    HWP.defaultHakyllReaderOptions{
+      TPO.readerStandalone = True
+    }
+    HWP.defaultHakyllWriterOptions{
+      TPO.writerHTMLMathMethod = TPO.MathML
+    }
+    G.inlineDotWithGrapthviz
+
 main :: IO ()
 main = hakyll $ do
     match "images/*" $ do
@@ -31,14 +41,7 @@ main = hakyll $ do
 
     match "posts/*" $ do
         route $ setExtension "html"
-        compile $ pandocCompilerWithTransformM
-                    HWP.defaultHakyllReaderOptions{
-                      TPO.readerStandalone = True
-                    }
-                    HWP.defaultHakyllWriterOptions{
-                      TPO.writerHTMLMathMethod = TPO.MathML
-                    }
-                    G.inlineDotWithGrapthviz
+        compile $ pageCompiler
             >>= loadAndApplyTemplate "templates/post.html"    postCtx
             >>= saveSnapshot "content"
             >>= loadAndApplyTemplate "templates/default.html" postCtx
@@ -61,7 +64,6 @@ main = hakyll $ do
                 >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
                 >>= loadAndApplyTemplate "templates/default.html" archiveCtx
                 >>= relativizeUrls
-
 
     match "index.html" $ do
         route idRoute
