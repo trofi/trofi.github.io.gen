@@ -14,30 +14,39 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 16 September: `nixpkgs`: [disable `bash` `malloc()` implementation](https://github.com/NixOS/nixpkgs/commit/223b83ca54ac118f7769694b09af3547d5c39224).
 
+14 September: `nixpkgs`: [always mangle out `__FILE__` paths to shrink closure](https://github.com/NixOS/nixpkgs/pull/255192).
+
 31 July: `nixpkgs`: [fix file corruption caused by parallel strip](https://github.com/NixOS/nixpkgs/commit/a3d2e71a6c6fbf389c19940899440228591b7b92).
 
-15 March: `nixpkgs`: [enable parallel installs for parallel builds](https://github.com/NixOS/nixpkgs/commit/19680e9902c2f8607022189c8583c9d697969fa1).
+15 March: `nixpkgs`: [enable parallel installs for pa rallel builds](https://github.com/NixOS/nixpkgs/commit/19680e9902c2f8607022189c8583c9d697969fa1).
+
+20 February: `libomxil-bellagio`: [fix stack overread](https://sourceforge.net/p/omxil/patches/8/).
+
+5 February: `xmms2`: [fix `UPD` visualization server on dual-stack `IPv6`](https://github.com/xmms2/xmms2-devel/commit/d9d64c1d303593205251494ea4c8847174dd5e9b).
 
 11 January: `nix-olde`: [started a new project to find outdated `nixpkgs` packages](https://github.com/trofi/nix-olde).
 
 ## 2022
 
+30 December: `xmms2`: [fix stuck `FLAC` playback](https://github.com/xmms2/xmms2-devel/commit/39d31d4a7ae463f3df7a09915fe61e2574f4d95f).
+
 1 December: `AoC`: [started participating in `Advent of Code`](https://github.com/trofi/AoC).
 Turned it into `rust` learning exercise.
-
-16 August: `gcc`: [add build dependencies on `i386-builtin-types.inc`](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=ef3165736d9daafba88adb2db65b2e8ebf0024ca).
-noticed by `make --shuffle`.
 
 13 September: `glibc`: [fix `MAKEFLAGS` assignment for upcoming `make-4.4`](https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=2d7ed98add14f75041499ac189696c9bd3d757fe).
 
 11 September: `make`: [fix `--shuffle` crash on `SECONDEXPANSION` prerequisites](https://git.savannah.gnu.org/cgit/make.git/commit/?id=ca4234c4b550618df2194e0617c43bb12524f820).
 
+16 August: `gcc`: [add build dependencies on `i386-builtin-types.inc`](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=ef3165736d9daafba88adb2db65b2e8ebf0024ca).
+Exposed by `make --shuffle`.
+
 16 August: `gcc`: [driver: fix environ corruption after `putenv()`](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=2b403297b111c990c331b5bbb6165b061ad2259b).
+
+11 August: `nixpkgs`: [don't inhibit stripping when `debuginfo` splitter is enabled](https://github.com/NixOS/nixpkgs/pull/185537).
 
 28 July: `nixpkgs`: [enable stripping of cross-compilers](https://github.com/NixOS/nixpkgs/commit/88c63ca65a30eb83bd2a00d183a9f11819be43ad).
 
 27 June: `gcc`: [`c++`: avoid `<memory>` poisoning on `musl`](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=3b21c21f3f5726823e19728fdd1571a14aiae0fb3).
-
 25 June: `ghc`: [add missing order-only `.hs-boot` dependencies](https://gitlab.haskell.org/ghc/ghc/-/commit/b43d140b3f79e024489bbd9338d81d2ac23fc437).
 
 4 June: `make`: [add `--shuffle` mode](https://git.savannah.gnu.org/cgit/make.git/commit/?id=621d3196fae94e9006a7e9c5ffdaf5ec209bf832).
@@ -54,6 +63,8 @@ noticed by `make --shuffle`.
 
 22 February: `nixpkgs`: [fix `crt` file poisoning in bootstrap](https://github.com/NixOS/nixpkgs/commit/86be4335afe7ce177a8e3c0b0293e1652d4ce682).
 
+20 March: `vim`: [fix tutor parallel install](https://github.com/vim/vim/pull/9978).
+
 12 March: `gcc`: [avoid `TEXTREL`s in shared library](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=638e630142b2cf691db890ab9eb6d77a65339c54).
 
 17 March: `nix`: [fix `nix store gc` quadratic behaviour](https://github.com/NixOS/nix/commit/d58453f72ea584cac2e3362fd6a73fcf0e3b615e).
@@ -64,7 +75,12 @@ noticed by `make --shuffle`.
 
 ## 2021
 
+21 November: `flatbuffers`: [fix undefined evaluation order of function parameters](https://github.com/google/flatbuffers/pull/6946).
+
 10 November: `nix`: [fix quadratic slowdown of lookup and deletion of realizations for CA derivations](https://github.com/NixOS/nix/commit/edfc5b2f127bfbaebbd48fcd7b35034345ce2cfa).
+
+7 November: `espeak-ng`: [fix `SIGSEGV` on parallel builds](https://github.com/espeak-ng/espeak-ng/pull/1036).
+Build rules shared temporary file names.
 
 9 September: `nixpkgs`: [add `s390x` cross-compilation target](https://github.com/NixOS/nixpkgs/commit/34e468dc4268cee86aa019ae9bc52768e60fb5f7).
 
@@ -151,6 +167,10 @@ Without the change page fault handler corrupted wrong register.
 16 July: `ghc`: [skip `-Bsymbolic` on unregisterised targets](https://gitlab.haskell.org/ghc/ghc/-/commit/8ec48990fee9e245bb2fe40dc6f65b61b8612157).
 This fixed `sh4` build on `ghc`.
 
+19 May: `libressl`: `hppa` [fix assembly syntax around semicolons](https://github.com/libressl/portable/pull/426).
+
+16 May: `goircbot`: [set bot status before channel joins, not after](https://github.com/StalkR/goircbot/pull/18).
+
 17 February: `libffi`: `ia64` [fix small struct return](https://github.com/libffi/libffi/commit/b58caef7fd620408be9239ac24ea89d5bc84f30b).
 
 11 February: `libffi`: `ia64` [fix variadic function closures with FP arguments](https://github.com/libffi/libffi/commit/11de69ddb788e4d87ef653898878384116ac16c6).
@@ -165,12 +185,20 @@ This fixed `sh4` build on `ghc`.
 
 17 October: `libffi`: `ia64` [unbreak small struct handling](https://github.com/libffi/libffi/commit/ed7488c003765c7ee71b7da3e8c21f431b043809).
 
+3 October: `fish-shell`: [fix `printf "%o"` on big-endian systems](https://github.com/fish-shell/fish-shell/pull/4444).
+
 19 August: `pax-utils`: [fixed crash on `ia64` binaries](https://gitweb.gentoo.org/proj/pax-utils.git/commit/?id=720becce1314db8c0af8442650f496d972475327).
 
 18 July: found `nettle` data corruption on `sparc` due to reuse of local
 variable. It was fixed upstream with [this commit](https://git.lysator.liu.se/nettle/nettle/-/commit/dcda81d796de2f4a16fd7e9e7a5d07baa288f147).
 
+14 July: `libunwind`: `ia64` [disable unimplemented `dwarf` support](https://github.com/libunwind/libunwind/pull/35).
+
+10 July: `ruby`: `ia64`: [fix garbage collector scanning of `RBS` area](https://github.com/ruby/ruby/commit/7aa74a0d0a22d74f1b3053280c56501aaf0b1e3c).
+
 24 June: `binutils`: `ia64` [fix for `strip` crash with broken hint](https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=5cc4ca837deac7dc962d8a3741aa120c50ab41da).
+
+30 May: `openrc`: [fix buffer overflow in `openrc-init`](https://github.com/OpenRC/openrc/commit/0ddee9b7d2b8dea810e252ca6a95c457876df120).
 
 1 May: `linux`: `ia64` [fix module loading on `gcc-5.4+`](https://github.com/torvalds/linux/commit/a25fb8508c1b80dce742dbeaa4d75a1e9f2c5617).
 
@@ -196,6 +224,8 @@ Without it garbage collector crashed with assertion failures.
 
 ## 2015
 
+7 August: `mtpfs`: [open `device=0`, not a random one](https://github.com/cjd/mtpfs/pull/4).
+
 7 July: `ghc`: [fix wake up on bad file descriptors in `select()` backend](https://gitlab.haskell.org/ghc/ghc/-/commit/5857e0afb5823987e84e6d3dd8d0b269b7546166).
 
 23 June: `ghc`: [fix `PLT` relocation support on `powerpc` `ghci`](https://gitlab.haskell.org/ghc/ghc/-/commit/c0847967caf51ea4ca88d0ffc25fe1bd99dcabed).
@@ -220,7 +250,12 @@ This fixed battery drain by `xmobar` on my laptop.
 
 7 April: `linux`: [fix crash on thread pool remount](https://github.com/torvalds/linux/commit/800ee2247f483b6d05ed47ef3bbc90b56451746c).
 
+4 March: `lambdabot`: [add `CODEPAGE` command](https://github.com/lambdabot/lambdabot/pull/76).
+
 ## 2013
+
+13 December: `cabal`: [use `ByteString` instead of `String`](https://github.com/haskell/cabal/pull/1614).
+This allowed me to upload `raincat` release on `hackage`.
 
 25 November: `trofi.github.io`: [moved the blog to `GitHub pages`](https://github.com/trofi/trofi.github.io.gen).
 
@@ -233,6 +268,12 @@ and unused code in many projects with it.
 Instead of runtime-detection of structure layout we now use `autoconf` macros.
 
 ## 2012
+
+31 October: `bdelta`: [25% speed up of `--all-in-ram` option](https://github.com/jjwhitney/BDelta/pull/2).
+
+29 October: `xmms2`: [fix infinite loop on broken `.cue` files](https://github.com/xmms2/xmms2-devel/commit/ef1dd4afa356519874de3ac610e03635150c8a08).
+
+26 September: `bdelta`: [add `--all-in-ram` option to get 3x speed up](https://github.com/jjwhitney/BDelta/pull/1).
 
 24 April: `linux`: `btrfs` [feature to change thread pool sizes](https://github.com/torvalds/linux/commit/0d2450abfa359ff94a2bee64a7daeba68c346c81).
 
