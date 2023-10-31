@@ -8,6 +8,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 23 October: `gcc`: [`libgcc`: make heap-based trampolines conditional on `libc` presence](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=eaf75155f38a51b2d9d49c6c1b1e1639e3d0591a).
 
+20 October: `acme-rs` [Fix non-standalone challenge paths](https://github.com/kariustobias/acme-rs/pull/29).
+
 28 September: `gcc`: [`ggc`: do not wipe out unrelated data via `gt_ggc_rtab`](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=7525707c5f3edb46958c4fdfbe30de5ddfa8923a).
 
 27 September: `gcc`: [`ipa-utils`: avoid uninitialized probabilities on `ICF`](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=043a6fcbc27f8721301eb2f72a7839f54f393003).
