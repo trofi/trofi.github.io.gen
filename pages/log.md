@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2023
 
+31 October: `duperemove` bug: [hang up on 1 million of small files](https://github.com/markfasheh/duperemove/issues/316).
+
 23 October: `gcc`: [`libgcc`: make heap-based trampolines conditional on `libc` presence](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=eaf75155f38a51b2d9d49c6c1b1e1639e3d0591a).
 
 20 October: `acme-rs` [Fix non-standalone challenge paths](https://github.com/kariustobias/acme-rs/pull/29).
