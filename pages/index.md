@@ -14,4 +14,7 @@ amusement.
 For shorter and more volatile updates you might want to check
 out [@trofi@fosstodon.org](https://fosstodon.org/@trofi).
 
+I also occasionally post a stream of amusing bugs or fixes in
+[log](/log.html).
+
 Enjoy!
