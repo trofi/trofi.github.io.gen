@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2023
 
+1 November: `duperemove`: [one-liner to speed deduping up 2x](https://github.com/markfasheh/duperemove/pull/318).
+
 31 October: `duperemove` bug: [hang up on 1 million of small files](https://github.com/markfasheh/duperemove/issues/316).
 
 23 October: `gcc`: [`libgcc`: make heap-based trampolines conditional on `libc` presence](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=eaf75155f38a51b2d9d49c6c1b1e1639e3d0591a).
