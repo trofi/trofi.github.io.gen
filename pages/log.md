@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2023
 
+4 November: `nixpkgs`: [one-liner to reduce meld closure](https://github.com/NixOS/nixpkgs/pull/265454).
+
 1 November: `duperemove`: [one-liner to speed deduping up 2x](https://github.com/markfasheh/duperemove/pull/318).
 
 31 October: `duperemove` bug: [hang up on 1 million of small files](https://github.com/markfasheh/duperemove/issues/316).
