@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2023
 
+5 November: `btrfs-progs`: [Fix accidental SCAN mapped to FORGET ioctl](https://github.com/kdave/btrfs-progs/pull/706).
+
 4 November: `nixpkgs`: [one-liner to reduce meld closure](https://github.com/NixOS/nixpkgs/pull/265454).
 
 1 November: `duperemove`: [one-liner to speed deduping up 2x](https://github.com/markfasheh/duperemove/pull/318).
