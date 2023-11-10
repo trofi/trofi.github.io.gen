@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2023
 
+10 November: `duperemove`: [Fix quadratic slowdown for `partial` mode](https://github.com/markfasheh/duperemove/pull/324).
+
 9 November: `duperemove`: [Fix file sharing accounting](https://github.com/markfasheh/duperemove/pull/323).
 
 7 November: `duperemove`: [Fix quadratic slowdown of small inline files](https://github.com/markfasheh/duperemove/pull/322).
