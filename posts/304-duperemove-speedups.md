@@ -96,7 +96,7 @@ But a while after I ran `duperemove-0.13` against `/nix/store`. 2 hours
 later I found that it did not finish and ate `100%` of the CPU. That was
 unexpected.
 
-I was not sure if it was a particular file that is causing trouble or
+I was not sure if it was a particular file that was causing trouble or
 the sheer load on `duperemove` that made it degrade so much under the
 load.
 
@@ -107,7 +107,7 @@ to see if it could be fixed.
 
 Jack implemented incremental mode the same day! I tried it and saw an
 improvement. But the result was still too slow to run on the whole of
-`/nix/store` within a day. I could not easily pin point the problem of
+`/nix/store` within a day. I could not easily pinpoint the problem of
 `100%` CPU usage on my workloads.
 
 ## `duperemove` complexity intuition
@@ -132,12 +132,12 @@ minutes`. And on top of that there should be some minor overhead to
 calculate checksums and store some state in `sqlite` database. That was
 my naive reasoning :)
 
-Practice shown that `duperemove` found the CPU-heavy work to do for
+Practice showed that `duperemove` found the CPU-heavy work to do for
 hours on my machine.
 
 ## synthetic tests
 
-I ran `perf top` and noticed that `duperemove` shown unusual reading on
+I ran `perf top` and noticed that `duperemove` showed unusual reading on
 various stages of a run: at one point most of the time was spent in
 `sqlite` internals, at another one some `rb_next()` function took most
 of the time. I did not expect such things in an IO-mostly workload.
@@ -161,7 +161,7 @@ sync
 ```
 
 How long should it take to run? Maybe 1-2 seconds? Alas running it for
-real shown the following:
+real showed the following:
 
 ```
 $ time ./duperemove -q -rd dd/
