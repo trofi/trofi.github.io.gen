@@ -1,5 +1,5 @@
 ---
-title: About this site
+title: about this site
 ---
 
 This site is powered by [hakyll](https://jaspervdj.be/hakyll) static
