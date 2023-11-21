@@ -4,17 +4,18 @@ date: November 21, 2023
 ---
 
 [`duperemove-0.14`](https://github.com/markfasheh/duperemove/releases/tag/v0.14)
-released yesterday and included a few small fixes I wrote about
+was released yesterday and included a few small fixes I wrote about
 [before](/posts/304-duperemove-speedups.html).
 
-On top of that new release contains overhauled parallel file scanner and
-database handler that scale a lot better on large files.
+On top of that the new release contains an overhauled parallel file
+scanner and database handler that scale a lot better on large files.
 
 ## new crashes
 
 Unfortunately recent changes also increased complexity of handling
 deduplication queue in a way that caused occasional crashes like 
-asserts in `dedupe_extent_list()` at run_dedupe.c:448](https://github.com/markfasheh/duperemove/issues/329).
+asserts in `dedupe_extent_list()` at
+[`run_dedupe.c:448`](https://github.com/markfasheh/duperemove/issues/329).
 
 In that case my typical dedupe run started crashing as:
 
@@ -109,8 +110,8 @@ of the assert seems straightforward: `ctxt` is expected to be created
 within `list_for_each_entry()` loop and is destroyed before we exit the
 loop.
 
-The is a bit of logic that tries to track if we are in the last element
-of the loop to make sure we clean up properly.
+There is a bit of logic that tries to track if we are in the last
+element of the loop to make sure we clean up properly.
 
 From a quick glance I was not able to figure out why `duperemove` crashes
 on my input. What is worse: running `duperemove` with
