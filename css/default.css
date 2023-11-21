@@ -33,11 +33,7 @@ div#navigation {
 }
 
 a:hover {
-    /* remove underline on hover */
-    text-decoration: none;
-
-    background-color:#000000;
-    color:#FFFFFF;
+    font-weight: bold;
 }
 
 div.info {
