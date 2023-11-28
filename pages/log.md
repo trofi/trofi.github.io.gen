@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2023
 
+28 November: `php`: [Fix build on `gcc-14` `C11` atomics](https://github.com/php/php-src/pull/12821).
+
 14 November: `libglgnd`: [Enable 64-bit file APIs](https://gitlab.freedesktop.org/glvnd/libglvnd/-/merge_requests/288).
 
 11 November: `nixpkgs`: [Fix broken `SUID` binary in `pam` package](https://github.com/NixOS/nixpkgs/pull/266828).
