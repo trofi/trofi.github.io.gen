@@ -288,7 +288,7 @@ This allowed me to upload `raincat` release on `hackage`.
 3 July: `uselex`: started [new `uselex` project](https://github.com/trofi/uselex)
 and unused code in many projects with it.
 
-13 September: `linux`: [enable `-Werror=implicit-int` by default](httpis://github.com/torvalds/linux/commit/80970472179a45609c0b11b80619bc8c32b15f77).
+13 September: `linux`: [enable `-Werror=implicit-int` by default](https://github.com/torvalds/linux/commit/80970472179a45609c0b11b80619bc8c32b15f77).
 
 23 January: `ghc`: [fix cross-compilation of `integer-gmp`](https://gitlab.haskell.org/ghc/ghc/-/commit/52f554582339d14c28a3cc91385f9cb0343f6779).
 Instead of runtime-detection of structure layout we now use `autoconf` macros.
