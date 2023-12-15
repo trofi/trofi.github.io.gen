@@ -19,8 +19,8 @@ I decided to switch to a larger `2T` SSD to expand the time budget to
 
 This is my boot disk on `btrfs` and I would like to preserve most of
 it's properties without too much of mountpoint juggling or machine
-downtime. AFAIU does not handle advanced filesystem features like
-subvolume layouts and already deduplicated data.
+downtime. AFAIU `rsync` does not handle advanced filesystem features
+like subvolume layouts and already deduplicated data.
 
 I ended up plugging in a new device and did two commands to transfer all
 the data live from one device to another:
@@ -48,7 +48,7 @@ Here is the sequence I used:
 
    Here we create 2 partitions: 4G `EFI` and the rest on Linux.
 
-3. [prepare] Format `EFI` partition:
+3. Format `EFI` partition:
 
    ```
    # mkfs.fat -F 32 /dev/nvme1n1p1
