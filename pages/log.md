@@ -6,6 +6,12 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2023
 
+26 December: `ofborg`: [map modified files according to `.meta.position`](https://github.com/NixOS/ofborg/pull/669).
+
+16 December: `iwd`: [fix data corruption in `aarch64`](https://git.kernel.org/pub/scm/network/wireless/iwd.git/commit/?id=688d27700833258a139a6fbd5661334bd2c9fa98).
+
+8 December: `libbpf`: [report nature of `ELF` section corruption](https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/commit/?id=32fa058398624166dd04ff4af49cfef69c94abbc).
+
 3 December: `tracker`: [`tracker` used invalid code to test `strftime()` features](https://gitlab.gnome.org/GNOME/tracker/-/merge_requests/638).
 
 1 December: `nixpkgs` bug: [`nixpkgs` uses very old `libelf` library where one would expect `elfutils`](https://github.com/NixOS/nixpkgs/issues/271473).
