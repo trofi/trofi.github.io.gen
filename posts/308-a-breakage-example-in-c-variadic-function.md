@@ -979,3 +979,42 @@ on small set of architectures: `aarch64` and `ia64` :)
 [this patch](https://git.kernel.org/pub/scm/network/wireless/iwd.git/commit/?id=688d27700833258a139a6fbd5661334bd2c9fa98).
 
 Have fun!
+
+## Is AMD64 actually immune to this?
+
+[No](https://en.wikipedia.org/wiki/Betteridge%27s_law_of_headlines).
+GCC's use of `push` instructions is controlled by two options,
+`-mpush-args` and `-mno-accumulate-outgoing-args`:
+
+```c
+static bool
+ix86_push_argument (unsigned int npush)
+{
+  /* If SSE2 is available, use vector move to put large argument onto
+     stack.  NB:  In 32-bit mode, use 8-byte vector move.  */
+  return ((!TARGET_SSE2 || npush < (TARGET_64BIT ? 16 : 8))
+          && TARGET_PUSH_ARGS
+          && !ACCUMULATE_OUTGOING_ARGS);
+}
+```
+
+The latter option is automatically adjusted depending on which CPU
+family GCC should tune for:
+
+```c
+/* X86_TUNE_ACCUMULATE_OUTGOING_ARGS: Allocate stack space for outgoing
+   arguments in prologue/epilogue instead of separately for each call
+   by push/pop instructions.
+   This increase code size by about 5% in 32bit mode, less so in 64bit mode
+   because parameters are passed in registers.  It is considerable
+   win for targets without stack engine that prevents multple push operations
+   to happen in parallel.  */
+
+DEF_TUNE (X86_TUNE_ACCUMULATE_OUTGOING_ARGS, "accumulate_outgoing_args",
+          m_PPRO | m_P4_NOCONA | m_BONNELL | m_SILVERMONT | m_KNL | m_KNM | m_INTEL
+          | m_GOLDMONT | m_GOLDMONT_PLUS | m_ATHLON_K8 | m_LUJIAZUI)
+```
+
+So the use of `push` vs. `mov` is a tuning choice, which makes this bug
+even more subtle: it can surface depending on which CPU is specified via
+the `-march=` or `-mtune` option.
