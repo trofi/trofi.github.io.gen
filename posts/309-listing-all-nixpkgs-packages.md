@@ -586,6 +586,8 @@ But even with such a limited lister I managed to get to these bugs:
 - [PR 277899](https://github.com/NixOS/nixpkgs/pull/277899):
   `zammad.src.meta` failed to evaluate due to incorrect position
   assumption: no metadata attributes were defined in the `.nix` files.
+- [PR 277973](https://github.com/NixOS/nixpkgs/pull/277973):
+  `ruff.tests` referred `ruff-lsp` alias instead of direct name.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
