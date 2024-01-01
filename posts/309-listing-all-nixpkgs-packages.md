@@ -593,6 +593,8 @@ But even with such a limited lister I managed to get to these bugs:
 - [PR 278034](https://github.com/NixOS/nixpkgs/pull/278034):
   `nixosTests.kernel-generic` attempted to use `bool` value as a kernel
   derivation.
+- [PR 278044](https://github.com/NixOS/nixpkgs/pull/278044):
+  `aaxtomp3`: fix invalid reference to `glibc` for non-`glibc` targets.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
