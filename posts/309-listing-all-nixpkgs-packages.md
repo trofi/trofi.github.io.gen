@@ -595,6 +595,12 @@ But even with such a limited lister I managed to get to these bugs:
   derivation.
 - [PR 278044](https://github.com/NixOS/nixpkgs/pull/278044):
   `aaxtomp3`: fix invalid reference to `glibc` for non-`glibc` targets.
+- [PR 278069](https://github.com/NixOS/nixpkgs/pull/278069):
+  `haskell.packages.ghc810` refer to non-existent packages.
+- [PR 278074](https://github.com/NixOS/nixpkgs/pull/278074):
+  `haskell.packages.ghc865Binary` refer to non-existent packages.
+- [PR 278076](https://github.com/NixOS/nixpkgs/pull/278076):
+  `haskell.packages.ghc98` refer to non-existent packages.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
