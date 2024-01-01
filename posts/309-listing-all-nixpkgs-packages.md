@@ -590,6 +590,9 @@ But even with such a limited lister I managed to get to these bugs:
   `ruff.tests` referred `ruff-lsp` alias instead of direct name.
 - [PR 277982](https://github.com/NixOS/nixpkgs/pull/277982):
   `spark.tests`: referred to `nixosTest` alias.
+- [PR 278034](https://github.com/NixOS/nixpkgs/pull/278034):
+  `nixosTests.kernel-generic` attempted to use `bool` value as a kernel
+  derivation.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
