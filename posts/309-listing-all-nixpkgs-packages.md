@@ -601,6 +601,9 @@ But even with such a limited lister I managed to get to these bugs:
   `haskell.packages.ghc865Binary` refer to non-existent packages.
 - [PR 278076](https://github.com/NixOS/nixpkgs/pull/278076):
   `haskell.packages.ghc98` refer to non-existent packages.
+- [PR 278224](https://github.com/NixOS/nixpkgs/pull/278224):
+  `haskell.packages.ghcjs` lacks `llvmPackages` attribute implied by
+  `ghc-8.10` packages.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
