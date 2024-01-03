@@ -604,6 +604,9 @@ But even with such a limited lister I managed to get to these bugs:
 - [PR 278224](https://github.com/NixOS/nixpkgs/pull/278224):
   `haskell.packages.ghcjs` lacks `llvmPackages` attribute implied by
   `ghc-8.10` packages.
+- [PR 278528](https://github.com/NixOS/nixpkgs/pull/278528):
+  `python3Packages.paddlepaddle`: unhandled error in `src` attribute
+  dereference.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
