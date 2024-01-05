@@ -610,6 +610,10 @@ But even with such a limited lister I managed to get to these bugs:
 - [PR 278915](https://github.com/NixOS/nixpkgs/pull/278915):
   `nvidia-x11` unconditionally refers to `/share/` even if libraries are
   the only enabled bit.
+- [PR 278950](https://github.com/NixOS/nixpkgs/pull/278950):
+  `pythonInterpreters.pypy39_prebuilt` failed the `test` evaluation as
+  it exposed unhandled `pythonAttr = null` value. The test expected a
+  real object.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
