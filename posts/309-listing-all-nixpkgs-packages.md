@@ -607,6 +607,9 @@ But even with such a limited lister I managed to get to these bugs:
 - [PR 278528](https://github.com/NixOS/nixpkgs/pull/278528):
   `python3Packages.paddlepaddle`: unhandled error in `src` attribute
   dereference.
+- [PR 278915](https://github.com/NixOS/nixpkgs/pull/278915):
+  `nvidia-x11` unconditionally refers to `/share/` even if libraries are
+  the only enabled bit.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
