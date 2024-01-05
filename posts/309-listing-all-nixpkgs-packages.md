@@ -614,6 +614,9 @@ But even with such a limited lister I managed to get to these bugs:
   `pythonInterpreters.pypy39_prebuilt` failed the `test` evaluation as
   it exposed unhandled `pythonAttr = null` value. The test expected a
   real object.
+- [PR 279018](https://github.com/NixOS/nixpkgs/pull/279018):
+  `systemd.tests.systemd-journal-upload` has invalid maintainer
+  specified.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
