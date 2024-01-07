@@ -620,6 +620,8 @@ But even with such a limited lister I managed to get to these bugs:
 - [PR#279404](https://github.com/NixOS/nixpkgs/pull/279404):
   `llvmPackages.bintools.bintools` did not define expected
   `targetPackages`.
+- [PR#279463](https://github.com/NixOS/nixpkgs/pull/279463):
+  `stdenv.adapters`: fix `overrideLibcxx` definition.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
