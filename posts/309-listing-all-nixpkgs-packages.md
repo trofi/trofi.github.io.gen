@@ -524,110 +524,113 @@ as it derives too many attributes for (still!) naive script to handle.
 
 But even with such a limited lister I managed to get to these bugs:
 
-- [PR 277399](https://github.com/NixOS/nixpkgs/pull/277399):
+- [PR#277399](https://github.com/NixOS/nixpkgs/pull/277399):
   `bazel-watcher.bazel.tests` had a `optionalSttrs` typo instead of
   `optionalAttrs`.
-- [PR 277400](https://github.com/NixOS/nixpkgs/pull/277400):
+- [PR#277400](https://github.com/NixOS/nixpkgs/pull/277400):
   `bitcoind-knots` referred to non-existent test.
-- [PR 277402](https://github.com/NixOS/nixpkgs/pull/277402):
+- [PR#277402](https://github.com/NixOS/nixpkgs/pull/277402):
   `cargo` tried to pull tests for a package that does not define it.
-- [PR 277404)](https://github.com/NixOS/nixpkgs/pull/277404):
+- [PR#277404)](https://github.com/NixOS/nixpkgs/pull/277404):
   `corosync` did not specify a test input argument that it used.
-- [PR 277408](https://github.com/NixOS/nixpkgs/pull/277408):
+- [PR#277408](https://github.com/NixOS/nixpkgs/pull/277408):
   `lua-wrapper` uses non-existent attributes to define paths.
-- [PR 277420](https://github.com/NixOS/nixpkgs/pull/277420):
+- [PR#277420](https://github.com/NixOS/nixpkgs/pull/277420):
   `displaylink` referred to non-existent test.
-- [PR 277434](https://github.com/NixOS/nixpkgs/pull/277434):
+- [PR#277434](https://github.com/NixOS/nixpkgs/pull/277434):
   `gnupg22` incorrectly refers to the test suite.
-- [PR 277435](https://github.com/NixOS/nixpkgs/pull/277435):
+- [PR#277435](https://github.com/NixOS/nixpkgs/pull/277435):
   `pisocsope.rules` looked `writeTextDir` in `lib` instead of `pkgs`.
-- [PR 277473](https://github.com/NixOS/nixpkgs/pull/277473):
+- [PR#277473](https://github.com/NixOS/nixpkgs/pull/277473):
   `guacamole-client` was referring to deleted test.
-- [PR 277474](https://github.com/NixOS/nixpkgs/pull/277474):
+- [PR#277474](https://github.com/NixOS/nixpkgs/pull/277474):
   `mutmut` used `testers` attribute without use.
-= [PR 277494](https://github.com/NixOS/nixpkgs/pull/277494):
+= [PR#277494](https://github.com/NixOS/nixpkgs/pull/277494):
   `buildFHSEnv` did not fully handle `multiPaths = null`.
-- [PR 277512](https://github.com/NixOS/nixpkgs/pull/277512):
+- [PR#277512](https://github.com/NixOS/nixpkgs/pull/277512):
   `owncast` referred to non-existent test.
-- [PR 277517](https://github.com/NixOS/nixpkgs/pull/277517):
+- [PR#277517](https://github.com/NixOS/nixpkgs/pull/277517):
   `python3Packages.pypaBuildHook.tests` test referred non-existent `.nix`
   file.
-- [PR 277543](https://github.com/NixOS/nixpkgs/pull/277543):
+- [PR#277543](https://github.com/NixOS/nixpkgs/pull/277543):
   `pythonInterpreters.pypy39_prebuilt` referred to deleted `pypy38`
   attribute, not `pypy39`.
-- [PR 277580](https://github.com/NixOS/nixpkgs/pull/277580):
+- [PR#277580](https://github.com/NixOS/nixpkgs/pull/277580):
   `tigervnc.tests` referred to non-existent test.
-- [PR 277581](https://github.com/NixOS/nixpkgs/pull/277581):
+- [PR#277581](https://github.com/NixOS/nixpkgs/pull/277581):
   `wezterm.tests` referred to commented out tests.
-- [PR 277590](https://github.com/NixOS/nixpkgs/pull/277590):
+- [PR#277590](https://github.com/NixOS/nixpkgs/pull/277590):
   `devpod.tests` passed incorrect parameter to a test function.
-- [PR 277593](https://github.com/NixOS/nixpkgs/pull/277593):
+- [PR#277593](https://github.com/NixOS/nixpkgs/pull/277593):
   `fakeroot.tests` passed incorrect parameter to a test function.
-- [PR 277595](https://github.com/NixOS/nixpkgs/pull/277595):
+- [PR#277595](https://github.com/NixOS/nixpkgs/pull/277595):
   `findup.tests` passed incorrect parameter to a test function.
-- [PR 277600](https://github.com/NixOS/nixpkgs/pull/277600):
+- [PR#277600](https://github.com/NixOS/nixpkgs/pull/277600):
   `jellyfin-ffmpeg.tests` is missing `pkg-config` annotation.
-- [PR 277617](https://github.com/NixOS/nixpkgs/pull/277617):
+- [PR#277617](https://github.com/NixOS/nixpkgs/pull/277617):
   `build-support/go` code constructed inaccessible `vendorSha256`
   attribute.
-- [PR 277715](https://github.com/NixOS/nixpkgs/pull/277715):
+- [PR#277715](https://github.com/NixOS/nixpkgs/pull/277715):
   `octoprint` referred to non-existent attribute in `tests`.
-- [PR 277741](https://github.com/NixOS/nixpkgs/pull/277741):
+- [PR#277741](https://github.com/NixOS/nixpkgs/pull/277741):
   `pypy2Packages.attrs` refers non-existent `.nix` file.
-- [PR 277751](https://github.com/NixOS/nixpkgs/pull/277751):
+- [PR#277751](https://github.com/NixOS/nixpkgs/pull/277751):
   `python3Packages.openllm`: fix `passthru` dependency references and
   fix variable shadowing.
-- [PR 277777](https://github.com/NixOS/nixpkgs/pull/277777):
+- [PR#277777](https://github.com/NixOS/nixpkgs/pull/277777):
   `python3Packages.openllm-client`: fix `passthru` dependency references.
-- [PR 277788](https://github.com/NixOS/nixpkgs/pull/277788):
+- [PR#277788](https://github.com/NixOS/nixpkgs/pull/277788):
   `python3Packages.openllm-core`: fix `passthru` dependency references.
-- [PR 277880](https://github.com/NixOS/nixpkgs/pull/277880):
+- [PR#277880](https://github.com/NixOS/nixpkgs/pull/277880):
   `valhalla` was missing `pkgConfigModules` definition.
-- [PR 277899](https://github.com/NixOS/nixpkgs/pull/277899):
+- [PR#277899](https://github.com/NixOS/nixpkgs/pull/277899):
   `zammad.src.meta` failed to evaluate due to incorrect position
   assumption: no metadata attributes were defined in the `.nix` files.
-- [PR 277973](https://github.com/NixOS/nixpkgs/pull/277973):
+- [PR#277973](https://github.com/NixOS/nixpkgs/pull/277973):
   `ruff.tests` referred `ruff-lsp` alias instead of direct name.
-- [PR 277982](https://github.com/NixOS/nixpkgs/pull/277982):
+- [PR#277982](https://github.com/NixOS/nixpkgs/pull/277982):
   `spark.tests`: referred to `nixosTest` alias.
-- [PR 278034](https://github.com/NixOS/nixpkgs/pull/278034):
+- [PR#278034](https://github.com/NixOS/nixpkgs/pull/278034):
   `nixosTests.kernel-generic` attempted to use `bool` value as a kernel
   derivation.
-- [PR 278044](https://github.com/NixOS/nixpkgs/pull/278044):
+- [PR#278044](https://github.com/NixOS/nixpkgs/pull/278044):
   `aaxtomp3`: fix invalid reference to `glibc` for non-`glibc` targets.
-- [PR 278069](https://github.com/NixOS/nixpkgs/pull/278069):
+- [PR#278069](https://github.com/NixOS/nixpkgs/pull/278069):
   `haskell.packages.ghc810` refer to non-existent packages.
-- [PR 278074](https://github.com/NixOS/nixpkgs/pull/278074):
+- [PR#278074](https://github.com/NixOS/nixpkgs/pull/278074):
   `haskell.packages.ghc865Binary` refer to non-existent packages.
-- [PR 278076](https://github.com/NixOS/nixpkgs/pull/278076):
+- [PR#278076](https://github.com/NixOS/nixpkgs/pull/278076):
   `haskell.packages.ghc98` refer to non-existent packages.
-- [PR 278224](https://github.com/NixOS/nixpkgs/pull/278224):
+- [PR#278224](https://github.com/NixOS/nixpkgs/pull/278224):
   `haskell.packages.ghcjs` lacks `llvmPackages` attribute implied by
   `ghc-8.10` packages.
-- [PR 278528](https://github.com/NixOS/nixpkgs/pull/278528):
+- [PR#278528](https://github.com/NixOS/nixpkgs/pull/278528):
   `python3Packages.paddlepaddle`: unhandled error in `src` attribute
   dereference.
-- [PR 278915](https://github.com/NixOS/nixpkgs/pull/278915):
+- [PR#278915](https://github.com/NixOS/nixpkgs/pull/278915):
   `nvidia-x11` unconditionally refers to `/share/` even if libraries are
   the only enabled bit.
-- [PR 278950](https://github.com/NixOS/nixpkgs/pull/278950):
+- [PR#278950](https://github.com/NixOS/nixpkgs/pull/278950):
   `pythonInterpreters.pypy39_prebuilt` failed the `test` evaluation as
   it exposed unhandled `pythonAttr = null` value. The test expected a
   real object.
-- [PR 279018](https://github.com/NixOS/nixpkgs/pull/279018):
+- [PR#279018](https://github.com/NixOS/nixpkgs/pull/279018):
   `systemd.tests.systemd-journal-upload` has invalid maintainer
   specified.
+- [PR#279404](https://github.com/NixOS/nixpkgs/pull/279404):
+  `llvmPackages.bintools.bintools` did not define expected
+  `targetPackages`.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
 
-- [Issue 277285](https://github.com/NixOS/nixpkgs/issues/277285):
+- [Issue#277285](https://github.com/NixOS/nixpkgs/issues/277285):
   `pkgsStatic.php` enters infinite loop and exhausts all available
   memory.
-- [Issue 277628](https://github.com/NixOS/nixpkgs/issues/277628):
+- [Issue#277628](https://github.com/NixOS/nixpkgs/issues/277628):
   `godot3-mono.nugetSource.meta` detects infinite recursion on
   evaluation.
-- [Issue 277698](https://github.com/NixOS/nixpkgs/issues/277698):
+- [Issue#277698](https://github.com/NixOS/nixpkgs/issues/277698):
   `ocamlPackages.janeStreet_0_15` has unsatisfied attributes.
 
 ## Did I get the list package for `autoconf`?
