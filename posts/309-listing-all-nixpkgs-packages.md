@@ -636,6 +636,8 @@ filed a few bugs to get maintainers' help:
   evaluation.
 - [Issue#277698](https://github.com/NixOS/nixpkgs/issues/277698):
   `ocamlPackages.janeStreet_0_15` has unsatisfied attributes.
+- [Issue#280377](https://github.com/NixOS/nixpkgs/issues/280377):
+  `tests.cuda` has an unsatisfied `backendStdenv` attribute.
 
 ## Did I get the list package for `autoconf`?
 
