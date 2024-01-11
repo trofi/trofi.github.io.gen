@@ -622,6 +622,8 @@ But even with such a limited lister I managed to get to these bugs:
   `targetPackages`.
 - [PR#279463](https://github.com/NixOS/nixpkgs/pull/279463):
   `stdenv.adapters`: fix `overrideLibcxx` definition.
+- [PR#280319](https://github.com/NixOS/nixpkgs/pull/280319):
+  `rubyModules` defined `gemType` via non-existent sets.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
