@@ -624,6 +624,8 @@ But even with such a limited lister I managed to get to these bugs:
   `stdenv.adapters`: fix `overrideLibcxx` definition.
 - [PR#280319](https://github.com/NixOS/nixpkgs/pull/280319):
   `rubyModules` defined `gemType` via non-existent sets.
+- [PR#280470](https://github.com/NixOS/nixpkgs/pull/280470):
+  `pkgsLLVM.dmd` accessed non-existent `libgcc` attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
