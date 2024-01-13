@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2024
 
+13 January: `mikmod`: ["buffer overflow" detected at startup](https://sourceforge.net/p/mikmod/patches/17/).
+
 13 January: `nixpkgs`: [`autoconf: 2.71 -> 2.72` update](https://github.com/NixOS/nixpkgs/pull/276343).
 
 ## 2023
