@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2024
 
+30 January: `binutils` bug: [`.arch i386` is no accepted by `gas` anymore](https://sourceware.org/PR31319).
+
 28 January: `nxpkgs`: [document bootstrap seed update procedure](https://github.com/NixOS/nixpkgs/pull/284541).
 
 13 January: `mikmod`: ["buffer overflow" detected at startup](https://sourceforge.net/p/mikmod/patches/17/).
