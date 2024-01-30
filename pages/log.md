@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2024
 
+28 January: `nxpkgs`: [document bootstrap seed update procedure](https://github.com/NixOS/nixpkgs/pull/284541).
+
 13 January: `mikmod`: ["buffer overflow" detected at startup](https://sourceforge.net/p/mikmod/patches/17/).
 
 13 January: `nixpkgs`: [`autoconf: 2.71 -> 2.72` update](https://github.com/NixOS/nixpkgs/pull/276343).
