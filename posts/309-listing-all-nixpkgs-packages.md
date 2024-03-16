@@ -626,10 +626,22 @@ But even with such a limited lister I managed to get to these bugs:
   `rubyModules` defined `gemType` via non-existent sets.
 - [PR#280470](https://github.com/NixOS/nixpkgs/pull/280470):
   `pkgsLLVM.dmd` accessed non-existent `libgcc` attribute.
+- [PR#283737](https://github.com/NixOS/nixpkgs/pull/283737):
+  `tests.cross.sanity` referred non-existent `qt5.qutebrowser`.
+- [PR#289397](https://github.com/NixOS/nixpkgs/pull/289397):
+  `nixosTests.keepalived` defined `maintainers` attribute in an
+  incorrect scope.
 - [PR#292677](https://github.com/NixOS/nixpkgs/pull/292677):
   `distrobuilder.tests` referred renamed test attribute.
 - [PR#292762](https://github.com/NixOS/nixpkgs/pull/292762):
   `lxc.tests` referred renamed test attribute.
+- [PR#295431](https://github.com/NixOS/nixpkgs/pull/295431):
+  `pypy27Packages.pulsar-client` dereferenced non-existent attribute.
+- [PR#295448](https://github.com/NixOS/nixpkgs/pull/295448):
+  `ttyd.tests` referred unmentioned `nixosTests`.
+- [PR#296264](https://github.com/NixOS/nixpkgs/pull/296264):
+  `python3.pkgs.openllm-core.optional-dependencies.full` referred
+  renamed attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
@@ -718,6 +730,7 @@ $ nix-instantiate --eval --strict ./all-attrs.nix \
 And see what you get.
 
 Next steps I'd like to take at some future point:
+
 - batch package listing and package instantiation in smaller batches to
   get RAM usage down to a few `GB`s.
 - explore `nix` and garbage collection mechanisms to make it friendlier
