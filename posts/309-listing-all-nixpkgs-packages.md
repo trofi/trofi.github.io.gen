@@ -642,6 +642,8 @@ But even with such a limited lister I managed to get to these bugs:
 - [PR#296264](https://github.com/NixOS/nixpkgs/pull/296264):
   `python3.pkgs.openllm-core.optional-dependencies.full` referred
   renamed attribute.
+- [PR#296497](https://github.com/NixOS/nixpkgs/pull/296497):
+  `apptainer.gpuChecks.saxpy` refers the attribute from the wrong place.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
