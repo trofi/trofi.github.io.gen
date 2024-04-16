@@ -116,12 +116,17 @@ $ gcc-12 -O2 a.c -o a && ./a
      small = 0x0.00004p-1022 or 8.487983e-314 (FP_SUBNORMAL)
 also_small = 0x0.00004p-1022 or 8.487983e-314 (FP_SUBNORMAL)
 
-$ gcc-12 -O2 a.c -o a -L. -lfast -Wl,-rpath,'$ORIGIN' && ./a
+$ gcc-12 -O2 a.c -o a -L. -Wl,--no-as-needed -lfast -Wl,-rpath,'$ORIGIN' && ./a
      small = 0x0.00004p-1022 or 8.487983e-314 (FP_SUBNORMAL)
 also_small = 0x0.00004p-1022 or 8.487983e-314 (FP_ZERO)
 ```
 
 See the difference?
+
+Some distributions like Debian or Ubuntu use `-Wl,--as-needed` by
+default and throw away the library dependencies without explicit symbol
+references. `-Wl,--no-as-needed` makes sure we still retain `-lfast` in
+our runtime dependencies.
 
 Note how the mere presence of `libfast.so` in the library dependencies
 changes output of the program otherwise compiled and liked with `-O2`
