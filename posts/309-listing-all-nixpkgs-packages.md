@@ -644,6 +644,8 @@ But even with such a limited lister I managed to get to these bugs:
   renamed attribute.
 - [PR#296497](https://github.com/NixOS/nixpkgs/pull/296497):
   `apptainer.gpuChecks.saxpy` refers the attribute from the wrong place.
+- [PR#305811](https://github.com/NixOS/nixpkgs/pull/305811):
+  `lxd.ui` is an export of non-=existent attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
