@@ -648,6 +648,8 @@ But even with such a limited lister I managed to get to these bugs:
   `lxd.ui` is an export of non-=existent attribute.
 - [PR#305843](https://github.com/NixOS/nixpkgs/pull/305843):
   `pypy27Packages.pluthon` used invalid form of `lib.optionals` call.
+- [PR#305925](https://github.com/NixOS/nixpkgs/pull/305925):
+  `redlib.tests` referred non-existent `nixosTests.redlib`.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
