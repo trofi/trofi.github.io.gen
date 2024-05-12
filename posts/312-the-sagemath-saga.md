@@ -1510,6 +1510,41 @@ The `longjmp()` recovery is a mirror-image of `setjmp()`
 in [`sysdeps/x86_64/__longjmp.S`](https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/x86_64/__longjmp.S;h=22fedc49970eba0ab86cb8dec8411197bec95d37;hb=HEAD). I'll skip
 pasting `longjmp()` implementation here.
 
+## Bonus 2: `-Wclobbered` is able to detect some of the clobber cases
+
+Alexander Monakov [pointed out](https://fosstodon.org/@amonakov@mastodon.gamedev.place/112429019564307874)
+that `gcc` actually has an option to detect some of the clobbering cases
+with `-Wclobbered`.
+
+On a contrived example it reports nothing:
+
+```
+$ gcc -O2 -c example.c -Wclobbered -Wall -Wextra -W
+```
+
+It's unfortunate as we can clearly see the different output.
+
+But on the real `element.c` it complains as:
+
+```
+$ gcc -O2 -Wclobbered -c element.i
+...
+element.c: In function '__pyx_pf_4sage_4libs_3gap_7element_19GapElement_Function_2__call__':
+element.c:26122:13: warning: variable '__pyx_v_libgap' might be clobbered by 'longjmp' or 'vfork' [-Wclobbered]
+element.c:26123:13: warning: variable '__pyx_v_a' might be clobbered by 'longjmp' or 'vfork' [-Wclobbered]
+element.c:26125:13: warning: variable '__pyx_r' might be clobbered by 'longjmp' or 'vfork' [-Wclobbered]
+element.c:26130:13: warning: variable '__pyx_t_4' might be clobbered by 'longjmp' or 'vfork' [-Wclobbered]
+element.c:26131:13: warning: variable '__pyx_t_5' might be clobbered by 'longjmp' or 'vfork' [-Wclobbered]
+element.c:26132:13: warning: variable '__pyx_t_6' might be clobbered by 'longjmp' or 'vfork' [-Wclobbered]
+element.c:26134:13: warning: variable '__pyx_t_8' might be clobbered by 'longjmp' or 'vfork' [-Wclobbered]
+element.c:26135:13: warning: variable '__pyx_t_9' might be clobbered by 'longjmp' or 'vfork' [-Wclobbered]
+element.c:26136:13: warning: variable '__pyx_t_10' might be clobbered by 'longjmp' or 'vfork' [-Wclobbered]
+element.c:38074:19: warning: variable 'r' might be clobbered by 'longjmp' or 'vfork' [-Wclobbered]
+element.c:38074:19: warning: variable 'r' might be clobbered by 'longjmp' or 'vfork' [-Wclobbered]
+```
+
+And that includes our `__pyx_t_6` variable!
+
 ## Parting words
 
 Python ecosystem did not fully update to latest `python` release:
@@ -1556,6 +1591,8 @@ interaction between two aspects `sagemath` used:
   along the way without the `volatile` annotations
 - use of `cysignals`' `sig_GAP_Enter()` (aka `setjmp()`) error recovery
   in the same function
+
+`gcc` can detect some of the clobber cases with `-Wclobbered` flag.
 
 Have fun!
 
