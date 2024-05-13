@@ -1360,7 +1360,7 @@ Thread 1 "sage-ipython" received signal SIGSEGV, Segmentation fault.
 We arrived at a final `SIGSEGV` signal.
 
 Curiously we see only two stores (one `NULL` store and one
-non-`NULL` store) at inspected address. Both are before the `SIGABTR`
+non-`NULL` store) at inspected address. Both are before the `SIGABRT`
 signal (and thus `longjmp()` call). I was initially afraid that stack
 got corrupted by stack reuse in nested functions. But it's not the case
 and our case is a lot simpler than it could be. Phew.
@@ -1562,7 +1562,7 @@ their help relatively quickly.
 of packages that don't import it directly or indirectly, like
 [`sagemath-standard`](https://github.com/cschwan/sage-on-gentoo/issues/783).
 
-`cysignals` in `"::gentoo` has a [broken path](https://bugs.gentoo.org/927767)
+`cysignals` in `::gentoo` has a [broken path](https://bugs.gentoo.org/927767)
 to the `gdb` helper which makes it more tedious to debug `sagemath`
 crashes.
 
