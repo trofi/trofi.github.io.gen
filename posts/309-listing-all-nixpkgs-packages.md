@@ -654,6 +654,8 @@ But even with such a limited lister I managed to get to these bugs:
   `haskell.packages.ghc865Binary.exceptions` referred to missing package.
 - [PR#313792](https://github.com/NixOS/nixpkgs/pull/313792):
   `haskell.packages.ghcjs.exceptions` referred to missing package.
+- [PR#314092](https://github.com/NixOS/nixpkgs/pull/314092):
+  `nextcloud-notify_push.tests` referred to missing package.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
