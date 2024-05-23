@@ -656,6 +656,8 @@ But even with such a limited lister I managed to get to these bugs:
   `haskell.packages.ghcjs.exceptions` referred to missing package.
 - [PR#314092](https://github.com/NixOS/nixpkgs/pull/314092):
   `nextcloud-notify_push.tests` referred to missing package.
+- [PR#314109](https://github.com/NixOS/nixpkgs/pull/314109):
+  `githooks.tests` used invalid parameter to `testers.testVersion` helper.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
