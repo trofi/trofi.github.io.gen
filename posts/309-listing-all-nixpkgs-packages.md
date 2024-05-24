@@ -658,6 +658,8 @@ But even with such a limited lister I managed to get to these bugs:
   `nextcloud-notify_push.tests` referred to missing package.
 - [PR#314109](https://github.com/NixOS/nixpkgs/pull/314109):
   `githooks.tests` used invalid parameter to `testers.testVersion` helper.
+- [PR#314196](https://github.com/NixOS/nixpkgs/pull/314196):
+  `nixVersions.git.tests` used invalid attribute name when defined tests.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
