@@ -426,8 +426,8 @@ Bisecting `gcc` pointed me to this
 ["vector shift" change](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=a71f90c5a7ae29).
 
 This change looks very close to the culprit as the code explicitly picks
-the "arithmetic" flavour of shift instruction (should be logical
-"instead").
+the "arithmetic" flavour of shift instruction (should be "logical"
+instead).
 
 By now the original change author already provided a test patch in the
 report! So quick!
