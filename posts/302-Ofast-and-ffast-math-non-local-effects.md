@@ -14,7 +14,7 @@ space:
 ```{render=dot}
 digraph G {
   node [shape=box]
-  "libfoo.so" [label="libfoo.so (-Ofast)"]
+  "libfoo.so" [label="libfoo.so (-Ofast)\n(before gcc-13 or clang-19)"]
   "libbar.so" [label="libbar.so (-O2)\nhas FP code" color=red]
   "bin" [label="bin (-O2)\nhas FP code" color=red]
   "libfoo.so" -> "libbar.so" -> "bin" [label="lib breaks bin" color=red]
