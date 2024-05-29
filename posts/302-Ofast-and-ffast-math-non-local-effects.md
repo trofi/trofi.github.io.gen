@@ -247,6 +247,11 @@ This effect was seen as too problematic by many and `gcc-13` stopped
 enabling `crtfastmath.o` for libraries (`-shared` option) in
 <https://gcc.gnu.org/PR55522>.
 
+`clang-19` will follow `gcc` example in
+<https://github.com/thexujie/llvm-project/commit/971cc613e994a308f939f68247257b65e04c74fa>.
+On top of that `clang-19` will have a `-mdaz-ftz` / `-mno-daz-ftz` flag
+to override the default.
+
 While the fix limits the impact to final programs that enable `-Ofast`
 it is still able to break all the libraries linked into the program
 linked with `-Ofast`.
