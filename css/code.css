@@ -16,8 +16,10 @@ code {
 
 /* Used for `inline` only. */
 p > code {
+    font-family: initial;
     color: teal;
 }
 li > code {
+    font-family: initial;
     color: teal;
 }
