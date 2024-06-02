@@ -6,11 +6,21 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2024
 
+1 June: `nixpkgs`: [`gcc.libgcc` on `musl` is not stripped](https://github.com/NixOS/nixpkgs/pull/316334).
+
+14 April: `linux` bug: [`eevdf` scheduler sometimes crashes kernel](https://lkml.org/lkml/2024/4/14/134).
+
+1 April: `nixpkgs`: [fix `pcre2` to enable `jit`](https://github.com/NixOS/nixpkgs/pull/300565).
+
+14 Mar: `gentoo` bug: [`eautoreconf` does not handle `AC_CONF_AUX_DIR`](https://bugs.gentoo.org/927017).
+
+9 Mar: `nix` bug: [`nix` does not handle root flakes](https://github.com/NixOS/nix/issues/10202).
+
 16 February: `waf` bug: [`i686-linux` does not fit into 3GB](https://github.com/NixOS/nixpkgs/pull/289405).
 
 30 January: `binutils` bug: [`.arch i386` is no accepted by `gas` anymore](https://sourceware.org/PR31319).
 
-28 January: `nxpkgs`: [document bootstrap seed update procedure](https://github.com/NixOS/nixpkgs/pull/284541).
+28 January: `nixpkgs`: [document bootstrap seed update procedure](https://github.com/NixOS/nixpkgs/pull/284541).
 
 13 January: `mikmod`: ["buffer overflow" detected at startup](https://sourceforge.net/p/mikmod/patches/17/).
 
