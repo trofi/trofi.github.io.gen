@@ -32,10 +32,6 @@ div#navigation {
     font-size: 1.5em;
 }
 
-a:hover {
-    font-weight: bold;
-}
-
 div.info {
     color: #555;
     font-size: 14px;
