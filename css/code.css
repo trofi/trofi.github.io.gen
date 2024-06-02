@@ -4,6 +4,7 @@ pre {
     border-left: 0.3em solid #bbbbbb;
 }
 pre > code {
+    background-color: whitesmoke;
     display: block;
     overflow-x: auto;
 }
@@ -11,7 +12,6 @@ pre > code {
 /* Used for both `inline` and ```block``` code. */
 code {
     font-family: monospace;
-    background-color: whitesmoke;
 }
 
 /* Used for `inline` only. */
