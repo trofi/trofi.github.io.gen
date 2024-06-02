@@ -15,11 +15,14 @@ code {
 }
 
 /* Used for `inline` only. */
-p > code {
+a > code {
+    font-family: initial;
+}
+li > code {
     font-family: initial;
     color: teal;
 }
-li > code {
+p > code {
     font-family: initial;
     color: teal;
 }
