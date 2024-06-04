@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2024
 
+4 June: `nixpkgs`: [`stdenv` fails on `sourceRoot` with dashes](https://github.com/NixOS/nixpkgs/pull/314683).
+
 1 June: `nixpkgs`: [`gcc.libgcc` on `musl` is not stripped](https://github.com/NixOS/nixpkgs/pull/316334).
 
 14 April: `linux` bug: [`eevdf` scheduler sometimes crashes kernel](https://lkml.org/lkml/2024/4/14/134).
