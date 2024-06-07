@@ -660,6 +660,9 @@ But even with such a limited lister I managed to get to these bugs:
   `githooks.tests` used invalid parameter to `testers.testVersion` helper.
 - [PR#314196](https://github.com/NixOS/nixpkgs/pull/314196):
   `nixVersions.git.tests` used invalid attribute name when defined tests.
+- [PR#317956](https://github.com/NixOS/nixpkgs/pull/317956):
+  `lix.tests` failed to evaluate as it tried to use non-existent
+  attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
