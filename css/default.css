@@ -6,9 +6,6 @@ body {
     font-family: sans-serif;
     /* It's hard to read too long lines on huge monitors. */
     max-width: 120ch;
-    /* Let text fill all the line. */
-    text-align: justify;
-    text-justify: inter-word;
 }
 
 img {
