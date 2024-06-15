@@ -5,24 +5,14 @@ pre {
 }
 pre > code {
     background-color: whitesmoke;
+    color: initial; /* undo inline clobber */
     display: block;
+    font-family: monospace;
     overflow-x: auto;
 }
 
-/* Used for both `inline` and ```block``` code. */
-code {
-    font-family: monospace;
-}
-
 /* Used for `inline` only. */
-a > code {
-    font-family: initial;
-}
-li > code {
-    font-family: initial;
+code {
     color: teal;
-}
-p > code {
     font-family: initial;
-    color: teal;
 }
