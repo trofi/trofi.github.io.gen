@@ -762,10 +762,10 @@ value.
 While not as powerful as tree passes `RTL` passes are capable of folding
 constants, propagating assumed values and removing dead code.
 
-`highway` uncovered an old `gcc` bug in a set of `float->int` conversion
-`x86` intrinsics. This bug was not seen as frequently until `gcc`
-implemented more constant folding cases for intrinsics in
-[this change](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=f2449b55fb2d32).
+`highway` uncovered an old `gcc` [bug](https://gcc.gnu.org/PR115161) in
+a set of `float->int` conversion `x86` intrinsics. This bug was not seen
+as frequently until `gcc` implemented more constant folding cases for
+intrinsics in [this change](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=f2449b55fb2d32).
 
 `gcc` still has a few places where it could constant-fold a lot more:
 
