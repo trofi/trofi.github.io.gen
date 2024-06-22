@@ -10,6 +10,7 @@ import qualified Text.Pandoc.Options as TPO
 
 import qualified AbsolutizeUrls as AU
 import qualified Graphviz as G
+import qualified Gnuplot as G
 
 pageCompiler :: Compiler (Item String)
 pageCompiler = pandocCompilerWithTransformM
@@ -19,7 +20,7 @@ pageCompiler = pandocCompilerWithTransformM
     HWP.defaultHakyllWriterOptions{
       TPO.writerHTMLMathMethod = TPO.MathML
     }
-    G.inlineDotWithGrapthviz
+    (\p -> G.inlineDotWithGrapthviz p >>= G.inlineWithGnuplot)
 
 main :: IO ()
 main = hakyll $ do
