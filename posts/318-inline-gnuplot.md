@@ -53,6 +53,8 @@ set xdata time
 set timefmt "%Y-%m"
 set format x "%Y-%m"
 
+set grid
+
 plot 'posts.data/318-inline-gnuplot/commits.dat' \
   using 1:2:(60*60*24*28) \
   with boxes \
