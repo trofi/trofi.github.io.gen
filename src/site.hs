@@ -12,14 +12,20 @@ import qualified AbsolutizeUrls as AU
 import qualified Graphviz as G
 import qualified Gnuplot as G
 
+pandocReaderOptions :: TPO.ReaderOptions
+pandocReaderOptions = HWP.defaultHakyllReaderOptions {
+    TPO.readerStandalone = True
+}
+
+pandocWriterOptions :: TPO.WriterOptions
+pandocWriterOptions = HWP.defaultHakyllWriterOptions{
+    TPO.writerHTMLMathMethod = TPO.MathML
+}
+
 pageCompiler :: Compiler (Item String)
 pageCompiler = pandocCompilerWithTransformM
-    HWP.defaultHakyllReaderOptions{
-      TPO.readerStandalone = True
-    }
-    HWP.defaultHakyllWriterOptions{
-      TPO.writerHTMLMathMethod = TPO.MathML
-    }
+    pandocReaderOptions
+    pandocWriterOptions
     (\p -> G.inlineDotWithGrapthviz p >>= G.inlineWithGnuplot)
 
 main :: IO ()
