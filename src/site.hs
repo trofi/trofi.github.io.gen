@@ -12,6 +12,11 @@ import qualified AbsolutizeUrls as AU
 import qualified Graphviz as G
 import qualified Gnuplot as G
 
+-- We applied pandoc transforms but did not apply templates yet.
+-- Useful to build an RSS feed.
+afterPandocSnapshot :: String
+afterPandocSnapshot = "after-pandoc"
+
 pandocReaderOptions :: TPO.ReaderOptions
 pandocReaderOptions = HWP.defaultHakyllReaderOptions {
     TPO.readerStandalone = True
@@ -55,7 +60,7 @@ main = hakyll $ do
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ pageCompiler
-            >>= saveSnapshot "content"
+            >>= saveSnapshot afterPandocSnapshot
             >>= loadAndApplyTemplate "templates/default.html" postCtx
             >>= relativizeUrls
 
@@ -82,14 +87,14 @@ main = hakyll $ do
     create ["feed/atom.xml"] $ do
         route idRoute
         compile $ do
-            loadAllSnapshots "posts/*" "content"
+            loadAllSnapshots "posts/*" afterPandocSnapshot
                 >>= fmap (take 30) . recentFirst >>= (CM.mapM $ AU.absolutizeUrls rssRoot)
                 >>= renderAtom (feedConfiguration "All posts") feedCtx
 
     create ["feed/rss.xml"] $ do
         route idRoute
         compile $ do
-            loadAllSnapshots "posts/*" "content"
+            loadAllSnapshots "posts/*" afterPandocSnapshot
                 >>= fmap (take 30) . recentFirst >>= (CM.mapM $ AU.absolutizeUrls rssRoot)
                 >>= renderRss (feedConfiguration "All posts") feedCtx
 
