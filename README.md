@@ -51,7 +51,7 @@ Caveat: [`run_watcher.sh`](./run_watcher.sh) relies on a few dependencies:
   * `text`
   * `pandoc-types`
   * `pandoc`
-  * `hakyll`. After you tweak the script header
+  * `hakyll`
 - `graphviz`
 - `gnuplot`
 
