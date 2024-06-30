@@ -1,10 +1,4 @@
-#! /usr/bin/env nix-shell
-#! nix-shell --pure
-#! nix-shell -p "haskellPackages.ghcWithPackages (p: [p.pandoc-types p.pandoc p.hakyll p.text])"
-#! nix-shell -p gnuplot
-#! nix-shell -p graphviz
-#! nix-shell -p bash
-#! nix-shell -i bash
+#!/bin/sh
 
 export LANG=C.UTF-8
 
