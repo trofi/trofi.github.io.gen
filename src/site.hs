@@ -1,37 +1,16 @@
 {-# LANGUAGE OverloadedStrings #-}
 module Main (main) where
 
-import           Data.Monoid (mappend, mconcat)
 import qualified Control.Monad as CM
 import           Hakyll
-import qualified Hakyll.Web.Pandoc as HWP
-
-import qualified Text.Pandoc.Options as TPO
 
 import qualified AbsolutizeUrls as AU
-import qualified Graphviz as G
-import qualified Gnuplot as G
+import qualified PandocWithInlines as PWI
 
 -- We applied pandoc transforms but did not apply templates yet.
 -- Useful to build an RSS feed.
 afterPandocSnapshot :: String
 afterPandocSnapshot = "after-pandoc"
-
-pandocReaderOptions :: TPO.ReaderOptions
-pandocReaderOptions = HWP.defaultHakyllReaderOptions {
-    TPO.readerStandalone = True
-}
-
-pandocWriterOptions :: TPO.WriterOptions
-pandocWriterOptions = HWP.defaultHakyllWriterOptions{
-    TPO.writerHTMLMathMethod = TPO.MathML
-}
-
-pageCompiler :: Compiler (Item String)
-pageCompiler = pandocCompilerWithTransformM
-    pandocReaderOptions
-    pandocWriterOptions
-    (\p -> G.inlineDotWithGrapthviz p >>= G.inlineWithGnuplot)
 
 main :: IO ()
 main = hakyll $ do
@@ -53,14 +32,14 @@ main = hakyll $ do
 
     match "pages/*" $ do
         route $ gsubRoute "pages/" (const "") `composeRoutes` setExtension "html"
-        compile $ pageCompiler
-            >>= loadAndApplyTemplate "templates/default.html" postCtx
+        compile $ PWI.pageCompiler $ \html ->
+            loadAndApplyTemplate "templates/default.html" postCtx html
             >>= relativizeUrls
 
     match "posts/*" $ do
         route $ setExtension "html"
-        compile $ pageCompiler
-            >>= saveSnapshot afterPandocSnapshot
+        compile $ PWI.pageCompiler $ \html ->
+            saveSnapshot afterPandocSnapshot html
             >>= loadAndApplyTemplate "templates/default.html" postCtx
             >>= relativizeUrls
 

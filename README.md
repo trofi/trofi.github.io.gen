@@ -48,10 +48,11 @@ Now you can visit <http://127.0.0.1:8000> and explore the result.
 Caveat: [`run_watcher.sh`](./run_watcher.sh) relies on a few dependencies:
 
 - `ghc` and a few `haskell` libraries:
-  * `text`
+  * `hakyll`
+  * `mtl`
   * `pandoc-types`
   * `pandoc`
-  * `hakyll`
+  * `text`
 - `graphviz`
 - `gnuplot`
 

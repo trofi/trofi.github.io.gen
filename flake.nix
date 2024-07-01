@@ -13,9 +13,10 @@
     devShells.default = pkgs.mkShell {
       nativeBuildInputs = [
         (pkgs.haskellPackages.ghcWithPackages (p: [
+          p.hakyll
+          p.mtl
           p.pandoc-types
           p.pandoc
-          p.hakyll
           p.text
         ]))
         pkgs.gnuplot
