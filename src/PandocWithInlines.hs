@@ -2,7 +2,7 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE StandaloneDeriving #-}
-module PandocWithInlines (pageCompiler) where
+module PandocWithInlines (pageCompiler, PWI(..)) where
 
 import qualified Control.Monad as CM
 import qualified Control.Monad.State as CMS
@@ -26,7 +26,12 @@ import qualified Text.Pandoc.Walk as TPW
 import qualified Text.Pandoc.Options as TPO
 
 data PWI = PWI {
-    pandoc :: H.Item String
+    -- rendered HTML page, inlines already moved out to external links
+    rendered :: H.Item String
+    -- rendered HTML page for RSS, the main difference from `rendered` is
+    -- disabled highlighting and no postAction ran.
+  , renderedRSS :: H.Item String
+    -- inline data referred by HTML pages
   , inlines :: [(String, H.Item DBL.ByteString)]
 } deriving (GG.Generic)
 
@@ -35,7 +40,7 @@ deriving instance DB.Binary PWI
 instance H.Writable PWI where
     write path item = do
         -- emit page itself:
-        let PWI pand inls = H.itemBody item
+        let PWI pand _pandRSS inls = H.itemBody item
         H.write path pand
         -- emit inlines nearby:
         CM.forM_ inls $ \(fp, contents) -> do
@@ -50,6 +55,12 @@ pandocReaderOptions = HWP.defaultHakyllReaderOptions {
 pandocWriterOptions :: TPO.WriterOptions
 pandocWriterOptions = HWP.defaultHakyllWriterOptions{
     TPO.writerHTMLMathMethod = TPO.MathML
+}
+
+pandocRSSWriterOptions :: TPO.WriterOptions
+pandocRSSWriterOptions = pandocWriterOptions{
+    -- disable highlighting
+    TPO.writerHighlightStyle = Nothing
 }
 
 data PandocInline = DotInline DT.Text
@@ -127,6 +138,7 @@ pageCompiler postRenderAction = do
     let (transformed, (_ilen, inls)) = pandocExtractInlines urlPrefix pathPrefix $ H.itemBody $ ipandoc
     itransformed <- H.makeItem transformed
     let irendered = H.writePandocWith pandocWriterOptions itransformed
+    let irenderedRSS = H.writePandocWith pandocRSSWriterOptions itransformed
 
     ipost_rendered <- postRenderAction irendered
 
@@ -134,4 +146,4 @@ pageCompiler postRenderAction = do
         ri <- pandocInlineCompiler pil
         return (fp, ri)
 
-    H.makeItem $ PWI ipost_rendered irendered_inlines
+    H.makeItem $ PWI ipost_rendered irenderedRSS irendered_inlines

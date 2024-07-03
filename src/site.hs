@@ -7,11 +7,6 @@ import           Hakyll
 import qualified AbsolutizeUrls as AU
 import qualified PandocWithInlines as PWI
 
--- We applied pandoc transforms but did not apply templates yet.
--- Useful to build an RSS feed.
-afterPandocSnapshot :: String
-afterPandocSnapshot = "after-pandoc"
-
 main :: IO ()
 main = hakyll $ do
     match "images/*" $ do
@@ -39,8 +34,7 @@ main = hakyll $ do
     match "posts/*" $ do
         route $ setExtension "html"
         compile $ PWI.pageCompiler $ \html ->
-            saveSnapshot afterPandocSnapshot html
-            >>= loadAndApplyTemplate "templates/default.html" postCtx
+            loadAndApplyTemplate "templates/default.html" postCtx html
             >>= relativizeUrls
 
     match "static/README.md" $ do
@@ -50,7 +44,7 @@ main = hakyll $ do
     create ["blog.html"] $ do
         route idRoute
         compile $ do
-            posts <- recentFirst =<< loadAll "posts/*"
+            posts <- recentFirst =<< (fmap (fmap (itemBody . PWI.renderedRSS))) <$> (loadAll "posts/*" :: Compiler [Item PWI.PWI])
             let blogCtx =
                     listField "posts" postCtx (return posts) `mappend`
                     constField "title" "blog"                `mappend`
@@ -66,15 +60,17 @@ main = hakyll $ do
     create ["feed/atom.xml"] $ do
         route idRoute
         compile $ do
-            loadAllSnapshots "posts/*" afterPandocSnapshot
-                >>= fmap (take 30) . recentFirst >>= (CM.mapM $ AU.absolutizeUrls rssRoot)
+            (loadAll "posts/*" :: Compiler [Item PWI.PWI])
+                >>= fmap (take 30) . recentFirst . fmap (fmap (itemBody . PWI.renderedRSS))
+                >>= (CM.mapM $ AU.absolutizeUrls rssRoot)
                 >>= renderAtom (feedConfiguration "All posts") feedCtx
 
     create ["feed/rss.xml"] $ do
         route idRoute
         compile $ do
-            loadAllSnapshots "posts/*" afterPandocSnapshot
-                >>= fmap (take 30) . recentFirst >>= (CM.mapM $ AU.absolutizeUrls rssRoot)
+            (loadAll "posts/*" :: Compiler [Item PWI.PWI])
+                >>= fmap (take 30) . recentFirst . fmap (fmap (itemBody . PWI.renderedRSS))
+                >>= (CM.mapM $ AU.absolutizeUrls rssRoot)
                 >>= renderRss (feedConfiguration "All posts") feedCtx
 
 postCtx :: Context String
