@@ -1,6 +1,7 @@
 ---
 title: "Zero Hydra Failures towards 23.11 NixOS release"
 date: November 8, 2023
+root: "http://trofi.github.io"
 ---
 
 ## `ZHF`

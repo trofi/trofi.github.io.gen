@@ -1,6 +1,7 @@
 ---
 title: "Three years on NixOS"
 date: June 2, 2024
+root: "http://trofi.github.io"
 ---
 
 This year I decided to shift yearly updates on my `NixOS` endeavours

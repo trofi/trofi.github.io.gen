@@ -1,6 +1,7 @@
 ---
 title: "a libpam bug"
 date: March 30, 2024
+root: "http://trofi.github.io"
 ---
 
 Over a past few months I updated `libpam` `nixpkgs` package a few times.

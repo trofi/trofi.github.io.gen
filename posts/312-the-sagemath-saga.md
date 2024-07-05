@@ -1,6 +1,7 @@
 ---
 title: "the sagemath saga"
 date: May 12, 2024
+root: "http://trofi.github.io"
 ---
 
 It's a story of me was

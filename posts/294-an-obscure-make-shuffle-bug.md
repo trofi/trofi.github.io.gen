@@ -1,6 +1,7 @@
 ---
 title: "An obscure make --shuffle bug"
 date: August 11, 2023
+root: "http://trofi.github.io"
 ---
 
 Most of the time `make --shuffle` finds somewhat trivial bugs of missing

@@ -1,6 +1,7 @@
 ---
 title: "fuzzing duperemove"
 date: November 21, 2023
+root: "http://trofi.github.io"
 ---
 
 [`duperemove-0.14`](https://github.com/markfasheh/duperemove/releases/tag/v0.14)

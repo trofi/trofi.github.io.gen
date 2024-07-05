@@ -1,6 +1,7 @@
 ---
 title: "duperemove speedups"
 date: November 12, 2023
+root: "http://trofi.github.io"
 ---
 
 [`duperemove`](https://github.com/markfasheh/duperemove/) is a great

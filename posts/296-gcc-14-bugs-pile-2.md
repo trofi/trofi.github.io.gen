@@ -1,6 +1,7 @@
 ---
 title: "gcc-14 bugs, pile 2"
 date: September 6, 2023
+root: "http://trofi.github.io"
 ---
 
 Two more months of `gcc-14` development have passed. The bug rate slowed

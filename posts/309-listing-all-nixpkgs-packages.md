@@ -1,6 +1,7 @@
 ---
 title: "listing all nixpkgs packages"
 date: December 30, 2023
+root: "http://trofi.github.io"
 ---
 
 ## Intro

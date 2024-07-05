@@ -1,6 +1,7 @@
 ---
 title: "gcc simd intrinsics bug"
 date: June 16, 2024
+root: "http://trofi.github.io"
 ---
 
 `highway` keeps yielding very interesting `gcc` bugs. Some of them are

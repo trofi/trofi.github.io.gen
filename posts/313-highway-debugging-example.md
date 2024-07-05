@@ -1,6 +1,7 @@
 ---
 title: "highway debugging example"
 date: May 18, 2024
+root: "http://trofi.github.io"
 ---
 
 [highway](https://github.com/google/highway) test suite is a great

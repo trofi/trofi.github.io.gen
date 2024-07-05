@@ -1,6 +1,7 @@
 ---
 title: "32-bit file API strikes back"
 date: September 7, 2023
+root: "http://trofi.github.io"
 ---
 
 It was another day of me trying a new `gcc` version.

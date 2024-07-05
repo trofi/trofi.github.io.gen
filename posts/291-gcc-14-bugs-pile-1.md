@@ -1,6 +1,7 @@
 ---
 title: "gcc-14 bugs, pile 1"
 date: July 12, 2023
+root: "http://trofi.github.io"
 ---
 
 Around beginning og the May `gcc-14` development got opened for major

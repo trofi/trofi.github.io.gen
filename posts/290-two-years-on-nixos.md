@@ -1,6 +1,7 @@
 ---
 title: "Two years on NixOS"
 date: July 9, 2023
+root: "http://trofi.github.io"
 ---
 
 Yet another year has passed since I switched to `NixOS` as my main

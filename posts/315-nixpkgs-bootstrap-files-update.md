@@ -1,6 +1,7 @@
 ---
 title: "nixpkgs bootstrap files update"
 date: May 26, 2024
+root: "http://trofi.github.io"
 ---
 
 ## Tl;DR

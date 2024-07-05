@@ -1,6 +1,7 @@
 ---
 title: "Maximum argument count on linux and in gcc"
 date: September 21, 2023
+root: "http://trofi.github.io"
 ---
 
 ## Tl;DR

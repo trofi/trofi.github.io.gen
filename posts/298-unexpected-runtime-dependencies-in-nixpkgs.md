@@ -1,6 +1,7 @@
 ---
 title: "Unexpected runtime dependencies in nixpkgs"
 date: September 14, 2023
+root: "http://trofi.github.io"
 ---
 
 ## Intro

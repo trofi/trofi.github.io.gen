@@ -1,6 +1,7 @@
 ---
 title: "Nix Expression Language non-determinism example"
 date: July 17, 2023
+root: "http://trofi.github.io"
 ---
 
 Today Vladimir Kryachko found a very
