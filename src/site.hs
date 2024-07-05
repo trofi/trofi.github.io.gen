@@ -90,9 +90,7 @@ feedConfiguration title = FeedConfiguration
     , feedDescription = "trofi's blog"
     , feedAuthorName = "Sergei Trofimovich"
     , feedAuthorEmail = "slyich@gmail.com"
-    -- TODO: switch newer entries to https:// to avoid
-    -- feed spam with outdated entries.
-    , feedRoot = "http://trofi.github.io"
+    , feedRoot = "https://trofi.github.io"
     }
 
 rssRoot :: String
