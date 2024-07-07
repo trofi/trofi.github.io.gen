@@ -7,28 +7,30 @@ Tl;DR:
 
 A few changes happened to this blog in the past few weeks:
 
-- `RSS` and web pages no longer embed `svg` images and include them
-  via `<img src="...">`.
+- `RSS` feed and web pages no longer embed `svg` images into `<html>`
+  and include them via `<img src="...">`.
 
   This fixes `RSS` readers like `miniflux` but might break others. At
-  least not there should be an icon in place of a missing picture
+  least now there should be an icon in place of a missing picture
   instead of just stripped tags.
 
-  As a small bonus `RSS` feed should not be as large.
+  As a small bonus `RSS` feed should not be as large to download.
 
-- `RSS` now includes source code without highlighting.
+- `RSS` feed now includes source code snippets without syntax
+  highlighting.
 
   I never included `css` style into `rss` feed. `highlighting-kate` uses
-  various tags and links heavily. This change fixes source code rendering
-  in `liferea`.
+  various tags and decorates them with links heavily. This change fixes
+  source code rendering in `liferea`.
 
-- `RSS` now embeds `https://` self-links instead of `http://` (except
-  for a few past entries to avoid breaking reading history).
+- `RSS` feed now embeds `https://` self-links instead of `http://`
+  (except for a few recent entries to avoid breaking reading history).
 
 More words:
 
 I started this blog in 2010. In 2013 I moved it to
-[`hakyll`](https://jaspervdj.be/hakyll/). The initial version was just
+[`hakyll`](https://jaspervdj.be/hakyll/) static site generator. The
+initial version was just
 [88 lines of `haskell` code](https://github.com/trofi/trofi.github.io.gen/blob/7ed816cf5515a47703f8cb2c804244a569bba30f/src/site.hs).
 
 I did not know much about `hakyll` back then and I kept it that way for
@@ -43,14 +45,14 @@ The only "non-trivial" tweaks I did were
 and [`gunplot` support](/posts/318-inline-gnuplot.html).
 
 Fast forward to 2024 few weeks ago I boasted to my friend how cool my
-`gnuplot` embeddings are. To what the response was "What pictures?".
+new `gnuplot` embeddings are. To what the response was "What pictures?".
 Apparently `miniflux` does not like `<svg>` tags embedded into `<html>`
 and strips them away leaving only bits of `<title>` tags that almost
-looks like `graphviz` :)
+looks like original `graphviz` input :)
 
 That meant my cool hack with `svg` embedding did not quite work for
-`RSS` feed and I moved all the embeddings into separate `.svg` files
-with [this change](https://github.com/trofi/trofi.github.io.gen/commit/12812bab87ce4bdff91227527d543ee3ac2161a9).
+`RSS` feed. I moved all the embeddings into separate `.svg` files with
+[this change](https://github.com/trofi/trofi.github.io.gen/commit/12812bab87ce4bdff91227527d543ee3ac2161a9).
 
 It's not a big change, but it does violate some `hakyll` assumptions.
 Apparently `hakyll` can output only one destination file for a source
@@ -81,16 +83,15 @@ instance H.Writable PWI where
             H.write fp contents
 ```
 
-Here `inlines` is the list of pairs if filenames and their contents to
+Here `inlines` is the list of pairs of filenames and their contents to
 write on disk and `pandoc` is the primary content one would normally
-write.
+write as `H.Item String`.
 
-While at it I disabled syntax highlighting in `RSS` as `liferea`
-rendered highlighted source as an unreadable mess and `miniflux` just
+While at it I disabled syntax highlighting in `RSS` feed as `liferea`
+rendered highlighted source as an unreadable mess. And `miniflux` just
 stripped out all the links and styles. [The change](https://github.com/trofi/trofi.github.io.gen/commit/1dc9d5a9d6b54db928f3fdaef1c0dcb4b6d567df)
 is somewhat long, but it's gist is a single extra `writerHighlightStyle`
-option to `pandoc`
-render:
+option passed to `pandoc` render:
 
 ```haskell
 pandocRSSWriterOptions :: TPO.WriterOptions
@@ -100,15 +101,15 @@ pandocRSSWriterOptions = pandocWriterOptions{
 }
 ```
 
-And the last thing I changed was to switch from `http://` links to
-`https://` link by default. In theory it's a
+The last thing I changed was to switch from `http://` links to
+`https://` links by default. In theory it's a
 [one-character change](https://github.com/trofi/trofi.github.io.gen/commit/cfc80bb575c1b131225c43c1fed47ff639540bd9).
 In practice that would break unread history for all `RSS` users. I worked
-it around by restoring `http://` root link to current `RSS` entries
+it around by restoring `http://` root link for current `RSS` entries
 with [metadata change](https://github.com/trofi/trofi.github.io.gen/commit/6b1883a1b23f6965314bfd2b55cb3e9e6a42ec16).
 
-That way all new posts should contain `http://` root links and all local
-links should automatically become `https://` links.
+That way all new posts should contain `https://` root links and all
+site-local links should automatically become `https://` links.
 
 Still no tag support. Maybe later.
 
