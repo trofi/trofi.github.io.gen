@@ -27,15 +27,15 @@ main = hakyll $ do
 
     match "pages/*" $ do
         route $ gsubRoute "pages/" (const "") `composeRoutes` setExtension "html"
-        compile $ PWI.pageCompiler $ \html ->
+        compile $ PWI.pageCompiler >>= PWI.withPandocItemBody (\html ->
             loadAndApplyTemplate "templates/default.html" postCtx html
-            >>= relativizeUrls
+            >>= relativizeUrls)
 
     match "posts/*" $ do
         route $ setExtension "html"
-        compile $ PWI.pageCompiler $ \html ->
+        compile $ PWI.pageCompiler >>= PWI.withPandocItemBody (\html ->
             loadAndApplyTemplate "templates/default.html" postCtx html
-            >>= relativizeUrls
+            >>= relativizeUrls)
 
     match "static/README.md" $ do
         route   (constRoute "README.md")

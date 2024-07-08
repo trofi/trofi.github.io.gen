@@ -2,7 +2,11 @@
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE StandaloneDeriving #-}
-module PandocWithInlines (pageCompiler, PWI(..)) where
+module PandocWithInlines (
+    pageCompiler,
+    PWI(..),
+    withPandocItemBody,
+) where
 
 import qualified Control.Monad as CM
 import qualified Control.Monad.State as CMS
@@ -46,6 +50,11 @@ instance H.Writable PWI where
         CM.forM_ inls $ \(fp, contents) -> do
             H.makeDirectories fp
             H.write fp contents
+
+withPandocItemBody :: (H.Item String -> H.Compiler (H.Item String)) -> H.Item PWI -> H.Compiler (H.Item PWI)
+withPandocItemBody a = H.withItemBody $ \(PWI r rrss is) -> do
+    r' <- a r
+    return $ PWI r' rrss is
 
 pandocReaderOptions :: TPO.ReaderOptions
 pandocReaderOptions = HWP.defaultHakyllReaderOptions {
@@ -121,8 +130,8 @@ pandocExtractInlines urlPrefix pathPrefix pand =
         inline x = return x
     in CMS.runState (TPW.walkM inline pand) (0, [])
 
-pageCompiler :: (H.Item String -> H.Compiler (H.Item String)) -> H.Compiler (H.Item PWI)
-pageCompiler postRenderAction = do
+pageCompiler :: H.Compiler (H.Item PWI)
+pageCompiler = do
     -- store inlines in a separate directory tree:
     -- $root/posts/foo.html
     -- $root/posts.data.inline/foo/fig-0.gv.svg
@@ -140,10 +149,8 @@ pageCompiler postRenderAction = do
     let irendered = H.writePandocWith pandocWriterOptions itransformed
     let irenderedRSS = H.writePandocWith pandocRSSWriterOptions itransformed
 
-    ipost_rendered <- postRenderAction irendered
-
     irendered_inlines <- CM.forM inls $ \(fp, pil) -> do
         ri <- pandocInlineCompiler pil
         return (fp, ri)
 
-    H.makeItem $ PWI ipost_rendered irenderedRSS irendered_inlines
+    H.makeItem $ PWI irendered irenderedRSS irendered_inlines
