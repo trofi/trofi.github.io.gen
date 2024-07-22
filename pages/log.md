@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2024
 
+16 July: `gcc` bug: [saturated truncation works incorrectly on bitfields](https://gcc.gnu.org/PR115961).
+
 4 June: `nixpkgs`: [`stdenv` fails on `sourceRoot` with dashes](https://github.com/NixOS/nixpkgs/pull/314683).
 
 1 June: `nixpkgs`: [`gcc.libgcc` on `musl` is not stripped](https://github.com/NixOS/nixpkgs/pull/316334).
