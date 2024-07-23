@@ -677,6 +677,9 @@ But even with such a limited lister I managed to get to these bugs:
   attribute.
 - [PR#329511](https://github.com/NixOS/nixpkgs/pull/329511):
   `python3Packages.pytorch-bin.tests` passes non-existent parameters.
+- [PR#329512](https://github.com/NixOS/nixpkgs/pull/329512):
+  `pypy27Packages.pyreqwest-impersonate` defines non-optional attributes
+  as optional.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
