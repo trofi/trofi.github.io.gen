@@ -680,6 +680,8 @@ But even with such a limited lister I managed to get to these bugs:
 - [PR#329512](https://github.com/NixOS/nixpkgs/pull/329512):
   `pypy27Packages.pyreqwest-impersonate` defines non-optional attributes
   as optional.
+- [PR#329515](https://github.com/NixOS/nixpkgs/pull/329515):
+  `varnish60Packages.modules` used invalid `hash` format.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
