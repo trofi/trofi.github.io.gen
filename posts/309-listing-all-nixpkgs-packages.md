@@ -672,6 +672,9 @@ But even with such a limited lister I managed to get to these bugs:
   `autoprefixer.tests` refers to renamed attribute.
 = [PR#329490](https://github.com/NixOS/nixpkgs/pull/329490):
   `pypy27Packages.corner.nativeBuildInputs` refers non-existent attribute.
+- [PR#329505](https://github.com/NixOS/nixpkgs/pull/329505):
+  `pypy27Packages.ray.optional-dependencies` refers to non-existent
+  attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
