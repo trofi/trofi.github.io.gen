@@ -9,6 +9,6 @@ site generator. Site's full source code hides
 ## contacts
 
 If you have noticed an error or just want to say a word then
-[email](mailto:slyich@gmail.com)",
+[email](mailto:slyich@gmail.com),
 [pull requests or comments](https://github.com/trofi/trofi.github.io.gen)
 are welcome!
