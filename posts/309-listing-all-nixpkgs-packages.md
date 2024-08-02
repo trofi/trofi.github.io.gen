@@ -682,6 +682,8 @@ But even with such a limited lister I managed to get to these bugs:
   as optional.
 - [PR#329515](https://github.com/NixOS/nixpkgs/pull/329515):
   `varnish60Packages.modules` used invalid `hash` format.
+- [PR#331682](https://github.com/NixOS/nixpkgs/pull/331682):
+  `nixosTests.bittorrent` used an alias in package inputs.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
