@@ -684,6 +684,8 @@ But even with such a limited lister I managed to get to these bugs:
   `varnish60Packages.modules` used invalid `hash` format.
 - [PR#331682](https://github.com/NixOS/nixpkgs/pull/331682):
   `nixosTests.bittorrent` used an alias in package inputs.
+- [PR#332822](https://github.com/NixOS/nixpkgs/pull/332822):
+  `octave.buildEnv` called the function with undefined attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
