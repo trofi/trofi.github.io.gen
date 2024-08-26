@@ -686,6 +686,8 @@ But even with such a limited lister I managed to get to these bugs:
   `nixosTests.bittorrent` used an alias in package inputs.
 - [PR#332822](https://github.com/NixOS/nixpkgs/pull/332822):
   `octave.buildEnv` called the function with undefined attribute.
+- [PR#337406](https://github.com/NixOS/nixpkgs/pull/337406):
+  `apacheKafka.tests` referred to a broken attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
