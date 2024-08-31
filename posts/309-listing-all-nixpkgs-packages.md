@@ -690,8 +690,14 @@ But even with such a limited lister I managed to get to these bugs:
   `apacheKafka.tests` referred to a broken attribute.
 - [PR#337728](https://github.com/NixOS/nixpkgs/pull/337728):
   `tectonic.tests` referred to a non-existent attribute.
-- [PR#](https://github.com/NixOS/nixpkgs/pull/338559):
+- [PR#338559](https://github.com/NixOS/nixpkgs/pull/338559):
   `pypy27Packages.incremental` constructs incorrect derivation with an
+  associative array field.
+- [PR#338596](https://github.com/NixOS/nixpkgs/pull/338596):
+  `pypy2Packages.python-engineio-v3` constructs incorrect derivation with an
+  associative array field.
+- [PR#338597](https://github.com/NixOS/nixpkgs/pull/338597):
+  `pypy2Packages.python-socketio-v4` constructs incorrect derivation with an
   associative array field.
 
 Note: It's not the full list of required fixes. For more complex cases I
