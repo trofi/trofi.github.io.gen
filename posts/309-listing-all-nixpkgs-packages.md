@@ -699,6 +699,8 @@ But even with such a limited lister I managed to get to these bugs:
 - [PR#338597](https://github.com/NixOS/nixpkgs/pull/338597):
   `pypy2Packages.python-socketio-v4` constructs incorrect derivation with an
   associative array field.
+- [PR#341497](https://github.com/NixOS/nixpkgs/pull/341497):
+  `dotnet/build-dotnet-module` fails to handle missing `pname`.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
