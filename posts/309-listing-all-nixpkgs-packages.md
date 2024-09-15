@@ -701,6 +701,8 @@ But even with such a limited lister I managed to get to these bugs:
   associative array field.
 - [PR#341497](https://github.com/NixOS/nixpkgs/pull/341497):
   `dotnet/build-dotnet-module` fails to handle missing `pname`.
+- [PR#341985](https://github.com/NixOS/nixpkgs/pull/341985):
+  `perlInterpreters.perl536` requires already deleted attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
