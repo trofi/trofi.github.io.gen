@@ -706,6 +706,8 @@ But even with such a limited lister I managed to get to these bugs:
 - [PR#346336](https://github.com/NixOS/nixpkgs/pull/346336):
   `libtorrent` and `rtorrent` `updaterScript` passed non-existent
   parameters.
+- [PR#346689](https://github.com/NixOS/nixpkgs/pull/346689):
+  `nix-plugin-pijul.tests` fix the invalid attribute reference.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
