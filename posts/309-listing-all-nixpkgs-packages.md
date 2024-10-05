@@ -708,6 +708,9 @@ But even with such a limited lister I managed to get to these bugs:
   parameters.
 - [PR#346689](https://github.com/NixOS/nixpkgs/pull/346689):
   `nix-plugin-pijul.tests` fix the invalid attribute reference.
+- [PR#346746](https://github.com/NixOS/nixpkgs/pull/346746):
+  `python3Packages.sshfs.optional-dependencies.pkcs11` fix incorrect
+  attribute name.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
