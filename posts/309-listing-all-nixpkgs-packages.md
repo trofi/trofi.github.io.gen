@@ -711,6 +711,9 @@ But even with such a limited lister I managed to get to these bugs:
 - [PR#346746](https://github.com/NixOS/nixpkgs/pull/346746):
   `python3Packages.sshfs.optional-dependencies.pkcs11` fix incorrect
   attribute name.
+- [PR#347172](https://github.com/NixOS/nixpkgs/pull/347172):
+  `python3Packages.sshfs.optional-dependencies.pyopenssl`: fix incorrect
+  attribute name.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
