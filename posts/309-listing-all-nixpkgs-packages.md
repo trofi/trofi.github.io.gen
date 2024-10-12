@@ -716,6 +716,9 @@ But even with such a limited lister I managed to get to these bugs:
   attribute name.
 - [PR#347439](https://github.com/NixOS/nixpkgs/pull/347439):
   `python3Packages.ifcopenshell.tests` did not pass enough parameters.
+- [PR#348104](https://github.com/NixOS/nixpkgs/pull/348104):
+  `faiss.passthru` attributes were dropped without removing references
+  to it.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
