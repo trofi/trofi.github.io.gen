@@ -70,6 +70,7 @@ A few new bugs were found and/or fixed:
 - angsd: <https://github.com/ANGSD/angsd/pull/590>
 - mailsend: <https://github.com/muquit/mailsend/pull/165>
 - libjodycode: <https://codeberg.org/jbruchon/libjodycode/pulls/3>
+- unbound: <https://github.com/NLnetLabs/unbound/pull/1167>
 
 Nothing complicated. Just a few missing dependencies.
 
