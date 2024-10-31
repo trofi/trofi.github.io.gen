@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2024
 
+31 Oct: `swtpm` bug: [32-bit file API use on filesystem with 64-bit inodes](https://github.com/stefanberger/swtpm/pull/941).
+
 24 Oct: `gcc` bug: [`-flto` fails on array initializers](https://gcc.gnu.org/PR117288).
 
 28 Oct: `unbound` bug: [`make --shuffle` found multiple targets rule error](https://github.com/NLnetLabs/unbound/pull/1167).
