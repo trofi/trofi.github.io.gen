@@ -6,6 +6,22 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2024
 
+24 Oct: `gcc` bug: [`-flto` fails on array initializers](https://gcc.gnu.org/PR117288).
+
+28 Oct: `unbound` bug: [`make --shuffle` found multiple targets rule error](https://github.com/NLnetLabs/unbound/pull/1167).
+
+13 Oct: `gcc` bug: [false positive warnings on overrides for multiple inheritance](https://gcc.gnu.org/PR117114).
+
+29 Sep: `gcc` bug: [coroutine waiter destroyed wait object too early](https://gcc.gnu.org/PR116880).
+
+18 Sep: `nixpkgs` bug: [`/etc/wpa_supplicant.conf` is zeroed out](https://github.com/NixOS/nixpkgs/pull/180872#issuecomment-2359355734).
+
+6 Sep: `nix` bug: [`toml` parser changes timestamp parsing/printing rules](https://github.com/NixOS/nix/issues/11441).
+
+24 Aug: `warzone` bug: [use-after-free detected by `gcc` warning](https://github.com/Warzone2100/warzone2100/pull/4051).
+
+24 Aug: `diffoscope` bug: [crash when attempt to diff a symlink to the directory](https://salsa.debian.org/reproducible-builds/diffoscope/-/merge_requests/144).
+
 29 July: `less` bug: [`PageUp` / `PageDown` keys don't work anymore](https://github.com/gwsw/less/issues/549).
 
 16 July: `gcc` bug: [saturated truncation works incorrectly on bitfields](https://gcc.gnu.org/PR115961).
