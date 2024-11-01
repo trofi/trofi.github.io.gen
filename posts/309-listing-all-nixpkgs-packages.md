@@ -719,6 +719,8 @@ But even with such a limited lister I managed to get to these bugs:
 - [PR#348104](https://github.com/NixOS/nixpkgs/pull/348104):
   `faiss.passthru` attributes were dropped without removing references
   to it.
+- [PR#352825](https://github.com/NixOS/nixpkgs/pull/352825):
+  `pyamlboot.tests` passed the parameter if incorrect type.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
