@@ -28,7 +28,7 @@ C. A few example fixes:
 ### `bool`, `true`, and `false` are unconditionally predefined
 
 `true` and `false` are now predefined constants (instead of being a
-part of `<stdboo.h>` macros and `typedef`s). Thus code like below does
+part of `<stdbool.h>` macros and `typedef`s). Thus code like below does
 not compile any more:
 
 ```c
