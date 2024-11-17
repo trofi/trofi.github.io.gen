@@ -12,7 +12,7 @@ absolutizeUrls root item = do
     route <- getRoute $ itemIdentifier item
     return $ case route of
         Nothing -> item
-        Just r  -> fmap (absolutizeUrlsWith $ root) item
+        Just _r  -> fmap (absolutizeUrlsWith $ root) item
 
 absolutizeUrlsWith :: String  -- ^ Path to the site root
                    -> String  -- ^ HTML to relativize
