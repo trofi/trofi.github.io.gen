@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2024
 
+26 Nov: `nix` bug: [`bz2` `meson` detection failure](https://github.com/NixOS/nix/pull/11974).
+
 6 Nov: `pixman` bug: [`rvv` `riscv64` extension is not fully detected](https://gitlab.freedesktop.org/pixman/pixman/-/merge_requests/128).
 
 31 Oct: `swtpm` bug: [32-bit file API use on filesystem with 64-bit inodes](https://github.com/stefanberger/swtpm/pull/941).
