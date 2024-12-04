@@ -723,6 +723,8 @@ But even with such a limited lister I managed to get to these bugs:
   `pyamlboot.tests` passed the parameter if incorrect type.
 - [PR#355051](https://github.com/NixOS/nixpkgs/pull/355051):
   `pypy3Packages.home-assistant-chip-clusters` dereferenced `null`.
+- [PR#361669](https://github.com/NixOS/nixpkgs/pull/361669):
+  `kubernetes-kcp.tests` was not passing a required parameter.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
