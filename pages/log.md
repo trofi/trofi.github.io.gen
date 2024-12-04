@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2024
 
+3 Dec: `guix` bug: [`libgcrypt` linking order problem](https://debbugs.gnu.org/cgi/bugreport.cgi?bug=74677).
+
 26 Nov: `nix` bug: [`bz2` `meson` detection failure](https://github.com/NixOS/nix/pull/11974).
 
 6 Nov: `pixman` bug: [`rvv` `riscv64` extension is not fully detected](https://gitlab.freedesktop.org/pixman/pixman/-/merge_requests/128).
