@@ -34,7 +34,7 @@ I would not be able to manually solve such a huge list of commits and I
 wondered if I could somehow regenerate my patches against the indented
 source.
 
-I theory rebasing past such change should be a mechanical operation: I
+In theory rebasing past such change should be a mechanical operation: I
 have the source tree before the patch and after the patch. All I need to
 do is to autoformat both `before` and `after` trees and then `diff`
 them.
@@ -68,7 +68,7 @@ to avoid conflicts:
    `"EMPTY commit: will absorb relevant formatting changes"` entry from
    last line of the list to the first line.
 
-3. Get affected files in the branch by the formatting change:
+3. Get files in the branch affected by the formatting change:
 
    The formatting change is `667d42c00d566e091e6b9a19b365099315d0e611`.
 
