@@ -331,6 +331,8 @@ implementation.
 Sorting is tricky if you allow a user-supplied sorting predicate.
 
 `nixpkgs` has a few more sorting predicate violations that needs to be
-fixed.
+fixed. I found at least [`cuda`](https://github.com/NixOS/nixpkgs/pull/368366),
+[`coq`](https://github.com/NixOS/nixpkgs/pull/368429) and
+[`mathematica`](https://github.com/NixOS/nixpkgs/pull/368433).
 
 Have fun!
