@@ -311,6 +311,8 @@ $ nix build --no-link -f. cmdstan --show-trace
 Here you can already see that the pattern is suspiciously similar:
 `sort versionAtLeast` probably does not do what it's expected to do.
 
+Proposed a similar fix as [PR#368429](https://github.com/NixOS/nixpkgs/pull/368429).
+
 More stuff to fix!
 
 ## Parting words
