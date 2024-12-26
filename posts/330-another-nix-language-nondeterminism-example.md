@@ -313,6 +313,10 @@ Here you can already see that the pattern is suspiciously similar:
 
 Proposed a similar fix as [PR#368429](https://github.com/NixOS/nixpkgs/pull/368429).
 
+Other packages affected:
+
+- `mathematica`: [PR#368433](https://github.com/NixOS/nixpkgs/pull/368433)
+
 More stuff to fix!
 
 ## Parting words
