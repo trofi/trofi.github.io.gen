@@ -727,6 +727,8 @@ But even with such a limited lister I managed to get to these bugs:
   `kubernetes-kcp.tests` was not passing a required parameter.
 - [PR#367950](https://github.com/NixOS/nixpkgs/pull/367950):
   `darktable` update script was called with incorrect parameters.
+- [PR#368853](https://github.com/NixOS/nixpkgs/pull/368853):
+  `haskell.packages.ghc865Binary.exceptions` uses invalid attribute name.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
