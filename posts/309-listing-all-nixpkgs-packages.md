@@ -731,6 +731,8 @@ But even with such a limited lister I managed to get to these bugs:
   `haskell.packages.ghc865Binary.exceptions` uses invalid attribute name.
 - [PR#368899](https://github.com/NixOS/nixpkgs/pull/368899):
   `haskell.packages.ghcjs.exceptions` uses invalid attribute name.
+- [PR#372859](https://github.com/NixOS/nixpkgs/pull/372859):
+  `pre-commit.tests` was not updated to use `gitMinimal` attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
