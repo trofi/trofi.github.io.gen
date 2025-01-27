@@ -4,6 +4,10 @@ title: log
 
 These are notable or amusing bugs and patches I dealt with in the past.
 
+## 2025
+
+27 Jan: `vim` bug: [`make install` sometimes fails in parallel mode](https://github.com/vim/vim/pull/16531).
+
 ## 2024
 
 3 Dec: `guix` bug: [`libgcrypt` linking order problem](https://debbugs.gnu.org/cgi/bugreport.cgi?bug=74677).
