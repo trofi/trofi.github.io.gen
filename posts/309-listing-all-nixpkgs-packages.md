@@ -735,6 +735,8 @@ But even with such a limited lister I managed to get to these bugs:
   `pre-commit.tests` was not updated to use `gitMinimal` attribute.
 - [PR#374899](https://github.com/NixOS/nixpkgs/pull/374899):
   `redict.tests` definition uses non-existent test reference.
+- [PR#377693](https://github.com/NixOS/nixpkgs/pull/377693):
+  `python3Packages.langchain-ollama` used non-existent attribute names.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
