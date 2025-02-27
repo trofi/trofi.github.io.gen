@@ -739,6 +739,8 @@ But even with such a limited lister I managed to get to these bugs:
   `python3Packages.langchain-ollama` used non-existent attribute names.
 - [PR#384282](https://github.com/NixOS/nixpkgs/pull/384282):
   `matrix-synapse.tools` referred to already deleted attribute.
+- [PR#385653](https://github.com/NixOS/nixpkgs/pull/385653):
+  `lego.tests` refers to non-existent test.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
