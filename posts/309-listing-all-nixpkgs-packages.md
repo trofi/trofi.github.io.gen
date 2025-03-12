@@ -741,6 +741,8 @@ But even with such a limited lister I managed to get to these bugs:
   `matrix-synapse.tools` referred to already deleted attribute.
 - [PR#385653](https://github.com/NixOS/nixpkgs/pull/385653):
   `lego.tests` refers to non-existent test.
+- [PR#389369](https://github.com/NixOS/nixpkgs/pull/389369):
+  `nixosTests.floorp` referred to unavailable attribute
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
