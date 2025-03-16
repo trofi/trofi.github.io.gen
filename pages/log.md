@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2025
 
+23 Feb: `libtool` bug: [`clang c++` libraries don't pull in required `compiler-rt`](https://savannah.gnu.org/support/index.php?111193)
+
 27 Jan: `vim` bug: [`make install` sometimes fails in parallel mode](https://github.com/vim/vim/pull/16531).
 
 ## 2024
