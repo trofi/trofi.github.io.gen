@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2025
 
+20 Mar: `nixd` bug: [`meson.build` had incomplete dependencies, build failed sometimes](https://github.com/nix-community/nixd/pull/662)
+
 27 Feb: `man-pages` bug: [`Makefile` failed to escape `#` properly](https://lore.kernel.org/linux-man/20250227092142.1822609-1-slyich@gmail.com/)
 
 23 Feb: `libtool` bug: [`clang c++` libraries don't pull in required `compiler-rt`](https://savannah.gnu.org/support/index.php?111193)
