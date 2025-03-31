@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2025
 
+31 Mar: `duperemove` bug: [infinite looping on NoCOW files](https://github.com/markfasheh/duperemove/pull/376)
+
 30 Mar: `doxygen` bug: [missing `LFS` support](https://github.com/doxygen/doxygen/pull/11518)
 
 29 Mar: `graphviz` bug: [missing `LFS` support](https://gitlab.com/graphviz/graphviz/-/merge_requests/4269)
