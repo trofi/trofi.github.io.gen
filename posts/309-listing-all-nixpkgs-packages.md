@@ -743,6 +743,8 @@ But even with such a limited lister I managed to get to these bugs:
   `lego.tests` refers to non-existent test.
 - [PR#389369](https://github.com/NixOS/nixpkgs/pull/389369):
   `nixosTests.floorp` referred to unavailable attribute
+- [PR#397002](https://github.com/NixOS/nixpkgs/pull/397002):
+  `apacheKafka.tests` referred to wrong attribute
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
