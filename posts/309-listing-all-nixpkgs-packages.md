@@ -747,6 +747,9 @@ But even with such a limited lister I managed to get to these bugs:
   `apacheKafka.tests` referred to wrong attribute
 - [PR#399997](https://github.com/NixOS/nixpkgs/pull/399997):
   `python3Packages.ray` built infinite recursion
+- [PR#400179](https://github.com/NixOS/nixpkgs/pull/400179):
+  `zed-editor.tests` refers to non-existent attribute.
+
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
