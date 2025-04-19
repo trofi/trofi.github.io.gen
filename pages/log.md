@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2025
 
+19 April: `swig` bug: [`bison` is called too many times at build](https://github.com/swig/swig/pull/3167)
+
 18 April: `nix` bug: [`json` deserialization uses incorrect accessors](https://github.com/NixOS/nix/issues/13046)
 
 31 Mar: `duperemove` bug: [infinite looping on NoCOW files](https://github.com/markfasheh/duperemove/pull/376)
