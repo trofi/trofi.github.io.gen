@@ -749,6 +749,8 @@ But even with such a limited lister I managed to get to these bugs:
   `python3Packages.ray` built infinite recursion
 - [PR#400179](https://github.com/NixOS/nixpkgs/pull/400179):
   `zed-editor.tests` refers to non-existent attribute.
+- [PR#400739](https://github.com/NixOS/nixpkgs/pull/400739):
+  `darwin.moltenvk` dereferences `null` on some targets.
 
 
 Note: It's not the full list of required fixes. For more complex cases I
