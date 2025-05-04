@@ -75,6 +75,9 @@ I also discovered a few bugs/warts/known-issues as well:
 
   I have to fall back to local viewers for larger docs.
 
+  **UPDATE**: installing [`pdf.js`](https://github.com/mozilla/pdf.js?tab=readme-ov-file#getting-started)
+  ended up being even better solution.
+
 - `chromium` syncs on disk somewhat frequently. There is a 15-years old
   <https://issues.chromium.org/issues/41198599> that mentions it's all
   the actions user does are synced on dusk time to time. I don't think
