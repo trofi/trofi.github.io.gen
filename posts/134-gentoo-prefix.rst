@@ -122,7 +122,7 @@ And there is rare cases when we need it:
 
   * critical things used by prefixed gentoo (host's devices directory for example)
   * host's libraries (`like libSM ebuild <http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/x11-libs/libSM/libSM-1.2.0.ebuild?view=markup>`_)
-    which prefix _has_ to use: authentication is one of examples
+    which prefix *has* to use: authentication is one of examples
 - think about poor user running something like ``ROOT=/foo emerge bar``.
   He should get **/foo/$EPREFIX/usr/bin/less** in the end and nothing else.
 

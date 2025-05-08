@@ -53,8 +53,8 @@ Many tests started failing for invalid syscall parameters as seen by
 
 Dmitry noticed that sometimes syscall parameters were off-by-one:
 
-- expected: sys_foo(a1,a2,a3,...)
-- observed: sys_foo(__NR_foo,a1,a2,a3,...)
+- expected: ``sys_foo(a1,a2,a3,...)``
+- observed: ``sys_foo(__NR_foo,a1,a2,a3,...)``
 
 Looks like a trivial bug, right?
 

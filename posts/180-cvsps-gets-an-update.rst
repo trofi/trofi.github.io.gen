@@ -37,9 +37,9 @@ it to respective branch.
 **cvsps** was a buggy and mostly abandoned project. **2.2_beta1**
 was the only noncrashing version.
 
-**esr** decided to fix bugs all the way down _and_
-get rid of **git-cvsimport** as an intermediate
-(**----fast-export** option in **3.x** series).
+**esr** decided to fix bugs all the way down *and*
+get rid of ``git-cvsimport`` as an intermediate
+(``----fast-export`` option in **3.x** series).
 
 Alive upstream is a virtue and I've packaged one without any testing.
 

@@ -148,8 +148,8 @@ ARCH=um `не собирался <http://www.spinics.net/lists/mm-commits/msg833
     838a2e5 kbuild: migrate all arch to the kconfig mainmenu upgrade
 
 Их не так много, но было подозрение, что один из них и является виновником.
-Некоторые коммиты фиксили зависания (NO_HZ), некоторые - вылеты на старте (__do_IRQ),
-некоторые - сборку из-за переименований (NO_DMA, ptrace, IRQ).
+Некоторые коммиты фиксили зависания (``NO_HZ``), некоторые - вылеты на старте (``__do_IRQ``),
+некоторые - сборку из-за переименований (``NO_DMA``, ``ptrace``, ``IRQ``).
 
 В этот раз я довольно быстро забисектил до `коммита с memcpy <http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=commitdiff;h=59daa7>`_!
 (плавно перешли к теме :]).

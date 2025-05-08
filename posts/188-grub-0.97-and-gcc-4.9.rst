@@ -26,12 +26,12 @@ that can refer to variables outside the scope: `a doc <https://gcc.gnu.org/onlin
 the problem
 ===========
 
-_AxS_ described an issue: **grub-0.97** happens to SIGSEGV
+``_AxS_`` described an issue: **grub-0.97** happens to SIGSEGV
 when you run a 'grub' helper tool and try to exit from it's shell.
 He also had a workaround to make grub work: build it with **-O0**
 (optimisations disabled).
 
-_AxS_'s mystretous valgrind backtrace on a grub userspace binary looked like that:
+``_AxS_``'s mystretous valgrind backtrace on a grub userspace binary looked like that:
 
 ::
 
@@ -256,7 +256,7 @@ A low of stuff happens here.
 gcc passes
 ==========
 
-As we know from _AxS_ **-O0** makes **grub** magically work.
+As we know from ``_AxS_`` **-O0** makes **grub** magically work.
 
 Checking again by rebuilding as **-O1** and **-O0** this single file **grub/asmstub.c**.
 (The rest is built with **-O1** to keep amount of changes at minimum).
