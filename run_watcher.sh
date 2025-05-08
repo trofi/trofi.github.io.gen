@@ -12,4 +12,4 @@ ghc --make -O2 Setup.hs -o "${setup_exe}" -dynamic -fforce-recomp
 "${setup_exe}" build
 
 "${site_exe}" clean
-"${site_exe}" watch "$@" +RTS -N$(nproc)
+"${site_exe}" watch +RTS -N$(nproc) -RTS "$@"
