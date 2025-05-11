@@ -6,9 +6,7 @@ date: October 19, 2010
 Недавно тут вышел [`clang-2.8`](http://llvm.org/releases/2.8/docs/ReleaseNotes.html),
 в котором таки пофиксили зарерпорчееный мной
 [баг про `-fno-rtti` и try/catch](http://llvm.org/bugs/show_bug.cgi?id=6974).
-
 Это должно было позволить собрать с помощью `clang++` большой `C++` проект на работе.
-
 `clang++` споймал пару прикольных подозрительных кусков кода (все примеры - реальные):
 
 1. Использование логических (`|`, `&`) операций вместо булевых (`||`, `&&`):
@@ -21,7 +19,7 @@ date: October 19, 2010
      // Что-то делается ...
      return result || 0x00000002;
  }
- ...
+ // ...
  bool SetDOSMask (char * lpMask)
  {
      // Что-то делается ...
@@ -55,7 +53,7 @@ date: October 19, 2010
      // Что-то делается ...
      return result | 0x00000002;
  }
- ...
+ // ...
  bool SetDOSMask (char * lpMask)
  {
      // Что-то делается ...
@@ -176,10 +174,8 @@ int main() {
 
 `g++` с таким положением дел не согласен и считает это
 [ошибкой в стандарте](http://www.open-std.org/JTC1/SC22/WG21/docs/cwg_active.html#225).
-Правда, его в этом никто не поддерживает уже N лет.
-
-`clang++` считает, что стандарту 10 лет, формулировка не менялась и по сему можно реализовать
-в точности с формулировкой:
+Правда, его в этом никто не поддерживает уже N лет. `clang++` считает, что стандарту
+10 лет, формулировка не менялась и по сему можно реализовать в точности с формулировкой:
 
     you'll need to move the declaration up, or instantiate my_T with a non-builtin type (so that 
     argument-dependent lookup can find my_foo in the namespace of that type)
@@ -200,4 +196,4 @@ int main() {
 Для достижения портабельности придется декларацию `my_foo()` вытаскивать раньше шаблонного кода.
 
 Спасибо `dgregor` на `oftc/#llvm` и `Andrew Pinski` в
-[gcc bugzilla](http://gcc.gnu.org/bugzilla/show_bug.cgi?id=46075) за разьяснения.
+[`gcc` `bugzilla`](http://gcc.gnu.org/bugzilla/show_bug.cgi?id=46075) за разьяснения.
