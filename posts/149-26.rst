@@ -1,8 +1,0 @@
----
-title: 26
-date: August 8, 2011
----
-
-:PostID: 149
-:Title: 26
-:Categories: news
