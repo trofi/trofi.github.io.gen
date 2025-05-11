@@ -42,5 +42,5 @@ uint16_t a = 0xFFFF, b = 0xFFFF; uint64_t c = a * b;
 uint64_t c = (uint64_t)(int)((int)a * (int)b);
 ~~~~
 
-**(int)0xFFFF * (int)0xFFFF** даст отрицательное число **0xFFFE0001** (если **int** - 32 бита),
-которое потом знакорасширится в 64 бита: **0xFFFFFFFFFFFE0001**
+`(int)0xFFFF * (int)0xFFFF` даст отрицательное число `0xFFFE0001` (если `int` - 32 бита),
+которое потом знакорасширится в 64 бита: `0xFFFFFFFFFFFE0001`
