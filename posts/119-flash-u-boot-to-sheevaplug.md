@@ -5,10 +5,10 @@ date: August 7, 2010
 
 Потиху обновляю софт, который стоит на недавно вдруг появившейся у меня
 [Marvell `sheevaplug`](http://en.wikipedia.org/wiki/SheevaPlug).
-Последним в списке глючного старья был форк `u-boot` от Marvell.
+Последним в списке был форк `u-boot` от Marvell.
 
-Как оказалось, официально <!--more--> `u-boot`
-[нифига не поддерживает](http://www.denx.de/wiki/view/DULG/CanUBootBeConfiguredSuchThatItCanBeStartedInRAM)
+Как оказалось, официально `u-boot`
+[не поддерживает](http://www.denx.de/wiki/view/DULG/CanUBootBeConfiguredSuchThatItCanBeStartedInRAM)
 передачу управления с одного `u-boot` на другой. Не хотелось флешить
 заведомо неработающий `u-boot`.
 Но на некоторых бордах это (запись `u-boot` в память и последующий его запуск)
@@ -49,7 +49,7 @@ in procedure 'sheevaplug_init'
 ~~~~
 
   Тут `sheevaplug` начинает грузиться и ее надо быро стопить, пока она не загрузила ядро.
-  Налицо полная херь (может это баг `openocd`, фиг его знает). По сему я сделал чуть по-другому:
+  Баг `openocd`? Я сделал чуть по-другому:
 
 ~~~~
 # всё тот же другой терминал (тем временем sheevaplug висит в промпте u-boot)
