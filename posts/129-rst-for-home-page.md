@@ -59,4 +59,4 @@ fi
 ~~~~
 
 Тут мы особым образом обрабатываем запрос `?raw` (выводим файл 'как есть') или
-генерим `xml` скриптом **rst2html.py** (входит в состав [`docutils`](http://docutils.sourceforge.net/))
+генерим `xml` скриптом `rst2html.py` (входит в состав [`docutils`](http://docutils.sourceforge.net/))
