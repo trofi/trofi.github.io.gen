@@ -3,20 +3,19 @@ title: gentoo prefix
 date: February 5, 2011
 ---
 
-Once upon a time I've got a bunch of emails from `gentoo`'s bugzilla
+Once upon a time I got a bunch of emails from `gentoo`'s bug tracker
 about `haskell` prefix support:
 
 - [`haskell-cabal.eclass` PoC changes](https://bugs.gentoo.org/show_bug.cgi?id=312595)
 - [`ghc` `ebuild` PoC changes](https://bugs.gentoo.org/show_bug.cgi?id=312597)
 
 The idea of prefix is quite fun. In one sentence it can be described as:
-
 run `gentoo` in your `$HOME/gentoo/` directory on any host operating
 system: `MacOS`, `Linux`, `Solaris`, etc.
 
 I tried to read [the
 notes](https://www.gentoo.org/proj/en/gentoo-alt/prefix/techdocs.xml)
-about porting ebuilds to support it and was seriously confused by
+about porting `ebuild`s to support it and was seriously confused by
 `$D` vs `$ED`, `$ROOT` vs `$EROOT` and `$EPREFIX`
 variable meanings.
 
@@ -37,14 +36,14 @@ and get needed `ghc` and it's environment.
 So far I've decided to actually install prefix. It was quite simple.
 With great help from `grobian` and [`solaris`
 HOWTO](https://www.gentoo.org/proj/en/gentoo-alt/prefix/bootstrap-solaris.xml)
-I\'ve bootstrapper prefix. There were some minor deviations from the guide: I
+I've bootstrapped prefix. There were some minor deviations from the guide: I
 had to install `coreutils6` instead of `coreutils` and `tar22` instead
 of `tar`. The rest of stuff was smooth.
 
-Then I once again started to look the `"porting to prefix"` so called
+Then I once again started to look the `"porting to prefix"`
 [`techdoc`](https://www.gentoo.org/proj/en/gentoo-alt/prefix/techdocs.xml).
 The thing, which annoyed me is a lost meaning of commonly used
-`$ROOT` and `$D` variables in `ebuilds`. Prefix team seds them out
+`$ROOT` and `$D` variables in `ebuilds`. Prefix team `sed`s them out
 to `$EROOT` and to `$ED` almost in every place of every `ebuild`!
 (exceptional cases are to be described below)
 
