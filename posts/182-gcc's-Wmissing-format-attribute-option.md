@@ -1,6 +1,6 @@
 ---
 title: gcc's -Wmissing-format-attribute option
-date: March 12,2013
+date: March 12, 2013
 ---
 
 Начну сразу с примера. Игрушечний пример выглядит так:
