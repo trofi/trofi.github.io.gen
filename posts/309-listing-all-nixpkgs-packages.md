@@ -754,6 +754,8 @@ But even with such a limited lister I managed to get to these bugs:
 - [PR#406668](https://github.com/NixOS/nixpkgs/pull/406668):
   `cudaPackages_11_0.autoAddCudaCompatRunpath.libcudaPath` dereferences
   `null`.
+- [PR#411823](https://github.com/NixOS/nixpkgs/pull/411823):
+  `lauti.tests` refers to non-existent `nixosTests.lauti` test.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
