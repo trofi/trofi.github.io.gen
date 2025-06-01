@@ -758,6 +758,8 @@ But even with such a limited lister I managed to get to these bugs:
   `lauti.tests` refers to non-existent `nixosTests.lauti` test.
 - [PR#412479](https://github.com/NixOS/nixpkgs/pull/412479):
   `discourse.discourseAllPlugins.tests` refers missing `lib` attribute.
+- [PR#412881](https://github.com/NixOS/nixpkgs/pull/412881):
+  `pythonInterpreters.pypy310_prebuilt` deferred to non-existent attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
