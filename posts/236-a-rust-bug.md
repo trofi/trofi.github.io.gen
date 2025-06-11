@@ -4,14 +4,14 @@ date: February 8, 2022
 ---
 
 This is a post that documents a few tips to track down elusive problem
-in a **rust** codebase of medium size: a few crates a few megabytes
+in a `rust` codebase of medium size: a few crates a few megabytes
 of code each.
 
-# The exhibit
+## The exhibit
 
-It all started from seemingly minor problem: after an update of **rust**
-from **1.56.1** to **1.57.0** testsuite of **rav1e-0.4.1** project started
-[failing in **nixpkgs**](https://github.com/NixOS/nixpkgs/pull/148358#issuecomment-985934315)
+It all started from seemingly minor problem: after an update of `rust`
+from `1.56.1` to `1.57.0` test suite of `rav1e-0.4.1` project started
+[failing in `nixpkgs`](https://github.com/NixOS/nixpkgs/pull/148358#issuecomment-985934315)
 
 ```
 failures:
@@ -22,17 +22,15 @@ failures:
     src/api/context.rs - api::context::Context<T>::send_frame (line 75)
 ```
 
-Normally testsuite failures are a better starting point than a bug on
-real application: the inputs are usually trivial, they exercise small
+Normally test suite failures are a better starting point than a bug on
+real application. The inputs are usually trivial, they exercise small
 part of the library, you could run a test under debugger and check the
 place where crash happens and so on.
-
 Here is how our failing test
 [looks like](https://github.com/xiph/rav1e/blob/v0.5.1/src/api/context.rs#L278-L290):
 
-```rust
+````rust
 /// ```
-...
 /// # fn main() -> Result<(), Box<dyn std::error::Error>> {
 /// #     let mut enc = EncoderConfig::default();
 /// #     // So it runs faster.
@@ -47,9 +45,9 @@ Here is how our failing test
 /// #     Ok(())
 /// # }
 /// ```
-```
+````
 
-Looks simple. Testing against git checkout of **rav1e** shown the same failure:
+Looks simple. Testing against git checkout of `rav1e` shown the same failure:
 
 ```
 $ cargo test --release
@@ -63,33 +61,28 @@ failures:
 Using this data Jörg filed [upstream report](https://github.com/xiph/rav1e/issues/2851)
 at which point I thought the failure would be obvious to upstream developers.
 
-# Into the rabbit hole
+## Into the rabbit hole
 
 I'm usually wary of filing bugs where it's not very clear if it's a fault of
 my environment or a fault of some underlying package way below the affected
 one.
-
-In this case it looked like a simple **rav1e** bug to my unexperienced eye.
-
-Unfortunately unspream's suspiction fell on **NixOS** almost immediately :)
+In this case it looked like a simple `rav1e` bug to my inexperienced eye.
+Unfortunately upstream suspiction fell on `NixOS` almost immediately :)
 Luckily others were able to reproduce the same failure with recent enough
 compiler. The failure nature remained to be a complete mystery to others.
-
 I gave it a try.
 
-First, this test is a doctest: it's a part of source's comment that **doctest**
-tool extracts, compiles and runs. In theory if we do the same extraction
+First, this test is a `doctest`: it's a part of source's comment that `doctest`
+tool extracts, compiles, and runs. In theory if we do the same extraction
 mechanically and write this code snippet to a text file it will fail the same.
-It did not. Test kept failing only as a part of doctest run.
-
+It did not. Test kept failing only as a part of `doctest` run.
 This proved to be a bit complicated to debug on release compiler: support for
-collecting intermediate binaries from **doctest** is an unstable feature.
-
+collecting intermediate binaries from `doctest` is an unstable feature.
 To avoid dealing with nightly compiler I resorted to patching the test with
-**sleep()** to quickly hook into failure with a debugger in hopes of an obvious
+`sleep()` to quickly hook into failure with a debugger in hopes of an obvious
 bug:
 
-```diff
+````diff
 --- a/src/api/context.rs
 +++ b/src/api/context.rs
 @@ -78,8 +78,10 @@ impl<T: Pixel> Context<T> {
@@ -103,7 +96,7 @@ bug:
    /// let cfg = Config::default();
    /// let mut ctx: Context<u8> = cfg.new_context().unwrap();
    /// let f1 = ctx.new_frame();
-```
+````
 
 The result somewhat worked:
 
@@ -149,25 +142,22 @@ Thread 2 "rust_out" received signal SIGSEGV, Segmentation fault.
 #17 0x00007f4cf81e443f in clone () from /nix/store/s9qbqh7gzacs7h68b2jfmn9l6q4jwfjz-glibc-2.33-59/lib/libc.so.6
 ```
 
-We got a detailed backtrace that gets into the depths of **rayon-core**
+We got a detailed backtrace that gets into the depths of `rayon-core`
 crate (it implements internals of parallel execution of tasks). I had
 no idea what this trace showed me.
-
-Having looked at the bits above **rav1e** upstream suggested filing a
-bug against **rayon-core**.
-
+Having looked at the bits above `rav1e` upstream suggested filing a
+bug against `rayon-core`.
 By this time I realized there will be no easy way out and I'll have to
 build something manageable to understand where the error really happens:
-in **rav1e**, **rayon-core** or somewher else.
+in `rav1e`, `rayon-core` or somewhere else.
 
-Quick quiz: which component do you think will end up having a bug?
+**Quick quiz**: which component do you think will end up having a bug?
 
-# Rust minimizer HOWTO
+## Rust minimization HOWTO
 
-So how does one shring the example? My mechanical trick is to remove
+So how does one shrink the example? My mechanical trick is to remove
 dead code unrelated to our bug trigger.
-
-**rust** has a useful feature of warning user of unused code.
+`rust` has a useful feature of warning user of unused code.
 Let's look at this toy example:
 
 ```rust
@@ -192,22 +182,20 @@ warning: function is never used: `g`
 warning: 1 warning emitted
 ```
 
-In this case **g()** is a clearly unused function: it's visibility is
-limited to current module. Note that **pg()** is also unused for that
+In this case `g()` is a clearly unused function: it's visibility is
+limited to current module. Note that `pg()` is also unused for that
 specific program. It's considered to be used because it's explicitly
 exported for all external modules and crates.
-
 To minimize a test we can safely assume that nothing should be exported
-outside current crate except maybe **main()** function of the test itself.
-
-Thus I came up with a hack: change all "pub " exports to "pub(crate) " exports
-with a single sed line:
+outside current crate except maybe `main()` function of the test itself.
+Thus I came up with a hack: change all `pub`exports to `pub(crate)` exports
+with a single `sed` line:
 
 ```
 $ sed -e 's@pub @pub(crate) @g' -i *.rs
 ```
 
-That's it! The rest comiler will do for us:
+That's it! The rest compiler will do for us:
 
 ```
 $ rustc a.rs
@@ -228,16 +216,14 @@ warning: function is never used: `pg`
 warning: 2 warnings emitted
 ```
 
-Yay! Now **pg()** is also reported as unused.
-
-Now we just need to manually delete **pg()** definition from the source code
+Yay! Now `pg()` is also reported as unused.
+Now we just need to manually delete `pg()` definition from the source code
 and make sure the hypothetical bug still triggers. Would be nice if
-**cargo fix** removed this unused code automatically.
-
-I have applied this **sed** hack to all of **rav1e** and almost immediately
+`cargo fix` removed this unused code automatically.
+I have applied this `sed` hack to all of `rav1e` and almost immediately
 got this reproducer:
 
-```rust
+````rust
 // cat src/lib.rs
 use rayon::iter::IntoParallelIterator;
 use rayon::iter::ParallelIterator;
@@ -256,21 +242,18 @@ pub fn do_bug() {
   (0..1).into_par_iter().for_each(|_| {});
   (0..1).into_par_iter().for_each(|_| {});
 }
-```
+````
 
-Clearly a **rayon** bug, right? There is nothing **rav1e** specific in this code.
-
+Clearly a `rayon` bug, right? There is nothing `rav1e` specific in this code.
 I filed the [bug report](https://github.com/rayon-rs/rayon/issues/911)
 being quite confident I got the culprit. Alas once again suspiction fell
-on my **NixOS** environment :)
-
-I tried **Ubuntu** and got the same **SIGSEGV** there. I felt that I'll need
+on my `NixOS` environment :)
+I tried `ubuntu` and got the same `SIGSEGV` there. I felt that I'll need
 to keep digging if I want this bug get solved. My example still relied on a
-few other crates: **rayon-core**, standard library and something else.
+few other crates: `rayon-core`, standard library and something else.
+I applied `pub(crate)` hack to `rayon-core` as well and got this beauty:
 
-I applied **pub(crate)** hack to **rayon-core** as well and got this beauty:
-
-```rust
+````rust
 // cat src/lib.rs
 thread_local! {
     static THREAD_LOCAL_GLOBAL: std::cell::Cell<usize> = std::cell::Cell::new(0);
@@ -304,39 +287,38 @@ pub fn do_bug() {
     std::thread::spawn(thread_func).join().unwrap();
   }
 }
-```
+````
 
-I used **#[inline(never)]** to make sure we don't get affected by
+I used `#[inline(never)]` to make sure we don't get affected by
 optimizer decisions during reduction. I don't know if it has any
-effect :)
-
+effect.
 Here we spawn 128 no-op threads that set some thread-local global
-variable. There is just nothing to break here! Note that **main()**
-still has to hide out in **doctest** comment to trigger **SIGSEGV**.
+variable. There is just nothing to break here! Note that `main()
+still has to hide out in `doctest` comment to trigger `SIGSEGV`.
 
-I filed the [bug against **rust**](https://github.com/rust-lang/rust/issues/92869).
+I filed the [bug against `rust`](https://github.com/rust-lang/rust/issues/92869).
+In there Josh and Nikita quickly found the code generator discrepancy in
+`llvm`
+and fixed it with [`D117489` patch](https://reviews.llvm.org/D117489).
 
-In there Josh and Nikita quickly found the code gnerator discrepancy in **llvm**
-and fixed it with [D117489 patch](https://reviews.llvm.org/D117489).
-
-The bug was so elusive because **rav1e**'s **Cargo.toml** managed to
+The bug was so elusive because `rav1e` `Cargo.toml` managed to
 hit a few unique properties:
 
-- build uses **debug = true / lto = "thin"** configuration in **[profile.release]**
-- **cargo test \-\-doc \-\-release** does not enable **-O** optimisations for tests
-  but does enable **lto = "thin"** (a **cargo test** perhaps?). This matches
-  neither debug nor release configuration for proper (non-doctest) tests.
+- build uses `debug = true / lto = "thin"` configuration in [profile.release]`
+- `cargo test --doc --release` does not enable `-O` optimisations for tests
+  but does enable `lto = "thin"` (a `cargo test` bug perhaps?). This matches
+  neither debug nor release configuration for proper (non-`doctest`) tests.
 
-# Parting words
+## Parting words
 
-Test case reduction is a simple and mechanical process for rust crates.
+Test case reduction is a simple and mechanical process for `rust` crates.
 
-* Simple compiler bugs are a thing for **rust** as well as **C++**
-* **gdb** renders meaningful stack frames for rust crashes.
-* "pub " -> "pub(crate) " substitution is surprisingly effective for
+* Simple compiler bugs are a thing for `rust` as well as `c++`
+* `gdb` renders meaningful stack frames for rust crashes.
+* `pub` -> `pub(crate)` substitution is surprisingly effective for
   test minimization.
-* **cargo test \-\-doc \-\-release** should be more consistent with **-O**
-  optmisation flags to make error less unique to **rustdoc**.
-* **cargo fix** does not delete unused functions :)
+* `cargo test --doc --release` should be more consistent with `-O`
+  optimization flags to make error less unique to `rustdoc`.
+* `cargo fix` does not delete unused functions :)
 
 Have fun!
