@@ -760,8 +760,10 @@ But even with such a limited lister I managed to get to these bugs:
   `discourse.discourseAllPlugins.tests` refers missing `lib` attribute.
 - [PR#412881](https://github.com/NixOS/nixpkgs/pull/412881):
   `pythonInterpreters.pypy310_prebuilt` deferred to non-existent attribute.
-- [PR#](https://github.com/NixOS/nixpkgs/pull/414769):
+- [PR#414769](https://github.com/NixOS/nixpkgs/pull/414769):
   `minimal-bootstrap` was using incomplete `fetchurl`.
+- [PR#418248](https://github.com/NixOS/nixpkgs/pull/418248):
+  `servarr-ffmpeg.tests`relied on fields missing in `metadata`.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
