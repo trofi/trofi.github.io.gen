@@ -764,6 +764,8 @@ But even with such a limited lister I managed to get to these bugs:
   `minimal-bootstrap` was using incomplete `fetchurl`.
 - [PR#418248](https://github.com/NixOS/nixpkgs/pull/418248):
   `servarr-ffmpeg.tests`relied on fields missing in `metadata`.
+- [PR#418334](https://github.com/NixOS/nixpkgs/pull/418334):
+  `actual-server.webUi` referred to a deleted attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
