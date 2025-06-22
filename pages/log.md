@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2025
 
+22 May: `nixpkgs` bug: [a bunch of unstable `sort` predicates](https://github.com/NixOS/nixpkgs/pull/418946)
+
 20 May: `libdeflate` bug: [`gcc-16` dropped `evex512` support](https://github.com/ebiggers/libdeflate/pull/427)
 
 1 May: `libconfig` bug: [test failure when prints binary integers on 32-bit systems](https://github.com/hyperrealm/libconfig/pull/260)
