@@ -335,4 +335,7 @@ fixed. I found at least [`cuda`](https://github.com/NixOS/nixpkgs/pull/368366),
 [`coq`](https://github.com/NixOS/nixpkgs/pull/368429) and
 [`mathematica`](https://github.com/NixOS/nixpkgs/pull/368433).
 
+Examples found after the first version of the post was published:
+- [`coqPackages_8_20` used `sort (<=)`](https://github.com/NixOS/nixpkgs/pull/418946)
+
 Have fun!
