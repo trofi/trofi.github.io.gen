@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2025
 
+19 July: `assimp` bug: [Test suite regression](https://github.com/assimp/assimp/issues/6270)
+
 24 May: `elfutils` bug: [include header was clobbered by local binary](https://sourceware.org/PR33103)
 
 22 May: `nixpkgs` bug: [a bunch of unstable `sort` predicates](https://github.com/NixOS/nixpkgs/pull/418946)
