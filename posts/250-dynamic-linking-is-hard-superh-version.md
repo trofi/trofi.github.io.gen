@@ -5,15 +5,13 @@ date: July 10, 2022
 
 I got a bit more free weekend time and I'm slowly going through a
 backlog of topics to write about.
-
 Today I'll write about the `GHC` bug from 4 years ago.
 
 ## The problem
 
-John Paul Adrian Glaubitz found yet another interesting case of **GHC** doing
+John Paul Adrian Glaubitz found yet another interesting case of `GHC` doing
 [something very unusual](https://gitlab.haskell.org/ghc/ghc/-/issues/15338).
-
-Namely **ghc-pkg** was not able to print it's own version when (and only when)
+Namely `ghc-pkg` was not able to print it's own version when (and only when)
 redirected to a ... pipe(!):
 
 ```
@@ -27,9 +25,9 @@ $ ghc-pkg --version | cat
 ```
 
 "Looks like a very simple coding error" was my thought. I attempted the
-same test on **ghc-HEAD** and reproduced strange behaviour.
+same test on `ghc-HEAD` and reproduced strange behavior.
 
-**ghc-pkg** is a
+`ghc-pkg` is a
 [simple single-source tool](https://gitlab.haskell.org/ghc/ghc/-/blob/master/utils/ghc-pkg/Main.hs).
 It was easy to reduce the original down to the following minimal example:
 
@@ -46,7 +44,7 @@ main = do
 Quiz question: what do you think is a bug here?
 
 The caveat is that all this happens on
-[SuperH](https://en.wikipedia.org/wiki/SuperH) architecture.
+[`SuperH`](https://en.wikipedia.org/wiki/SuperH) architecture.
 
 ```
 $ inplace/bin/ghc-stage1 --make a.hs -O1 -dynamic
@@ -54,24 +52,24 @@ $ /usr/bin/qemu-sh4 -L /usr/sh4-unknown-linux-gnu/ ./a
 <empty>
 ```
 
-Already see the bug? Me neiter.
+Already see the bug? Me neither.
 
-## What is SuperH?
+## What is `SuperH`?
 
-**SuperH** (or **sh**) is a 32-bit **RISC** architecture designed by
-**Hitachi**. **Sega Saturn**, **Sega 32X** and **Sega Dreamcast**
-all use **sh**-based chips. **SuperH** also hides in many controllers
-like **CD-ROM**.
+`SuperH` (or `sh`) is a 32-bit `RISC` architecture designed by
+`Hitachi`. `Sega Saturn`, `Sega 32X` and `Sega Dreamcast`
+all use `sh`-based chips. `SuperH` also hides in many controllers
+like `CD-ROM`.
 
-**SuperH** recently got new life in development community
+`SuperH` recently got new life in development community
 after a bunch of related patents expired in 2015.
 
-From a software development standpoint (as in, shared bugs) **sh**
-feels like **m68k**. For example it's instruction length is 2 bytes
-which drives some low-level toolchain decisions to be similar to **m68k**.
+From a software development standpoint (as in, shared bugs) `sh`
+feels like `m68k`. For example it's instruction length is 2 bytes
+which drives some low-level toolchain decisions to be similar to `m68k`.
 
-Let's have a look at a disassembly of a **fabs** function in
-**glibc** to get a feel for this architecture:
+Let's have a look at a disassembly of a `fabs` function in
+`glibc` to get a feel for this architecture:
 
 ```
 000213cc <fabs@@GLIBC_2.2>:
@@ -117,51 +115,50 @@ A few things to note here:
 
 - Instructions are only 2 bytes long. This makes the task of
   encoding large branch offsets especially tricky: you need to
-  store 32-bit offset somere in nearby memory. In the example
-  above it's **.word 0x0048; .word 0x0000**.
-- **r15** is a stack pointer
-- **SuperH** support increments/decrements as part of the main
+  store 32-bit offset somewhere in nearby memory. In the example
+  above it's `.word 0x0048; .word 0x0000`.
+- `r15` is a stack pointer
+- `SuperH` support increments/decrements as part of the main
   instruction:
-
-  - **sts.l   pr,@-r15**: push return address on stack (pre-decrement)
-  - **lds.l   @r15+,pr**: pop return address from stack (post-increment)
-- There are **FPU** instructions like **fabs** itself.
+  - `sts.l   pr,@-r15`: push return address on stack (pre-decrement)
+  - `lds.l   @r15+,pr`: pop return address from stack (post-increment)
+- There are `FPU` instructions like `fabs` itself.
 
 Handy! But it does not really matter all that for our particular bug :)
 
 ## The gist of the bug
 
 Before digging deeper into the bug I tried the same reproducer on a
-bunch of targets using **qemu** and using real hardware where I could
+bunch of targets using `qemu` and using real hardware where I could
 reach. Results were:
 
-- broken: **sh4** and **m68k**
-- working: **x86_64**, **mipsn32**, **powerpc**, **powerpc64**, **sparc**
+- broken: `sh4` and `m68k`
+- working: `x86_64`, `mipsn32`, `powerpc`, `powerpc64`, `sparc`
 
-**x86_64** and **powerpc{,64}** are targets with native **GHC** code
-generation. **mips**, **sparc**, **sh4** and **m68k** are **via-C**
-(**unregisterised**) targets. Thus it's probably not just a bug in
+`x86_64` and `powerpc{,64}` are targets with native `GHC` code
+generation. `mips`, `sparc`, `sh4` and `m68k` are `via-C`
+(`unregisterised`) targets. Thus it's probably not just a bug in
 unregisterised backend.
 
-It also not just 32 vs 64 bit bug (**sparc** is 32-bit here).
+It also not just 32 vs 64 bit bug (`sparc` is 32-bit here).
 
-I dug a bit more into the failure and found that **haskell**-level
-**System.IO.stdout** closure (rough equivalent of **C**'s **stdout**
+I dug a bit more into the failure and found that `haskell`-level
+`System.IO.stdout` closure (rough equivalent of `C`'s `stdout`
 global) is present in memory in multiple places! And different
 pieces of code access different copies of it.
 
-Specifically the code that initialises **System.IO.stdout** fills
+Specifically the code that initializes `System.IO.stdout` fills
 all fields diligently. But code that writes to it uses default
 object full of zeros.
 
-Jessica Clarke pointed at **GHC**'s use of **-Bsymbolic** linker
-option that breaks various **C**-level assumptions. **GHC**'s native
+Jessica Clarke pointed at `GHC`'s use of `-Bsymbolic` linker
+option that breaks various `C`-level assumptions. `GHC`'s native
 code generator specifically tries to generate code compatible with
-**-Bsymbolic**. But when unregisterised backend is used **GHC** has
-no control of what **gcc** produces. And **gcc** breaks the assumptions.
+`-Bsymbolic`. But when unregisterised backend is used `GHC` has
+no control of what `gcc` produces. And `gcc` breaks the assumptions.
 
-In **GHC**'s case **-Bsymbolic** is a performance optimization. It's not
-a requirement to get haskell compiler on a platform. Thus the simple fix
+In `GHC`'s case `-Bsymbolic` is a performance optimization. It's not
+a requirement to get `haskell` compiler on a platform. Thus the simple fix
 was to avoid use of it in unregisterised codegen with
 [the patch](https://gitlab.haskell.org/ghc/ghc/-/commit/8ec48990fee9e245bb2fe40dc6f65b61b8612157):
 
@@ -176,11 +173,11 @@ was to avoid use of it in unregisterised codegen with
 
 ## But how exactly did it break?
 
-The above probably does not make much sense. What is **-Bsymbolic**?
+The above probably does not make much sense. What is `-Bsymbolic`?
 Why does it make things worse if it's just an optimization? Why do some
-unreg targets are not affected?
+unregisterised targets are not affected?
 
-Let's look at a smaller example in **C**:
+Let's look at a smaller example in `C`:
 
 ```c
 /* lib.c: */
@@ -204,10 +201,10 @@ int main() {
 }
 ```
 
-Here we have library code with one global variable **g** and
-a getter function **lib_g()**. And a main program where
-**main()** function prints initial value of **g** global directly
-and via **lib_g()** getter. We also change **g** value directly
+Here we have library code with one global variable `g` and
+a getter function `lib_g()`. And a main program where
+`main()` function prints initial value of `g` global directly
+and via `lib_g()` getter. We also change `g` value directly
 and print result again.
 
 Nothing too complicated.
@@ -223,8 +220,8 @@ after:  main.g=12345678; lib_g()=12345678
 
 No surprise here:
 
-- before the store both **g** and **lib_g()** return **42**
-- after the store both **g** and **lib_g()** return **12345678**
+- before the store both `g` and `lib_g()` return `42`
+- after the store both `g` and `lib_g()` return `12345678`
 
 It's trivial. What could possible go wrong here?
 
@@ -246,13 +243,13 @@ To be even clearer the data flow is the following:
 ![](/posts.data/250-sh-copy-reloc/fig-1.svg)
 
 Here green arrows denote data reads, light green boxes
-denote intructions that perform reads. Cyan shade shows the
+denote instructions that perform reads. Cyan shade shows the
 writes and write instructions.
 
-All the paths directly or indirectly read and write the same **g** location.
+All the paths directly or indirectly read and write the same `g` location.
 Seems like no place to go wrong, right?
 
-Now let's add a **-Wl,-Bsymbolic** linker option used by **GHC**. **man ld**
+Now let's add a `-Wl,-Bsymbolic` linker option used by `GHC`. `man ld`
 says:
 
 ```
@@ -265,7 +262,7 @@ says:
 ```
 
 Overrides usually happen when we define a symbol in multiple places: one in shared
-library and another in executable program. One of them has to win. **LD_PRELOAD**
+library and another in executable program. One of them has to win. `LD_PRELOAD`
 frequently relies on symbol override semantics.
 
 But does our program override any definitions? If feels like we don't do
@@ -282,10 +279,10 @@ before: main.g=42; lib_g()=42
 after:  main.g=12345678; lib_g()=42
 ```
 
-Whoops. What happens here? Why do **g** and **lib_g()** see different values?
+Whoops. What happens here? Why do `g` and `lib_g()` see different values?
 
 Let's look at final generated code. I'll start from simplest case without an
-external library where things stil worked. Building:
+external library where things still worked. Building:
 
 ```
 $ gcc -O1 lib.c prog.c -o good
@@ -328,22 +325,22 @@ Disassembly of section .data:
         ...
 ```
 
-Here our global variable **g** is located in **.data** section at **0x404030** address.
-**gcc** used most efficient code to access it by using **RIP**-relative addressing:
+Here our global variable `g` is located in `.data` section at `0x404030` address.
+`gcc` used most efficient code to access it by using `RIP`-relative addressing:
 
-- read via: **mov 0x2ef2(%rip),%esi # 404030 \<g\>**.
-- write via: **movl $0xbc614e,0x2ed9(%rip) # 404030 \<g\>**
+- read via: `mov 0x2ef2(%rip),%esi # 404030 <g>`.
+- write via: `movl $0xbc614e,0x2ed9(%rip) # 404030 <g>`
 
-Note that **0x2ef2(%rip)** is a fixed offset from the current instruction. In this case
-it always refers to **0x404030** address of **g** and does not depend on any other
+Note that `0x2ef2(%rip)` is a fixed offset from the current instruction. In this case
+it always refers to `0x404030` address of `g` and does not depend on any other
 library that could be loaded into address space along the program.
 
 There is the picture form of the above (same legend as in previous picture):
 
 ![](/posts.data/250-sh-copy-reloc/fig-2.svg)
 
-It should be obvious from the picture that all the reads and writes to **g** happen at
-the same **0x404030** location.
+It should be obvious from the picture that all the reads and writes to `g` happen at
+the same `0x404030` location.
 
 Now let's have a look at our broken example. Building:
 
@@ -356,7 +353,7 @@ $ objdump -DR symbolic-shared
 
 Peeking inside.
 
-Let's first look at **libbug.so**:
+Let's first look at `libbug.so`:
 
 ```
 Disassembly of section .text:
@@ -372,19 +369,19 @@ Disassembly of section .data:
         ...
 ```
 
-The code (**.text**) part is almost identical to our **prog** case. Except that instead of
-direct **mov 0x2f04(%rip),%eax** instruction it uses a pair of instructions:
-**lea 0x2f20(%rip),%rax** / **mov (%rax),%eax**. Both forms are semantically
+The code (`.text`) part is almost identical to our `prog` case. Except that instead of
+direct `mov 0x2f04(%rip),%eax` instruction it uses a pair of instructions:
+`lea 0x2f20(%rip),%rax` / `mov (%rax),%eax`. Both forms are semantically
 equivalent.
 
-Homework question: why does **libbug.so** use less efficient encoding?
+Homework question: why does `libbug.so` use less efficient encoding?
 
-The data (**.data**) part hosts **g** global variable at **0x4020** address. It's not a real address
+The data (`.data`) part hosts `g` global variable at `0x4020` address. It's not a real address
 as shared libraries could normally be loaded at any address. We would need to add a
 base address to every address we see. But we can pretend for now the library will be
-loaded at address **0** and all the addresses we see are real and valid.
+loaded at address `0` and all the addresses we see are real and valid.
 
-**symbolic-shared** has a few new things:
+`symbolic-shared` has a few new things:
 
 ```
 Disassembly of section .text:
@@ -417,20 +414,21 @@ Disassembly of section .bss:
         ...
 ```
 
-On the surface **main()** has identical code to our **prog** case as well:
-same **RIP-relative** addressing to reach local **g**. Except that **g** is
+On the surface `main()` has identical code to our `prog` case as well:
+same `RIP-relative` addressing to reach local `g`. Except that `g` is
 not supposed to be local! It's loaded from unknown address in external shared
 library! How did it get into our binary?
 
-**gcc** code generator assumes it's local and relies on so called **COPY**
-relocation (**R_X86_64_COPY** in our case) to copy data from external library
+`gcc` code generator assumes it's local and relies on so called `COPY`
+relocation (`R_X86_64_COPY` in our case) to copy data from external library
 into the executable binary.
 
-Effectively that means that at load time we will have two independen copies of **g**:
+Effectively that means that at load time we will have two independent
+copies of `g`:
 
-- one in **libbug.so** at address **0x4020** used by **lib_g()** function
-- and another in **symbolic-shared** binary at address **0x404038** used
-  by **main()** direct references.
+- one in `libbug.so` at address `0x4020` used by `lib_g()` function
+- and another in `symbolic-shared` binary at address `0x404038` used
+  by `main()` direct references.
 
 Or the same in pictures:
 
@@ -440,19 +438,18 @@ Compared to previous pictures blue arrows show load-time data copy from
 library data into binary data. And red arrow shows reads from stale source
 location.
 
-Note that **main()** always reads and write only local copy of **g**.
-It never looks at **libbug.so**'s original. While **lib_g()** only
-ever uses **libbug.so**'s original.
+Note that `main()` always reads and write only local copy of `g`.
+It never looks at `libbug.so`'s original. While `lib_g()` only
+ever uses `libbug.so`'s original.
 
-That is the negative effect of **-Wl,-Bsymbolic**: we effectively got
-two independent **g** global variables that only happen to share initial
+That is the negative effect of `-Wl,-Bsymbolic`: we effectively got
+two independent `g` global variables that only happen to share initial
 value at startup time.
 
-So how does it work at all without **-Wl,-Bsymbolic**? We did not pass that
+So how does it work at all without `-Wl,-Bsymbolic`? We did not pass that
 linker flag to the final binary. Only shared library was "corrupted" by it.
 
-
-Quick quiz: what is you guess? Would the **COPY** relocation disappear magically?
+Quick quiz: what is you guess? Would the `COPY` relocation disappear magically?
 Or library code would transform into something else?
 
 Let's have a look at a working shared library example now. Building:
@@ -464,7 +461,7 @@ $ objdump -DR libbug.so
 $ objdump -DR good-shared
 ```
 
-Peeking inside. **libbug.so**:
+Peeking inside. `libbug.so`:
 
 ```
 Disassembly of section .text:
@@ -486,13 +483,13 @@ Disassembly of section .data:
         ...
 ```
 
-This time the code is a bit different from **prog** and **-Bsymbolic** case.
+This time the code is a bit different from `prog` and `-Bsymbolic` case.
 
-**g** is read not by one **mov** instruction as before, but by two. Now we have
-an indirection (via **.got**, Global Offset Table) where real address of **g**
+`g` is read not by one `mov` instruction as before, but by two. Now we have
+an indirection (via `.got`, Global Offset Table) where real address of `g`
 is stored. And library does not know it's own global variable address!
 
-And **good-shared** executable is exactly the same as **symbolic-shared**:
+And `good-shared` executable is exactly the same as `symbolic-shared`:
 
 ```
 Disassembly of section .text:
@@ -524,20 +521,20 @@ Disassembly of section .bss:
         ...
 ```
 
-Here we see the same pattern: again **g** is copied out of it's real
-location (**libbug.so** provides symbol contents) and the rest of
+Here we see the same pattern: again `g` is copied out of it's real
+location (`libbug.so` provides symbol contents) and the rest of
 program uses this copy.
 
 The same in pictures:
 
 ![](/posts.data/250-sh-copy-reloc/fig-4.svg)
 
-Magenta arrows shows the code that reads final address of **g** global
-variable. Note that now nothing (aside from **COPY** relocation) reads
-original **g** global variable at **0x4020** address: everything including
-**libbug.so** uses executable's copy of **g** at address **0x404038**.
+Magenta arrows shows the code that reads final address of `g` global
+variable. Note that now nothing (aside from `COPY` relocation) reads
+original `g` global variable at `0x4020` address: everything including
+`libbug.so` uses executable's copy of `g` at address `0x404038`.
 
-Now we can make **-Wl,-Bsymbolic** work for us by enabling **-fPIC**
+Now we can make `-Wl,-Bsymbolic` work for us by enabling `-fPIC`
 code on final executable:
 
 ```
@@ -552,26 +549,26 @@ Works as expected! Homework quiz: why does it work?
 
 ## Parting words
 
-Note that with **-fPIC** **gcc** generates the code to always go through
-**.got** indirection to both allow for easy override (interposition) and
+Note that with `-fPIC` `gcc` generates the code to always go through
+`.got` indirection to both allow for easy override (interposition) and
 to allow final executables to have more efficient access to globals without
-**.got** indirection.
+`.got` indirection.
 
-This effectively penaizes library code in favour of speeding up binary code.
+This effectively penalizes library code in favor of speeding up binary code.
 This tradeoff implies that most of the time library globals will be accessed
 from outside the library (rather than inside the library). To get these
-limitations around performance critical libraries (like **glibc**) go to the
+limitations around performance critical libraries (like `glibc`) go to the
 great lengths to avoid use of externally visible global symbols and use
-sorts of **__attribute__((visibility("hidden")))** / **-fvisibility=hidden**
+sorts of `__attribute__((visibility("hidden")))` / `-fvisibility=hidden`
 to get performance back.
 
-**GHC**'s strategy is to use **-Bsymbolic** to prioritize library code access
-and be careful about using **-fPIC** style code on executables.
+`GHC`'s strategy is to use `-Bsymbolic` to prioritize library code access
+and be careful about using `-fPIC` style code on executables.
 
-**COPY** relocations have all sorts of unusual side-effects. They actually copy
+`COPY` relocations have all sorts of unusual side-effects. They actually copy
 data (which might take a considerable startup time for large programs), they
 leak object sizes across binaries (as one needs to know how much to copy).
-[Nettle bug](/posts/195-dynamic-linking-ABI-is-hard.html) is an interesting case
-of **ABI** breakage of the past.
+[`nettle` bug](/posts/195-dynamic-linking-ABI-is-hard.html) is an interesting case
+of `ABI` breakage of the past.
 
 Have fun!
