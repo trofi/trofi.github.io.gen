@@ -3,26 +3,25 @@ title: "gcc profiler internals"
 date: May 01, 2022
 ---
 
-I occasionally encounter profiler bugs in gcc. Two related examples I
-remember are [tauthon (python-2 fork)](https://gcc.gnu.org/PR96394) and
-[python](https://gcc.gnu.org/PR105282) ICEs in **PGO**  build mode. **PGO**
-profile-guided optimisation.
-
-I keep forgetting **gcc**'s internals aroung profiling handling and keep
+I occasionally encounter profiler bugs in `gcc`. Two related examples I
+remember are [`tauthon` (`python2` fork)](https://gcc.gnu.org/PR96394) and
+[`python`](https://gcc.gnu.org/PR105282) `ICE`s in `PGO`  build mode. `PGO`
+stands for profile-guided optimization.
+I keep forgetting `gcc` internals around profiling handling and keep
 re-tracing the same steps every time it comes up. I decided to write a
 few words on it. I'll cover a few generic details first and then we'll
-explore today's [python](https://gcc.gnu.org/PR105282) bug.
+explore today's [`python`](https://gcc.gnu.org/PR105282) bug.
 
-# using gcc profiler: -fprofile-generate / -fprofile-use
+## using `gcc` profiler: `-fprofile-generate` / `-fprofile-use`
 
-Let's start from a trivial example. To build our program we run **gcc**
+Let's start from a trivial example. To build our program we run `gcc`
 on it:
 
 ```
 $ gcc $CFLAGS prog.c -o prog
 ```
 
-To build an optimised program using profile feedback we need to perform
+To build an optimized program using profile feedback we need to perform
 3 steps:
 
 ```
@@ -31,27 +30,26 @@ $ ./prog some-training-input-data
 $ gcc $CFLAGS -fprofile-use      prog.c -o prog
 ```
 
-These are:
+These steps are:
 
 1. build instrumented program
-2. run it to get a profile
-3. build optimized program:
+2. run built program to get a profile
+3. build optimized program against generated profile
 
-**PGO** build mode is not the only use of profile instrumentation.
-**GCC** allows gathering runtime execution stats using different types
+`PGO` build mode is not the only user of profile instrumentation.
+`GCC` allows gathering runtime execution stats using different types
 and formats ([instrumentation options](https://gcc.gnu.org/onlinedocs/gcc/Instrumentation-Options.html)).
-
 A few frequent uses are:
 
-- call graph style profiling (**-pg** option): used to explore call
-  graph in **gprof** format.
-- execution statictics coverage (**-ftest-coverage** option): used to
-  extract close to line-by-line execution coverage in **gcno** format.
-- execution statistics profiles (**-fprofile-generate**): used to guide
-  optimization in future compilation (**PGO**) in **gcda** format.
+- call graph style profiling (`-pg` option): used to explore call
+  graph in `gprof` format.
+- execution statictics coverage (`-ftest-coverage` option): used to
+  extract close to line-by-line execution coverage in `gcno` format.
+- execution statistics profiles (`-fprofile-generate`): used to guide
+  optimization in future compilation (`PGO`) in `gcda` format.
 
 All these modes are not fundamentally different. They share
-implementation and in-memory/on-disk format. I'll look at a **gcda**
+implementation and in-memory/on-disk format. I'll look at a `gcda`
 form. We'll use the following sample code as our running example:
 
 ```c
@@ -78,12 +76,11 @@ int main (int argc, char *argv[]) {
 }
 ```
 
-This program accepts one string argument (**argv[1]**) and calls
-function **f0()**, **f1()**, or **f2()** somewhat randomly (based on
-char modulo) against each byte of input string. The idea is that
+This program accepts one string argument (`argv[1]`) and calls
+function `f0()`, `f1()`, or `f2()` somewhat randomly (based on
+`char` modulo) against each byte of input string. The idea is that
 it's not immediately obvious which of the functions is called most
 frequently.
-
 This program has a few conditional branches and indirect calls. Let's
 profile it and see what stats we can collect. Building:
 
@@ -103,8 +100,8 @@ $ ls
 a  a.c  a.gcda  a.gcno
 ```
 
-Note that each **./a** run creates or updates **a.gcda** and **a.gcno**.
-We can dump profiling statistics with **gcov**:
+Note that each `./a` run creates or updates `a.gcda` and `a.gcno`.
+We can dump profiling statistics with `gcov`:
 
 ```
 $ gcov -a -b -c -f a
@@ -151,16 +148,16 @@ call    0 returned 59
 
 Here we see that:
 
--  **ft\[\*p % sz\]()** gets called 59 times: 3 (**f0**) + 53 (**f1**) + 3 (**f2**)
-- function **main()** gets called 5 times; a full length of all the inputs we passed to **./a** program
+-  `ft[*p % sz]()` gets called `59` times: `3` (`f0`) + `53` (`f1`) + `3` (`f2`)
+- function `main()` gets called `5` times; a full length of all the inputs we passed to `./a` program
 
-We also see frequency of **if (argc < 2) return 0;** branches:
+We also see frequency of `if (argc < 2) return 0;` branches:
 
-- was taken once (**./a** case, no arguments)
-- was not taken 4 times (all the other **./a ...** calls)
+- was taken `1` time (`./a` case, no arguments)
+- was not taken `4` times (all the other `./a ...` calls)
 
-After profile collection we can build new binary using **.gcda** files
-by changing **-fprofile-generate** to **-fprofile-use** in our **gcc**
+After profile collection we can build new binary using `.gcda` files
+by changing `-fprofile-generate` to `-fprofile-use` in our `gcc`
 calls:
 
 ```
@@ -206,37 +203,34 @@ $ nm -n a
 ...
 ```
 
-**nm -n** orders symbols in their in-memory order so we could
+`nm -n` orders symbols in their in-memory order so we could
 get the idea what goes where.
-
-One can spot that in unprofiled build **main()** is quite far away from most
-frequently called **f1()** function. While in profiled build
-**f1()** immediately follows **main()**.
-
+One can spot that in unprofiled build `main()` is quite far away from most
+frequently called `f1()` function. While in profiled build
+`f1()` immediately follows `main()`.
 In more practical scenarios the effects are more pronounced:
 
 - likely to execute code is laid out in a way that does not require branching
 - inlining can rely on execution statistics instead of function size heuristics
-- **-flto** could perform global program code reordering to speedup binary loading from disk
+- `-flto` could perform global program code reordering to speed up binary loading from disk
 - and many other effects
 
-The main takeaway here is that **PGO** requires two full builds
-(**-fprofile-generate** and **-fprofile-use**) and a program training
+The main takeaway here is that `PGO` requires two full builds
+(`-fprofile-generate` and `-fprofile-use`) and a program training
 run.
 
-In our example training data is biased towards inputs with **'a'**
+In our example training data is biased towards inputs with `'a'`
 symbols and thus our program is probably slightly more efficient at
 handling those.
-
-In **PGO** builds the trick is to find suitable input training data.
-Typical rookie mistake is to use **./prog --help** as a training run.
-Do not do that: you will get program optimised for printing help text.
+In `PGO` builds the trick is to find suitable input training data.
+Typical rookie mistake is to use `./prog --help` as a training run.
+Do not do that: you will get program optimized for printing help text.
 The rest will perform worse than typical unprofiled build.
 
-# internals: gcov-dump tool
+## internals: `gcov-dump` tool
 
-What exactly do these **.gcda** files contain? Let's have a peek with
-**gcov-dump** tool shipped with **gcc**:
+What exactly do these `.gcda` files contain? Let's have a peek with
+`gcov-dump` tool shipped with `gcc`:
 
 ```
 $ gcov-dump a.gcda
@@ -262,27 +256,25 @@ a.gcda:    01a90000:   0:COUNTERS indirect_call 0 counts
 a.gcda:    01af0000:   2:COUNTERS time_profiler 1 counts
 ```
 
-Here we something about **a.gcda** contents. It has something about:
+Here we see something about `a.gcda` contents. It has:
 
-- 5 program runs (**OBJECT_SUMMARY runs=5**)
-- 4 FUNCTIONs, each contains information about:
-
-  * **arcs**: conditional or unconditional branches
-  * **indirect_call** indirect branch targets
-  * **time_profiler**: count of times basic block was executed
+- 5 program runs (`OBJECT_SUMMARY runs=5`)
+- 4 `FUNCTION`s, each contains information about:
+  * `arcs`: conditional or unconditional branches
+  * `indirect_call` indirect branch targets
+  * `time_profiler`: count of times basic block was executed
 
 Note that functions are identified not by name, but by a triple:
 
-- **ident**: name hash, calculated with [coverage_compute_profile_id()](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/coverage.cc;h=8ece5db680e614f8225d9e8407dd89bd27020b4d;hb=95874f95095f401405d3386e2e6695351b3f97b5#l548)
-- **lineno_checksum**: source file name and line number hash, calculated with [coverage_compute_lineno_checksum()](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/coverage.cc;h=8ece5db680e614f8225d9e8407dd89bd27020b4d;hb=95874f95095f401405d3386e2e6695351b3f97b5#l531)
-- **cfg_checksum**: control flow graph hash, calculated with [coverage_compute_cfg_checksum()](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/coverage.cc;h=8ece5db680e614f8225d9e8407dd89bd27020b4d;hb=95874f95095f401405d3386e2e6695351b3f97b5#l588)
+- `ident`: name hash, calculated with [`coverage_compute_profile_id()`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/coverage.cc;h=8ece5db680e614f8225d9e8407dd89bd27020b4d;hb=95874f95095f401405d3386e2e6695351b3f97b5#l548)
+- `lineno_checksum`: source file name and line number hash, calculated with [`coverage_compute_lineno_checksum()`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/coverage.cc;h=8ece5db680e614f8225d9e8407dd89bd27020b4d;hb=95874f95095f401405d3386e2e6695351b3f97b5#l531)
+- `cfg_checksum`: control flow graph hash, calculated with [`coverage_compute_cfg_checksum()`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/coverage.cc;h=8ece5db680e614f8225d9e8407dd89bd27020b4d;hb=95874f95095f401405d3386e2e6695351b3f97b5#l588)
   identifier stability can survive minor source code changes.
 
-You need a **.gcno** file to resolve these obscure identifiers back
+You need a `.gcno` file to resolve these obscure identifiers back
 to source line numbers.
-
-Let's look into individual counters of **.gcda** files. We can extract
-then with **-l** option:
+Let's look into individual counters of `.gcda` files. We can extract
+then with `-l` option:
 
 ```
 $ gcov-dump -l a.gcda
@@ -319,54 +311,53 @@ a.gcda:                   0: 4
 
 Counters are harder to interpret without the context.
 
-For example **arcs**
+For example `arcs`
 just list count of each branch taken known to the current function.
-The string "FUNCTION ident=108032747: arcs 4 counts: 1 4 59 4" means that first
+The string `FUNCTION ident=108032747: arcs 4 counts: 1 4 59 4` means that first
 arc was taken once, third was taken 59 times.
+Looking at the above `a.c.gcov` I
+would guess `FUNCTION ident=108032747` is our `main()` function,
+first counter is our `if (argc < 2) return 0;` branch and the rest
+are indirect call arcs to `f1()`, `f2()`, `f3()`.
 
-Looking at the above **a.c.gcov** I
-would guess **FUNCTION ident=108032747** is our **main()** function,
-first counter is our **if (argc < 2) return 0;** branch and the rest
-are indirect call arcs to **f1()**, **f2()**, **f3()**.
-
-**indirect_call** is more complicated: the string "indirect_call 8 counts: 59 3 1025457522 53 1567133468 3 1634904005 3"
+`indirect_call` is more complicated: the string `indirect_call 8 counts: 59 3 1025457522 53 1567133468 3 1634904005 3`
 means that there were 59 indirect calls, top 3 are listed, first
-indirection had 53 calls (with **ident=1025457522** as a target, probably **f1()**),
-second and third are taken 3 times (probably **f0()** and **f2()** are the targets).
+indirection had 53 calls (with `ident=1025457522` as a target, probably `f1()`),
+second and third are taken 3 times (probably `f0()` and `f2()` are the targets).
 
-**time_profiler** is the simplest one: it says how many times the
+`time_profiler` is the simplest one: it says how many times the
 function itself was called.
 
-Quiz question: why does **ident=108032747** (**main()** function) has
-only one **time_profile** call and not 5?
+Quiz question: why does `ident=108032747` (`main()` function) has
+only one `time_profile` call and not 5?
 
-# internals: libgcov
+## internals: `libgcov`
 
-**.gcda** files are read at program startup and written at program
-shutdown. Multiple program runs have an effect of merged profile statictics
-from each run.
+`.gcda` files are read at program startup and written at program
+shutdown. Multiple program runs have an effect of merged profile
+statictics from each run.
 
-Some staticstics like **runs** are easy to merge:
-just sum values together. But some like **arcs** are trickier:
-how do we handle indirect calls with an unbound target fanout?
+Some staticstics like `runs` are easy to merge:
+just sum values together. But some like `arcs` are trickier:
+how do we handle indirect calls with an unbound target fan out?
 Should we store all of them? Or set a static or dynamic limit?
 
-All these cases are handled by **-lgcov** library linked into
+All these cases are handled by `-lgcov` library linked into
 instrumented binaries. It's API resides in
-[libgcc/libgcov.h](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcov.h;h=487bd1464cd8e6f9ae4dc1ca25a68b0c8d836a74;hb=95874f95095f401405d3386e2e6695351b3f97b5#l282)
+[`libgcc/libgcov.h`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcov.h;h=487bd1464cd8e6f9ae4dc1ca25a68b0c8d836a74;hb=95874f95095f401405d3386e2e6695351b3f97b5#l282)
 and has a few things to note:
 
-- entry and exit points: **\_\_gcov_init()** / **\_\_gcov_exit()**.
-- profiler conters: **\_\_gcov_interval_profiler()** / **\_\_gcov_time_profiler()** / **\_\_gcov_indirect_call_profiler_v4()**
-- profile mergers: **\_\_gcov_merge_add()** / **\_\_gcov_merge_time_profile()** / **\_\_gcov_merge_topn()**
-- counter readers: **gcov_get_counter()** / **gcov_get_counter_ignore_scaling()** / **gcov_get_counter_target()**
-- hooks to catch program re-execution: **\_\_gcov_fork()** / **\_\_gcov_execl()**
+- entry and exit points: `__gcov_init()` / `__gcov_exit()`.
+- profiler counters: `__gcov_interval_profiler()` / `__gcov_time_profiler()` / `__gcov_indirect_call_profiler_v4()`
+- profile mergers: `__gcov_merge_add()` / `__gcov_merge_time_profile()` / `__gcov_merge_topn()`
+- counter readers: `gcov_get_counter()` / `gcov_get_counter_ignore_scaling()` / `gcov_get_counter_target()`
+- hooks to catch program re-execution: `__gcov_fork()` / `__gcov_execl()`
 
-Let's look at indirect call profiler details as an exampe. The other
+Let's look at indirect call profiler details as an example. The other
 metric types follow the same pattern.
 
-[__gcov_indirect_call_profiler_v4()](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcov-profiler.c;h=57617857a93197fcbf99c682df11c66b9fb2b589;hb=95874f95095f401405d3386e2e6695351b3f97b5#l169)
-implements an increment (in-memory) for **indirect_call**:
+[`__gcov_indirect_call_profiler_v4()`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcov-profiler.c;h=57617857a93197fcbf99c682df11c66b9fb2b589;hb=95874f95095f401405d3386e2e6695351b3f97b5#l169)
+implements an increment (in-memory) for `indirect_call`:
 
 ```c
 void
@@ -421,8 +412,8 @@ gcov_topn_add_value (gcov_type *counters, gcov_type value, gcov_type count,
   // ...
 ```
 
-Here we see that **indirect_call** is a **topn** style counter as it's handled by
-[gcov_topn_add_value()](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcov.h;h=487bd1464cd8e6f9ae4dc1ca25a68b0c8d836a74;hb=95874f95095f401405d3386e2e6695351b3f97b5#l487).
+Here we see that `indirect_call` is a `topn` style counter as it's handled by
+[`gcov_topn_add_value()`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcov.h;h=487bd1464cd8e6f9ae4dc1ca25a68b0c8d836a74;hb=95874f95095f401405d3386e2e6695351b3f97b5#l487).
 
 
 ```c
@@ -457,11 +448,11 @@ gcov_topn_add_value (gcov_type *counters, gcov_type value, gcov_type count,
 
 A few things to note here:
 
-- **gcov_topn_add_value()** increments **counters[ix]** where **ix** matches **value** being counted.
-- **gcov_topn_add_value()** increments **counters[0]** as it treats it as "total"
+- `gcov_topn_add_value()` increments `counters[ix]` where `ix` matches `value` being counted.
+- `gcov_topn_add_value()` increments `counters[0]` as it treats it as "total"
 - negative "total" values are special and are related to merged values (how?)
 
-Let's look at the merge function for [__gcov_merge_topn()](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcov-merge.c;h=89741f637e1efae86d193762b668015c36243098;hb=95874f95095f401405d3386e2e6695351b3f97b5#l89):
+Let's look at the merge function for [`__gcov_merge_topn()`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcov-merge.c;h=89741f637e1efae86d193762b668015c36243098;hb=95874f95095f401405d3386e2e6695351b3f97b5#l89):
 
 ```c
 /* The profile merging function for choosing the most common value.
@@ -509,13 +500,13 @@ __gcov_merge_topn (gcov_type *counters, unsigned n_counters)
 ```
 
 Once again we see that first pair of key/value is treated as "total" count
-of calls. Merger is the place where overflow of **gcov_topn_add_value()**
+of calls. Merger is the place where overflow of `gcov_topn_add_value()`
 is detected and "total" is stored as a negative value to show this fact.
 
 All the counter types are written on disk with
-[write_once_data()](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcov-driver.c;h=d4517d269eb32ca84ee1dfa069bda4e872a1ac98;hb=95874f95095f401405d3386e2e6695351b3f97b5#l502).
+[`write_once_data()`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcov-driver.c;h=d4517d269eb32ca84ee1dfa069bda4e872a1ac98;hb=95874f95095f401405d3386e2e6695351b3f97b5#l502).
 From there we see that
-[write_topn_counters()](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcov-driver.c;h=d4517d269eb32ca84ee1dfa069bda4e872a1ac98;hb=95874f95095f401405d3386e2e6695351b3f97b5#l432)
+[`write_topn_counters()`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcov-driver.c;h=d4517d269eb32ca84ee1dfa069bda4e872a1ac98;hb=95874f95095f401405d3386e2e6695351b3f97b5#l432)
 dumps them as:
 
 ```c
@@ -552,14 +543,14 @@ write_topn_counters (const struct gcov_ctr_info *ci_ptr,
 ```
 
 This just writes key/value pairs on disk. Nothing fancy. No special handling
-of negative values. This makes on-disk format rougly match in-memory format.
+of negative values. This makes on-disk format roughly match in-memory format.
 
-Now we can alswer our quiz question on why **time_profiler** still has a
-value of **1** for **main()** even after 5 program runs.
-[__gcov_merge_time_profile()](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcov-merge.c;h=89741f637e1efae86d193762b668015c36243098;hb=95874f95095f401405d3386e2e6695351b3f97b5#l68)
+Now we can answer our quiz question on why `time_profiler` still has a
+value of `1` for `main()` even after 5 program runs.
+[`__gcov_merge_time_profile()`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=libgcc/libgcov-merge.c;h=89741f637e1efae86d193762b668015c36243098;hb=95874f95095f401405d3386e2e6695351b3f97b5#l68)
 tells us:
 
-```
+```c
 /* Time profiles are merged so that minimum from all valid (greater than zero)
    is stored. There could be a fork that creates new counters. To have
    the profile stable, we chosen to pick the smallest function visit time.  */
@@ -584,16 +575,16 @@ execution times (as I thought initially).
 
 The takeaways here are:
 
-- **gcc** implements a few types of counters: histogram-style **TOPN** counters,
+- `gcc` implements a few types of counters: histogram-style `TOPN` counters,
   simpler numeric counters and a few others.
-- merge policies for counters are dependent on their exact meaning; they are not cimplicated but have a few
+- merge policies for counters are dependent on their exact meaning; they are not complicated but have a few
   gotchas like negative values.
-- **libgcov** provides runtime for both program being profiled and **gcov** standalone tool
+- `libgcov` provides runtime for both program being profiled and `gcov` standalone tool
 
-# internals: gcc-emitted code
+## internals: `gcc`-emitted code
 
-Let's check how counters are embedded into our program. I suggest looking at the
-optimised **GIMPLE** tree. Here is our original program:
+Let's look at the way counters are embedded into our program. I suggest
+looking at the optimized `GIMPLE` tree. Here is our original program:
 
 ```c
 #include <stddef.h>
@@ -619,21 +610,21 @@ int main (int argc, char *argv[]) {
 }
 ```
 
-We will dump final **GIMPLE** with **-fdump-tree-optimized** flag.
+We will dump final `GIMPLE` with `-fdump-tree-optimized` flag.
 I'll paste the output in 3 pieces (as the output is quite big):
 
-- **main()** function
-- **f0()** function
+- `main()` function
+- `f0()` function
 - constructor/destructor
 
-Let's dump **GIMPLE** first:
+Let's dump `GIMPLE` first:
 
 ```
 $ gcc -c a.c -fprofile-generate -fprofile-arcs -ftest-coverage -O2 -fdump-tree-optimized
 $ cat a.c.244t.optimized
 ```
 
-Her is our **main()**:
+Here is our `main()`:
 
 ```
 ;; Function main (main, funcdef_no=3, decl_uid=1966, cgraph_uid=4, symbol_order=3) (executed once)
@@ -744,19 +735,18 @@ While it's a lot of code each counter handling is straightforward:
 - update the counter
 - write it back
 
+Here we already see a few global variables being updated:
 
-Here we already see a few glbal variables being updated:
+- `__gcov_time_profiler_counter`: global timer counter gets incremented once.
+- `__gcov7.main[0]`: `main` timer counter gets incremented once.
+- `__gcov0.main[0,1,2,3]`: `main` arc counters (to `f0()`, `f1()`, `f2()`)
 
-- **\_\_gcov_time_profiler_counter**: global timer counter gets incremented once.
-- **\_\_gcov7.main[0]**: **main** timer counter gets incremented once.
-- **\_\_gcov0.main[0,1,2,3]**: **main** arc counters (to **f0()**, **f1()**, **f2()**)
-
-Note that **main()** does build explicitl arcs to
-**f0()**/**f1()****f2()** but it does not know where indirections leads
-it to. Thus **gcc** stores indirection to **\_\_gcov_indirect_call.D.1993**
+Note that `main()` does build explicit arcs to
+`f0()`/`f1()`/`f2()` but it does not know where indirections hide that lead
+it to. Thus `gcc` stores indirection to `__gcov_indirect_call.D.1993`
 global.
 
-TO maintain the indirect counters **gcc** relies on target to increment it:
+To maintain the indirect counters `gcc` relies on target to increment it:
 
 ```
 ;; Function f2 (f2, funcdef_no=2, decl_uid=1960, cgraph_uid=3, symbol_order=2)
@@ -808,8 +798,8 @@ void f2 ()
 ... same as f2
 ```
 
-Here the same **\_\_gcov_indirect_call.D.1993** is being used to increment the counter
-in case **f2()** is indirection target. If **f2()** is called directly then this
+Here the same `__gcov_indirect_call.D.1993` is being used to increment the counter
+in case `f2()` is indirection target. If `f2()` is called directly then this
 global would not be populated.
 
 ```
@@ -833,16 +823,15 @@ void _sub_D_00100_1 ()
 }
 ```
 
-And here we see **-lgcov** startup and shutdown code in constructor and
+And here we see `-lgcov` start up and shutdown code in constructor and
 destructor. Simple!
 
-# the actual bug
+## the actual bug
 
 Now if all the above has some sense to you then <https://gcc.gnu.org/PR105282>
-should look less mysterious. There **python** managed to ICE **gcc** when
-program was optimised with training data available.
-
-Let's look at the minimised example:
+should look less mysterious. There `python` managed to ICE `gcc` when
+program was optimized with training data available.
+Let's look at the minimized example:
 
 ```c
 #include <stddef.h>
@@ -883,7 +872,7 @@ int main(int argc, char *argv[]) {
 }
 ```
 
-ICE on **gcc-12** or **gcc-11**:
+ICE on `gcc-12` or `gcc-11`:
 
 ```
 $ gcc -flto -O0 a.c -fprofile-generate -o a
@@ -921,9 +910,9 @@ a.c:36:1: internal compiler error: in stream_out_histogram_value, at value-prof.
         ../../gcc-12-20220410/gcc/cgraphunit.cc:2530
 ```
 
-Here the bug is in **stream_out_histogram_value()** function which
+Here the bug is in `stream_out_histogram_value()` function which
 tried to stream out on disk perfectly valid profile details around
-**main()**:
+`main()`:
 
 ```
 $ gcov-dump -l a.gcda
@@ -940,15 +929,15 @@ a.gcda:                  56: 71228346 1 1481851149 1 1154596710 1 414983633 1
 a.gcda:                  64: 2026608575 1
 ```
 
-The **-50** is our "total" count of indirections. It's negative because
-**25** calls from first run were merged with **25** calls from second call.
-Histograms have a limit of **32** unique values. The other 18 were discarded.
+The `-50` is our "total" count of indirect calls. It's negative because
+`25` calls from first run were merged with `25` calls from second call.
+Histograms have a limit of `32` unique values. The other `18` were discarded.
 Negative count signals this fact.
 
-[gcc/value-prof.cc:stream_out_histogram_value()](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/value-prof.c;h=42748771192f8302cfe637d23d589848d9b8fcb7;hb=1eee4e08a64f6e931b0c5dd1bb854a2b7ad3d58f#l311)
+[`gcc/value-prof.cc:stream_out_histogram_value()`](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/value-prof.c;h=42748771192f8302cfe637d23d589848d9b8fcb7;hb=1eee4e08a64f6e931b0c5dd1bb854a2b7ad3d58f#l311)
 was too strict on it's assumption around counter types:
 
-```cc
+```c
 void
 stream_out_histogram_value (struct output_block *ob, histogram_value hist)
 {
@@ -973,8 +962,8 @@ stream_out_histogram_value (struct output_block *ob, histogram_value hist)
 }
 ```
 
-Here **gcc** asserts that every value in **TOPN** couters has to be non-negative.
-Was trivial [to fix](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=7b879564ec2bda6b5441fbaf231d70ec6359db01)
+Here `gcc` asserts that every value in `TOPN` counters has to be non-negative.
+It was trivial [to fix](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=7b879564ec2bda6b5441fbaf231d70ec6359db01)
 by skipping first "total" counter that could be negative on overflows like above:
 
 ```diff
@@ -994,29 +983,29 @@ by skipping first "total" counter that could be negative on overflows like above
 
 So much behind this three-liner.
 
-# final words
+## final words
 
 Profiler bugs are frequently hard. Mechanical reduction on real program
 is usually very fragile: most material code changes change both generated
 instrumented code and break the program on training run. It's "infeasible"
 to incrementally reduce both program and input data for large projects
-like **firefox** or **python**.
+like `firefox` or `python`.
 
-I say "infeasible" as I successully reduced
-**tauthon** once in <https://gcc.gnu.org/PR96394>. It took me almost 2 months
+I say "infeasible" as I successfully reduced
+`tauthon` once in <https://gcc.gnu.org/PR96394>. It took me almost 2 months
 to extract small reproducer manually. I don't think I'll do it ever again :)
 
-First time it was fun: I found a lot more than I imagined about **python**
+First time it was fun: I found a lot more than I imagined about python`
 implementation: how it embeds it's own bytecode into executable, how bootstrap
 python loads the rest of python modules using this bootstrap code.
 
-When faced with another prof failure in **python** in <https://gcc.gnu.org/PR105282>
+When faced with another prof failure in `python` in <https://gcc.gnu.org/PR105282>
 I initially thought it would be impossible for me to do it again from
-scratch. On top of that it added **-flto** to make things even less
+scratch. On top of that it added `-flto` to make things even less
 manageable. But I was lucky to reproduce the crash and derive the
-reproducer out of **gdb** backtrace.
+reproducer out of `gdb` backtrace.
 
-**PGO**-style builds have another unusual property: they are very dependent
+`PGO`-style builds have another unusual property: they are very dependent
 on input training data and on any internal non-determinism your program
 has. For example, if your program uses random-seeded hash tables you
 will get slightly different profile outputs from run to run.
@@ -1024,7 +1013,7 @@ will get slightly different profile outputs from run to run.
 Slightly different profile outputs lead to slightly different
 optimization decision during compilation. Different decisions lead to
 different output binaries. Without special effort you will probably get
-unique binary every time you build a real world project with **PGO**
+unique binary every time you build a real world project with `PGO`
 support.
 
 It might not be a big deal with regards to performance of final binary.
@@ -1032,7 +1021,7 @@ But it might be quite a headache if one of such rare states causes
 compiler to generate invalid result. It might be very hard to reproduce
 (and fix).
 
-But if you have to deal with **PGO** bugs then try to look straight into
-what **gcc** is doing.
+But if you have to deal with `PGO` bugs then try to look straight into
+what `gcc` is doing.
 
 Have fun!
