@@ -3,7 +3,7 @@ title: "How do shared library collisions break?"
 date: June 18, 2022
 ---
 
-# background
+## background
 
 Shared libraries are fun. The concept is simple in theory: we move a
 piece of code out of the main application into a separate (dynamically
@@ -21,18 +21,18 @@ starts it's own life as a separate project and gets it's own dependencies
 over time.
 
 What if we want to use two different versions of the same library project
-within a single application. Say, use **gtk-2** and **gtk-3** together or
-**ffmpeg-4** and **ffmpeg-5**.
+within a single application. Say, use `gtk-2` and `gtk-3` together or
+`ffmpeg-4` and `ffmpeg-5`.
 
 You might even do it by accident by including two dependencies that rely
-on different **ffmpeg** versions:
+on different `ffmpeg` versions:
 
 ![](/posts.data/248-shlib-clash/fig-2.svg)
 
 Is it a safe combination? Can we just link against both versions of a
 library and be done with it? Let's try!
 
-# toy example
+## a toy example
 
 We'll need an executable and two libraries to play with. Library API
 provides a single function to tell us it's name:
@@ -82,12 +82,12 @@ int main() {
 }
 ```
 
-The important bit here is **fprintf (stderr, "lib_name() = %s\n", lib_name());**.
+The important bit here is `fprintf (stderr, "lib_name() = %s\n", lib_name());`.
 The rest is convenience debugging to see what libraries are loaded
 into address space.
 
-What happens if we link **main.c** dynamically against both **lib1.c** and
-**lib2.c** together as external shared libraries?
+What happens if we link `main.c` dynamically against both `lib1.c` and
+`lib2.c` together as external shared libraries?
 
 ![](/posts.data/248-shlib-clash/fig-3.svg)
 
@@ -108,8 +108,8 @@ $ gcc main.c -o main1 -Ll1 -Ll2 -ll1 -ll2 -Wl,-rpath,'$ORIGIN/l1' -Wl,-rpath,'$O
 $ gcc main.c -o main2 -Ll1 -Ll2 -ll2 -ll1 -Wl,-rpath,'$ORIGIN/l1' -Wl,-rpath,'$ORIGIN/l2'
 ```
 
-Quiz question: what would these **./main1** and
-**./main2** programs print when executed?
+Quiz question: what would these `./main1` and
+`./main2` programs print when executed?
 
 Now let's compare the results:
 
@@ -135,26 +135,26 @@ My address space:
 7ffdbb255000-7ffdbb257000 r-xp 00000000 00:00 0                          [vdso]
 ```
 
-Note: **lib_name()** returns two very different results. And that is for
+Note: `lib_name()` returns two very different results. And that is for
 a program that is linked against the same set of libraries and headers
 in both cases!
 
 A few more observations:
 
-- **ld** did not complain about **lib_name()** presence in both
-  **libl1.so** and **libl2.so**.
+- `ld` did not complain about `lib_name()` presence in both
+  `libl1.so` and `libl2.so`.
 - Both libraries are loaded into address space (visible in address space
   dumps).
-- **./main{1,2}** also did not complain about **lib_name()** presence in
-  both **libl1.so** and **libl2.so**.
+- `./main{1,2}` also did not complain about `lib_name()` presence in
+  both `libl1.so` and `libl2.so`.
 - Libraries happen to be loaded in order specified by **-l** options.
 
-Now let's pretend that **libl1.so** and **libl2.so** don't have material
-difference and implement identical ABI and semantics. On **ELF** platforms
-**ABI** and semantics are usualy reflected by a **DT_SONAME** tag attached
-to a library. We can assign **SONAME** to built library with
-**-Wl,-soname,...** flag. Let's specify identical **SONAME** to both
-libraries (I also had to create symlinks to **SONAME** name):
+Now let's pretend that `libl1.so` and `libl2.so` don't have material
+difference and implement identical ABI and semantics. On `ELF` platforms
+`ABI` and semantics are usually reflected by a `DT_SONAME` tag attached
+to a library. We can assign `SONAME` to built library with
+`-Wl,-soname,...` flag. Let's specify identical `SONAME` to both
+libraries (I also had to create symlinks to `SONAME` name):
 
 ```
 $ mkdir -p l1 l2
@@ -196,35 +196,34 @@ My address space:
 
 Note:
 
-- Only one example of a library with a specified **SONAME** is loaded into
-  memory: either **libl1.so** or **libl2.so**, but never both.
-- First library is loaded as specified by **DT_RUNPATH** tag (not by
-  **-l** option).
+- Only one example of a library with a specified `SONAME` is loaded into
+  memory: either `libl1.so` or `libl2.so`, but never both.
+- First library is loaded as specified by `DT_RUNPATH` tag (not by
+  `-l` option).
 
 Library order matters materially only if a symbol is present
 in multiple shared libraries (a symbol collision is present). Otherwise
 you don't have to worry about it.
 
-Another important assumption here is that **lib.h** is identical for both
-**libl1.so** and **libl2.so**. It's not always the case for more complex
-scenarios: **ffmpeg** and **gtk** certainly change their API and data
+Another important assumption here is that `lib.h` is identical for both
+`libl1.so` and `libl2.so`. It's not always the case for more complex
+scenarios: `ffmpeg` and `gtk` certainly change their API and data
 structures across major releases (or even in different build configurations
 for the same library release).
 
-# diamond dependency trees
+## diamond dependency trees
 
 Is it a frequent problem to get a mix of libraries like that in a single
 process? Or it's a purely hypothetical problem not worth worrying about?
+Let's pick `gdb` executable (command line debugger) as an example.
 
-Let's pick **gdb** executable (command line debugger) as an example.
+Quiz question: how many libraries does `gdb` use as dependencies. Should
+it be just `libc`? Maybe `ncurses` as well?
 
-Quiz question: how many libraries does **gdb** use as dependencies. Should it be just **libc**?
-Maybe **ncurses** as well?
-
-**ELF** files have **DT_NEEDED** entries in **.dynamic** section. Those
+`ELF` files have `DT_NEEDED` entries in `.dynamic` section. Those
 list all immediate shared library dependencies. We can dump
-**DT_NEEDED** entries with tools like **objdump**, **readelf**, **scanelf**,
-**patchelf** and many others. I'll use **patchelf**:
+`DT_NEEDED` entries with tools like `objdump`, `readelf`, `scanelf`,
+`patchelf` and many others. I'll use `patchelf`:
 
 ```
 $ patchelf --print-needed `which gdb` | nl
@@ -249,7 +248,7 @@ $ patchelf --print-needed `which gdb` | nl
 ```
 
 18 immediate libraries! Some of them have their own dependencies.
-We can dump the whole tree with **lddtree**:
+We can dump the whole tree with `lddtree`:
 
 ```
 $ lddtree `which gdb` | unnix | nl
@@ -279,17 +278,17 @@ lddtree `which gdb` | unnix | nl
     23      ld-linux-x86-64.so.2 => /<<NIX>>/glibc-2.34-210/lib/ld-linux-x86-64.so.2
 ```
 
-Just 4 more libraries added by **boost** internals: **libboost_regex.so.1.77.0** -> **librt.so.1**, **libicudata.so.71**, **libicui18n.so.71**,
-**libicuuc.so.71**.
+Just 4 more libraries added by `boost` internals: `libboost_regex.so.1.77.0` -> `librt.so.1`,
+`libicudata.so.71`, `libicui18n.so.71`, `libicuuc.so.71`.
 
-From **lddtree** output it might look like it's a rare occasion when shared libraries
-have their owne dependencies. That is misleading: **lddtree** hides already printed
+From `lddtree` output it might look like it's a rare occasion when shared libraries
+have their own dependencies. That is misleading: `lddtree` hides already printed
 entries by default.
 
-Quiz question: guess how many dependencies does **gdb** have if we consider all the
+Quiz question: guess how many dependencies does `gdb` have if we consider all the
 duplicates.
 
-We'll use **lddtree -a** option to answer that question:
+We'll use `lddtree -a` option to answer that question:
 
 ```
 $ lddtree -a `which gdb` | unnix | nl
@@ -318,10 +317,10 @@ $ lddtree -a `which gdb` | unnix | nl
 ```
 
 265! It's more than 10x compared to the output without duplicates. A thing
-to note here is that **libc.so.6** is a frequent guest here. The 265 number
+to note here is that `libc.so.6` is a frequent guest here. The 265 number
 is also inflated as many subtrees repeat multiple times here.
 
-If we use something more heavyweight like **i3** window manager we'll
+If we use something more heavyweight like `i3` window manager we'll
 get even bigger dependency tree:
 
 ```
@@ -331,51 +330,51 @@ $ lddtree -a `which i3` | wc -l
 1528
 ```
 
-Let's draw **gdb** dependencies as a graph. I find the result less scary:
+Let's draw `gdb` dependencies as a graph. I find the result less scary:
 
 ![](/posts.data/248-shlib-clash/fig-4.svg)
 
 OK, it's still unreadable.
 
-Let's remove all the **glibc** and **gcc** dependencies. They are
+Let's remove all the `glibc` and `gcc` dependencies. They are
 present almost everywhere and clutter our graph. Here is the result
 of graph with noise removed:
 
 ![](/posts.data/248-shlib-clash/fig-5.svg)
 
-Now it should be more obvious what **gdb** usually uses.
+Now it should be more obvious what `gdb` usually uses.
 
-**Diamond dependencies** are the ones that have more than one input arrow:
-they cause dependency graph to be a **graph** instead of a **tree**.
+`Diamond dependencies` are the ones that have more than one input arrow:
+they cause dependency graph to be a `graph` instead of a `tree`.
 
-Another way to look at it applied to library dependencies: **diamond
+Another way to look at it applied to library dependencies: `diamond
 dependencies have more than one path in the graph from dependency
-root**.
+root`.
 
-For example **libncursesw.so.6** can be reached via two distinct paths:
+For example `libncursesw.so.6` can be reached via two distinct paths:
 
-- **gdb** -> **libncursesw.so.6** (direct dependency)
-- **gdb** -> **libreadline.so.8** -> **libncursesw.so.6** (indirect dependency)
+- `gdb` -> `libncursesw.so.6` (direct dependency)
+- `gdb` -> `libreadline.so.8` -> `libncursesw.so.6` (indirect dependency)
 
 From the toy example above we know that the same library does not
 get loaded multiple times if the absolute library path is the same.
 
 Problems happen when such a diamond dependency is slightly different
 in two branches. There are many ways to break this diamond by accident.
-The most popular one is to have slightly different **SONAMEs** in two
+The most popular one is to have slightly different `SONAMEs` in two
 branches:
 
 ![](/posts.data/248-shlib-clash/fig-6.svg)
 
-To make it work at all **libfoo.so.1** and **libfoo.so.2** need to
+To make it work at all `libfoo.so.1` and `libfoo.so.2` need to
 have no colliding symbols or make this mix and match work via other
-means. Most **C** libraries don't handle such coexistence. They assume
-that everyone can update to **libfoo.so.2** and **libfoo.so.1** would
+means. Most `C` libraries don't handle such coexistence. They assume
+that everyone can update to `libfoo.so.2` and `libfoo.so.1` would
 never compete with it:
 
 ![](/posts.data/248-shlib-clash/fig-7.svg)
 
-# Example failures
+## Example failures
 
 Unfortunately nothing prevents such inconsistent diamonds with a
 library version mix to appear. We just did it ourselves in our toy
@@ -384,32 +383,32 @@ maybe we do?
 
 Normally distributions try hard to avoid such version mix by not
 providing two versions of a library at any point in time: there
-are no two **glibc** version installed, no two **ffmpeg** versions
+are no two `glibc` version installed, no two `ffmpeg` versions
 present and so on.
 
 But to each rule there is an exception: not all applications have
-migrated from **python2** to **python3**, some applications are
-still on **gtk-2**, most on **gtk-3** and some are already on
-**gtk-4**. In these cases you might find all these libraries in
+migrated from `python2` to `python3`, some applications are
+still on `gtk-2`, most on `gtk-3` and some are already on
+`gtk-4`. In these cases you might find all these libraries in
 your system. Their presence might create false confidence that it's
 a safe setup. It is not.
 
 Here are a few examples I saw the past:
 
-## gdb and tinfo/tinfow
+## `gdb` and `tinfo`/`tinfow`
 
-This example is based on <https://bugs.gentoo.org/669096> where **gdb**
-crashed at start. **ncurses** provides a few flavours of roughtly the
-same library with slightly different APIs: **ncurses** (no unicode
-support) and **ncursesw** (has unicode support). Sometimes distributions
-also enable split-library version of **ncurses**: **ncursesw.so**+**tinfow.so**
-and **ncurses.so**+**tinfo.so**.
+This example is based on <https://bugs.gentoo.org/669096> where `gdb`
+crashed at start. `ncurses` provides a few flavors of roughly the
+same library with slightly different APIs: `ncurses` (no unicode
+support) and `ncursesw` (has unicode support). Sometimes distributions
+also enable split-library version of `ncurses`: `ncursesw.so`+`tinfow.so`
+and `ncurses.so`+`tinfo.so`.
 
-In 2022 you would normally use **ncursesw** library everywhere (or
-**ncursesw.so**+**tinfow.so** everywhere in distributions with split
+In 2022 you would normally use `ncursesw` library everywhere (or
+`ncursesw.so`+`tinfow.so` everywhere in distributions with split
 setup).
 
-Due to a minor **configure.ac** glitch **gdb** managed to pull in the
+Due to a minor `configure.ac` glitch `gdb` managed to pull in the
 following library dependency graph:
 
 ```
@@ -429,13 +428,13 @@ See the problem already? Picture form might help a bit:
 
 I see two problems:
 
-- unicode and non-unicode flavors are both present: **ncurses.so** + **ncursesw.so**
-- unicode and non-unicode parts: **ncursesw.so** + **tinfo.so** (or **ncursesw.so** + **tinfow.so**)
+- unicode and non-unicode flavors are both present: `ncurses.so` + `ncursesw.so`
+- unicode and non-unicode parts: `ncursesw.so` + `tinfo.so` (or `ncursesw.so` + `tinfow.so`)
 
-**libncursesw.so.6** and **libncurses.so.6** export
+`libncursesw.so.6` and `libncurses.so.6` export
 the same symbol names. That on it's own might work. But ABI assumptions
-around private data structures in **w** and non-**w** librarues are
-different. For example **WINDOWLIST** structure has different size and
+around private data structures in `w` and non-`w` libraries are
+different. For example `WINDOWLIST` structure has different size and
 has extra fields:
 
 ```c
@@ -454,55 +453,55 @@ has extra fields:
 };
 ```
 
-If such a structure would be allocated in **libncurses.so** (without
-**NCURSES_WIDECHAR**) and be used as **libncursesw.so** there will
+If such a structure would be allocated in `libncurses.so` (without
+`NCURSES_WIDECHAR`) and be used as `libncursesw.so` there will
 likely be data corruption in an attempt to write to non-existent tail
-of structure (fields **addch_work**, **addch_used**, **addch_x**,
-**addch_y** don't get allocated in **libncurses.so**).
+of structure (fields `addch_work`, `addch_used`, `addch_x`,
+`addch_y` don't get allocated in `libncurses.so`).
 
-The fix was to update **gdb** to always link to **tinfow** if
-**ncursesw** is present. And to fix **readline** to link to **ncursesw**
+The fix was to update `gdb` to always link to `tinfow` if
+`ncursesw` is present. And to fix `readline` to link to `ncursesw`
 to match the default of the rest of distribution.
 
-Case of **readline** is especially worrying: if **libreadline.so.7** ->
-**libncurses.so.6** was a conscious decision by **readline** packagers
-then **gdb**
+Case of `readline` is especially worrying: if `libreadline.so.7` ->
+`libncurses.so.6` was a conscious decision by `readline` packagers
+then `gdb`
 would have to inspect it's dependency first to match it's defaults when
-picking the **ncurses** flavor at **gdb** build time. Nobody analyzes
-transitive dependencies in C land and assumes that build environment
+picking the `ncurses` flavor at `gdb` build time. Nobody analyzes
+transitive dependencies in `C` land and assumes that build environment
 provides consistent and unambiguous
-environment: there should be just one library of **ncurses** discoverable
-via **pkgconfig** (or similar) and that version should be used when building
-both **readline** and **gdb**.
+environment: there should be just one library of `ncurses` discoverable
+via `pkgconfig` (or similar) and that version should be used when building
+both `readline` and `gdb`.
 
-I would say that providing both **libncurses.so** and **libncursesw.so**
+I would say that providing both `libncurses.so` and `libncursesw.so`
 in the same system is proven to be dangerous. Perhaps providing just
-**SONAMEs** like **libncurses.so.6** would be slightly less prone to
+`SONAMEs` like `libncurses.so.6` would be slightly less prone to
 accidental linkage of unintended library.
 
-## binutils and multitarget
+## `binutils` and `multitarget`
 
-Another example from Gentoo's bugzilla: <https://bugs.gentoo.org/666100>.
+Another example from Gentoo's `bugzilla`: <https://bugs.gentoo.org/666100>.
 
-It starts off very similar to **ncurses**: Gentoo provides a way to
-install multiple versions of **libbfd.so** library:
+It starts off very similar to `ncurses`: Gentoo provides a way to
+install multiple versions of `libbfd.so` library:
 
-- via **sys-devel/binutils** package, install target is **/usr/lib64/binutils/x86_64-pc-linux-gnu/2.38/libbfd-2.38.so**
-- via **sys-libs/binutils-libs** package, install target is **/usr/lib64/libbfd-2.38.so**
+- via `sys-devel/binutils` package, install target is `/usr/lib64/binutils/x86_64-pc-linux-gnu/2.38/libbfd-2.38.so`
+- via `sys-libs/binutils-libs` package, install target is `/usr/lib64/libbfd-2.38.so`
 
-Gentoo allows multiple parallel major versions of **sys-devel/binutils**
+Gentoo allows multiple parallel major versions of `sys-devel/binutils`
 to be present in the system at the same time. And allows only one version of
-**sys-libs/binutils-libs**. The split
+`sys-libs/binutils-libs`. The split
 is needed for limitations of package manager library handling. The idea
-is that **sys-devel/binutils** libraries will ever be used only by
-**sys-devel/binutils** itself: **strip**, **ld** and friends will use
-private library. While external users (like **perf** or **ghc**) will
-never use it and will always pull in **sys-libs/binutils-libs** library:
+is that `sys-devel/binutils` libraries will ever be used only by
+`sys-devel/binutils` itself: `strip`, `ld` and friends will use
+private library. While external users (like `perf` or `ghc`) will
+never use it and will always pull in `sys-libs/binutils-libs` library:
 
-- **strip-2.38** -> **/usr/lib64/binutils/x86_64-pc-linux-gnu/2.38/libbfd-2.38.so** (**SONAME=libbfd-2.38.so**)
-- **ld-2.38** -> **/usr/lib64/binutils/x86_64-pc-linux-gnu/2.38/libbfd-2.38.so** (**SONAME=libbfd-2.38.so**)
-- **ld-2.37** -> **/usr/lib64/binutils/x86_64-pc-linux-gnu/2.37/libbfd-2.37.so** (**SONAME=libbfd-2.37.so**)
-- **perf** -> **/usr/lib64/libbfd-2.38.so** (**SONAME=libbfd-2.38.so**)
+- `strip-2.38` -> `/usr/lib64/binutils/x86_64-pc-linux-gnu/2.38/libbfd-2.38.so` (`SONAME=libbfd-2.38.so`)
+- `ld-2.38` -> `/usr/lib64/binutils/x86_64-pc-linux-gnu/2.38/libbfd-2.38.so` (`SONAME=libbfd-2.38.so`)
+- `ld-2.37` -> `/usr/lib64/binutils/x86_64-pc-linux-gnu/2.37/libbfd-2.37.so` (`SONAME=libbfd-2.37.so`)
+- `perf` -> `/usr/lib64/libbfd-2.38.so` (`SONAME=libbfd-2.38.so`)
 
 Or the same in pictures:
 
@@ -510,41 +509,41 @@ Or the same in pictures:
 
 The sets are seemingly disjoint. It should be fine, right? Wrong.
 
-The problem happens when some build system decides to use **LD_LIBRARY_PATH=/usr/lib**
-override (like **firefox** [one](https://bugs.gentoo.org/645222)). It
-looks cosmetic as **/usr/lib** is already a default library search path. It should not
-hurt. But in practice it redirects **libbfd-2.38.so** from:
+The problem happens when some build system decides to use `LD_LIBRARY_PATH=/usr/lib`
+override (like `firefox` [one](https://bugs.gentoo.org/645222)). It
+looks cosmetic as `/usr/lib` is already a default library search path. It should not
+hurt. But in practice it redirects `libbfd-2.38.so` from:
 
-- **ld-2.38** -> **/usr/lib64/binutils/x86_64-pc-linux-gnu/2.38/libbfd-2.38.so**
+- `ld-2.38` -> `/usr/lib64/binutils/x86_64-pc-linux-gnu/2.38/libbfd-2.38.so`
 
 to:
 
-- **ld-2.38** -> **/usr/lib64/libbfd-2.38.so**
+- `ld-2.38` -> `/usr/lib64/libbfd-2.38.so`
 
 After the redirect effective runtime dependency graph looks as:
 
 ![](/posts.data/248-shlib-clash/fig-10.svg)
 
 Is it a big deal? Shouldn't these libraries already be identical?
-They share **SONAME=libbfd-2.38.so** after all.
+They share `SONAME=libbfd-2.38.so` after all.
 
-Unfortunately, no.: **binutils** can be built in a few different incompatible
-modes that affect library **ABI** compatibility:
+Unfortunately, no: `binutils` can be built in a few different incompatible
+modes that affect library `ABI` compatibility:
 
 1. default mode: support only current target and use default file offsets
    (32-bit offsets on 32-bit systems, 64-bit offsets on 64-bit systems).
-2. 64-bit mode (**\-\-enable-64-bit-bfd**): support only current target
+2. 64-bit mode (`--enable-64-bit-bfd`): support only current target
    and use 64-bit file offsets
-3. multi-target mode (**\-\-enable-targets=all**): support multiple target
+3. multi-target mode (`--enable-targets=all`): support multiple target
    architectures and use 64-bit file offsets.
 
-All these 3 modes produce the same **SONAME=libbfd-2.38.so**, but
+All these 3 modes produce the same `SONAME=libbfd-2.38.so`, but
 it's ABIs differ quite a bit: 64-bit mode switches public API from
-**typedef unsigned long bfd_vma;** to **typedef uint64_t bfd_size_type**.
-This breaks global **\_bfd_std_section**  array size and breaks ABI similar
-to [nettle ABI breakage](/posts/195-dynamic-linking-ABI-is-hard.html).
+`typedef unsigned long bfd_vma;` to `typedef uint64_t bfd_size_type`.
+This breaks global `_bfd_std_section`  array size and breaks ABI similar
+to [`nettle` ABI breakage](/posts/195-dynamic-linking-ABI-is-hard.html).
 
-As a result attempt to force **LD_LIBRARY_PATH=/usr/lib** on 32-bit systems
+As a result attempt to force `LD_LIBRARY_PATH=/usr/lib` on 32-bit systems
 fails as:
 
 ```
@@ -552,54 +551,54 @@ $ LD_LIBRARY_PATH=/usr/lib ld --eh-frame-hdr -m elf_i386 -dynamic-linker /lib/ld
 ld: internal error /dev/shm/portage/sys-devel/binutils-2.38/work/binutils-2.38/ld/ldlang.c 6635
 ```
 
-The fix (or workaround) was straightforward: change **SONAME=libbfd-2.38.so**
-to something that depends on the configuration: **SONAME=libbfd-2.38-64-bit.so**
+The fix (or workaround) was straightforward: change `SONAME=libbfd-2.38.so`
+to something that depends on the configuration: `SONAME=libbfd-2.38-64-bit.so`
 or similar:
 
 ![](/posts.data/248-shlib-clash/fig-11.svg)
 
-Mike also suggested another fix: use **DT_RPATH** **ELF** tags in **binutils**
-binaries instead of **DT_RUNPATH** to get higher precedence over **LD_LIBRARY_PATH**:
+Mike also suggested another fix: use `DT_RPATH` `ELF` tags in `binutils`
+binaries instead of `DT_RUNPATH` to get higher precedence over `LD_LIBRARY_PATH`:
 <https://en.wikipedia.org/wiki/Rpath>.
 
 I think this bug is a good example why you should try hard to avoid multiple
-libraries in the system with the same **SONAME**: seemingly uncontroversial
-**LD_LIBRARY_PATH** can cause so much trouble.
+libraries in the system with the same `SONAME`: seemingly uncontroversial
+`LD_LIBRARY_PATH` can cause so much trouble.
 
-## mpfr/mpc version mismatch
+## `mpfr`/`mpc` version mismatch
 
 Another case is <https://wiki.gentoo.org/wiki/Mpfr4-update-guide>.
 
-In a steady state **gcc** and it's **mpc** dependency both depend on **mpfr**.
-All three are distinct packages in Gentoo and can only be updated one at a time
+In a steady state `gcc` and it's `mpc` dependency both depend on `mpfr`.
+All three are distinct packages in `Gentoo` and can only be updated one at a time
 on a live system.
 
-Once **mpfr** is updated it brings into the system a new library: **libmpfr.so.4**.
-On it's own it's fine as **gcc** and **mpc** still refer to **libmpfr.so.3** (which
+Once `mpfr` is updated it brings into the system a new library: `libmpfr.so.4`.
+On it's own it's fine as `gcc` and `mpc` still refer to `libmpfr.so.3` (which
 does not get deleted as long as there are referrers to it).
 
-The problem happens when we try to update **mpc**: we introduce a
-broken diamond dependency as two versions of **mpfr** get pulled into **gcc**:
+The problem happens when we try to update `mpc`: we introduce a
+broken diamond dependency as two versions of `mpfr` get pulled into `gcc`:
 
 ![](/posts.data/248-shlib-clash/fig-12.svg)
 
-By luck it did not render **gcc** broken as **gcc** was able to recompile itself.
+By luck it did not render `gcc` broken as `gcc` was able to recompile itself.
 Otherwise user would have to redownload broken compiler. Or an ad-hoc upgrade
 tool would have to be written just for this case.
 
 I wonder how other distributions solve this class of lockstep upgrade problems
 in their build systems.
 
-# does nix magically solve diamond dependency problem?
+## does `nix` magically solve diamond dependency problem?
 
 The short answer is: no, it does not fundamentally prevent such
 relations from happening. It is even more prone to accidentally
 inconsistent diamonds as it allows you to install multiple versions
-of the same library in parallel (say, **glibc** or **ncurses**)
+of the same library in parallel (say, `glibc` or `ncurses`)
 and be pulled in both as a dependency.
 
 The typical example would be an incorrect attempt to enable debugging
-mode for some popular dependency. Say, **ncurses** for **gdb**:
+mode for some popular dependency. Say, `ncurses` for `gdb`:
 
 ```
 # DO NOT USE IT AS IS
@@ -607,10 +606,10 @@ $ nix build --impure --expr 'with import <nixpkgs> {}; gdb.override { ncurses = 
 ```
 
 Looks benign, isn't it? We pass slightly modified unoptimised
-**ncurses** dependency to **gdb**.
+`ncurses` dependency to `gdb`.
 
-Unfortunately **gdb**'s **readline** dependency also uses **ncurses**.
-And in this case it uses unmodified version of **ncurses**. We
+Unfortunately `gdb`'s `readline` dependency also uses `ncurses`.
+And in this case it uses unmodified version of `ncurses`. We
 can see it in the resulting binary:
 
 ```
@@ -623,19 +622,19 @@ lddtree -a ./result/bin/gdb |& fgrep -B1 ncurses
 ```
 
 To be fair this output is slightly misleading as both
-**libncursesw.so.6** shold be loaded by **DT_RUNPTH** and would probably
+`libncursesw.so.6` should be loaded by `DT_RUNPTH` and would probably
 end up being pulled in from the same location. There would be no
 double-load. But it's hard to predict which of the two would win.
 
-To sidestep this kind of problems **nixpkgs** tries hard to use a
+To sidestep this kind of problems `nixpkgs` tries hard to use a
 single version of a library throughout the tree. As a result the
-whole system you build will use the same **ncurses** library.
-And it does not have to be the same **ncurses** you used for
+whole system you build will use the same `ncurses` library.
+And it does not have to be the same `ncurses` you used for
 older version of your system.
 
-The less incorrect way to achieve the **-O0** effect for **ncurses**
-would be to override the **ncurses** attribute itself and let
-all the packages (up to **gdb**) use it. One way to do it
+The less incorrect way to achieve the `-O0` effect for `ncurses`
+would be to override the `ncurses` attribute itself and let
+all the packages (up to `gdb`) use it. One way to do it
 is via <https://nixos.wiki/wiki/Overlays>:
 
 ```
@@ -645,7 +644,7 @@ $ nix build --impure --expr 'with import <nixpkgs> { overlays = [(final: prev: {
 ...
 ```
 
-Note: this command attepts to rebuild 33 packages:
+Note: this command attempts to rebuild 33 packages:
 
 ```
 $ nix build --impure --expr 'with import <nixpkgs> { overlays = [(final: prev: { ncurses = prev.ncurses.overrideAttrs(oa: { NIX_CFLAGS_COMPILE = " -O0"; }); })]; }; gdb' --dry-run |& unnix
@@ -686,7 +685,7 @@ these 34 derivations will be built:
   /<<NIX>>/gdb-12.1.drv
 ```
 
-Now we can verify that all **libncursesw.so.6** instances are pulled in from a single path:
+Now we can verify that all `libncursesw.so.6` instances are pulled in from a single path:
 
 ```
 $ lddtree -a ./result/bin/gdb |& fgrep -B1 ncurses
@@ -697,33 +696,32 @@ $ lddtree -a ./result/bin/gdb |& fgrep -B1 ncurses
     libncursesw.so.6 => /nix/store/3hwz3archcn9z8y93b2qdnkrgdf7g5jb-ncurses-6.3-p20220507/lib/libncursesw.so.6
 ```
 
-# allowed symbol collisions
+## allowed symbol collisions
 
 There are a few cases when it is natural to have symbol collisions:
 
 - when final executable wants to override function implementation from a library it can
-  define the function with the same prototype. I'll carefully ignore details of **hidden**
+  define the function with the same prototype. I'll carefully ignore details of `hidden`
   visibility symbols here.
 
 - when executable or library wants to provide a fallback function in case it's not
   present anywhere else it can use weak symbol: <https://en.wikipedia.org/wiki/Weak_symbol>
 
-
 If you use neither of the above you still can load libraries with
-clashing symbols. You would have to use **dlopen("path/to/lib.so", RTLD_LOCAL)**
-/ **dlsym()** to extract symbols under non-ambiguous names. Plugins frequently
+clashing symbols. You would have to use `dlopen("path/to/lib.so", RTLD_LOCAL)`
+/ `dlsym()` to extract symbols under non-ambiguous names. Plugins frequently
 use this technique to avoid namespace pollution and to simplify plugin unloading.
 
-Typical examples of **LD_PRELOAD** users that rely on runtime symbol overload are:
+Typical examples of `LD_PRELOAD` users that rely on runtime symbol overload are:
 
-- **jemalloc**: <https://github.com/jemalloc/jemalloc/wiki/Getting-Started> (overrides **malloc()** and friends)
-- **tcmalloc**: <https://gperftools.github.io/gperftools/tcmalloc.html> (overrides **malloc()** and friends)
-- **tsocks**: <https://linux.die.net/man/8/tsocks> (overrides **socket()** and friends)
-- **fakeroot**: <https://linux.die.net/man/1/fakeroot-tcp> (overrides file APIs)
-- **sandbox**: <https://github.com/gentoo/sandbox/blob/master/README.md> (overrides file APIs)
-- **libeatmydata**: <https://www.flamingspork.com/projects/libeatmydata/> (overrides **fsync()** API)
+- `jemalloc`: <https://github.com/jemalloc/jemalloc/wiki/Getting-Started> (overrides `malloc()` and friends)
+- `tcmalloc`: <https://gperftools.github.io/gperftools/tcmalloc.html> (overrides `malloc()` and friends)
+- `tsocks`: <https://linux.die.net/man/8/tsocks> (overrides `socket()` and friends)
+- `fakeroot`: <https://linux.die.net/man/1/fakeroot-tcp> (overrides file APIs)
+- `sandbox`: <https://github.com/gentoo/sandbox/blob/master/README.md> (overrides file APIs)
+- `libeatmydata`: <https://www.flamingspork.com/projects/libeatmydata/> (overrides `fsync()` API)
 
-# parting words
+## parting words
 
 Symbol clashes are nasty. They are most frequent to appear when multiple
 versions of the same library are loaded into the program over different
@@ -734,6 +732,7 @@ You might have to resort to local hacks to detect such cases. Or you can add
 a feature to your favorite linker!
 
 Luckily there is a simple rule to follow to avoid it most if the time:
-try hard not to expose more than one version of a library in your depgraph.
+try hard not to expose more than one version of a library in your dependency
+graph.
 
 Have fun!
