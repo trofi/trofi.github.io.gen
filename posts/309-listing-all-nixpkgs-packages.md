@@ -768,6 +768,9 @@ But even with such a limited lister I managed to get to these bugs:
   `actual-server.webUi` referred to a deleted attribute.
 - [PR#422612](https://github.com/NixOS/nixpkgs/pull/422612):
   `cassandra.tests` referred to non-existent attribute.
+- [PR#429767](https://github.com/NixOS/nixpkgs/pull/429767):
+  `haskell.packages.ghc865Binary.exceptions` referred to a non-existent
+  attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
