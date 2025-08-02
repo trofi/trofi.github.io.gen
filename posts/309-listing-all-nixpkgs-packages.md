@@ -771,6 +771,9 @@ But even with such a limited lister I managed to get to these bugs:
 - [PR#429767](https://github.com/NixOS/nixpkgs/pull/429767):
   `haskell.packages.ghc865Binary.exceptions` referred to a non-existent
   attribute.
+- [PR#430449](https://github.com/NixOS/nixpkgs/pull/430449):
+  `steamPackages.steam-fhsenv-without-steam` is an alias to deleted
+  attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
