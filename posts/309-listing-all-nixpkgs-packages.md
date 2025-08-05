@@ -774,6 +774,8 @@ But even with such a limited lister I managed to get to these bugs:
 - [PR#430449](https://github.com/NixOS/nixpkgs/pull/430449):
   `steamPackages.steam-fhsenv-without-steam` is an alias to deleted
   attribute.
+- [PR#431112](https://github.com/NixOS/nixpkgs/pull/431112):
+  `fetchurl` did not handle `mirror://` prefix in URLs.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
