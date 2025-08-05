@@ -11,7 +11,7 @@ of `binutils` saw the light of day.
 I found interesting these additions:
 
 - colors in `objdump -d --disassembler-color=color` output
-- `gprofng` tool is enabled by default now ([gprofng announcement](https://sourceware.org/pipermail/binutils/2021-August/117665.html))
+- `gprofng` tool is enabled by default now ([`gprofng` announcement](https://sourceware.org/pipermail/binutils/2021-August/117665.html))
 
 Colored `objdump` looks good:
 
@@ -22,8 +22,8 @@ it will be tweakable via `OBJDUMP_COLORS` environment variable.
 
 `gprofng` requires some work to finish the packaging:
 
-- [PR29479](https://sourceware.org/PR29479): `javac` is not optional
-- [PR29477](https://sourceware.org/PR29477): `musl` needs some porting
+- [`PR29479`](https://sourceware.org/PR29479): `javac` is not optional
+- [`PR29477`](https://sourceware.org/PR29477): `musl` needs some porting
 
 With a bit of tweaking I was able to get `gprofng` to run:
 
@@ -61,7 +61,6 @@ CPU           CPU
 
 In the output above both individual and cumulative times are reported
 for each function. Nothing fancy.
-
 Output of the same sampling data with a `calltree` view:
 
 ```
@@ -140,20 +139,18 @@ CPU
 ```
 
 This view is a bit more interesting: we can instantly see where all those
-string operations get called from.
-
-`gprofng` seems to work \\o/.
+string operations get called from. `gprofng` seems to work \\o/.
 
 ## New bugs
 
 Having sorted basic `gprofng` stuff I attempted to package `binutils-2.39`
-in `nixpkgs` in [PR185297](https://github.com/NixOS/nixpkgs/pull/185297).
+in `nixpkgs` in [`PR185297`](https://github.com/NixOS/nixpkgs/pull/185297).
 I got a few problems when I tried to build the system against it. I'll list
 a few of them below.
 
-### Breaking API change: init_disassemble_info()
+### Breaking API change: `init_disassemble_info()`
 
-One of the unfortunate side-effects of added colouring is the
+One of the unfortunate side-effects of added coloring is the
 disassembler API change ([patch](https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=60a3da00bd5407f07d64dff82a4dae98230dfaac)):
 `init_disassemble_info()` got an extra formatter parameter. The crucial
 bit of the patch is the extra `fprintf_styled_func` parameter added:
@@ -221,20 +218,20 @@ We will need to backport this fix to older kernel versions. Or pin
 ### New warnings around executable stack
 
 Another `binutils-2.39` change was to enable warnings around
-RWX sections (like stack and data) in
+`RWX` sections (like stack and data) in
 [this change](https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=ba951afb99912da01a6e8434126b8fac7aa75107).
 The announcement warns:
 
 > The ELF linker will now generate a warning message if the stack is made executable.
 
-Some linux distributions already implement similar warning for a while
-as a way to catch unintended executable stack on code base with assembly
+Some `linux` distributions already implement similar warning for a while
+as a way to catch unintended executable stack on codebase with assembly
 `.S` files. I am glad to see it getting upstream now. It makes upstreaming
 so much easier when people can easily reproduce the warning on their
 distribution.
 
-Some projects do not tolerate warnings from the linker. [systemd](https://github.com/systemd/systemd/issues/24226)
-or [efi-vars](https://github.com/rhboot/efivar/pull/164) come to mind.
+Some projects do not tolerate warnings from the linker. [`systemd`](https://github.com/systemd/systemd/issues/24226)
+or [`efi-vars`](https://github.com/rhboot/efivar/pull/164) come to mind.
 Users can disable new warning with `--enable-warn-execstack=no` if a
 proper fix is too complicated.
 
@@ -284,10 +281,9 @@ lowpc: 8049000, highpc: 8049000lx
 FAIL run-low_high_pc.sh (exit status: 255)
 ```
 
-Here the test [low_high_pc](https://sourceware.org/git/?p=elfutils.git;a=blob;f=tests/low_high_pc.c;h=cd022b1cc5e446520be675859b01c0df04bb5521;hb=HEAD#l70)
+Here the test [`low_high_pc`](https://sourceware.org/git/?p=elfutils.git;a=blob;f=tests/low_high_pc.c;h=cd022b1cc5e446520be675859b01c0df04bb5521;hb=HEAD#l70)
 complains about something about `_init` symbol.
 Looking at the reported values the condition is `highpc == lowpc`.
-
 [DWARF](https://en.wikipedia.org/wiki/DWARF) specification describes
 Debug Info Entries (`DIEs`) each of which consists of:
 
@@ -375,7 +371,7 @@ The code above defines `_init` symbol in `.init` section with a single
 Note that `.size` directive (to specify size of function) is not set on
 `_init` and present only on `__x86.get_pc_thunk.bx`.
 
-`binutils-2.38` used to generate the following `DIE`s:
+`binutils-2.38` used to generate the following `DIE:
 
 ```
 $ as-2.38 --gdwarf2 --32 -o crti.o crti.S.S
@@ -454,10 +450,10 @@ values anymore and `elfutils` tests run successfully.
 
 As `crti.S` is a file from `glibc` that made me wonder why `crti.o`
 was not stripped off `.debug*` sections. It ended up being a `nixpkgs`
-bug in a debuginfo separation hook. The hook was meant to move all `.debug*` sections
+bug in a `debuginfo` separation hook. The hook was meant to move all `.debug*` sections
 from `ELF` files in `/lib` to `/lib/debug`. For files where the hook
 did not work it did not apply stripping at all. Fixed with
-[PR185537](https://github.com/NixOS/nixpkgs/pull/185537) now.
+[`PR185537`](https://github.com/NixOS/nixpkgs/pull/185537) now.
 
 ## Parting words
 
