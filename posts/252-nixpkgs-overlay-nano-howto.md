@@ -11,11 +11,11 @@ There are many ways to do it: maintain a `nixpkgs` fork, use
 `packageOverrides`, `overlays`, `flakes` and many others methods.
 
 I'll focus here only on `overlays` method as it feels to me like the
-simplest way to write packages readily copyable to (or from) `nixpkgs`.
+simplest way to write packages ready to copy to (or from) `nixpkgs`.
 
-## nixpkgs stucture
+## `nixpkgs` structure
 
-before we start with an example let's have a look at `nixpkgs`
+Before we start with an example let's take a look at `nixpkgs`
 "schema". `nixpkgs` provides a `pkgs` map ("attribute set") from package
 name to package definition (it's nested in a few places):
 
@@ -41,8 +41,7 @@ pkgs = {
 ```
 
 Our goal here is to inject something very simple into top-level
-`pkgs = { ... };` sturcture. We'll ignore nested attributes.
-
+`pkgs = { ... };` structure. We'll ignore nested attributes.
 `overlays` allow us to override existing attributes in `pkgs` or
 introduce the existing ones. Until you get familiar with the way
 attributes interact with one another I suggest adding only new
@@ -50,7 +49,7 @@ attributes.
 
 ## an example
 
-Our running example will be [ski](https://github.com/trofi/ski) package.
+Our running example will be [`ski`](https://github.com/trofi/ski) package.
 It's an `autotools`-based package with very conventional dependencies.
 Let's package it!
 
@@ -179,7 +178,7 @@ $ nix-build '<nixpkgs>' -A ski
 
 A few relevant links:
 
-- [overlays in nixpkgs manual](https://nixos.org/manual/nixpkgs/stable/#sec-overlays-install)
-- [overlays in nixos.wiki](https://nixos.wiki/wiki/Overlays)
+- [overlays in `nixpkgs` manual](https://nixos.org/manual/nixpkgs/stable/#sec-overlays-install)
+- [overlays in `nixos.wiki`](https://nixos.wiki/wiki/Overlays)
 
 Done!
