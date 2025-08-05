@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2025
 
+5 Aug: `ed` bug: [Test suite fails intermittently due to pipe to `true`: `ed ... | true`](https://lists.gnu.org/archive/html/bug-ed/2025-08/msg00000.html)
+
 19 July: `assimp` bug: [Test suite regression](https://github.com/assimp/assimp/issues/6270)
 
 24 May: `elfutils` bug: [include header was clobbered by local binary](https://sourceware.org/PR33103)
