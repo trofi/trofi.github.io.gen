@@ -11,13 +11,13 @@ Time to write a bit of retrospective of past 6 (or so) months.
 
 Nightly `nixos-unstable` automatic upgrades are surprisingly fast and
 smooth. I had one period when I was not able to update
-[claws-mail](https://github.com/NixOS/nixpkgs/pull/185988)
+[`claws-mail`](https://github.com/NixOS/nixpkgs/pull/185988)
 for Perl-related build failures. I ended up doing nothing for a week and
 somebody fixed it for me! My system was failing updates all that week.
 It did not prevent me in any way from doing my usual activities.
 
-I had to tweak `/etc/nixos/` config 1 time to adapt to option rename.
-The warning message told me new name of the field: `nix.systemFeatures`
+I had to tweak `/etc/nixos/` config one time to adapt to option rename.
+The warning message told me the new name of the field: `nix.systemFeatures`
 -> `nix.settings.system-features`. That was smooth as well.
 
 I don't remember any other maintenance-related activities I had to do
@@ -32,10 +32,10 @@ Of slightly unusual deeds I installed 32-bit wine with `pipewire` socket
 passed to a sandboxed used from my main user. That went very smooth and
 effortless as well.
 
-Otherwise I'm afraid I don't need anything special from the
+Otherwise, I'm afraid I don't need anything special from the
 distribution. Most packages I need are widely used and the rare ones
 missing are trivial to package in a personal overlay. Just yesterday
-I added a trivial [uselex.rb](https://github.com/trofi/uselex) expression:
+I added a trivial [`uselex.rb`](https://github.com/trofi/uselex) expression:
 
 ```nix
 { lib
@@ -94,7 +94,7 @@ I keep being amazed by inclusivity and depth of technical expertise of
 `NixOS` community. Maybe it's just because I did not break anything
 major yet? :)
 
-I almost never see any blame or aggressive behaviour. And when rare
+I almost never see any blame or aggressive behavior. And when rare
 incidents happen people do step in and explain why it's not OK and
 suggest various ways out of a conflict. That makes the community a great
 collaborative environment. At least from the far viewpoint I interact
@@ -103,14 +103,14 @@ with it.
 People have the courage to develop things I would never dare
 to tackle alone (but I would be happy to help with small improvements).
 One example is cross-compilation of huge chunk of `nixpkgs`
-([mc example](https://github.com/MidnightCommander/mc/commit/6b67d231a2f447cf5f33180c618c2a67849e6d15)).
+([`mc` example](https://github.com/MidnightCommander/mc/commit/6b67d231a2f447cf5f33180c618c2a67849e6d15)).
 
 I keep learning new details about `nixpkgs` and other software. It's
 so fun!
 
 I don't have the time to follow all the `NixOS Dev` matrix chat I'm
 in. It's just too many updates usually. But the other ones are low
-traffic enough. My favourites are probably `Nix Cross Compiling`
+traffic enough. My favorites are probably `Nix Cross Compiling`
 (where the main topic is toolchains and related issues) and `Staging`
 (where I mostly track merges of `staging-next` into `master` out of
 idle curiosity).
@@ -136,18 +136,18 @@ Most trivial package updates are done by ... an automated system! Just
 look at [these stats](https://github.com/NixOS/nixpkgs/graphs/contributors).
 It is so surreal to allow the bot file update PRs. But on the other hand
 for smaller packages it's exactly what humans would have to do anyways.
-Why not pre-populate the PR with mechanical details already sorted?
+Why not pre-populate the `PR` with mechanical details already sorted?
 Reviewers (and better yet automated tests) can always object to special
 cases of more complex packages.
 
-Having finished recently [binutils-2.39 update](https://github.com/NixOS/nixpkgs/pull/185297)
-I would say maintainership works great. I hope we will break no packages
+Having finished recently [`binutils-2.39` update](https://github.com/NixOS/nixpkgs/pull/185297)
+I would say maintainer model works great. I hope we will break no packages
 by that somewhat disruptive (API change wise) update.
 
 ## Home server experience
 
 I don't have anything to complain about. Over past 6 months I played a
-bit with distributed compilation which worked great. Otherwise I did not
+bit with distributed compilation which worked great. Otherwise, I did not
 do any major configuration changes on the server. It still serves `HTTP`
 and a few services. Required zero maintenance from me over that period.
 
@@ -163,9 +163,9 @@ Mostly they stem from the fact that default paths are unusual (usually
 easy to deal with) and split across multiple locations (sometimes
 requires patching or clever symlink hacks).
 
-Past examples are [libtool](https://github.com/NixOS/nixpkgs/pull/187694)
+Past examples are [`libtool`](https://github.com/NixOS/nixpkgs/pull/187694)
 embedding `/nix/sotore` paths to `make dist` tarballs and non-working
-[include-what-you-use](https://github.com/NixOS/nixpkgs/issues/189753) due
+[`include-what-you-use`](https://github.com/NixOS/nixpkgs/issues/189753) due
 to dynamic headers location.
 
 ## Parting words
