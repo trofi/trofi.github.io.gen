@@ -9,7 +9,7 @@ sizes for things I update frequently.
 
 I developed a few hacks to find things quickly. The primary hack is to
 grep dependency graph of an executable-only package (say, a game) for
-`-dev` packages in it's runtime closure. Here is an example for `fheroes2`
+`-dev` packages in its runtime closure. Here is an example for `fheroes2`
 package:
 
 ```
@@ -22,7 +22,7 @@ Here we see that `SDL2.dev` package is pulled into `SDL2_mixer.out`
 runtime closure. It's a bug.
 
 More interesting hack is to grep full runtime closure for files that
-are cleary development-only: `C` ehader files, `pkg-config` files and so
+are clearly development-only: `C` header files, `pkg-config` files and so
 on. Here is a `grep` example again for `fheroes2`:
 
 ```
@@ -33,11 +33,11 @@ $ find $(nix path-info -r $(nix-build -A fheroes2)) | grep -P [.]h$ | shuf | unn
 
 Here we see that `xorgproto` (header-only package) and `libnfnetlink`
 (package without a separate `.dev` output) pull in development headers
-into our previous game. Both are probably unintended and worth a fix.
+into our precious game. Both are probably unintended and worth a fix.
 
 To get rid of the dependencies I usually add `dev` outputs to libraries
 without `dev` output like a recent
-[libfido2 example](https://github.com/NixOS/nixpkgs/pull/191775/commits/d04acb8a96c2ae37dd4ff58db65dedfab8d3d79f):
+[`libfido2` example](https://github.com/NixOS/nixpkgs/pull/191775/commits/d04acb8a96c2ae37dd4ff58db65dedfab8d3d79f):
 
 ```diff
 --- a/pkgs/development/libraries/libfido2/default.nix
@@ -55,7 +55,7 @@ without `dev` output like a recent
 
 Sometime I have to explicitly change the package to not retain
 build-only dependencies. Here is a recent
-[freedroidrpg example](https://github.com/NixOS/nixpkgs/pull/191810/commits/02ba9a3d60c6c45e1df45714a2a3db714eed9c18):
+[`freedroidrpg` example](https://github.com/NixOS/nixpkgs/pull/191810/commits/02ba9a3d60c6c45e1df45714a2a3db714eed9c18):
 
 ```diff
 Do not embed paths to build-only depends (-I...SDL2-dev and friends)
@@ -79,11 +79,11 @@ headers-only `dev` output self-contained.
 
 Is it worth the hassle? If feels like development headers don't take
 that much space anyway. It's true that some packages have tiny overhead.
-But things add up quickly. For example
-[freedroidrpg PR](https://github.com/NixOS/nixpkgs/pull/191810) shrinks
-runtime closure from `808MB` down to `450MB` (44% reduction). While
-[fheroes2 RPs](https://github.com/NixOS/nixpkgs/issues/191770#issuecomment-1250247308)
-shrunk runtime closure from `622MB` down to `557MB` (11% reduction).
+But things add up quickly. For example,
+[`freedroidrpg PR`](https://github.com/NixOS/nixpkgs/pull/191810) shrinks
+runtime closure from `808MB` down to `450MB` (`44%` reduction). While
+[`fheroes2 PRs`](https://github.com/NixOS/nixpkgs/issues/191770#issuecomment-1250247308)
+shrunk runtime closure from `622MB` down to `557MB` (`11%` reduction).
 
 These are just two examples I found in 5 minutes. There are many more
 packages you can fix in `nixpkgs`! Give it a try!
