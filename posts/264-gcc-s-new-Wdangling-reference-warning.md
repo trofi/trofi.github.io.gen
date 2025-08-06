@@ -55,16 +55,16 @@ cc1plus: all warnings being treated as errors
 Normally temporary objects don't outlive statement they are created (or
 even expression in older c++ standards). The special case is a
 [lifetime extension](https://en.cppreference.com/w/cpp/language/lifetime)
-by taking a const lvalue reference (and a few other types of
+by taking a `const` `lvalue` reference (and a few other types of
 references).
 
 In case of our example reference returned by `iRef()` could be a
-reference to part of `C()` object (and according to the legened it is).
+reference to part of `C()` object (and according to the legend it is).
 This means that `g(i)` dereferences already destroyed object.
 
 Unfortunately even this example is still prone to false positives: if
 `iRef()` happened to return a reference to some global variable that
-outlived `C()`. We dont see an `iRef()` definition here at all. Thus it
+outlived `C()`. We don't see an `iRef()` definition here at all. Thus, it
 could have any lifetime. I don't think `gcc` should warn for such cases.
 
 `libcamera` is one of such cases: <https://gcc.gnu.org/PR107532>
