@@ -13,15 +13,13 @@ Naturally occasional bugs creep in every now and then. They are rare
 enough and non-trivial enough that I forget almost everything when
 another one pops up.
 
-I'll use [PR107661](https://gcc.gnu.org/PR107661) as a running example
+I'll use [`PR107661`](https://gcc.gnu.org/PR107661) as a running example
 to explore some details of `ipa-cp` pass and write down the process of
 chasing the bug. We'll have a glance at mechanics of trimming down the
 example, at mechanics of `ipa-cp` pass run on a simple example and at
 the bug itself.
 
-
 I hope this doc will be useful to others and maybe future me.
-
 It's a long read. You have been warned.
 
 ## The bug effect
@@ -30,7 +28,7 @@ After another weekly `gcc` update I found that `llvm-12` (and `llvm-11`)
 test suites started failing 4 tests. All tests normally pass as `llvm`
 test suite is quite self-contained: inputs are in `llvm` assembly and
 outputs are in `llvm` internal representation. No external tools are
-required. Thus any regressions in `llvm` tests are either latent `llvm`
+required. Thus, any regressions in `llvm` tests are either latent `llvm`
 bugs (unlikely) or bugs in a host compiler (more likely, `gcc-13` in my
 case). I usually assume the latter. This time `llvm-12` failed these 4
 tests as reported by `make check`:
@@ -64,7 +62,7 @@ without any error reports. Not good. Hard to draw any conclusions.
 
 ## Nailing down suspect source file
 
-The next step was to find the file that likely got mis-compiled: I kept
+The next step was to find the file that likely got miscompiled: I kept
 adding `#pragma GCC optimize(0)` to various `AMDGPU` files until bug
 disappeared. Then I removed as many added pragmas as I could to find
 minimum amount needed to fix the test. One file was enough:
@@ -96,13 +94,13 @@ fear of breaking the whole compilation process.
 ## Trimming down the source
 
 Even with most functions removed `GCNHazardRecognizer.cpp` still
-contained 24KB of `C++` with many local and `STL` includes. It was very
+contained `24KB` of `C++` with many local and `STL` includes. It was very
 hard to explore what `gcc` was doing wrong to such a large input.
 
 I started removing unused code by adding `__builtin_trap()` into
 functions and making sure that code does not get executed (when `llc`
 ran successfully). This allowed me to shrink `GCNHazardRecognizer.cpp`
-down to 10KB of `C++` code.
+down to `10KB` of `C++` code.
 
 ## Trimming down optimization options
 
@@ -128,13 +126,13 @@ header code.
 The result allowed me to remove vast majority of tiny helper functions
 from
 optimizer's oversight. Some functions I was able to turn into no-op
-functions just to maintain the callgraph: so that I could keep code
+functions just to maintain the call graph: so that I could keep code
 execution flow roughly the same.
 
 ## Getting self-contained example
 
 From that point I could extract the result into a single `.cpp` file.
-I filed a [PR107661](https://gcc.gnu.org/PR107661) form the result
+I filed a [`PR107661`](https://gcc.gnu.org/PR107661) form the result
 hoping that the bug would be obvious to an expert.
 
 The resulting test was still a bit cryptic. I'm not posting it here as
@@ -142,14 +140,14 @@ we can do a bit better before looking at what compiler does with it.
 
 ## Removing most syntactic sugar
 
-Then I expanded high level c++ constructs like lambda functions and
-classes into structs and explicit methond names, inlined methods manually
+Then I expanded high level `c++` constructs like lambda functions and
+classes into structs and explicit method names, inlined methods manually
 and removed unused parameters. In this case I especially was afraid of
-`function_ref` class used in original file: it used very unusal way to
+`function_ref` class used in original file: it used very unusual way to
 capture lambda context. I was not sure it conforms to `C++` semantics.
 
 In the example below we just pass a function pointer with seemingly no
-opporutunity of undefined behaviour.
+opportunity of undefined behavior.
 
 ```c
 // #define DISABLE_HACK 1
@@ -195,7 +193,7 @@ void seemingly_unused_foo(void) { do1(function_ref{callback_fn_L}); }
 ```
 
 This example behaves differently when `void seemingly_unused_foo(void)`
-is presend and is absent in the code:
+is present and is absent in the code:
 
 ```
 $ ./gcc-13-snap/bin/gcc -O1 -fipa-cp -fipa-cp-clone                a.cc -o a && ./a
@@ -209,7 +207,7 @@ GOOD
 Note how executable output changes from `GOOD/BAD` to `GOOD/GOOD`. It's not
 supposed to and `gcc-12` never prints `BAD` text.
 
-## Making sure not many optimization oportunities are left
+## Making sure not many optimization opportunities are left
 
 Once we have a self-contained example it's useful to apply (or disable)
 most unrelated optimizations. Once again I usually use `-fopt-info` for
@@ -229,7 +227,7 @@ expected to call `callback_fn_L()`.
 
 While we are at it there are cases when you expect some optimization to
 fire. But for some reason it does not happen.`-fopt-info-all` might
-sched some light into decisions made by `gcc`:
+shed some light into decisions made by `gcc`:
 
 ```
 $ gcc -O1 -fipa-cp -fipa-cp-clone -fopt-info-all -c a.cc -o a.o
@@ -267,8 +265,8 @@ trigger for inlining decision.
 
 ## A simpler constant propagation example
 
-Before chasing specifics of our breakage let's have a look at a simpler
-falid case of constant propagation across procedures. Let's try the
+Before chasing specifics of our breakage let's look at a simpler
+valid case of constant propagation across procedures. Let's try the
 following contrived example:
 
 ```c
@@ -297,7 +295,7 @@ ever see `b = 10` value as their second argument. Will `gcc` do
 something about that redundancy? We also mark both functions `noinline`
 to prevent `gcc` from just inlining everything into `main()`.
 
-Bulding and running it:
+Building and running it:
 
 ```
 $ gcc -O3 a.c -o a && ./a
@@ -306,7 +304,7 @@ $ echo $?
 ```
 
 The program prints `42 + 10 = 52` as expected. Let's look at the `IPA`
-details to trace through it's workings. I'll use `-fdump-ipa-cp-slim`
+details to trace through its workings. I'll use `-fdump-ipa-cp-slim`
 to dump pass internal state and decisions:
 
 ```
@@ -400,7 +398,7 @@ Here propagation step figured out extra facts:
 - `g()`'s parameters have exactly the same structure as `f()`'s:
   * param0 is still unknown (`BOTTOM`)
   * param1 always has value `10`
-- `main()` has nothing special about it's parameters
+- `main()` has nothing special about its parameters
 
 `prop_time: 0, prop_size: 0` tell us that possible constant propagation
 does not worsen runtime of the original code.
@@ -542,20 +540,20 @@ no idea. Generated assembly code did not make sense.
 
 First I bisected `gcc` to see if the change was small enough to
 immediately see the bug. Bisect found regression in big
-[ipa-cp: Better representation of aggregate values we clone for](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=e0403e95689af7)
+[`ipa-cp`: Better representation of aggregate values we clone for](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=e0403e95689af7)
 commit: `5 files changed, 733 insertions(+), 666 deletions(-)`.
 The commit is not supposed to bring in any visible changes to
-the algorightm used. It should only improve `gcc` efficiency a bit
+the algorithm used. It should only improve `gcc` efficiency a bit
 without any change in the output. The diff in commit was too large for
 me to understand. I had no idea what I was looking at.
 
-I moved to inspect `gcc`'s transformation stages. Each individual
+I moved to inspect `gcc` transformation stages. Each individual
 optimization pass is usually simple enough that we can manually
 verify if it's effect is correct. At least for me that works only
 for small input source files.
 
-`gcc`'s pass debugging steps hide under `-fdump-*` flags. Most
-frequentl flags I use are:
+`gcc` pass debugging steps hide under `-fdump-*` flags. Most
+frequent flags I use are:
 
 - `-fdump-tree-all` (or similar `-fdump-tree-all-all`, `-fdump-tree-all-slim` that differ in verbosity)
 - `-fdump-ipa-all` (or `-fdump-ipa-all-all` and `-fdump-ipa-all-slim`)
@@ -654,13 +652,13 @@ constructors, explicit label jumps and similar.
 
 Having skimmed through it we can spot a few curious things:
 
-- `do3()` disappered completely. `do3.constprop()` is the only one left
+- `do3()` disappeared completely. `do3.constprop()` is the only one left
   and it calls only `L_run()` (from `callback_fn_L`). There is no
   `callback_fn_R` call.
 - `seemingly_unused_foo()` calls `do3.constprop()` directly (ok).
 - `main()` calls `callback_fn_R()` directly (ok) and calls `do3.constprop()`
   (bug!).
-- `do1()` was completely optimised away by inlining into
+- `do1()` was completely optimized away by inlining into
   `main()` and `seemingly_unused_foo()`.
 
 Let's look at the output of `IPA` phases instead. I used
@@ -819,7 +817,7 @@ The most suspicious output here is presence of
 `do3() -> do3.constprop()` edge. How could `do3()` call
 `do3.constprop()`? The line
 `- adding an extra caller void do3(volatile int*, function_ref)/17 of void do3.constprop(volatile int*, function_ref)/24`
-in the log is a good hint where to look at the details in `gcc`'s source
+in the log is a good hint where to look at the details in `gcc` source
 code.
 
 Anyway, the resulting printed code is not directly broken. So far it's
@@ -933,14 +931,14 @@ Here we can see how problematic edges discovered in `cp` phase broke
 `inline`: `main()` function now calls `do3.constprop ();` (after `do3()`
 inline) and that encodes `L_run ();` call to print `BAD`.
 
-## Diving into ipa-cp
+## Diving into `ipa-cp`
 
 Now let's try to figure out why does `ipa-cp` add a problematic
 `do3() -> do3.constprop()` edge.
 
 `gcc` frequently has great comments in the source code on details of
 what a pass is supposed to do. `ipa-cp` is no exception: it hides
-in [gcc/ipa-cp.cc file](<https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/ipa-cp.cc;h=d2bcd5e5e691ced8dba4b496b9d044eb2777d2b2;hb=HEAD#l23):
+in [`gcc/ipa-cp.cc` file](<https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/ipa-cp.cc;h=d2bcd5e5e691ced8dba4b496b9d044eb2777d2b2;hb=HEAD#l23):
 
 ```
   23 /* Interprocedural constant propagation (IPA-CP).
@@ -1024,7 +1022,7 @@ in [gcc/ipa-cp.cc file](<https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/ipa-cp.
  101    the second stage.  */
 ```
 
-The idea is straighforward:
+The idea is straightforward:
 
 - collect all the call sites with their parameters (constant parameters
   are most interesting to propagate them into callees)
@@ -1033,14 +1031,14 @@ The idea is straighforward:
 - clone functions by applying propagated constants where it's beneficial
 - patch call sites to use clones instead of original functions
 
-While the whole algorithm might be overwhelming each of it's step is not
+While the whole algorithm might be overwhelming each of its step is not
 too big to trace it through for our concrete example.
 
 In theory `ipa-cp` should perform a transformation similar to the following:
 
 ![](/posts.data/267-diving-into-an-ipa-gcc-bug/fig-1.svg)
 
-I expected callback `cb` indirection to be fully specialised and
+I expected callback `cb` indirection to be fully specialized and
 runtime indirection to completely go away.
 
 In practice something like the following occurs:
@@ -1051,7 +1049,7 @@ Note: `main()` manages to both inline `GOOD` callback and call
 specialized `do1.constprop()` `BAD` branch. The edge marked with `Bug!`
 is the actual bug here.
 
-To summarise the `ipa-cp` pass once again it consists of 3 steps:
+To summarize the `ipa-cp` pass once again it consists of 3 steps:
 
 - collect information around known call sites of the functions
   ("jump functions")
@@ -1146,12 +1144,12 @@ ipa-prop: Discovered an indirect call to a known target (void do3.constprop(vola
 Here propagation phase correctly sees that `do3()` sees two constants
 being passed as parameters: `callback_fn_L()` and `callback_fn_R()`.
 
-Thus whatever `do3.constprop()` is specialized against `do3()` can't call
+Thus, whatever `do3.constprop()` is specialized against `do3()` can't call
 into it on it's own: `do3()` has to work for `callback_fn_L()` and `callback_fn_R()`
 inputs.
 
-If we look at `adding an extra caller` string in `gcc`'s source code we
-will see the conditon on which `gcc` decided it's OK
+If we look at `adding an extra caller` string in `gcc` source code we
+will see the condition on which `gcc` decided it's OK
 [in perhaps_add_new_callers()](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/ipa-cp.cc;h=d5230c7c5e6b150f7ac9e1a1445178239dc67c39;hb=603af25815523ba9e39e9b441cde5308423a9238#l5918):
 
 ```c
@@ -1220,20 +1218,20 @@ cgraph_edge_brings_all_agg_vals_for_node (struct cgraph_edge *cs,
 Given that we pass a `struct { ... }` as a parameter our condition that
 should have failed lives at `cgraph_edge_brings_all_agg_vals_for_node (cs, val->spec_node)`
 call. It is supposed to check that all the parameters that our `d3.constprop()`
-is specialised against is enough to cover all the call sites.
+is specialized against is enough to cover all the call sites.
 
 `cgraph_edge_brings_all_agg_vals_for_node()` just implements that:
 `avl` contains all values from seen edges while `existing` contains
-values `node` is specialised against. Adding simple
+values `node` is specialized against. Adding simple
 `avl.dump (stderr); existing.dump (stderr);` shows the discrepancy.
 
 A bit of extra debugging revealed that `push_agg_values_from_edge()` is
-slightly broken in the way it handles self-recursive functions like
+slightly broken. It handles self-recursive functions like
 `d3()`: instead of extending already known values extracted from
-specialised node (passed as `&existing`) it just reuses `&existing`
+specialized node (passed as `&existing`) it just reuses `&existing`
 value as if no other information is present.
 
-The workaround to test the theory was simple: just drop this preseed.
+The workaround to test the theory was simple: just drop this pre-seed.
 
 ```diff
 --- a/gcc/ipa-cp.cc
@@ -1269,7 +1267,7 @@ values in propagation phase when edge values are not fully discovered
 yet.
 
 Martin did a proper fix in
-[ipa-cp: Do not be too optimistic about self-recursive edges](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=c4a92a9117a034e7cf291ae51d8b9b844fb5a88b)
+[`ipa-cp`: Do not be too optimistic about self-recursive edges](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=c4a92a9117a034e7cf291ae51d8b9b844fb5a88b)
 commit.
 
 ## Optimized example after the fix
@@ -1381,8 +1379,8 @@ void seemingly_unused_foo ()
 
 We see both `do3()` used by `main()` and `do3.constprop()` used by
 `seemingly_unused_foo()`. I don't understand why `main()` did not
-trigger specialisation of another `do3()` variant. Let it be another
-exercise for the reader and optimisation opportunity :)
+trigger specialization of another `do3()` variant. Let it be another
+exercise for the reader and optimization opportunity :)
 
 The final result in pictures:
 
