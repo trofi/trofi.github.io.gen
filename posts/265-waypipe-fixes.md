@@ -11,7 +11,7 @@ Architecture diagram is both
 [simple and fascinating](https://mstoeckl.com/notes/gsoc/blog.html).
 
 `waypipe` allows for quite a bit of flexibility in remote rendering
-setup controlled by a few commandline options:
+setup controlled by a few command line options:
 
 - `--no-gpu`: use software render instead of `DMABUF`-backed GPU. Useful
   to work around remote rendering bugs. Should not be required in
@@ -22,7 +22,7 @@ setup controlled by a few commandline options:
 
 By default `waypipe` enables GPU acceleration on a remote side, extracts
 the result as a texture via `DMABUF` and sends deltas (or video) over the
-netowork to reconstruct it locally and pass to the compositor.
+network to reconstruct it locally and pass to the compositor.
 
 Does not sound too complicated. Or does it? Chosen common pixel buffer
 format matters here: both sides need to agree on supported configuration.
@@ -78,7 +78,7 @@ interface: 'zwp_linux_dmabuf_v1',                        version:  4, name:  3
                 ...
 ```
 
-Here my local machine supports a bunch of `LINEAR` formats of `DMABUF`s.
+Here my local machine supports a bunch of `LINEAR` formats of `DMABUF`.
 And possibly a few tiled ones (`INVALID` entries with non-zero
 modifiers).
 
@@ -95,7 +95,7 @@ output (port of `glxgears`). Supposed to look like that:
 
 In my case colors are fine, but the gears are inclined
 and shredded. I had to spend a bit of time resizing the
-window to get something that resembles gears at all. Otherwise
+window to get something that resembles gears at all. Otherwise,
 it a line soup.
 
 I have machines with 2 card types: `amdgpu` (`nz`) and `i965` (`i7`).
@@ -118,7 +118,7 @@ tried! I tested a few games and applications and got the following results:
   usable for gaming, but good enough to get a picture back for minimal
   runtime testing.
 - `waypipe --video ssh i7` gives me about 45 FPS on fast-paced games
-  in 1920x1080 resolution. Not perfect for gaming, but it's almost there!
+  in `1920x1080` resolution. Not perfect for gaming, but it's almost there!
   You can certainly interact with the game without too much inconvenience.
   Lower resolution easily gives 95 FPS.
 
@@ -134,7 +134,7 @@ If you still have artifacts try safest `waypipe --no-gpu ssh <host>`.
 Best interactive I got was from `waypipe --video=hw ssh <host>`.
 Upstream is alive and responsive.
 
-And finally [a screnshot](/posts.data/265-a-waypipe-bug/xonotic.png)
+And finally [a screenshot](/posts.data/265-a-waypipe-bug/xonotic.png)
 extracted from `waypipe --video=hw ssh i7 nix run nixpkgs#xonotic`.
 
 You may notice quite a bit of video codec damage on the screen. But
