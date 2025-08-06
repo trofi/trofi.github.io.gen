@@ -3,7 +3,7 @@ title: "Fixing wine-wayland on POLARIS"
 date: November 28, 2022
 ---
 
-After [switching to wayland](/posts/261-trying-out-wayland.html) I got
+After [switching to `wayland`](/posts/261-trying-out-wayland.html) I got
 most GUI programs to use `wayland` backend render. The two main
 exceptions are `pidgin` (used `gtk-2`) and `wine` (uses low level `x11`
 primitives for many things). `pidgin` worked fine in `Xwayland`, but
@@ -39,11 +39,11 @@ $ wine foo.exe
 I wanted to find out why `wine` was failing to create these things.
 
 `GBM` and `EGL` acronyms sounded vaguely graphics-related. Creating the
-rendering surface sounded like a simple procedure. Everything neededs a
+rendering surface sounded like a simple procedure. Everything needs a
 surface to draw anything. Maybe that error message is an actual bug?
 
 `wine` has a great `WINEDEBUG=` mechanism to enable subsystem-specific
-debug prints at runtime (`man wine` has detailed synatax description).
+debug prints at runtime (`man wine` has detailed syntax description).
 To get `wayland`-related debugging I used `WINEDEBUG=waylanddrv,opengl`:
 
 ```
@@ -66,7 +66,7 @@ should not be a problem and the call should succeed. Why does it fail here?
 To ease exploration I started patching `mesa` and `wine-wayland` locally
 with `fprintf(stderr, ...);` calls to see what gets passed around.
 
-`nixpkgs`'s `mesa` clients use `/run/opengl-driver-32` paths to load
+`nixpkgs` `mesa` clients use `/run/opengl-driver-32` paths to load
 `opengl` `mesa` drivers. That means just rebuilding an application
 against patched `mesa` locally in `nixpkgs` checkout is not enough to
 get it used: applications will still load `/run/opengl-driver-32`
@@ -87,12 +87,12 @@ $ GBM_BACKENDS_PATH=/not-really-used \
 This allowed me to put patches to `~/nm` checkout of `nixpkgs` and
 immediately observe their effect on `wine-wayland`.
 
-I found that `wine`'s code at
-[winewayland.drv](https://gitlab.collabora.com/alf/wine/-/blob/wayland/dlls/winewayland.drv/opengl.c#L373-L440).
+I found that `wine` code at
+[`winewayland.drv`](https://gitlab.collabora.com/alf/wine/-/blob/wayland/dlls/winewayland.drv/opengl.c#L373-L440)
 calls `wayland_gbm_create_surface()` ->
-[wayland_gl_create_gbm_surface()](https://gitlab.collabora.com/alf/wine/-/blob/wayland/dlls/winewayland.drv/opengl.c#L310-L371)
--> [wayland_gbm_create_surface()](https://gitlab.collabora.com/alf/wine/-/blob/wayland/dlls/winewayland.drv/gbm.c#L267-L299).
-All of the calls are shallow wrappers of one another. They just pass
+[`wayland_gl_create_gbm_surface()`](https://gitlab.collabora.com/alf/wine/-/blob/wayland/dlls/winewayland.drv/opengl.c#L310-L371)
+-> [`wayland_gbm_create_surface()`](https://gitlab.collabora.com/alf/wine/-/blob/wayland/dlls/winewayland.drv/gbm.c#L267-L299).
+All the calls are shallow wrappers of one another. They just pass
 through the request to create surface. I'll paste the latter in full
 here:
 
@@ -149,7 +149,7 @@ layout instead of default linear.
 
 The fun thing is that `mesa` rejects
 `gbm_surface_create_with_modifiers2()` call for me with `errno = ENOSYS`
-at [src/gbm/backends/dri/gbm_dri.c](https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/gbm/backends/dri/gbm_dri.c#L1343-L1404):
+at [`src/gbm/backends/dri/gbm_dri.c`](https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/gbm/backends/dri/gbm_dri.c#L1343-L1404):
 
 ```c
 static struct gbm_surface *
@@ -174,7 +174,7 @@ As I understand `mesa` assumes that `createImageWithModifiers` support
 should be present in the backend driver. But in my case of
 `GFX8 / POLARIS12` modifier support for image creation seems to be
 disabled by `mesa` at
-[src/gallium/drivers/radeonsi/si_texture.c](https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/gallium/drivers/radeonsi/si_texture.c#L2378-L2401).
+[`src/gallium/drivers/radeonsi/si_texture.c`](https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/gallium/drivers/radeonsi/si_texture.c#L2378-L2401).
 Don't know why.
 
 ```c
@@ -205,7 +205,7 @@ void si_init_screen_texture_functions(struct si_screen *sscreen)
 ```
 
 Here `GFX8` does not get a hint of `resource_create_with_modifiers` and
-as a result [src/gallium/frontends/dri/dri2.c](https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/gallium/frontends/dri/dri2.c#L2196-L2264)
+as a result [`src/gallium/frontends/dri/dri2.c`](https://gitlab.freedesktop.org/mesa/mesa/-/blob/main/src/gallium/frontends/dri/dri2.c#L2196-L2264)
 does not set `createImageWithModifiers`:
 
 ```c
@@ -270,9 +270,9 @@ trick by pretending there are no modifiers (assume `LINEAR`?):
      return gbm_surface_create(process_gbm_device, width, height, drm_format, gbm_bo_flags);
 ```
 
-The idea is to just ignore `gbm_surface_create_with_modifiers2()`'s
+The idea is to just ignore `gbm_surface_create_with_modifiers2()`
 result if it fails with `ENOSYS` and switch over to
-`gbm_surface_create()` assuming it can handle the the call without
+`gbm_surface_create()` assuming it can handle the call without
 modifier presence.
 
 I'm not sure what such a fallback means for other video card types. Will
@@ -294,23 +294,23 @@ After I applied the fallback hack I was able to run all the games that
 used to work on `wine-x11`.
 
 `wine`'s `WINEDEBUG=` debugging facility is great at tracing both
-application behaviour and `wine`'s driver behaviour. I had to add
+application behavior and `wine`'s driver behavior. I had to add
 surprisingly little extra debugging to what is already available in
 `wine` in form of `TRACE(...);` calls.
 
-`wine`'s error message was clear enough to understand why video
+`wine` error message was clear enough to understand why video
 rendering did not produce anything.
 
-`nix`'s ability to build patched `wine` against patched `mesa` without
+`nix` ability to build patched `wine` against patched `mesa` without
 destroying existing installation was critical for me to be able to do
 side-by-side comparisons.
 
 `mesa`'s `LIBGL_DRIVERS_PATH=` and `libglvnd`'s
 `__EGL_VENDOR_LIBRARY_DIRS=` variables are ideal at fiddling with
-patched opengl stack while keeping the main system running.
+patched `opengl` stack while keeping the main system running.
 
 `wine`'s and `wayland`'s way of handling `linux` `DRM` subsystem is very
-lightweiht: they effectively pass available configuration around without
+lightweight: they effectively pass available configuration around without
 much of application-specific mangling. At least around surface creation
 logic. That was very easy to get through.
 
