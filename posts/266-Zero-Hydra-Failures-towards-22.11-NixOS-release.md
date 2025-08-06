@@ -12,7 +12,7 @@ off new `22.11` release.
 has a few hints on how to locate all known build failures in various
 places. So far there is a few thousands build failures in `nixpkgs/master`.
 
-I had a chance to fix [zsnes build failure](https://github.com/NixOS/nixpkgs/pull/199932).
+I had a chance to fix [`zsnes` build failure](https://github.com/NixOS/nixpkgs/pull/199932).
 As you can see it's a trivial fix. And we need a lot of fixes like these.
 If you would like to help `nixpkgs` and upstream projects then please
 join the effort of fixing those! Thank you in advance :)
@@ -23,14 +23,14 @@ I usually start from <https://hydra.nixos.org/jobset/nixpkgs/trunk>
 periodic builder against `nixpkgs/master`. There I pick most recent
 evaluation and navigate to `Still failing jobs` tab. From there I pick
 failing package I like and check the build log. Apart from the build
-log there is also a commit at which the package was built successully
+log there is also a commit at which the package was built successfully
 last time. That usually helps in bisection of exact commit that broke
 the package. Useful when you have no idea why the package is unhappy.
 
-Let's pick `synfigstudio-1.5.1` as a broken example. It's build failure
-is hiding in <https://hydra.nixos.org/build/197644988>. It's last
+Let's pick `synfigstudio-1.5.1` as a broken example. Its build failure
+is hiding in <https://hydra.nixos.org/build/197644988>. Its last
 successful build is <https://hydra.nixos.org/build/194567109> (`Inputs`
-tab says it's 667199140080a656d0be0d9c91b4bbac8828959f upstream commit
+tab says it's `667199140080a656d0be0d9c91b4bbac8828959f` upstream commit
 around end of September 2022).
 
 [Build log](https://hydra.nixos.org/log/fd916xc57cfiwa3b7nm9x1i0f80czszx-synfigstudio-1.5.1.drv)
