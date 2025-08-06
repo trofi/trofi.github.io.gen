@@ -27,7 +27,7 @@ I'll outline some tricks I used for `Ski` and then will focus on
 
 C has a few language warts that allow you write code that is very likely
 incorrect and yet standard compliant. A good example is implicit
-function declaration behaviour. Luckily `gcc` has a set of warning to
+function declaration behavior. Luckily `gcc` has a set of warning to
 catch those.
 
 ### Implicit variable and function declarations
@@ -40,33 +40,32 @@ flags:
 - `-Werror=strict-prototypes`
 
 I used these warnings successfully in
-[xmms2](https://github.com/xmms2/xmms2-devel/commit/1dc66e4099e5b08f59bca86d7979f057fd82eba7),
-[linux kernel](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=80970472179a45609c0b11b80619bc8c32b15f77)
-and and other projects.
+[`xmms2`](https://github.com/xmms2/xmms2-devel/commit/1dc66e4099e5b08f59bca86d7979f057fd82eba7),
+[`linux` kernel](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=80970472179a45609c0b11b80619bc8c32b15f77)
+and other projects.
 
 Linux kernel is especially prone to these bugs as it heavily uses top
-level macros a lot. lack of header inclusion for such a macro usually
+level macros a lot. Lack of header inclusion for such a macro usually
 turns macro call into a function declaration without any build failure.
-
 Related build failures are still being fixed in `linux` kernel to this
 day. Header inclusion changes are happening there all the time to speed
 builds up and huge amount of `CONFIG` options increases the chance of
-detting into a combination where a few headers got lost.
+getting into a combination where a few headers got lost.
 
 I'd say it's a must have set of warning flags for a `C`-based project.
 
-### Modernized configure.ac/Makefile.am
+### Modernized `configure.ac` / `Makefile.am`
 
 If the outdated project is `autotools`-based then chances are it uses
 many deprecated and invalid constructs. Sometimes a project has complex
-`./autogen.sh` script. My goal is usuallly to turn that script into a
+`./autogen.sh` script. My goal is usually to turn that script into a
 single `autoreconf -i -f -W all` invocation. Ideally `configure.ac` and
 `Makefile.am` should be enough to configure all the other details.
 `-W all` helps catching deprecated macros and other lint errors.
 
 For `Ski` I did the following changes:
 
-- ported from autoconf `2.13`-ish to `autoconf-2.70`
+- ported from `autoconf` `2.13`-ish to `autoconf-2.70`
 - used `AC_CONFIG_AUX_DIR([build-aux])` to move most auxiliary files
   into a `build-aux/` subdirectory
 - used `AM_SILENT_RULES([yes])` to make builds less verbose to make
@@ -99,18 +98,18 @@ To find such stray prototypes I use a few tricks:
 - Use `-flto` to detect prototype mismatches across such `.c` files.
 - Use `-Wunused-function -Wunused-variable` to detect unused
   newly marked `static` functions.
-- Use [uselex.rb](https://trofi.github.io/posts/186-announce-uselex.rb-useless-exports-extinguisher.html)
+- Use [`uselex.rb`](/posts/186-announce-uselex.rb-useless-exports-extinguisher.html)
   to spot more needlessly exported symbols to sprinkle even more `static`
   annotations around.
 - Use `-ffunction-sections -fdata-sections -Wl,--gc-sections -Wl,--print-gc-sections`
   to catch even more unused code and variables where `uselex.rb` was not
-  able to do it. Linkers are som much better at traversing graphs :)
+  able to do it. Linkers are so much better at traversing graphs :)
 
 ### Make headers self-contained and minimal
 
 When I start adding `#include "foo.h"` around I frequently notice that
 some of them are incomplete and require including other headers themselves.
-I usually use syntax-check the headers to fund such cases:
+I usually use syntax-check the headers to find such cases:
 
 ```
 $ for h in $(find -name '*.h'); do
@@ -120,9 +119,9 @@ $ for h in $(find -name '*.h'); do
 ```
 
 To get rid of unused header inclusions I usually use
-[include-what-you-use](https://github.com/include-what-you-use/include-what-you-use).
+[`include-what-you-use`](https://github.com/include-what-you-use/include-what-you-use).
 
-### Switch from lex and yacc to flex and bison APIs
+### Switch from `lex` and `yacc` to `flex` and `bison` APIs
 
 `lex` and `yacc` interfaces have a few warts in their APIs. The major
 one I would say is that both heavily use global variables to pass data
@@ -131,7 +130,7 @@ from one to another (and for user to write semantic actions):
 
 One of immediate benefits of switching from `yacc` to `bison` is ability
 to enable `--warnings` reporting.
-It is able to flag various grammar deciciencies like [this one](https://github.com/trofi/ski/commit/89c94225c3b4851f09daa54c5b0286a5726c6af0),
+It is able to flag various grammar deficiencies like [this one](https://github.com/trofi/ski/commit/89c94225c3b4851f09daa54c5b0286a5726c6af0),
 or [this one](https://github.com/skvadrik/re2c/commit/7e7c4b97af51f5e343faccacde2a58b9da5a1192).
 
 More advanced benefit is the opportunity to switch to `pure` API: `pure` is the
@@ -141,10 +140,10 @@ and [this one](https://github.com/skvadrik/re2c/commit/8161d996f0ae0b7f782fff602
 
 The gist of it is move away from global `yylval` to explicit parameter threading.
 
-## Bison APIs
+## `bison` APIs
 
-When I fist tried to switch `Ski` to `pure` `Bison` API I failed miserably.
-I did not know what `Bison` generates, what `flex` generates and what
+When I fist tried to switch `Ski` to `pure` `bison` API I failed miserably.
+I did not know what `bison` generates, what `flex` generates and what
 user is supposed to define. I also enabled function rename from `yy*()`
 to `expr*()` and quickly got lost in errors and header inclusion cycles.
 
@@ -153,7 +152,7 @@ Then gradually upgraded them to modern world discovering minor API
 gotchas one at a time.
 
 The experience allowed me to finally port both `Ski` and `re2c` to more
-modern `Bison` API.
+modern `bison` API.
 
 ### Simple example
 
@@ -212,7 +211,7 @@ to note:
 - Our parse result is the `stdout` output of intermediate and final
   computation step. We don't collect any of the syntax information here.
 
-Note that parser's definition requires lexing function prototype. Thus we
+Note that parser's definition requires lexing function prototype. Thus, we
 include all of autogenerated header via `#include "lex.expr.h"`.
 
 Moving on to lexer:
@@ -235,14 +234,14 @@ Moving on to lexer:
 
 The lexer is trivial:
 
-- We support a few whitespace types (tab, space and newline). Whitespace
+- We support a few whitespace types (tab, space, and newline). Whitespace
   has no token representation. We just skip through them in this example.
 - Actual tokens are `'+'` operation (returned as is) and a digit returned
   via `YYSTYPE yylval` global variable of type `union YYSTYPE { int ival; }`.
 
-Note that lexer's implementation requires `union YYSTYPE` declaration provided
-by `"parse.expr.h"` (while parser's implementation clearly requires lexer's
-`yylex()`declaration). Thus we pull all of autogenerated lexer header via
+Note that lexer implementation requires `union YYSTYPE` declaration provided
+by `"parse.expr.h"` (while parser's implementation clearly requires lexer
+`yylex()`declaration). Thus, we pull all of autogenerated lexer header via
 `#include "parse.expr.h"`.
 
 And our `main()` function:
@@ -269,7 +268,7 @@ $ flex --outfile=lex.expr.c --header-file=lex.expr.h l.l
 $ gcc lex.expr.c parse.expr.c main.c -o example1
 ```
 
-The program happens to work on it's stdin:
+The program happens to work on it's `stdin`:
 
 ```
 $ ./example1
@@ -288,7 +287,7 @@ results of `1+2` and intermediate/final result of the whole expression.
 Fun fact: thanks to left recursion our grammar allows evaluating parts
 of the expression before full expression is available.
 
-Let's have a peek at defined non-code symbols (data, rodata, undefined)
+Let's have a peek at defined non-code symbols (`data`, `rodata`, `undefined`)
 of generated files:
 
 ```
@@ -347,7 +346,7 @@ The main change is:
 The above set of directives extends `int yylex(void)` with extra
 parameters passed around. But not `yyparse()`! That will require
 explicit extension with `%param {yyscan_t scanner}` (as it may be
-lexer-dependenct).
+lexer-dependent).
 
 Here is an updated parser:
 
@@ -388,7 +387,7 @@ static void yyerror (yyscan_t scanner, const char * err) { fprintf(stderr, "PARS
 ```
 
 Compared to original example `%param {yyscan_t scanner}` extends
-`yyparse()` declaration with `yyscan_t scanner` parameter (and also pass
+`yyparse()` declaration with `yyscan_t scanner` parameter (and passes
 it to every `yy*()` call including `yylex()`, `yyerror()` and many others).
 
 We include extra `#include "parse.expr.h"` to make sure generated header
@@ -399,9 +398,8 @@ circular dependency between `"parse.expr.h"` header and `"lex.expr.h"`
 header. Figuring out specific details of the dependency is an exercise
 to the reader. Try to remove it and see what breaks. That error threw
 me off when I initially tried `Ski` conversion.
-
 Luckily `flex` guarantees that `yyscan_t` is an opaque type and will
-always be `typedef void * yyscan_t;`. Thus we can open code it's
+always be `typedef void * yyscan_t;`. Thus, we open code it's
 declaration directly.
 
 Note that we still print our results to `stdin`. In a real world example
@@ -464,13 +462,13 @@ int main(int argc, char * argv[])
 }
 ```
 
-Here `flex`'s `%option reentrant` option requires us to thread
+Here `flex` `%option reentrant` option requires us to thread
 `yyscan_t scanner`. `scanner` holds full lexing context and does not
 rely on any global variables.
 
 The `YY_BUFFER_STATE buf; buf = yy_scan_string (..., scanner); yy_delete_buffer(buf, scanner);`
 is the `flex` way to switch from `FILE *` based API to `const char *`
-as an input buffer. It is not directly related to `Bison`'s `pure` API.
+as an input buffer. It is not directly related to `bison` `pure` API.
 
 Let's check out used globals now:
 
@@ -502,7 +500,7 @@ $ nm parse.expr.o | grep -v -P 't|T'
 
 No globals! `r` are static read-only lexer and parser tables. Yay!
 
-### Bonus: Makefile for pure example
+### Bonus: `Makefile` for pure example
 
 When I was working on an example I wanted to craft the `Makefile` that
 tracks the dependencies precisely to rebuild all the artifacts. Be it
@@ -524,10 +522,17 @@ a: $(OBJECTS)
 
 # generator dependencies and rules
 
-lex.expr.c lex.expr.h: l.l
+# $(FLEX) generates both files. Make sure we set the defined order of file updates.
+lex.expr.h: lex.expr.c
+	touch $@
+
+lex.expr.c: l.l
 	$(FLEX) --outfile=lex.expr.c --header-file=lex.expr.h $<
 
-parse.expr.c parse.expr.h: p.y
+parse.expr.h: parse.expr.c
+	touch $@
+
+parse.expr.c: p.y
 	$(BISON) $(BISON_FLAGS) --output=parse.expr.c --header=parse.expr.h --warnings $<
 
 # extra build dependencies
@@ -546,20 +551,20 @@ clean:
 ```
 
 It took me a while to populate `extra build dependencies` section but
-luckily [make --shuffle](http://trofi.github.io/posts/249-an-update-on-make-shuffle.html)
+luckily [`make --shuffle`](/posts/249-an-update-on-make-shuffle.html)
 kept finding the issues until I got something that works most of the time.
 Looking at `-MMD` output I think it's an accurate list of extra
 dependencies on top of implicit `.c.o` ones.
 
-## Bison version requirements
+## `bison` version requirements
 
-`Bison`'s `--warnigns` flag was implemented in 2006, around `2.3a`
+`bison` `--warnigns` flag was implemented in 2006, around `2.3a`
 version. `%define api.pure` flag was implemented in 2007, around `2.3b`
 version. Both should be safe to assume as widely available.
 
 ## Parting words
 
-Pure `Bison` API is a nice cleanup to do for a project. It should not
+Pure `bison` API is a nice cleanup to do for a project. It should not
 take much code to implement: just add `%define api.pure full` and adapt
 to API extension. The benefit is a slightly more explicit API readily
 usable in multi-threaded and nested parser contexts.
