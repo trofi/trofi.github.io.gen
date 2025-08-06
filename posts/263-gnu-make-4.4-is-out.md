@@ -10,7 +10,7 @@ The release contains extensive list of new additions and backward
 incompatible changes in various corner cases.
 
 Multi-target rule change [mentioned before](/posts/260-make-multiple-targets.html)
-will not break bulds in `make-4.4`. Breaking change was postponed for
+will not break builds in `make-4.4`. Breaking change was postponed for
 `make-4.5` release. `make-4.4` will print diagnostic warning for simple
 cases, Worth watching for the warnings. So far I see similar warnings in
 the following packages:
@@ -34,6 +34,6 @@ Worth fixing those upstream before next `make-4.5` release.
 On another topic `make --shuffle`
 [mentioned before](/posts/249-an-update-on-make-shuffle.html) is now
 available in official release. This should lower the barrier for users
-to try it out once `make-4.4` triclkles into downstream distributions.
+to try it out once `make-4.4` trickles into downstream distributions.
 
 Have fun!
