@@ -60,7 +60,7 @@ foo.h:
 	touch foo.h
 ```
 
-In all the cases above the behaviour is straightforward: if `foo.h`
+In all the cases above the behavior is straightforward: if `foo.h`
 changes then `foo` and `bar` are outdated and have to be rebuilt (if
 rebuild is requested). And specifically `make foo` should cause only
 `foo` rebuild. Example session:
@@ -77,7 +77,7 @@ touch foo
 ```
 
 No surprise here: in a second run `bar` is not rebuilt and stays
-outdated (we did not ask for it's update). And `foo` is rebuilt
+outdated (we did not ask for its update). And `foo` is rebuilt
 as expected.
 
 In `GNU make` before `4.3.90` the same rule applied to rules with
@@ -124,8 +124,8 @@ $ make-4.3.90 foo
 touch foo bar
 ```
 
-That's a different behaviour: absence of `bar` triggers both `foo`
-and `bar` rebuilds. This behaviour change is intentional and is added in
+That's a different behavior: absence of `bar` triggers both `foo`
+and `bar` rebuilds. This behavior change is intentional and is added in
 <https://savannah.gnu.org/bugs/?62809>.
 
 ## The impact
@@ -136,9 +136,9 @@ affected, right? Right?
 
 I installed fresh `make-4.3.90` and attempted to build the world.
 
-### opensp case
+### `opensp` case
 
-`opensp-1.5.2` being an autotools package provides tarballs with pre-generated
+`opensp-1.5.2` being an `autotools` package provides tarballs with pre-generated
 files as part of the release:
 
 ```makefile
@@ -153,7 +153,7 @@ All `.h`, `.cxx` and `.rc` files are already present in
 Except that `msggen.pl` does not always produce `.cxx` files. It does so
 only for `.msg` files that have a `!cxx` directive. I noticed it only
 because `msggen.pl` does not really work on any modern `perl` version
-(and also because `nix` does not expose `perl` to build sandbox by default).
+(and because `nix` does not expose `perl` to build sandbox by default).
 Fun fact: `OpenSP-1.5.2.tar.gz` was released in 2007.
 
 The build fails on `make-4.3.90` as:
@@ -189,10 +189,10 @@ more `Makefile.am` files in `opensp` tree.
 
 The failure Does not look bad: it was easy to diagnose and workaround.
 
-### ghc case
+### `ghc` case
 
 `ghc` was another heavy `GNU make` user until
-[recenty](https://gitlab.haskell.org/ghc/ghc/-/commit/6fd9b0a1c6b076ef1977db1a2ce8b9505b9a3254).
+[recently](https://gitlab.haskell.org/ghc/ghc/-/commit/6fd9b0a1c6b076ef1977db1a2ce8b9505b9a3254).
 Many distributions still package older `ghc` versions and still use
 `GNU make` based build system. `ghc` was broken by `make-4.3.90` as:
 
@@ -222,11 +222,11 @@ ghc> ghc.mk:100: *** Make has restarted itself 2 times; is there a makefile bug?
 ghc> make: *** [Makefile:126: all] Error 2 shuffle=1664105902
 ```
 
-Looks simple, right? No, it does not. `ghc`'s build system detected
+Looks simple, right? No, it does not. `ghc` build system detected
 infinite rebuild loop and bailed out. Note how `Reflect.hs` gets
-generated at elast twice with `HSC2HS` haskell code generator.
+generated at least twice with `HSC2HS` `haskell` code generator.
 
-To explain it's mechanics I'll build a contrived example:
+To explain its mechanics I'll build a contrived example:
 
 ```Makefile
 foo:
@@ -263,7 +263,7 @@ Note that initially `foo` does not contain any dependencies.
 dependencies.
 
 Interestingly `GNU make` has to re-execute itself after `foo.d` is
-availble. We can see it in debug (`-d`) mode by looking up
+available. We can see it in debug (`-d`) mode by looking up
 `Re-executing` lines:
 
 ```
@@ -271,7 +271,7 @@ $ rm -f foo* && LANG=C make-4.3.90 -d |& grep Re-
 Re-executing[1]: make -d
 ```
 
-Now let's extend our `foo.c` rule (`foo.d`'s dependency) to include an
+Now let's extend our `foo.c` rule (`foo.d` dependency) to include an
 unrelated and non-existent `foo.h` file as an output target:
 
 ```diff
@@ -322,9 +322,9 @@ echo "foo: foo.d foo.c" >> foo.d
 ```
 
 `GNU make` fell into an infinite loop. Here missing `foo.h` file triggers
-`make` to always regenerate `foo.d` on each re-execution. Regenrated
+`make` to always regenerate `foo.d` on each re-execution. Regenerated
 `foo.d` requires another re-execution. We get the loop. Previous
-`make-4.3` version did not exhibit this behaviour:
+`make-4.3` version did not exhibit this behavior:
 
 ```
 $ rm -f foo* && make-4.3
@@ -364,7 +364,7 @@ As `ghc` dropped `GNU make`-based build system I did not try to upstream
 the change. Downstreams would have to carry something similar for older
 `ghc` versions they ship.
 
-### dtc case
+### `dtc` case
 
 `dtc` also happens to use `GNU make`-based build system. It's `Makefile`
 is a lot smaller than `ghc`'s one. The symptom was very similar to our
@@ -408,8 +408,8 @@ output that is never used by anything. The fix is trivial:
  	$(BISON) -b $(basename $(basename $@)) -d $<
 ```
 
-While at it I added a guard against infinite re-execution similar to
-`ghc`'s guard:
+While at it, I added a guard against infinite re-execution similar to
+`ghc` guard:
 
 ```diff
 --- a/Makefile
@@ -422,14 +422,14 @@ While at it I added a guard against infinite re-execution similar to
 
 `GNU make` provides `$(MAKE_RESTARTS)` variable to detect `make` restarts.
 
-Both fixes are proposed upatream as <https://github.com/dgibson/dtc/pull/73>.
+Both fixes are proposed upstream as <https://github.com/dgibson/dtc/pull/73>.
 
 ## Parting words
 
 Rules with multiple targets are tricky and fun. `GNU make-4.4` will be a
-bit more eager at rebuilding all of the targets if prerequisite changes.
-This will expose bugs in a few programs. They shoud be easy to adapt.
-Otherwise keeping an older version of `GNU make` in parallel to the
+bit more eager at rebuilding all the targets if prerequisite changes.
+This will expose bugs in a few programs. They should be easy to adapt.
+Otherwise, keeping an older version of `GNU make` in parallel to the
 newer one should be a reasonable workaround as well.
 
 So far only `opensp`, `ghc` and `dtc` needed fixing.
