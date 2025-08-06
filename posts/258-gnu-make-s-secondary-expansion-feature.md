@@ -4,7 +4,7 @@ date: September 16, 2022
 ---
 
 People occasionally ask me when
-[make \-\-shuffle](/posts/238-new-make-shuffle-mode.html) feature will
+[`make --shuffle`](/posts/238-new-make-shuffle-mode.html) feature will
 be released. The short answer is: I don't know. I would like to have it
 released sooner but I also understand that stabilization requires real
 work to get the release out.
@@ -24,7 +24,7 @@ Quiz question: did `make --shuffle` still work? :)
 
 Let's find out.
 
-## autoconf
+## `autoconf`
 
 A few seconds into the build the first failed package was
 `autoconf-2.71` (and `autoconf-2.69` slightly later). The symptom
@@ -152,8 +152,8 @@ Or variable definition after `shell` call? If `:=` were to be used
 instead then it would be more straightforward: export would probably
 happen after.
 
-The answer is ... `make` did change the actual behaviour recently. To
-quote the [NEWS file](https://git.savannah.gnu.org/cgit/make.git/commit/NEWS?id=98da874c43035a490cdca81331724f233a3d0c9a):
+The answer is ... `make` did change the actual behavior recently. To
+quote the [`NEWS` file](https://git.savannah.gnu.org/cgit/make.git/commit/NEWS?id=98da874c43035a490cdca81331724f233a3d0c9a):
 
 ```
 * WARNING: Backward-incompatibility!
@@ -176,15 +176,15 @@ upstream:
 +export PATH := $(or $(PWD),$(shell pwd))/tests:$(PATH)
 ```
 
-Meanwhile `GNU make` also
+Meanwhile, `GNU make` also
 [added graceful fallback](https://git.savannah.gnu.org/cgit/make.git/commit/?id=70ba0357a080f72b9f5912f16b3ffc095db381e6)
 to this case as exporting empty variable is probably not very useful.
-Thus existing `autoconf` releases should still compile successfully
+Thus, existing `autoconf` releases should still compile successfully
 with `GNU make` from `master`.
 
 Phew. This failure was not related to `--shuffle`.
 
-## glibc
+## `glibc`
 
 Once `autoconf` was fixed I resumed world rebuild. The next failure was
 in `glibc`:
@@ -197,7 +197,7 @@ in `glibc`:
 ```
 
 `GNU make` complains at unexpected `r` trailing letter in
-`--shuffle=1662724426r` parameter. That suffix comes from ... `glibc`'s
+`--shuffle=1662724426r` parameter. That suffix comes from ... `glibc`
 own `Makefile`:
 
 ```
@@ -245,7 +245,7 @@ form of an option if available.
 
 Note how short single-letter options get globbed together in the first
 word while long options (without short option equivalent) are passed
-separately. `NEWS` file tells us it's another recent behaviour change:
+separately. `NEWS` file tells us it's another recent behavior change:
 
 ```
 * WARNING: Backward-incompatibility!
@@ -273,10 +273,10 @@ No complications here.
 Again, not exactly `--shuffle`-specific bug. Using of any long option
 would break `glibc` build.
 
-## ghc
+## `ghc`
 
 At this point `autoconf` and `glibc` fixes above unblocked many other
-package builds. Most other projects' `Makefile`s are not that
+package builds. Most other projects' `Makefile` are not that
 complicated and don't rely on `GNU make` extensions. They usually limit
 themselves to `POSIX make` features. `glibc` is a notable exception.
 That makes it a good project to test new `GNU make` versions.
@@ -287,7 +287,7 @@ migrates off `GNU make` to own `haskell`-based `hadrian` build system.
 Many distributions still package previous versions of `ghc` and use
 `GNU make` to build it.
 
-In case of `ghc`, `GNU make` itself managed to `SIGSEGV` itself:
+In case of `ghc`, `GNU make` managed to `SIGSEGV` itself:
 
 ```
 $ make --shuffle
@@ -303,14 +303,14 @@ make: INTERNAL: Exiting with 14 jobserver tokens available; should be 16!
 ```
 
 It might not be obvious, but `Segmentation fault` happens within
-`GNU make` itself, not just some tool it runs. Jobserver token loss
+`GNU make` itself, not just some tool it runs. `jobserver` token loss
 is another sign of things went wrong with `make` process itself.
 
 This time crash happened only if I used `make --shuffle` option.
 
 I was not able to craft a simple crashing example. I spent some time in
 `gdb` to understand the failures mode. I found that it has something to
-do with another fun `GNU make` extension: `Secondary Expansion`. I'll
+do with another `GNU make` extension: `Secondary Expansion`. I'll
 quote another bit of `GNU make` manual entry:
 
 ```
@@ -442,7 +442,7 @@ After the change:
 
 The bug mechanics: `shuffle` step assumed no changes in prerequisite
 lists would happen after. Moving `second expand` step behind it broke
-that assumptions: it cancelled shuffling effect (minor problem)
+that assumptions: it canceled shuffling effect (minor problem)
 and introduced dangling references to freed memory (major problem).
 
 Once understood the fix was trivial: refresh shuffle data if prerequisite
