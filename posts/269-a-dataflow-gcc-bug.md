@@ -4,8 +4,8 @@ date: December 10, 2022
 ---
 
 Let's look at a simpler `gcc` bug today:
-[PR107879](https://gcc.gnu.org/PR107879). There `ffmpeg-4` started
-failing it's testsuite on `gcc-13` from this week's master:
+[`PR107879`](https://gcc.gnu.org/PR107879). There `ffmpeg-4` started
+failing it's test suite on `gcc-13` from this week's master:
 
 ```
 $ ./tests/fate-run.sh fate-swr-resample-s16p-2626-8000 "" "" \
@@ -19,7 +19,7 @@ aresample=2626:internal_sample_fmt=s16p:exact_rational=0:linear_interp=0 \
 FAIL fate-swr-resample-s16p-2626-8000
 ```
 
-## On ffmpeg structure
+## On `ffmpeg` structure
 
 While the prospect of debugging multimedia package might sound scary
 `ffmpeg` is a lot simpler to explore than other complex projects like
@@ -34,22 +34,22 @@ is or get slightly transformed without too much state to be collected
 along the way. The code is written to be not too slow which means there
 are not many high level abstractions or deep memory indirections.
 
-Then if it's all so somple what could possible go wrong there then? Is
+Then if it's all so simple what could possible go wrong there then? Is
 there even a place for `gcc` to find a crack to fall in? Let's find out.
 
 The only caveat is that for most algorithms use floating points all over
 the place. That might make computations not bit-for-bit reproducible
 even on different optimization levels.
 
-The change in behaviour we see might not be the bug at all.
+The change in behavior we see might not be the bug at all.
 
 ## Extracting minimized example
 
 The above `$ ./tests/fate-run.sh fate-swr-resample-s16p-2626-8000 ...`
 command was failing consistently when built with `gcc-master` and was
 succeeding when built with `gcc-12`. With help of
-`#pragma GCC optimize(0)` I nailed the misclmpilation down to
-[libswresample/resample.c](https://github.com/FFmpeg/FFmpeg/blob/master/libswresample/resample.c)
+`#pragma GCC optimize(0)` I nailed the wrong code generation down to
+[`libswresample/resample.c`](https://github.com/FFmpeg/FFmpeg/blob/master/libswresample/resample.c)
 file. `build_filter()` function produced different filters for good and
 bad cases.
 
@@ -125,8 +125,8 @@ BUG
 
 Note how `-O0` case computes correct `f = 1.0` and `-O1` computes
 incorrect `f = 0.0`. There are no denormalized values. Just `0.0`,
-`1.0` and `2.0`. All of them are representable perfectly in 32-bit
-`float` or 64 `double` types. Thus the result should not be affected
+`1.0` and `2.0`. All of them can be encoded without an error in 32-bit
+`float` or 64 `double` types. Thus, the result should not be affected
 by finer optimizations like fused-multiply-add which might observably
 increase precision.
 
@@ -182,18 +182,18 @@ f = 0.0; y = 1.0
 BUG
 ```
 
-I had to use a bit fo `volatile` to prevent `gcc` from folding constants
-early and eliminate the the bug condition.
+I had to use a bit of `volatile` to prevent `gcc` from folding constants
+early and eliminate the bug condition.
 
 Fun fact: this test case still fails on `gcc-master` while original
 `ffmpef-4` test suite does not. Looks like some unrelated detail of
 `gcc` changed to partially mask the bug. If I was not quick enough
 to extract the reproducer it might take a bit more time to restore
-the envieonment and get it.
+the environment and get it.
 
-## Diving into iptimization process
+## Diving into optimization process
 
-As usual `-fdump-tree-all` is our friend to find out when suspicios
+As usual `-fdump-tree-all` is our friend to find out when suspicious
 pass broke our program.
 
 `gcc-HEAD/bin/gcc -O1 -lm b.c -o b -fdump-tree-optimized-slim` shows the
@@ -287,7 +287,7 @@ Here is our `b.c.015t.cfg.dot` original unoptimized graph as a reference:
 
 ![](/posts.data/269-a-dataflow-gcc-bug/b.c.015t.cfg.svg)
 
-Let's trace it through to make sure it's correct. It wil also help
+Let's trace it through to make sure it's correct. It will also help
 getting used to variable names and expected basic block effects:
 
 - in `bb2` (entrance):
@@ -327,14 +327,14 @@ And `b.c.130t.dom2` is first problematic step:
 
 ![](/posts.data/269-a-dataflow-gcc-bug/b.c.130t.dom2.svg)
 
-Note how `omww_22 = 1.0 - w_21;` in `bb6` is never read. Instead our
+Note how `omww_22 = 1.0 - w_21;` in `bb6` is never read. Instead, our
 `PHI` node `# iftmp.5_6 = PHI <omww_17(3), 0.0(4), 0.0(6)>` claims
 that `bb6` always brings in `0.0` value in `0.0(6)` alternative.
 
 Why does it happen? At this point I gave up and filed
 <https://gcc.gnu.org/PR107879> bug.
 
-Then I bisected `gcc` down to [commit d4c2f1d3](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=d4c2f1d376da6f):
+Then I bisected `gcc` down to [`commit d4c2f1d3`](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=d4c2f1d376da6f):
 
 ```
 commit d4c2f1d376da6fc3f3c30a9d3160e43c95399343
@@ -359,11 +359,11 @@ in detail.
 - `ffmpeg` uses
   [cubic formula](https://github.com/FFmpeg/FFmpeg/blob/master/libswresample/resample.c#L182-L183)
   to upsample inputs.
-- `-0.0` is equal to `0.0` according to IEEE754 even if binary encodings
+- `-0.0` is equal to `0.0` according to IEEE-754 even if binary encodings
   differ.
-- `gcc`'s dataflow related to value ranges is a bit hard to follow even in
+- `gcc` data flow related to value ranges is a bit hard to follow even in
   `-fdump-*` outputs.
-- `gcc`'s `-fdump-*-graph` set of options dump nice `.dot`-style outputs
+- `gcc` `-fdump-*-graph` set of options dump nice `.dot`-style outputs
   for visual debugging.
 - `volatile` is great at inhibiting complex constant propagation
   optimizations.
