@@ -68,7 +68,7 @@ Now it's all done!
 ## Long story
 
 When I started using `nix` daily I only heard of
-[nix flakes](https://nixos.wiki/wiki/Flakes) a bit. I did not dare to
+[`nix flakes`](https://nixos.wiki/wiki/Flakes) a bit. I did not dare to
 try using them. Either for local development or for system-wide
 configuration. From the documentation and notes around it felt
 incompatible to current channel-based system configuration approach.
@@ -87,7 +87,7 @@ internet. But I was not sure I wanted more of `flakes` :)
 ## The need arose
 
 Things have changed when Sandro tried
-[nix-olde](https://github.com/trofi/nix-olde/) on `flake`-based system
+[`nix-olde`](https://github.com/trofi/nix-olde/) on `flake`-based system
 and got [cryptic backtraces](https://github.com/trofi/nix-olde/issues/2)
 back.
 
@@ -206,7 +206,7 @@ The result is not as scary as I initially suspected. This setup did not
 break most of my workflows around local `nixpkgs` checkouts.
 
 Now I can run other packages (similar to `nixpkgs` input) right from
-`git` state. For example my typical `uselex` package is defined via git
+`git` state. For example, my typical `uselex` package is defined via git
 snapshot:
 
 ```nix
@@ -316,9 +316,8 @@ $ ls -ld result result-1
 result -> /nix/store/82maym4hks1nfcprharxwrpvf7ck6hz4-uselex-fe54bc1
 ```
 
-Note how input reports new commit it switches to and encodes it into
+Note how this input reports new commit it switches to and encodes it into
 package name (as we requested it with `version = inputs.uselex.shortRev;`).
-
 One can even add a short alias for an arbitrary flake repository:
 
 ```
