@@ -44,7 +44,7 @@ by CPU. `gcc-11` and later generates fallback code to call into
 ## Bootstrap refresher
 
 Not too long ago I wrote a bit about
-[nixpkgs bootstrap intro](/posts/240-nixpkgs-bootstrap-intro.html)
+[`nixpkgs` bootstrap intro](/posts/240-nixpkgs-bootstrap-intro.html)
 in context of bugs related to `glibc` version lookup. High-level
 overview presented there is mostly correct. But some details I got
 wrong.
@@ -156,9 +156,8 @@ all their depends. Too large to be meaningful.
 
 Having glanced at debugging tools let's get back to our `libgcc_s.so.1`
 problem.
-
 The version skew described in the beginning happens because
-`libgcc_s.so` gets copied into `glibc`'s output from `gcc` it was
+`libgcc_s.so` gets copied into `glibc` output from `gcc` it was
 compiled with. In fact all of `glibc` was compiled with `bootstrapTools`'
 `gcc-8` (and not `nixpkgs`' `gcc-11`!):
 
@@ -174,11 +173,9 @@ GCC: (GNU) 8.3.0
 It would probably be not be a huge problem if bootstrap `gcc` was fresh
 enough. So why not just update bootstrap `gcc` in
 `bootstrap-tools.tar.xz` and be done with it?
-
 It is feasible, but not very practical to do on a regular basis. It is
 easy to do twice a year, but harder to do with each `gcc` update
 `nixpkgs` sees.
-
 Also having too fresh `bootstrapTools` is also a bit tricky as version
 downgrades (if we chose to rollback `nixpkgs`) would also need some
 care.
@@ -190,13 +187,10 @@ update. Not very predictable.
 
 What we could do instead is to update `gcc` first and then build fresh
 `glibc`.
-
 Let's see what dependency graph our bootstrap tower has. Can we spot the
 staleness problem just by looking at the dependency references?
-
 Let's focus on just `gcc` and `glibc` packages for now and ignore
 everything else.
-
 I suggest grepping through the build dependency graph to fish out only
 needed details.
 
@@ -211,7 +205,7 @@ in `.dot` formatted output:
 
 - arrows from `stdenv` (or `bootstrap`) to `gcc` (or `glibc`): to find
   places where we decide to **build** new `gcc` (or `glibc`).
-- arrows and from `gcc` (or `glibc`) to `stdenv` (or `bootstrap`): to
+- arrows from `gcc` (or `glibc`) to `stdenv` (or `bootstrap`): to
   find places where we decide to **use** some version of  `gcc` (or
   `glibc`).
 
@@ -231,10 +225,10 @@ The main takeaways from this picture are (aka the Legend):
 
 Once again `gcc-wrapper` are just wrapper scripts that add
 default paths to `binutils`, to `glibc` and similar when actual
-`gcc` executable is called. Thus `gcc-wrapper` nodes don't denote
+`gcc` executable is called. Thus, `gcc-wrapper` nodes don't denote
 `gcc` binary rebuild.
 
-Now, if we look at the definition of our [glibc expression](https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/libraries/glibc/default.nix#L66-L84)
+Now, if we look at the definition of our [`glibc` expression](https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/libraries/glibc/default.nix#L66-L84)
 we will see how `libgcc_s.so` gets persisted there:
 
 ```nix
@@ -277,7 +271,6 @@ subset of binaries and seems to use suspiciously old `gcc` to build
 How would an ideal bootstrap look like?
 
 Let's settle down on more specific goals our bootstrap should achieve.
-
 If our goal is to get something that is able to link binaries we could
 just use `bootstrapTools` as our `stdenv`: no need to build anything,
 `gcc`, `glibc` and `libgcc_s.so` are all consistent.
@@ -294,7 +287,7 @@ rebuilds would probably make it simpler (or not :).
 Anyway, using `bootstrapTools` directly is not very convenient for local
 toolchain development.
 
-Thus we want something slightly more complicated: we need to build new
+Thus, we want something slightly more complicated: we need to build new
 set of bootstrap tools using current `nixpkgs` expressions as target
 versions of `gcc`, `glibc` and friends and use that instead. This
 creates a logical recursion of `bootstrapTools` -> `nixpkgs` ->
@@ -305,7 +298,6 @@ all, how most distributions build and provide toolchains nowadays.
 
 So, when should we stop our rebuild recursion? How do we define good
 enough?
-
 More specific goals of bootstrap process could be the following:
 
 1. Get rid of all the references (or copies) of `bootstrapTools`
@@ -323,7 +315,7 @@ result. At least we would not get version skews of various components.
 
 On top of that new versions of code generators (like `gcc` or
 `binutils`) frequently add extra features to the output useful for
-performance, portability, safety or other.
+performance, portability, safety, or other.
 
 From standpoint of "what built what" our current bootstrap process looks
 like that:
@@ -332,7 +324,7 @@ like that:
 
 Arrows here denote code emitted by generator.
 
-The picture can be summarised as: `bootstrapTools` build our code
+The picture can be summarized as: `bootstrapTools` build our code
 generators (`gcc`) and generate code for `glibc`.
 
 **Ideal** bootstrap instead could look like this:
@@ -356,13 +348,13 @@ possibly other interpreters and non-trivial data manglers like `awk`,
 Of the list above `binutils` and `patchelf` are probably the most
 interesting.
 
-## stdenv bootstrap tower
+## `stdenv` bootstrap tower
 
 At least now we have a plan: add an extra `gcc` rebuild step into
 bootstrap sequence. Sounds easy. How do we do that?
 
 The rebuild stages are defined in
-[pkgs/stdenv/linux/default.nix](https://github.com/NixOS/nixpkgs/blob/master/pkgs/stdenv/linux/default.nix#L192-L554).
+[`pkgs/stdenv/linux/default.nix`](https://github.com/NixOS/nixpkgs/blob/master/pkgs/stdenv/linux/default.nix#L192-L554).
 
 Let's talk about stage and package structure a bit.
 
@@ -376,10 +368,8 @@ developers as something similar to the below:
 The cycles in the graph of packages are forbidden (they require explicit
 handling by duplicating packages). Most packages usually pull in `stdenv`
 which exposes `gcc` in some form. Looks simple.
-
-The only annoyance is that `stdenv`'s own packages like `gcc` and `glibc` do
+The only annoyance is that `stdenv` own packages like `gcc` and `glibc` do
 take part in this graph.
-
 This might mean that `gcc` and `glibc` don't use final `stdenv`, and they
 use previous instances of `stdenv` instead. Say, something along these lines:
 
@@ -391,7 +381,6 @@ packages we can construct `pkgs2` by building packages in order:
 - first `gcc`
 - then `glibc`
 - and finally build `xz` (with new `stdenv`)
-
 
 In reality each bootstrap step is split into a few smaller steps where
 each handles its own part of `stdenv` update:
@@ -408,7 +397,6 @@ packages as in previous picture:
 
 It might take quite a bit of mental effort to chase through pointers. It
 is certainly harder to reason about it.
-
 If you ever wondered how actual `gcc` attribute then is defined in
 `pkgs/top-level/all-packages.nix` as:
 
@@ -451,7 +439,6 @@ hides in `pkgs/development/compilers/gcc/11/default.nix`:
 <https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/compilers/gcc/11/default.nix>
 
 So, back to our goal: we want to add an extra bootstrap step to build `gcc`.
-
 Let's trace through existing `bootstrapTools`' `gcc` installation. How
 does that get injected into our `stdenv` tower? It all starts from
 [bootstrap-stage0](https://github.com/NixOS/nixpkgs/blob/master/pkgs/stdenv/linux/default.nix#L206):
@@ -513,7 +500,6 @@ something called `ccWrapperStdenv`. These variables are used in
 Here we define `stdenv = thisStdenv` populated with `cc` attribute that
 refers `prevStage.gcc-unwrapped` from previous stage (and place it into
 a wrapper).
-
 `bootstrap-stage0` was not too bad. Let's have a peek at `bootstrap-stage1`:
 
 ```nix
@@ -547,13 +533,10 @@ a wrapper).
 
 Here we use our `stdenv` to build `perl`, `binutils-unwrapper`
 and their numerous dependencies.
-
 What packages do we actually build using only `stdenv-stage0`?
-
 We rely on packages' dependencies as specified in their `default.nix`
 files. Who knows what is there now. The simplest way to find out is to
 query the build graph directly:
-
 Here I assume that most of packages are pulling in
 `bootstrap-stage1-stdenv` directly (without any intermediate steps).
 
@@ -584,12 +567,10 @@ Now, if we do nothing special most of these dependencies will get
 rebuilt on each of our 5 stages of bootstrap: our `stdenv` usually
 changes on each step and normally you need local `binutils-unwrapped`
 for each of them.
-
 To avoid rebuilds of every single one of them we need to pick the
 packages and propagate them further. That is done by inheriting them
 from previous stage. Just like the cyan arrow on the picture
 [above](/posts.data/275-nixpkgs-bootstrap-deep-dive/07-nixpkgs-structure-real.svg).
-
 
 Let's peek at how `bootstrap-stage2` does that:
 
@@ -709,7 +690,6 @@ override pattern as `bootstrapTools` one. Its override happens in
 
 Apart from enabling static library builds it's our typical `gcc-unwrapped`
 definition.
-
 Then in `bootstrap-stage4` we explicitly define `gcc` attribute as a wrapper
 against `gcc-unwrapped` from a previous stage:
 
@@ -771,7 +751,7 @@ crucial for bootstrap process but important for final package set.
 Packages normally rely on `stdenv.cc` attribute as a compiler and don't
 usually refer `gcc` attribute itself directly.
 
-Thus we have a pattern of how to splice an extra stage with `gcc`
+Thus, we have a pattern of how to splice an extra stage with `gcc`
 rebuild:
 
 - in our new stage we need to pass through all the tools next stage
@@ -786,7 +766,6 @@ Simple!
 The natural place to plug our `gcc` rebuild is between
 `bootstrap-stage1` (`binutils-unwrapped` rebuild) and `bootstrap-stage2`
 (where we build special runtime dependencies for `glibc`).
-
 I copied `boostrap-stage2` into `bootstrap-stage1.5-gcc-unwrapped`
 and added only `gcc-unwrapped` definition there:
 
@@ -836,9 +815,7 @@ and added only `gcc-unwrapped` definition there:
 It's a big but mechanical change. We need to pay some attention to
 `inherit (prevStage) ...` to pass through enough dependencies to
 avoid unnecessary rebuilds. I used histograms command above to check
-if we are doing something reasonable.
-
-Let's try if it works!
+if we are doing something reasonable. Let's try if it works!
 
 ```
 $ nix build -f. stdenv
@@ -855,18 +832,16 @@ For full logs, run 'nix log /nix/store/...-binutils-2.39.drv'.
 ```
 
 Didn't work.
-
 This is a typical build failure caused by mismatch between code
-generated by `g++` (`gcc-11` in this case) and symbols provided by
-`libstdc++` (`gcc-8` in this case). Outdated `libstdc++` comes from
+generated by new `g++` (`gcc-11` in this case) and symbols provided by
+old `libstdc++` (`gcc-8` in this case). Outdated `libstdc++` comes from
 `bootstrapTools`' `/lib` directory. The same directory where rest of
 libraries sits.
 
-Normally other distributions (and `gcc`'s default build system) use
+Normally other distributions (and `gcc` default build system) use
 version-specific paths to `libstdc++`, like `.../lib/gcc/x86_64-pc-linux-gnu/11.3.0/libstdc++.so`.
 That way parallel `gcc` installs have a chance to keep their `c++`
 business to themselves and not interfere with one another.
-
 Let's fix this error the similar way by moving it out of default `lib`
 path:
 
@@ -904,7 +879,6 @@ path:
 
 The only binary using `libstdc++` in `bootstrapTools` is `patchelf`. We
 had to extend its `RUNPATH` as well.
-
 Once we fixed that the next failure happens way later, in `bootstrap-stage4-gcc`:
 
 ```
@@ -920,14 +894,11 @@ For full logs, run 'nix log /nix/store/..-gcc-11.3.0.drv'.
 `mallinfo2` is a somewhat recent `glibc` symbol from `glibc-2.33`. Our
 `bootstrapTools`' `glibc` version is `2.27`. Our `nixpkgs` `glibc` version
 is `2.35`.
-
 `bootstrap-stage4` should already have a `nixpkgs` `glibc`. Unless I
 broke its wrapper registration after I rebuilt `gcc`.
-
 Normally `gcc` should be reasonably portable across older `glibc`
 versions (and even non-`glibc`).
-
-Checking `gcc`'s source code it indeed looks reasonable:
+Checking `gcc` source code it indeed looks reasonable:
 
 ```c
 // Somewhere in gcc/ggc-common.cc
@@ -950,8 +921,7 @@ report_heap_memory_use ()
 
 Let's check its `config.log` to see why `HAVE_MALLINFO2` was
 detected as available.
-
-I ran the stdenv build with `--keep-failed` to get full `gcc`'s
+I ran the `stdenv` build with `--keep-failed` to get full `gcc`
 build tree around when it fails:
 
 ```
@@ -973,7 +943,6 @@ $ fgrep TARGET_GLIBC /tmp/nix-build-gcc-11.3.0.drv-1/build/gcc/config.log
 
 `gcc` and `glibc` both look fresh enough. That means I failed at
 registering new `glibc` headers perhaps? Let's check.
-
 Making sure we test a reasonable attribute:
 
 ```
@@ -1012,8 +981,7 @@ make[3]: Leaving directory '/home/slyfox/dev/git/nixpkgs-staging-bootstrap/gcc-1
 make[2]: *** [Makefile:4793: all-stage1-gcc] Error 2
 ```
 
-Success! We got the same build failure!
-
+We got the same build failure!
 Now we can run the command manually to explore its breakage:
 
 ```
@@ -1071,11 +1039,9 @@ bash-5.1$ dev>g++ -v -std=c++11  -fno-PIE ... ../.././gcc/ggc-common.c
 Last two lines are the culprit: we see both headers from bootstrap
 `...-bootstrap-stage0-glibc-bootstrap/include` (goes first) and from
 `...-glibc-2.35-224-dev/include` (goes second).
-
 That is part of our problem. It would not be too bad if this include
 order was consistent across compiler calls and we would use bootstrap
 `glibc` consistently.
-
 `glibc-bootstrap` header lookup path was embedded into `gcc` when we
 built it at `bootstrap-stage1.5` step.
 
@@ -1083,19 +1049,15 @@ Build log for that `gcc` contains
 `--with-native-system-header-dir=/nix/store/nm7fxi26avig3arwpasfy0avfwyb41i3-bootstrap-stage0-glibc-bootstrap/include`
 reference. Ideally we should have a way to make it lower priority than
 `/nix/store/jn50ph1kl1h9x4qjs6hd6944afijaadh-glibc-2.35-224-dev/include`.
-
 `-I` inserts headers too early: it prepends `fixincludes` and
 `gcc`-wrapped headers. `-idirafter` inserts headers too late: after an
 existing `...-bootstrap-stage0-glibc-bootstrap/include` entry.
-
 How can we do something in the middle?
 
 Luckily there is a workaround: if we pass `--sysroot=...` to the
 compiler it will throw away default `--with-native-system-header-dir`
 value as if it was never passed. And it also keeps the rest of includes:
-`fixincludes`, `c++-headers` and so on.
-
-Thus the hack:
+`fixincludes`, `c++-headers` and so on. Thus, the hack:
 
 ```diff
 --- a/pkgs/build-support/cc-wrapper/default.nix
@@ -1117,12 +1079,10 @@ With the above I could build `stdenv`!
 $ nix build -f. stdenv
 ```
 
-Yay?
-
-Let's build something more substantial:
+Yay? Let's build something more substantial:
 
 ```
-nix-build -A libffi
+$ nix-build -A libffi
 error: builder for '/nix/store/dsi4dkc04wgcz5fr0z1zrn92269g03zd-dejagnu-1.6.3.drv' failed with exit code 2;
        last 10 log lines:
        >
@@ -1139,7 +1099,7 @@ error: builder for '/nix/store/dsi4dkc04wgcz5fr0z1zrn92269g03zd-dejagnu-1.6.3.dr
 error: 1 dependencies of derivation '/nix/store/y2a8jwf1fx3vjnfwnayrj7yqcpb3r6gr-libffi-3.4.4.drv' failed to build
 ```
 
-The crash fails due to missing `libgcc_s.so` in `glibc`'s output:
+The crash happens due to missing `libgcc_s.so` in `glibc` output:
 
 ```
 $ nix-build -A glibc
@@ -1148,7 +1108,6 @@ ls: cannot access 'result/lib/libgcc_s.so': No such file or directory
 ```
 
 But it was there before. And caused us all sorts of problems.
-
 Adding a bit of logging to see if the `glibc` file copy hook executed
 at all:
 
@@ -1192,7 +1151,7 @@ libatomic.la      libcc1.so           libgomp.la       libitm.so         liblsan
 
 It happened to work because `bootstrapTools` is a derivation with single
 `out` output and `gcc` from `nixpkgs` has slightly different structure.
-Thus making the copy hack more portable:
+Thus, making the copy hack more portable:
 
 ```diff
 --- a/pkgs/development/libraries/glibc/default.nix
@@ -1232,7 +1191,7 @@ $ readelf -aW $(nix-build -A glibc)/lib/libgcc_s.so.1 | fgrep RUNPATH
     [/nix/store/nm7fxi26avig3arwpasfy0avfwyb41i3-bootstrap-stage0-glibc-bootstrap/lib]
 ```
 
-It should refer instead to `glibc` we just built. Let's clobber the runpath:
+It should refer instead to `glibc` we just built. Let's clobber the `RUNPATH`:
 
 ```diff
 --- a/pkgs/development/libraries/glibc/default.nix
@@ -1252,7 +1211,6 @@ It's a safe operation in this case as we simulate `glibc` binary upgrade.
 As `glibc` is backwards compatible it should not cause issues.
 And in practice `libgcc_s.so.1` has almost no code that depends on `glibc`.
 
-
 Now it looks better:
 
 ```
@@ -1263,11 +1221,10 @@ $ readelf -aW $(nix-build -A glibc)/lib/libgcc_s.so.1 | fgrep RUNPATH
 ```
 
 After that I was able to build full `stdenv` and a few `c++` programs.
-
 Proposed the change as
-[PR #209063](https://github.com/NixOS/nixpkgs/pull/209063).
+[`PR#209063`](https://github.com/NixOS/nixpkgs/pull/209063).
 
-## The clang wrapper
+## The `clang` wrapper
 
 Surely done now?!
 
@@ -1294,7 +1251,7 @@ $ printf "int main(){}" | clang++ --sysroot=/does/not/exist -x c++ -
 ld: cannot find -lstdc++: No such file or directory
 ```
 
-Here is the patch lookup change behaviour. Good case:
+Here is the patch lookup change behavior. Good case:
 
 ```
 $ printf "int main(){}" | clang++ -x c++ - -Wl,--verbose |& grep -F stdc++
@@ -1403,7 +1360,7 @@ current layout:
 - suboptimal: it is linked against `bootstrapTools`' `glibc`, which means
   that:
   * minor: it is linked against symbol versions defined by `libc.so.6`
-  * medium: it is linked against `bootstrapTools`' glibc's startup object files:
+  * medium: it is linked against `bootstrapTools`' `glibc` `startup` object files:
     - `crti.o`: trivial `_init` / `_fini` global constructor handling
     - `crtn.o`: trivial `.init` / `.fini` sections for global constructors
     - `libc_nonshared.a`: small amount of target-specific stubs that refer
@@ -1411,25 +1368,24 @@ current layout:
       `at_quick_exit`, `__pthread_atfork`, `__stack_chk_fail_local`.
 
 Of all the above `libc_nonshared.a` is mildly annoying. That should not
-cause any problems as glibc allows upgrades of libc.so.6 without
+cause any problems as `glibc` allows upgrades of libc.so.6 without
 breaking already linked libraries or executables. But it's still a
 problem of reliance on a tiny bit of `bootstrapTools` code.
 
-Ideally I would like to delete `libgcc_s.so.1` out of `glibc`'s `lib/`
+Ideally I would like to delete `libgcc_s.so.1` out of `glibc` `lib/`
 directory entirely and it will solve this problem completely.
-
 I'm not sure how exactly do it just yet, but I have a vague idea.
 
 A while ago I wondered why cross-compiled `glibc` was missing
 `libgcc_s.so.1` while native had it. Now it's clear: it's an unexpected
 native/cross difference in `gcc.lib`
 [library path](https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/libraries/glibc/default.nix#L78-L83)
-(and also
+(and
 [manual hook removal](https://github.com/NixOS/nixpkgs/blob/master/pkgs/development/libraries/glibc/common.nix#L271)).
 Once the main change lands I should be able to fix it as well one way or
 another.
 
-Thus no, we are not done yet. But it can wait when changes derived here
+Thus, no, we are not done yet. But it can wait when changes derived here
 will land in `nixpkgs`. It looks like a clear improvement.
 
 ## Next steps
@@ -1439,7 +1395,7 @@ relation to the toolchain setup a few times in the past:
 
 - to sort out `glibc` [objects mismatch](/posts/240-nixpkgs-bootstrap-intro.html)
   (landed)
-- to fix `binutils` [LTO plumbing](https://github.com/NixOS/nixpkgs/pull/188544)
+- to fix `binutils` [`LTO` plumbing](https://github.com/NixOS/nixpkgs/pull/188544)
   (failed, needs more research)
 - to sort `musl` [include order](https://github.com/NixOS/nixpkgs/issues/142066)
   (pending, needs more research)
@@ -1453,7 +1409,7 @@ I failed more frequently than I succeeded.
 Until today I never felt I quite grasped the details. There were
 always minor things I did not look at: how does `nixpkgs` define
 include header order? How does it track what are compiler-specific
-libraries and what are libc-specific ones? Does it care? And other ones
+libraries and what are `libc`-specific ones? Does it care? And other ones
 like that. This time I managed to uncover almost all of that.
 
 In most of the cases above it's very clear why things are broken and why
@@ -1494,11 +1450,11 @@ that).
 
 Along the way I found a few minor infelicities in `nixpkgs`:
 
-- inconsistent `libgcc_s.so.1` copying: [PR #209055](https://github.com/NixOS/nixpkgs/pull/209055)
-- `libstdc++` search path pollution in `bootstrapTools`: [PR #209054](https://github.com/NixOS/nixpkgs/pull/209054)
-- missing cross-link for native toolchains: [PR #209153](https://github.com/NixOS/nixpkgs/pull/209153)
+- inconsistent `libgcc_s.so.1` copying: [`PR#209055`](https://github.com/NixOS/nixpkgs/pull/209055)
+- `libstdc++` search path pollution in `bootstrapTools`: [`PR#209054`](https://github.com/NixOS/nixpkgs/pull/209054)
+- missing cross-link for native toolchains: [`PR#209153`](https://github.com/NixOS/nixpkgs/pull/209153)
 
-And in the end I ended up with [PR #209063](https://github.com/NixOS/nixpkgs/pull/209063)
+And in the end I ended up with [`PR#209063`](https://github.com/NixOS/nixpkgs/pull/209063)
 to get `libgcc_s.so.1` up to date enough.
 
 Initially I thought that adding one `gcc` rebuild is an easy problem.
