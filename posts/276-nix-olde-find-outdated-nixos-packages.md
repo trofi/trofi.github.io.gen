@@ -32,7 +32,7 @@ versions and versions known to `repology.org` database and a package
 attribute name.
 
 I wrote it for the purpose of tricking you (and myself) to send pull
-requests against [nixpkgs](https://github.com/NixOS/nixpkgs) to update
+requests against [`nixpkgs`](https://github.com/NixOS/nixpkgs) to update
 some of those outdated packages :). Most of the time there is no major
 reason why a specific package is outdated.
 
@@ -42,21 +42,19 @@ reason why a specific package is outdated.
 shared a set of hacks I use to get a list of outdated packages. My
 system has ~1550 packages. How many of them are actually outdated?
 Let's compare that hack with `nix-olde` result.
-
 The hack looked good enough to catch packages with simple naming scheme
 that patches upstream, `nixpkgs` and `repology`. It returned 240
 packages (about 15%). It's quite a lot. I would expect not that many.
-
 Moreover, some packages never got into the list: none of `python`,
 `perl` or `haskell` are in the report either. I skimmed through all
-outdated [nix unstable package known to repology](https://repology.org/projects/?inrepo=nix_unstable&outdated=1)
+outdated [`nix unstable` package known to `repology`](https://repology.org/projects/?inrepo=nix_unstable&outdated=1)
 and found a few `python` and `haskell` I use. Not good.
 
 ## `nix-olde` improvements
 
 My hack clearly failed to map some of packages back to `repology` names.
-If I could just print unmapped packages maybe it would be a good
-starting point to see what I fail to cover. Thus the tool's idea was
+If I could just print unresolved packages maybe it would be a good
+starting point to see what I fail to cover. Thus, the tool's idea was
 born.
 
 The idea was simple:
@@ -71,21 +69,19 @@ the source `nixpkgs` uses to tell `repology` what's in `nixpkgs`!
 It's hidden in [make-tarball.nix](https://github.com/NixOS/nixpkgs/blob/master/pkgs/top-level/make-tarball.nix#L67):
 
 ```
-echo -n '{"version":2,"packages":' > tmp
-nix-env -f . -I nixpkgs=$src -qa --meta --json --arg config 'import ${./packages-config.nix}' >> tmp
+$ echo -n '{"version":2,"packages":' > tmp
+$ nix-env -f . -I nixpkgs=$src -qa --meta --json --arg config 'import ${./packages-config.nix}' >> tmp
 echo -n '}'
 ```
 
 Here we extract metadata around `<nixpkgs>` attributes by passing a
 special `config` that untangles metadata from current system.
-
 Thus, the mapping from installed to available packages is trivial using
 the same technique and the same output data.
-
-With help of [serde](https://serde.rs/) `rust` crate I was able to get a
+With help of [`serde`](https://serde.rs/) `rust` crate I was able to get a
 trivial `json` reader in 2 lines of code.
 
-`nix-olde` reports 391 outdated package (151 more, or about 25% of
+`nix-olde` reports `391` outdated package (`151` more, or about `25%` of
 packages). That is a substantial improvement over a hack. New additions
 are mainly `python` and `perl` packages.
 
@@ -140,7 +136,7 @@ Installed packages missing in available list: ["antlr-runtime-cpp-4.9.3",
 ```
 
 Entries like `bootstrap-stage3-gcc-wrapper` are not very interesting:
-they are synthetic packages built for bootstrap and should be an alias
+they are the synthetic packages built for bootstrap and should be an alias
 to a `nixpkgs`-specific shell wrapper. I'll try to filter them out by
 default.
 
@@ -163,9 +159,8 @@ experience is very pleasant: option parsing and `json` parsing is
 trivial, data types are naive and yet good enough to get the job done.
 
 `nixpkgs` has quite a few outdated packages in base install for my
-desktop system: around 25%. Worth improving individual packages and
+desktop system: around `25%`. Worth improving individual packages and
 extending them to add auto-update scripts for [r-ryantm](https://ryantm.github.io/nixpkgs-update/r-ryantm/)
 to help humans in this task.
 
 Have fun!
-
