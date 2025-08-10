@@ -6,17 +6,15 @@ date: December 27, 2022
 As a `nixpkgs` user I want it to help me solve my and others' problems.
 The upstream package bugs are frequently already fixed upstream and we
 only need to update to get `nixpkgs` into better state.
-
 How many outdated packages does my system have? Can I just list them all
 and maybe work on one or two to update them?
 
-## On repology
+## On `repology`
 
 Probably the most popular package info database is
 <https://repology.org/>. It contains package details across various
 package repositories. `nixpkgs` is not an exception.
-
-Let's have a look at example `re2c` package.
+Let's take a look at example `re2c` package.
 `repology` [page](https://repology.org/project/re2c/versions) shows us a
 few things:
 
@@ -29,11 +27,9 @@ few things:
 
 `repology.org` API [provides](https://repology.org/api) a `json`
 table we can fetch and inspect directly.
-
 Joining this data against the installed system should yield something
 useful. Let's see how hard it is.
-
-To get data related to `matser` branch of `nixpkgs` we can filter on
+To get data related to `master` branch of `nixpkgs` we can filter on
 `nix_unstable` repo with `inrepo=nix_unstable` parameter:
 
 ```
@@ -97,16 +93,12 @@ $ curl --compressed -s \
 ```
 
 I piped the output through `jq` to make it slightly more readable.
-
 We see a lot here:
 
 - `repology`'s **project name** comes as a key here
-
 - **values** are arrays of per-repository details for package status:
   repository name, package name, version, version status and so on.
-
 - **status** field tells us outright if the package is stale or not.
-
 - data is paginated: only the range from `"a52dec"` to `"azure-cli"` is
   covered.
 
@@ -128,7 +120,7 @@ cli11
 ```
 
 Now we can build the list of outdated packages in `nixpkgs`. I'll use
-the following `jq` hack to pick latest-everywhere vs latest-in-nixpkgs:
+the following `jq` hack to pick latest-everywhere vs latest-in-`nixpkgs`:
 
 ```
 $ jq --sort-keys '
@@ -165,14 +157,11 @@ map_values({
 ```
 
 You should be able to come up with a more reasonable query.
-
-The above quary is not distribution-specific: you can swap
-`nix_unstalble` for your distro of choice to fish for things you care
+The above query is not distribution-specific: you can swap
+`nix_unstable` for your distro of choice to fish for things you care
 about.
-
 Or you can use web UI to skim through the same data:
 <https://repology.org/projects/?inrepo=nix_unstable&outdated=1>.
-
 Web UI is not very handy to grep through as it takes multiple pages.
 
 ## On derivations
@@ -180,7 +169,6 @@ Web UI is not very handy to grep through as it takes multiple pages.
 The above hack gives us the whole list of stale packages in `nixpkgs`.
 I would still still like to narrow it down to set of packages relevant
 to my system.
-
 Luckily the whole `NixOS` system is normally described by a single build
 "rule" (a single `derivation`). By inspecting that we can find all the
 used packages:
@@ -261,7 +249,7 @@ $ nix show-derivation --derivation -r $(nix-instantiate '<nixpkgs/nixos>' -A sys
 
 Here one of numerous derivations used to produce final `system`
 derivation is `re2c`. Most derivations have `pname` and `version` in
-their environemnts. Thus the simplest hack would be to extract them with
+their environments. Thus, the simplest hack would be to extract them with
 `jq` again:
 
 ```
@@ -318,10 +306,10 @@ are enough to tie freshness together. My `jq` hacks don't handle
 corner cases well. Some obvious deficiencies are:
 
 - packages intentionally kept as multiple versions
-- clearly wrong package versions reported by repology
+- clearly wrong package versions reported by `repology`
 - something else?
 
-I'll attemt to write more robust tool with friendlier UI available for
+I'll attempt to write more robust tool with friendlier UI available for
 daily use.
 
 ## Parting words
