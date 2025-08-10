@@ -3,9 +3,9 @@ title: "xmms2 FLAC hangup fix"
 date: December 30, 2022
 ---
 
-Over past few months I noiced that `xmms2` started getting stuck on some
+Over past few months I noticed that `xmms2` started getting stuck on some
 songs in my playlist. The typical symptom is lack of sound after the
-song finished. There was no (expected!) switch to the next song. Instead
+song finished. There was no (expected!) switch to the next song. Instead,
 existing playlist entry went to out-of-duration playtime report:
 
 ```
@@ -30,7 +30,7 @@ I looked up the shortest song that exhibited the problem. Best I could
 find was a 3 minutes 57 seconds long sample. Not too long, but long
 enough to avoid whole system bisection.
 
-Instead I ran `./xmms2d --verbose` and started playing the sample
+Instead, I ran `./xmms2d --verbose` and started playing the sample
 problematic. Once it was over 4 minutes `xmms2`'s debug logs started
 growing rapidly with error like:
 
@@ -50,30 +50,30 @@ That was a good enough hint that `FLAC` decoding state machine did not
 feel well. Glancing at `xiph/flac` issue tracker I found seemingly
 similar [Issue #487](https://github.com/xiph/flac/issues/487). There
 someone found that `flac-1.4.0` release became more picky around stream
-validation. The report also provides numeros commands to validate and
+validation. The report also provides numerous commands to validate and
 re-encode `.flac` files using `flac` command. Very handy!
 
 Unfortunately my files all passed `flac -t` validation and did not
-complain about internal inconsistencies. I means I I probably had a
+complain about internal inconsistencies. I means I probably had a
 different problem. But that gave me a hint that maybe it's related to
 `flac` library update in my system. I downgraded `1.4.2` down to `1.3.4`
 got my hangups disappeared!
 
-`xmms2`'s internal architecture is simple: it handles data streams as
+`xmms2` internal architecture is simple: it handles data streams as
 explicit objects by passing them through chain of plugins. Each plugin
 reads data from previous chained plugin and writes data to next chained
 plugin. The plugin itself can perform data transformation as well.
 
-For example to playback a `.flac` file one needs a few `xmms2` plugins:
+For example, to play a `.flac` file one needs a few `xmms2` plugins:
 
 - `file` plugin to read files from disk)
 - `flac` plugin to convert `FLAC` stream to simpler `PCM` stream
 - `pulse` plugin to write `PCM` into a sound subsystem.
 
 Such a stream plugin abstraction makes it trivial to explore ways
-of individual file formats handling in `xmms2`. For example this
+of individual file formats handling in `xmms2`. For example, this
 is our (yet unfixed) full
-[flac plugin code](https://github.com/xmms2/xmms2-devel/blob/9bfbc687fc586c56443f9ea296988eefd759c30d/src/plugins/flac/flac.c).
+[`flac` plugin code](https://github.com/xmms2/xmms2-devel/blob/9bfbc687fc586c56443f9ea296988eefd759c30d/src/plugins/flac/flac.c).
 
 A few things to note there:
 
@@ -83,7 +83,7 @@ A few things to note there:
   callbacks to implement `FLAC` stream decoding.
 
 `xmms_flac_init()` attaches `FLAC` handler to a new stream. It creates
-`FLAC` decoder and defines it's output stream type (like 16-bit `PCM`):
+`FLAC` decoder and defines its output stream type (like 16-bit `PCM`):
 
 ```c
 static gboolean
@@ -123,9 +123,9 @@ xmms_flac_init (xmms_xform_t *xform)
 ```
 
 Many lines of code, but it's just 2 function calls with many details
-passed around as indivifual function aprameters. Incidenally `flac`
+passed around as individual function parameters. Incidentally, `flac`
 library itself has a similar API: we pass in a decoder context object
-to `FLAC__stream_decoder_init_stream()` and a bunch of callback to read
+to `FLAC__stream_decoder_init_stream()` and a bunch of callbacks to read
 input and write output.
 
 In case of our error message spam it all came from this
@@ -240,20 +240,20 @@ typedef FLAC__StreamDecoderReadStatus (*FLAC__StreamDecoderReadCallback)(const F
 ```
 
 While a bit verbose the documentation string even has the example
-implementation of a sinble callback almost identical to `xmms2`'s
+implementation of a single callback almost identical to `xmms2`
 use case.
 
 Note: `*bytes` is unconditionally(ish) written back in the example
 above. We always signal library what we passed back regardless of
 encountered errors. It's because `flac` knows how to skip over
-undecodable metadata. Thus it's a resonable behaviour to
+undecodable metadata. Thus, it's a reasonable behavior to
 return `FLAC__STREAM_DECODER_READ_STATUS_ABORT` and still expect more
 reads from this stream in search of decodable next frame.
 
 In comparison `xmms2` did not update `*bytes` in case of end of stream
 and in case of an error. As a result `flac` decoder was stuck running
 the callback again and again getting the same `buffer` back. `buffer`
-possibly contained uninitialized contents of `buffer` as it if was just
+possibly contained uninitialized contents of `buffer` as if it was just
 read them from the input stream.
 
 Once understood the fix was [trivial](https://github.com/xmms2/xmms2-devel/commit/39d31d4a7ae463f3df7a09915fe61e2574f4d95f):
@@ -290,11 +290,11 @@ After that I saw no hangups in `.flac` files so far.
 
 ## Parting words
 
-`xmms2`'s plugins are usually very simple to read and implement.
+`xmms2` plugins are usually very simple to read and implement.
 
 In case of more complex problems `xmms2d --verbose` flag is useful to
 enable `XMMS_DBG()` debugging output. If nothing else it should help
-finding out exact plugins used to playback a problematic file.
+finding out exact plugins used to play a problematic file.
 
 `flac-1.4.0` subtly changed the recovery code around invalid streams and
 managed to expose long standing bug in `xmms2` code base. Luckily it was
