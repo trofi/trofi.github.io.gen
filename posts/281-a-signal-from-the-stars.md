@@ -19,16 +19,13 @@ quickly as possible.
 ## Getting the clues
 
 So I started debugging ... a led /o\\.
-
 I closed all the applications including browser and window manager. I
 ran `sync` to commit all the in-flight writes to disk. Disk led was
 still flashing rapidly.
-
 I ran `iotop -a`. It claimed there was no visible I/O happening. Does it
 mean it's just a led problem?
-
 I tried heavyweight hammer and ran `perf ftrace` to see if kernel is
-doing anything related to NVME:
+doing anything related to `NVME`:
 
 ```
 # perf ftrace -a -T 'nvme*' | cat
@@ -49,12 +46,10 @@ doing anything related to NVME:
     kworker/6:1H-298     [006]   2569.958202: nvme_setup_discard <-nvme_setup_cmd
 ```
 
-Here we see that every 100ms kernel runs `nvme_setup_discard` function
+Here we see that every `100ms` kernel runs `nvme_setup_discard` function
 from kernel's `kworker` thread. These requests looked suspicious.
-
 This trace was from `linux-6.2`. When I booted back to `linux-6.1` this
 `discard` storm disappeared. All was quiet.
-
 In case you are not familiar with SSD `discard` (or `trim`) is an
 operation that gives a hint to device that a particular block of data
 does not contain useful data and can be recycled for other uses.
@@ -66,13 +61,11 @@ Are these discards useful or harmful? Are they intentional? Why
 
 ## Bisecting the kernel
 
-Given that it's seemingly a behaviour change between `6.1` and `6.2`
+Given that it's seemingly a behavior change between `6.1` and `6.2`
 kernel versions I attempted to bisect the kernel.
-
 Bisecting it was easy: I redirected local `linux` kernel package
 definition to local `linux.git` checkout and rebuilt my system against
 it.
-
 Here is a diff against `nixpkgs` I used at some point:
 
 ```diff
@@ -205,22 +198,20 @@ anything about `btrfs` implementation:
 
 ## The workaround
 
-To restore previous behaviour (until we find out if it's expected) I
-added `"nodiscard"` mount option at startup and got an old behaviour on
+To restore previous behavior (until we find out if it's expected) I
+added `"nodiscard"` mount option at startup and got an old behavior on
 `6.2`!
 
 I also sent [the question](https://www.spinics.net/lists/linux-btrfs/msg133128.html)
-to `linux-btrfs@` ML to se if it's an expected behaviour.
+to `linux-btrfs@` ML to see if it's an expected behavior.
 
 ## Digging deeper
 
 Now that we have a workaround let's try to explore where these `discard`
 requests come from.
-
 I re-enabled `discard=async` with `sudo mount -oremount,discard=async /`
 and spent some time in `firefox` to trigger the storm condition again
 when disk led started flashing again.
-
 I checked discards still get generated (and while at it confirmed it's
 related to `btrfs`):
 
@@ -260,10 +251,8 @@ $ sudo perf ftrace -a -T '*btrfs*discard*' -T '**nvme*' | cat
 
 It looks like `btrfs` keeps seeing free space being returned back to the
 system which triggers extent discard worker thread.
-
 Ideally I would expect `free` / `discard` / `free` loop to cease at some
 point. But it never does.
-
 Let's try to find where does `__btrfs_add_free_space` come from:
 
 ```
@@ -278,7 +267,7 @@ $ sudo perf ftrace -a -T '__btrfs_add_free_space' | cat
 ```
 
 If I read it correctly it's initiated by
-[do\_trimming()](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/free-space-cache.c?h=v6.2#n3630):
+[`do_trimming()`](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/free-space-cache.c?h=v6.2#n3630):
 
 ```c
 static int do_trimming(struct btrfs_block_group *block_group,
@@ -342,7 +331,7 @@ static int do_trimming(struct btrfs_block_group *block_group,
 
 It's a long function, but not too complicated:
 
-- block groups are ~256MB chunk of bytes on disk that contains various
+- block groups are `~256MB` chunk of bytes on disk that contains various
   items
 - there are 3 types of block groups: `DATA` (user's bytes), `MEATADATA`
   (file system metadata) and `SYSTEM` (tiny amount of metadata that
@@ -350,10 +339,10 @@ It's a long function, but not too complicated:
 - `btrfs` tracks two ranges per block group: used range and reserved
   range.
 - `btrfs` uses
-  [btrfs\_discard\_extent()](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/extent-tree.c?h=v6.2#n1319)
+  [`btrfs_discard_extent()`](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/extent-tree.c?h=v6.2#n1319)
   to mark extent as freed.
 - `btrfs` uses
-  [\_\_btrfs\_add\_free\_space()](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/free-space-cache.c?h=v6.2#n2609) to cache free space
+  [`__btrfs_add_free_space()`](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/free-space-cache.c?h=v6.2#n2609) to cache free space
   info on disk.
 
 Let's repeat the exercise of chasing what initiates the trim to see if
@@ -374,7 +363,7 @@ $ sudo perf ftrace -a -T 'trim_no_bitmap' | head -n 10 | tail -n 1
 We hit a dead end: `worker_thread()` pulls in work items from somewhere
 and processes them. Let's find what queues those up!
 
-[btrfs\_discard\_workfn()](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/discard.c?h=v6.2#n446)
+[`btrfs_discard_workfn()`](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/discard.c?h=v6.2#n446)
 definition is also not too complicated:
 
 ```c
@@ -463,7 +452,7 @@ static void btrfs_discard_workfn(struct work_struct *work)
 
 Here worker thread expects items of `struct btrfs_discard_ctl` type to
 process. Scrolling the file around
-[btrfs\_discard\_queue\_work()](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/discard.c?h=v6.2#n324)
+[`btrfs_discard_queue_work()`](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/discard.c?h=v6.2#n324)
 seems to be most plausible candidate we are looking for:
 
 ```c
@@ -521,11 +510,11 @@ static void __btrfs_discard_schedule_work(struct btrfs_discard_ctl *discard_ctl,
 ```
 
 Note that this handler does not execute the discard requests as soon as
-possible! It has has at least one rate limiter based on
+possible! It has at least one rate limiter based on
 `discard_ctl->kbps_limit`.
 
 And there are even more rate limiters defined by
-[btrfs\_discard\_calc\_delay()](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/discard.c?h=v6.2#n545)
+[`btrfs_discard_calc_delay()`](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/discard.c?h=v6.2#n545)
 
 ```c
 void btrfs_discard_calc_delay(struct btrfs_discard_ctl *discard_ctl)
@@ -601,14 +590,14 @@ max_discard_size:       67108864
 
 I'm not sure I believe `discardable_bytes=19484499968` value. This is
 supposed to be a discard backlog queued but I'm skeptical. It never goes
-down to zero. Looks more like broken accounting. What is worse this
+down to zero. Looks more like broken accounting. Worse this
 (invalid) value is being used to calculate latency of a next request.
 
 ## Discard requests timing patterns
 
 So, it looks like 10 discards/sec are expected default on `linux-6.2`.
 Let's find the source of those discards. Looking at
-[discard.c](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/discard.c)
+[`discard.c`](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/fs/btrfs/discard.c)
 these functions looked plausible:
 
 ```
@@ -620,8 +609,8 @@ btrfs-transacti-407     [011]  42800.425053: btrfs_discard_queue_work <-__btrfs_
 btrfs-transacti-407     [011]  42800.425055: btrfs_discard_queue_work <-__btrfs_add_free_space
 ```
 
-I saw 193 entries of `btrfs_discard_queue_work` above. It took 1ms to
-enqueue all of the work into the work queue. Very quick and not too
+I saw 193 entries of `btrfs_discard_queue_work` above. It took `1ms` to
+enqueue all the work into the work queue. Very quick and not too
 large. Right after it we see actual discards being sent to the device:
 
 ```
@@ -637,9 +626,9 @@ kworker/u64:15-2396822 [000]  42830.546524: btrfs_issue_discard <-btrfs_discard_
 ```
 
 286 pairs of `btrfs_discard_workfn` / `btrfs_issue_discard`.
-Each pair takes 100ms to process, which seems to match `iops_limit=10`.
+Each pair takes `100ms` to process, which seems to match `iops_limit=10`.
 
-And 30s is also a `btrfs` commit interval where the next batch of
+And `30s` is also a `btrfs` commit interval where the next batch of
 discard work gets landed:
 
 ```
@@ -649,16 +638,16 @@ btrfs-transacti-407     [002]  42830.634228: btrfs_discard_queue_work <-__btrfs_
 ```
 
 That means I can get about 300 discards per second max. Also, given that
-discards were being sent over full span of 30s I think that work queue
+discards were being sent over full span of `30s` I think that work queue
 was not exhausted and there still was backlog in the queue.
 
-I think  `discardable_bytes` / `discardable_extents` is the backlog
+I think `discardable_bytes` / `discardable_extents` is the backlog
 metric, but I'm not sure as it never gets down to zero.
 
 ## Another workaround
 
 Now it's clear we can manipulate the pace by changing the delay between
-discards. To speed up the discard pace we can drop IO limit with:
+discards. To speed up the discard pace we can drop `IO` limit with:
 
 ```
 # echo 10000 > /sys/fs/btrfs/<UUID>/discard/iops_limit
@@ -673,7 +662,7 @@ reasonable fix or it's better to keep discards be delayed for a while.
 
 `linux-6.2` enabled automatic async discard for `btrfs` on appropriate
 SSD devices. This manifests as a constant device activity if you have
-any reasonable amount of IO on your device (even trivial super block
+any reasonable amount of `IO` on your device (even trivial super block
 commits are enough).
 
 Default async discard rate limits `linux` has today are:
