@@ -10,7 +10,7 @@ It's a blog post about text editor. You probably want to ignore it :)
 I tried `vim` again and got it to behave close enough to `mcedit`. Now I
 can use it with the following minimal `.vimrc`:
 
-```
+```vimrc
 silent! source $VIMRUNTIME/defaults.vim
 
 colorscheme darkblue
@@ -72,8 +72,7 @@ doing it.
 On windows machines I used [Total Commander](https://en.wikipedia.org/wiki/Total_Commander)
 as a shell and don't remember much about the editors I used. Bare
 `notepad` was probably a thing. Windows environment did not have many
-text files to tweak. Thus it was not important.
-
+text files to tweak. Thus, it was not important.
 The tiny amount of programming I did happened in
 [Turbo Pascal IDE](https://en.wikipedia.org/wiki/Turbo_Pascal) and in
 [Visual Studio 6.0](https://en.wikipedia.org/wiki/Visual_Studio#6.0_(1998)).
@@ -82,7 +81,7 @@ The tiny amount of programming I did happened in
 
 `Turbo Pascal` was a great IDE: it had syntax highlighting, go-to-error
 navigation, built in compile/build progress reporter, breakpoint
-debugger, intuitive compiler flag comboboxes and may other things I did
+debugger, intuitive compiler flag combo boxes and may other things I did
 not appreciate at the time. Being a `DOS`-based program it looked like a
 miracle.
 
@@ -95,16 +94,17 @@ programs. Around the same time I switched to `Linux` as my desktop.
 
 `Linux` (as you might already suspect at this point) was full of text
 files one has to tweak to adapt it to your environment. It was even more
-important in those day than nowadays. One of the books I bought of
-"Linux for dummies" kind allocated about 200 pages on the problem of
-getting Russian language (or at least charset) and fonts to work in 
-various programs: text editors, audio players, `gtk` apps, `qt` apps,
-`x11` apps, email programs, file system encodings for interoperability
+important in those day than nowadays. One of the books I bought (of
+"Linux for dummies" kind) allocated about 200 pages on the problem of
+getting Russian language (or at least character set) and fonts to work in 
+various programs. Text editors, audio players, `gtk` apps, `qt` apps,
+`x11` apps, email programs, file system encodings all had to be
+re-configured (and sometimes patched) for interoperability
 with dual-booted windows.
 
 To give you a gist of the kind of the problems one encountered: Russian
-had 3 popular 8-bit charsets at the time: `CP866` (used in `MS-DOS`),
-`CP1251` (used in windows GUI) and `KOI8-R` used in e-mail and many
+had 3 popular 8-bit character sets at the time. `CP866` was used in `MS-DOS`.
+`CP1251` aew used in windows GUI. And `KOI8-R` was used in e-mail and many
 `Linux` distributions (but not all of them!). There was also an
 `ISO-8859-5` I never saw being used in real world.
 
@@ -112,12 +112,12 @@ had 3 popular 8-bit charsets at the time: `CP866` (used in `MS-DOS`),
 
 All Russian encoding have their own strange and charming properties.
 
-[KOI8-R](https://en.wikipedia.org/wiki/KOI8-R) is the
+[`KOI8-R`](https://en.wikipedia.org/wiki/KOI8-R) is the
 fanciest of the three: it's main design is to remain readable even if
 highest bit of each byte is stripped by unforgiving email or terminal
 systems out there that assumed 7-bit ASCII.
 
-So the Cyrilliс text would be mangled into a transliterated version of
+So the Cyrillic text would be mangled into a transliterated version of
 Russian:
 
 ```
@@ -134,7 +134,7 @@ $ echo 'абвгдеёжзийклмнопрстyфxцчшщъыьэюя' | icon
 Some of the letters are missing: it's not very easy to map 33
 Cyrillic letters into 26 Latin ones. You have only one bit to flip and
 do translation consistently across upper and lower case. It's a
-marvellous hack.
+marvelous hack.
 
 To clarify: even being a native language speaker it's not easy to read
 such mangled text. But at least you can recognize most words and guess
@@ -143,16 +143,13 @@ similarities (and differences) in Cyrillic and Latin alphabets side by
 side.
 
 This way of construction means that Cyrillic letters don't go in
-alphabetic order in KOI8-R charset. They are scattered all over the
+alphabetic order in `KOI8-R` character set. They are scattered all over the
 space. This means that naive sorting based on `strcmp()` does not
 produce anything close to alphabetic sorting.
 
-[CP866](https://en.wikipedia.org/wiki/Code_page_866) and
-[CP1251](https://en.wikipedia.org/wiki/Windows-1251) are mostly safe in
-this regard.
-
-But they also have their own caveats.
-
+[`CP866`](https://en.wikipedia.org/wiki/Code_page_866) and
+[`CP1251`](https://en.wikipedia.org/wiki/Windows-1251) are mostly safe in
+this regard. But they also have their own caveats.
 For example in `CP1251` `я` letter has `0xFF` value. Many programs at
 that time had a bug of this sort:
 
@@ -181,19 +178,19 @@ the alphabet probably because it's not present in all Slavic Cyrillic
 alphabets.
 
 It took the ecosystem quite a while to adopt `strcoll()` style sorting.
-And then UTF-8 came and broke it again.
+And then `UTF-8` came and broke it again.
 
-## Back to Linux: towards mc
+## Back to Linux: towards `mc`
 
 Given the proliferation of encoding one's text editor should better
-support all these encodings. Alas, I picked one that does not. I sticked
+support all these encodings. Alas, I picked one that does not. I stuck
 to something that resembles my good old `Norton Commander` friend:
-[Midnight Commander](https://en.wikipedia.org/wiki/Midnight_Commander)
+[`Midnight Commander`](https://en.wikipedia.org/wiki/Midnight_Commander)
 
-![mc pic from wikipedia](https://upload.wikimedia.org/wikipedia/commons/2/2e/Mc-screenshot.png)
+![mc pic from wikipedia](https://upload.wikimedia.org/wikipedia/commons/6/6b/Midnight_Commander_screenshot.png)
 
-There I felt at home. Most of the key bindings were the same, functional
-keys are nicely documented right on the screen. And built in editor had
+There I felt at home. Most of the key bindings were still the same, functional
+keys were nicely documented right on the screen. And built-in editor had
 a bit of syntax highlighting! What else do you need?!
 
 My system had `LANG=ru_RU.KOI8-R` locale at the time. It did not have
@@ -203,23 +200,22 @@ other hand were off-by-two in `urxvt`. But they were working fine on
 
 `mcedit` did not support file encoding different from `LC_CTYPE` at the
 time. In rare moments of dire need I used things like
-[luit](https://en.wikipedia.org/wiki/Luit) as a cheap hack to get
-something edited. I could not get `iconv` to work right. Fun times.
+[`luit`](https://en.wikipedia.org/wiki/Luit) as a cheap hack to get
+something edited. I could not get `iconv` tool to work right. Fun times.
 
 ## First attempt as vim
 
 At some point I decided to build
-[LFS](https://en.wikipedia.org/wiki/Linux_From_Scratch) as a way to
+[`LFS`](https://en.wikipedia.org/wiki/Linux_From_Scratch) as a way to
 learn `Linux` internals.
-
 When I built it for the first time I needed an editor at an early stage
 of system preparation. I ended up trying `vim`. Maybe it was a default?
 I don't remember.
 
 I copied `.vimrc` from my previous distribution (`Alt Master 2.2`, a
-`Mandrake` sibling). Here it's full content:
+`Mandrake` sibling). Here is it's full content:
 
-```
+```vimrc
 " Begin .vimrc
 
 set nocompatible
@@ -250,11 +246,11 @@ to spot that it does this thing. I had to open files in `mcedit` later
 to find the effect.
 
 In my case the first casualty was `/etc/fstab`: it wrapped half the
-mount options to the new line and I got unbootable system. When I
-figured that it was `vim`'s deed I decided it was too dangerous to use
+mount options to the newline and I got an unbootable system. When I
+figured that it was `vim` deed I decided it was too dangerous to use
 as it silently corrupts files.
 
-On top of that I did not like black `vim`'s background: it felt void.
+On top of that I did not like black `vim` background: it felt void.
 Plus multiple editing modes confused me. I did not understand why you
 have to print `<ESC>:qa!` and sometimes just `:qa!`. I did not do a
 `vimtutor` as I did not know it existed: I did not pay much attention to
@@ -265,7 +261,7 @@ archaic tool. I though it was not supposed to be a complete editor with
 a long list of features. Ironically I thought it's something primitive
 because it started up so quickly.
 
-## First attempt at emacs
+## First attempt at `emacs`
 
 A bit later I got a day job related to `C++`. I started exploring
 IDE-like environments. I can only remember `Anjuta` and `Eclipse`. There
@@ -277,7 +273,7 @@ Around that time I got daily internet access where I found all sorts of
 things about how cool `Lisp` and `Emacs` are. I started using `Emacs`
 for most of file editing and read a few books on `Common Lisp`. I did
 not write anything sizable in `Lisp`. Best I could do is to draw an
-`OpenGL` square using `verrazano` `FFI` library for `sbcl`.
+`OpenGL` rectangle using `verrazano` `FFI` library for `sbcl`.
 
 In `C++` land I tried `ECB`, `CEDET` and `Bovinator` for parsing and
 autocompletion. The result looked suboptimal (manly because our build
@@ -291,16 +287,16 @@ I disabled heavyweight extension and used `Emacs` itself for a while.
 Writing this blog post I found that `emacsclient -nw` works just as
 expected. It seems to do what I needed back then: it starts up quickly
 as a client. Maybe I'll give `Emacs` another try as well. I'm so used to
-it's keybindings in editor mode.
+it's key bindings in editor mode.
 
-## Back to mcedit
+## Back to `mcedit`
 
-Disappointed in slow `Emacs` startup times I settled on `mcedit` and
+Disappointed in slow `Emacs` start up times I settled on `mcedit` and
 used it for most of my editing since. It looked perfect: so close to
-`nc`, trivial to extend syntax highlighting files with new keywords.
+`nc.exe`, trivial to extend syntax highlighting files with new keywords.
 Apparently I even contributed
-[haskell.syntax](https://github.com/MidnightCommander/mc/commit/16130f7caa7381663fda8f57f5b46c2b716ec17f)
-and [ebuild.syntax](https://github.com/MidnightCommander/mc/commit/e0eb9ca1cd30cda67732096528e5573a14e5a1f4).
+[`haskell.syntax`](https://github.com/MidnightCommander/mc/commit/16130f7caa7381663fda8f57f5b46c2b716ec17f)
+and [`ebuild.syntax`](https://github.com/MidnightCommander/mc/commit/e0eb9ca1cd30cda67732096528e5573a14e5a1f4).
 
 At that time a new `mc` development team was formed by Russian-speaking
 community of `mc` users to revive stalled upstream development. I joined
@@ -314,11 +310,10 @@ All the above helped me track and use new features in development in
 `mcedit`: vertical block selection (`Alt-<arrows>`), tab/space
 highlighting (`Alt-_`), file encoding selection (`Ctrl-e`), tag
 completion (`ESC-Tab`) and many other things I take for granted today.
-
 `mc` was my IDE for many years and `mcedit` helped editing all the text
 files for me. Be it blog posts like this one, `Makefile`s, `C` projects,
 `Haskell` projects, `/etc/fstab` entries. I even successfully patched
-binary filnes with it.
+binary files with it.
 
 ## Various snags
 
@@ -327,7 +322,7 @@ the complex problem space. To name a few:
 
 - `mc` is full of `terminfo` overrides (which are sometimes invalid and
   outdated) because distributions' `terminfo` databases are too old.
-  Files like [misc/mc.lib](https://github.com/MidnightCommander/mc/blob/master/misc/mc.lib)
+  Files like [`misc/mc.lib`](https://github.com/MidnightCommander/mc/blob/master/misc/mc.lib)
   ought to be empty in a perfect system.
 - `mc` has to interface with underlying shell (that you can access over
   `Ctrl-O`) by sending shell text commands like `cd $dir` when you move
@@ -344,7 +339,7 @@ the complex problem space. To name a few:
   of it. `mc` is primarily a file manager that happens to have an
   editor. `mcedit` does not have that many contributors and lacks an
   easy way to extend it. Things like `tags` completion or `aspell`
-  support are implemented directly in C code. There is no easy way to
+  support are implemented directly in `C` code. There is no easy way to
   hack up a simple equivalent.
 
 These are not major issues to get something basic to work. My use of
@@ -354,12 +349,11 @@ Recently I went through the problems of [AoC 2015](https://adventofcode.com/2015
 just to practice in `rust` a bit more. I encountered a simple `json`
 parsing problem (`2015/12`). It's
 [input](https://raw.githubusercontent.com/trofi/AoC/main/2015/12/input)
-is a single line of `json` text. The line was 37K long. Tiny by today's
+is a single line of `json` text. The line was `37K` long. Tiny by today's
 standards.
 
 I selected the line in the browser and pressed `Shift+Insert` in
 `mcedit` window to paste it.
-
 Guess how long it took to insert the text into an otherwise empty
 freshly opened file. 1 second? 10 seconds? 1 year? What would you
 expect from your editor?
@@ -367,14 +361,13 @@ expect from your editor?
 Got the guesstimate?
 
 It took 40 seconds. What is worse: while pasting is in progress UI shows
-you interactively the speed of text insertion (good): first 10K get
-inserted within 2-3 second, next 10K take about 10 more seconds maybe,
-and next 10K takes 25 This is quadratic behaviour right there (bad).
+you interactively the speed of text insertion (good). First `10K` got
+inserted within 2-3 second, next `10K` took about 10 more seconds maybe,
+and next 10K takes 25. This is quadratic behavior right there (bad).
 
 I thought it's a minor bug. I knew `mc` does somewhat complex
-arithmetics on multi-byte strings when moves around characters in them.
+arithmetic on multi-byte strings when moves around characters in them.
 But it's not supposed to get that much worse.
-
 I filed a [bug](https://midnight-commander.org/ticket/4421) with the
 `perf` dump below to quickly highlight problematic bit:
 
@@ -400,7 +393,7 @@ specific use case and found none. Anything I tried was able to do it in
 fast.
 
 Unrelated to the above roughly around that time I planned to share one
-of my blog posts to wider audience. I knew my text was always full of
+of my blog posts to wider audience. I knew my text is always full of
 typos and I wanted an easy interactive tool to highlight trivial typos
 I did. I ran a few tools on my post and they all highlighted typos in
 slightly different places: some looked at the code comment, some didn't,
@@ -444,12 +437,10 @@ newlines and disabled it as a first thing.
 
 Then I looked around for a cozy background that `mcedit` and `nc` both
 had. `colorscheme darkblue` did the trick.
-
-I grew so fond of `mcedit`'s style of highlighting `<TAB>`s and trailing
-white space that I felt I absolutely needed an equivalent. Otherwise I
+I grew so fond of `mcedit` style of highlighting `<TAB>` and trailing
+white space that I felt I absolutely needed an equivalent. Otherwise, I
 would corrupt `Makefile`s all the time by expanding `<TAB>`s to spaces.
 Or the other way around. Who knows!
-
 White space highlighting was easy to do with `listchars`:
 
 ```
@@ -477,7 +468,7 @@ something mostly reasonable.
 
 Last minor thing that kept confusing me was indistinguishable command
 prompt area. It was hard to tell if it's a command or the rest of edited
-document. Thus I added a few explicit visual delimiters with:
+document. Thus, I added a few explicit visual delimiters with:
 
 ```
 " always render tabs even if a single file is open
@@ -488,7 +479,7 @@ set laststatus=2
 ```
 
 To avoid inserting garbage when I use `Ctrl-<arrows>` out of old `Emacs`
-/ `mcedit` habit I added a hack to recognise these keys in `tmux`:
+/ `mcedit` habit I added a hack to recognize these keys in `tmux`:
 
 ```
 " vim enables xterm-style Ctrl-<arrows> keys based on $TERM variable
@@ -500,12 +491,11 @@ set term=xterm-256color
 And that was it! I got good enough `vim` config as an `mcedit`
 replacement. To clarity: they are absolutely not a drop-in replacement
 at this point. They are now both comfortable enough for me to use.
-
 I went through the `vimtutor` again, wrote a reasonably sized
-[nix-olde](https://github.com/trofi/nix-olde/) program and got a
+[`nix-olde`](https://github.com/trofi/nix-olde/) program and got a
 pleasant experience.
 
-Along the way I found a few more advanced substitutes for `mcedit`'s
+Along the way I found a few more advanced substitutes for `mcedit`
 features:
 
 - vertical block selectors are done via `Ctrl-v`
@@ -533,7 +523,7 @@ command. Now I'm actually enjoying writing emails. It's not a pain
 anymore to paste large chunks of code with proper indentation or getting
 through the spelling mistakes.
 
-I also added [vimium](https://github.com/philc/vimium) extension in
+I also added [`vimium`](https://github.com/philc/vimium) extension in
 `Firefox` to get nicer URL selection and input text navigation.
 
 Maybe `vim` will stick this time.
