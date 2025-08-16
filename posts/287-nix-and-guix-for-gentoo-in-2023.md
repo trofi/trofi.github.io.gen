@@ -4,7 +4,7 @@ date: May 19, 2023
 ---
 
 Another year has passed since I shared anything related to
-[::nix-guix](https://github.com/trofi/nix-guix-gentoo/) Gentoo overlay.
+[`::nix-guix`](https://github.com/trofi/nix-guix-gentoo/) Gentoo overlay.
 
 As usual the overlay still ships latest `nix-2.15.0` and `guix-1.4.0`
 packages.
@@ -25,7 +25,7 @@ of running something like:
 # emerge --sync
 ```
 
-Otherwise you are risking using stale overlay mirrored by Gentoo
+Otherwise, you are risking using stale overlay mirrored by Gentoo
 infrastructure at <https://github.com/gentoo-mirror/nix-guix>. It has
 a few build problems like missing `gcc-13` fixes. They typical symptom
 of using stale overlay is `rapidcheck`
@@ -141,7 +141,7 @@ strives to generate output binary-compatible with `gcc` output.
 So far none of the above is implemented in Gentoo.
 <https://bugs.gentoo.org/899582> tracks the problem.
 
-Thus to make `nix` work I had to work around in statically built
+Thus, to make `nix` work I had to work around in statically built
 `busybox` instance used by `nix-daemon` for initial build environments.
 
 I took the path of supplying (unusable) stubs for missing symbols as:
@@ -175,7 +175,7 @@ symbols thus it should be a safe hack.
 
 That fixed `nix` build on `clang`-based profiles.
 
-### guix and llvm-strip
+### `guix` and `llvm-strip`
 
 Having set up `clang`-based Gentoo chroot to explore the problem above
 I ran the test for all the `::nix-guix` packages. And sure enough `guix`
