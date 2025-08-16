@@ -5,7 +5,7 @@ date: June 18, 2023
 
 A few months ago I finally got optical internet connection with native
 `IPv6` . This prompted me to slightly reconfigure my devices: I
-abandoned [HE.net's tunnel](https://tunnelbroker.net/) as my `IPv6`
+abandoned [`HE.net` tunnel](https://tunnelbroker.net/) as my `IPv6`
 outlet.
 
 I explored my DNS hardening as well. At first I flipped
@@ -61,14 +61,14 @@ did not want to resolve or forward the requests upstream.
 On top of that `systemd-resolved` did not keep a `TCP` connection to
 `DoT` servers. As a result each (even successful) resolve
 takes a while due to a 3-way `TCP` (and `TLS`?) handshake. This adds
-about 10ms to each uncached query.
+about `10ms` to each (uncached) query.
 
-I wanted a bit more flexibility where my `DNS` requests go. Thus I
+I wanted a bit more flexibility where my `DNS` requests go. Thus, I
 switched over to a familiar `unbound` package. `unbound` does keep `TCP`
 connections to `DoT` servers (which makes even uncached `DNS` requests
-under 10ms). Debugging story is also more straightforward: specifying
+under `10ms`). Debugging story is also more straightforward: specifying
 `verbosity: ...` parameter in the config is enough to see what is being
-resolved and how forwards happen.
+resolved and how the forwards happen.
 
 On `NixOS` the naive switch to `unbound` is a few lines of service
 setup:
@@ -161,7 +161,7 @@ things to note:
   need to tweak your local zones a bit more if you want to prevent
   leaking our resolution requests related to machines in you network
 
-- all your non-local requests to to a single entity: you might now want
+- all your non-local requests go to a single entity: you might now want
   to send all your DNS queries to a single public `DNS` server for
   privacy reasons
 
@@ -176,8 +176,8 @@ When picking among `DoT` public servers I was choosing between:
 - `Google`: `8.8.8.8` and similar
 - `Quad9` `9.9.9.9` and similar
 
-These are all for-profit companies. Your priorities might prompt you to
-evaluate other `DoT`-capable servers.
+These are all for-profit companies. You might want to evaluate other
+`DoT`-capable servers.
 
 Anyway. Of the above somehow `Cloudflare` latency is consistently 2x-3x
 slower for initial `DoT` setup than the other two:
@@ -203,9 +203,9 @@ kernel.org.             289     IN      A       139.178.84.217
 ```
 
 Maybe `Cloudflare` does not have a close enough `TLS` termination near
-me? `mtr -4 -T -P 853` says that both `1.1.1.1` and `8.8.8.8` are 4.5ms
-away from me, while `9.9.9.9` is 9ms away from me. Non-TLS queries are
-as performant `mtr`-reported values:
+me? `mtr -4 -T -P 853` says that both `1.1.1.1` and `8.8.8.8` are `4.5ms`
+away from me, while `9.9.9.9` is `9ms` away from me. Non-TLS queries are
+as performant as `mtr`-reported values:
 
 ```
 $ dig @1.1.1.1 kernel.org
@@ -234,15 +234,15 @@ I settled on `dns.google` (`8.8.8.8` and backups).
 
 ## Parting words
 
-`systemd-resolved` needs a bit of handholding to make reverse resolves
+`systemd-resolved` needs a bit of hand holding to make reverse resolves
 to work quickly. `unbound` is a bit easier to get up and running.
 
-`DoT`'s latency tax is around 2-3x as it needs more RTTs supposedly for
+`DoT` latency tax is around 2-3x as it needs more `RTTs` supposedly for
 `TLS`-related machinery. If your resolver is close enough it's not too
 bad.
 
 In theory `DNS-over-QUIC` could shrink latency further down to levels of
-unencrypted `DNS`. One `DoQ` gains more popularity and it's support
+unencrypted `DNS`. Once `DoQ` gains more popularity and it's support
 gets added to `unbound`: <https://github.com/NLnetLabs/unbound/issues/743>.
 
 Have fun!
