@@ -3,23 +3,23 @@ title: "Zero Hydra Failures towards 23.05 NixOS release"
 date: May 10, 2023
 ---
 
-## ZHF
+## `ZHF`
 
 By the end of May `NixOS-23.05` will be released. Current development
 phase is called Zero Hydra Failures: at this time the main focus is to
 fix as many build failures in `nixpkgs/master` repository as possible.
 
-[Issue #230712](https://github.com/NixOS/nixpkgs/issues/230712) tracks
+[`Issue#230712`](https://github.com/NixOS/nixpkgs/issues/230712) tracks
 the effort. It has hints on how to locate all known build failures.
 So far there is a few thousands build failures in `nixpkgs/master`.
 
 `ZHF` is a great time to contribute to `nixpkgs`! Let's pick a failed
 package and try to fix it.
 
-## libfsm example
+## `libfsm` example
 
-[trunk jobset](https://hydra.nixos.org/jobset/nixpkgs/trunk) shows us
-about ~2500 build failures. I'll pick a obscure `libfsm`
+[`trunk jobset`](https://hydra.nixos.org/jobset/nixpkgs/trunk) shows us
+about ~2500 build failures. I'll pick an obscure `libfsm`
 [failure](https://hydra.nixos.org/log/1d8dcs7b47ibrn183yn0k7sj8ghiwich-libfsm-0.1pre2442_9c5095f7.drv)
 and will try to fix it. Full build log is reasonably short:
 
@@ -55,8 +55,8 @@ bmake: Fatal errors encountered -- cannot continue
 bmake: stopped in /build/source
 ```
 
-It's not a big build log. And yet i'm completely clueless what goes
-wrong. [build tab](https://hydra.nixos.org/build/219125675) tells us
+It's not a big build log. And yet I'm completely clueless what goes
+wrong. [Build tab](https://hydra.nixos.org/build/219125675) tells us
 that last successful build of `libfsm` was around `2023-01-14 21:00:15`
 on `3a29a0b2aa4aad61d8a80969cc8c386ad548c44c` `nixpkgs` input.
 
@@ -74,15 +74,15 @@ Date:   Sat Jan 28 23:02:19 2023 -0300
  1 file changed, 4 insertions(+), 4 deletions(-)
 ```
 
-Tracing [commit f799d93](https://github.com/NixOS/nixpkgs/commit/f799d93ac179f8dd7b06d867d129fc6e7498c4fd)
-back to a PR shows us [PR #213276](https://github.com/NixOS/nixpkgs/pull/213276) in
+Tracing [`commit f799d93`](https://github.com/NixOS/nixpkgs/commit/f799d93ac179f8dd7b06d867d129fc6e7498c4fd)
+back to a `PR` shows us [`PR#213276`](https://github.com/NixOS/nixpkgs/pull/213276) in
 the web UI. There are no comments about `libfsm` breakage.
 
 Looks like `bmake` changed `Makefile` rule handling and broke something.
 
-[bmake home page](https://www.crufty.net/help/sjg/bmake.html) has no
+[`bmake` home page](https://www.crufty.net/help/sjg/bmake.html) has no
 changelog and suggests using version control system directly to look for
-changes. Let's run a shortlog:
+changes. Let's run `git shortlog`:
 
 ```
 $ cd ~/dev/git/NetBSD/src
@@ -128,7 +128,7 @@ sjg (5):
       make: some variables should be read-only
 ```
 
-It look slike the only change that could affect `bmake` behaviour is
+It looks like the only change that could affect `bmake` behavior is
 something around read-only variables. Before investigating more let's
 try to update `bmake` first:
 
@@ -151,7 +151,7 @@ try to update `bmake` first:
    # Make tests work with musl
 ```
 
-I proposed `bmake` upate as [PR #231027](https://github.com/NixOS/nixpkgs/pull/231027).
+I proposed `bmake` update as [`PR#231027`](https://github.com/NixOS/nixpkgs/pull/231027).
 Is it enough to fix `libfsm`? Trying to build:
 
 ```
@@ -204,16 +204,16 @@ libfsm> *** [install] Error code 1
 Still fails. But at least the failure looks different enough from initial
 problem. Phis looks more like a missing expected file. It's a parallel
 install failure. Disabling that I got a working package with
-[PR #231029](https://github.com/NixOS/nixpkgs/pull/231029).
+[`PR#231029`](https://github.com/NixOS/nixpkgs/pull/231029).
 
 During the review (by running `nix-review pr 231029`) I found a similar
 failure in `kgt`. It is known upstream as
-[Issue #62](https://github.com/katef/kgt/issues/62). Fixing it is left
+[`Issue#62`](https://github.com/katef/kgt/issues/62). Fixing it is left
 as an exercise for the reader.
 
 ## Parting words
 
-We squashed at least one ZHF problem and as a bonus updated one related
+We squashed at least one `ZHF` problem and as a bonus updated one related
 package. Many build fixes are trivial. If you are wondering if you
 should try or not give it a go!
 
