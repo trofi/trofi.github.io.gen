@@ -12,11 +12,11 @@ But that's not the topic of this post. I kept using weekly `gcc`
 snapshots of `master` branch for my desktop.
 
 Since [October 2022](/posts/262-a-few-more-gcc-13-bugs.html) I
-encountered a few new bugs. Let's have a look at some of them.
+encountered a few new bugs. Let's look at some of them.
 
-### gori ICE
+### `gori` `ICE`
 
-[tree-optimization/109274](https://gcc.gnu.org/PR109274): `gcc` `ICE`d
+[`tree-optimization/109274`](https://gcc.gnu.org/PR109274): `gcc` `ICE`
 on `afdko`.
 
 Minimal `afdko` crash:
@@ -71,7 +71,7 @@ absfont_path.c.c:21:1: internal compiler error: Segmentation fault
 ```
 
 This is a crash in value range propagation subsystem. It's expected to
-derive various properties from comparisons and arithmetics. For example
+derive various properties from comparisons and arithmetic. For example,
 `*p2 == *p2` is probably always true as long as you can prove that `*p2`
 is not a `NaN`. Unfortunately `gcc` did not consider specifics of `NaN`
 in some places and managed to `SIGSEGV` itself.
@@ -79,10 +79,10 @@ in some places and managed to `SIGSEGV` itself.
 Andrew explained the failure in more detail in
 [this comment](https://gcc.gnu.org/PR109274#c12).
 
-## Miscompilation of byte swapping
+## Wrong code on byte swapping
 
-[tree-optimization/108064](https://gcc.gnu.org/PR108064): `gcc`
-miscompiled `apache-arrow-cpp`.
+[`tree-optimization/108064`](https://gcc.gnu.org/PR108064): `gcc`
+wrong code on `apache-arrow-cpp`.
 
 Minimal reproducer:
 
@@ -134,10 +134,10 @@ something else.
 It took me a while to extract it from `apache-arrow` test suite but I'm
 glad I spent a bit of time on it. Note how I had to use `alignas(16)`
 hints to make sure runtime address of arrays has a nice 16-byte aligned
-boundary. Otherwise bug does not happen consistently. It's a good hint
+boundary. Otherwise, bug does not happen consistently. It's a good hint
 that vectorization is involved here.
 
-If you have some familiarity in the `x86_64` assembler this snippet
+If you have some familiarity with the `x86_64` assembler this snippet
 shows mechanics of the bug:
 
 ```asm
@@ -169,7 +169,7 @@ is trivial: use logical shift vectorization templates of this kind.
 
 ## initializer list failure
 
-[c++/108071](https://gcc.gnu.org/PR108071): `gcc` failed to build 
+[`c++/108071`](https://gcc.gnu.org/PR108071): `gcc` failed to build 
 `clang`.
 
 Minimal reproducer:
@@ -221,13 +221,13 @@ It's a `c++` frontend bug in handling of initializer lists. I don't
 pretend to understand [the fix](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=4ef521bbc63f8a3883d507a8b6c1f95f442df3fe).
 Looks like a kind of implicit conversion handling was missing there.
 
-## More -Wdangling-reference false positives
+## More `-Wdangling-reference` false positives
 
-[c++/107488](https://gcc.gnu.org/PR107488): `cppunit` exposed a false
+[`c++/107488`](https://gcc.gnu.org/PR107488): `cppunit` exposed a false
 positive in recently added `gcc` warning.
 
-I [saw before](/posts/264-gcc-s-new-Wdangling-reference-warning.html) a
-few other examples of false positives in this area. Here is another one:
+A while before I [saw](/posts/264-gcc-s-new-Wdangling-reference-warning.html) a
+a few other examples of false positives in this area. Here is another one:
 
 ```c++
 #include <vector>
@@ -266,12 +266,12 @@ It's a reasonable code without a chance to leak something unexpected.
 [The fix](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=32a06ce38a38bf37db468f0e6c83520fcc221534)
 special-cased `operator*()` as not creating short-lived temporaries.
 
-[c++/109514](https://gcc.gnu.org/PR109514) was a similar case in
+[`c++/109514`](https://gcc.gnu.org/PR109514) was a similar case in
 `fheroes2` codebase.
 
-## -fanalyzer crash on bind() function
+## `-fanalyzer` crash on `bind()` function
 
-[analyzer/107783](https://gcc.gnu.org/PR107783): `gnutls` triggered
+[`analyzer/107783`](https://gcc.gnu.org/PR107783): `gnutls` triggered
 `ICE` in `-fanalyzer` mode.
 
 This time the reproducer is tiny:
@@ -297,9 +297,9 @@ oerlsfmf.c:4:10: internal compiler error: in deref_rvalue, at analyzer/region-mo
 corrected type annotation for `bind()` in analyzer's model of functions
 working with file descriptors.
 
-## ICE in implicit type conversions
+## `ICE` in implicit type conversions
 
-[c++/108047](https://gcc.gnu.org/PR108047): `arrow-cpp` triggered `gcc`
+[`c++/108047`](https://gcc.gnu.org/PR108047): `arrow-cpp` triggered `gcc`
 `ICE`.
 
 Small reproducer:
@@ -337,9 +337,9 @@ initializer lists and templates :)
 
 This was a popular failure. `nix` also `ICE`d `gcc` the same way.
 
-## float vectors and implicit conversions
+## `float` vectors and implicit conversions
 
-[c++/107358](https://gcc.gnu.org/PR107358): `gcc` failed to compile
+`[c++/107358`](https://gcc.gnu.org/PR107358): `gcc` failed to compile
 `libjxl`.
 
 Minimized example:
@@ -375,11 +375,11 @@ Even though all the arguments are of `float` type `gcc` pulled out
 `double` conversion and failed.
 
 [The fix](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=65e3274e363cb2c6bfe6b5e648916eb7696f7e2f)
-added expected precision to the typechecker frontend.
+added expected precision to the type checker frontend.
 
 ## implicit construction on assignment
 
-[c++/109247](https://gcc.gnu.org/PR109307): `gcc` failed to compile
+[`c++/109247`](https://gcc.gnu.org/PR109307): `gcc` failed to compile
 `webkitgtk`.
 
 Minimal example:
@@ -454,9 +454,9 @@ The fix should look like:
  }
 ```
 
-## ICE in ipa clone
+## `ICE` in `ipa-clone`
 
-[ipa/108110](https://gcc.gnu.org/PR108110): `gcc` `ICE`d on `minetest`
+[`ipa/108110`](https://gcc.gnu.org/PR108110): `gcc` `ICE`d on `minetest`
 code.
 
 The minimal example I came up with was:
@@ -542,7 +542,7 @@ failures. That is almost 2 weeks of lag from introduction to report.
 It's not ideal for everyone: devs might have moved on to another problem
 and brave users started encountering the bug in the wild.
 
-To think of it I found handling snapshots a bit clunky to manage
+To think of it, I found handling snapshots a bit clunky to manage
 short-lived backports locally until next snapshot is cut. It's the very
 same reason I never published snapshots as distribution packages myself
 for other users: they are always slightly stale. Using `git` branches
@@ -576,7 +576,7 @@ is:
 - `ipa`: 1
 
 As I don't get exposed to exotic arches nowadays it's natural I don't
-see many bugs in their backends either. Thus `c++` frontend is by far
+see many bugs in their backends either. Thus, `c++` frontend is by far
 the most frequent to cause issues. And it certainly feels that way. That
 is a good indicator that `C++` as a language still evolves substantially.
 
