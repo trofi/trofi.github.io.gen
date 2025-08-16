@@ -4,7 +4,7 @@ date: July 12, 2023
 root: "http://trofi.github.io"
 ---
 
-Around beginning og the May `gcc-14` development got opened for major
+Around beginning of the May `gcc-14` development got opened for major
 changes to be merged into `master` branch. 2 months have passed since
 and I collected a "round" number of bugs: 16. Today is also a day when I
 managed to build my whole system by `gcc-master` without encountering
@@ -12,41 +12,38 @@ any obvious bugs.
 
 ## Summary
 
-Here is the full list of bugs I encountered in chronological order
-:
+Here is the full list of bugs I encountered in chronological order:
 
-- [ipa/109643](https://gcc.gnu.org/PR109643): `ICE` on `pkg-config`
-- [ipa/109652](https://gcc.gnu.org/PR109652): `ICE` on `valgrind`
-- [tree-optimization/109732](https://gcc.gnu.org/PR109732): wrong code
-  on `json` testsuite.
-- [c++/109755](https://gcc.gnu.org/PR109755): imprecise warning location.
-- [tree-optimization/110067](https://gcc.gnu.org/PR110067): wrong code
+- [`ipa/109643`](https://gcc.gnu.org/PR109643): `ICE` on `pkg-config`
+- [`ipa/109652`](https://gcc.gnu.org/PR109652): `ICE` on `valgrind`
+- [`tree-optimization/109732`](https://gcc.gnu.org/PR109732): wrong code
+  on `json` test suite.
+- [`c++/109755`](https://gcc.gnu.org/PR109755): imprecise warning location.
+- [`tree-optimization/110067`](https://gcc.gnu.org/PR110067): wrong code
   on `pixman` test suite.
-- [middle-end/110228](https://gcc.gnu.org/PR110228): wrong code on
+- [`middle-end/110228`](https://gcc.gnu.org/PR110228): wrong code on
   `llvm` JIT test suite.
-- [tree-optimization/110271](https://gcc.gnu.org/PR110271): `ICE` on
+- [`tree-optimization/110271`](https://gcc.gnu.org/PR110271): `ICE` on
   `pycryptodome`
-- [target/110274](https://gcc.gnu.org/PR110274): wrong code on `highway`
+- [`target/110274`](https://gcc.gnu.org/PR110274): wrong code on `highway`
   test suite.
-- [debug/110308](https://gcc.gnu.org/PR110308): `ICE` on `audiofile`.
-- [tree-optimization/110332](https://gcc.gnu.org/PR110332): `ICE` on
+- [`debug/110308`](https://gcc.gnu.org/PR110308): `ICE` on `audiofile`.
+- [`tree-optimization/110332`](https://gcc.gnu.org/PR110332): `ICE` on
   `llvm`.
-- [middle-end/110443](https://gcc.gnu.org/PR110443): `ICE` on `a52dec`.
-- [middle-end/110515](https://gcc.gnu.org/PR110515): wrong code on
+- [`middle-end/110443`](https://gcc.gnu.org/PR110443): `ICE` on `a52dec`.
+- [`middle-end/110515`](https://gcc.gnu.org/PR110515): wrong code on
   `llvm` `DWARF` test suite.
-- [c++/110523](https://gcc.gnu.org/PR110523): `ICE` on `json`.
-- [c++/110580](https://gcc.gnu.org/PR110580): rejects valid on `nix`
+- [`c++/110523`](https://gcc.gnu.org/PR110523): `ICE` on `json`.
+- [`c++/110580`](https://gcc.gnu.org/PR110580): rejects valid on `nix`
   code.
-- [c++/110598](https://gcc.gnu.org/PR110598): wrong code for `llvm`
+- [`c++/110598`](https://gcc.gnu.org/PR110598): wrong code for `llvm`
   `AMDGCN` test suite.
-- [tree-optimization/110601](https://gcc.gnu.org/PR110601): `ICE` on
+- [`tree-optimization/110601`](https://gcc.gnu.org/PR110601): `ICE` on
   `systemd`.
 
-Let's look at a few histograms.
+Let's look at a few histograms. Looking at the manifestation of the bug:
 
-Looking at the manifestation of the bug:
-
-- `ICE`s: 8
+- `ICE`: 8
 - `wrong-code`: 6
 - `other`: 2
 
