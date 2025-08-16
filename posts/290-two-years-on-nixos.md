@@ -14,10 +14,10 @@ I did not have any problems related to package build failures for any
 amount of time on `nixos-unstable`. Probably because I did a bit of
 testing when changes were in `staging`.
 
-I had to deal with a few fallouts around configuration changes related
+I had to deal with fallout around configuration changes related
 to upgrades:
 
-- `fontconfig` font hinting default changed: </posts/283-fontconfig-on-160-DPI.html>.
+- `fontconfig` font hinting default [changed](/posts/283-fontconfig-on-160-DPI.html).
   I had to set explicit defaults to restore font rendering.
 - `pipewire` configuration layout changed and I had to slightly adapt
   my non-standard socket overrides: <https://github.com/NixOS/nixpkgs/pull/220332#issuecomment-1480119470>
@@ -29,8 +29,8 @@ last year's but still manageable.
 ## Community support
 
 `NixOS` community remains to be a friendly place that welcomes
-newcomers, experiments and day-to-day maintenance work. I have not seen
-instances of large conflicts or abusive behaviours towards anyone.
+newcomers, experiments, and day-to-day maintenance work. I have not seen
+instances of large conflicts or abusive behaviors towards anyone.
 
 I had a few chances to interact with wider community by attempting
 larger-scale `nixpkgs` changes: I succeeded on one change and failed on
@@ -62,8 +62,8 @@ more on personal and select `nixpkgs` projects.
 
 ## Maintenance model
 
-I think `nixpkgs` maintenance model still holds today. There are `RFC`s
-like [RFC127](https://github.com/NixOS/rfcs/pull/127) to label
+I think `nixpkgs` maintenance model still holds today. There are `RFC`
+like [`RFC 127`](https://github.com/NixOS/rfcs/pull/127) to label
 problematic packages in a more fine-grained form than just
 `ok`/`broken`. Most updates are still done by a
 [robot](https://github.com/NixOS/nixpkgs/graphs/contributors)
@@ -84,7 +84,7 @@ faster at the expense of local kernel build.
 
 Fun fact: when I had a [cooling failure](/posts/280-cooling-failure.html)
 on my main desktop system I switched to home server as my main machine.
-It took a few config lines to turn a headless machine to wayland desktop
+It took a few config lines to turn a headless machine to `wayland` desktop
 (and then back a week later when repair finished). As it's an old
 machine I noticed how some builds are slower than they ought to be. This
 prompted me to work on
@@ -93,18 +93,18 @@ prompted me to work on
 ## Local experiments
 
 I switched my machine configurations to
-[flake](https://nixos.wiki/wiki/Flakes)-based configuration to have
+[`flake`](https://nixos.wiki/wiki/Flakes)-based configuration to have
 configuration update history in a single `/etc/nixos` `git` repository.
 
-While at it I also switched my desktop from `nixos-unstable` channel
+While at it, I also switched my desktop from `nixos-unstable` channel
 directly to `master` branch to get latest kernels and `firefox` as soon
 as they are available. This means a bit of local compiling from time to
 time.
 
 I switched from `i3+x11` to `wayland+sway` as my main desktop window
 manager. This exposed minor bugs in
-[waypipe](/posts/265-waypipe-fixes.html) and even
-[wine](/posts/268-fixing-wine-wayland-on-polaris.html)!
+[`waypipe`](/posts/265-waypipe-fixes.html) and even
+[`wine`](/posts/268-fixing-wine-wayland-on-polaris.html)!
 
 ## Parting words
 
