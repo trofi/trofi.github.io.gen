@@ -29,11 +29,10 @@ systems. The typical source of duplicates would be a
 `/usr/lib/locale/locale-archive` file. Today it contains `~200MB` worth
 of locales on systems with complete set of locales. Another source is
 huge dumps of translation files in `/usr/share/locale`.
-
 As I used `btrfs` I ran `duperemove` time to time on a `/chroot`
 directory to claw back a bit of storage eaten by these duplicates. I had
 a spinning disk at the time and I was amazed by the speed that
-`duperemove` took to do it's magic.
+`duperemove` took to do its magic.
 
 ## more recent usage attempt
 
@@ -85,7 +84,6 @@ Total files scanned:  10636
 Here `duperemove` managed to deduplicate `70%` (`253MB` out of `357MB`
 considered) in the extent pass comparison. And the extracted extra `2MB`
 of duplicates when considered `4KB` blocks within different extents.
-
 I decided to try `duperemove` on the whole of my `/nix/store` directory.
 I ran `duperemove-0.11` and got failures related to exhausted file
 descriptors: `duperemove` ran with `32x` parallelism and was able to hit
@@ -96,16 +94,13 @@ I think it worked as fast as before.
 But a while after I ran `duperemove-0.13` against `/nix/store`. 2 hours
 later I found that it did not finish and ate `100%` of the CPU. That was
 unexpected.
-
 I was not sure if it was a particular file that was causing trouble or
 the sheer load on `duperemove` that made it degrade so much under the
 load.
-
 I attempted to run `duperemove` in incremental mode and found out that
-it rescans all the files on the database on each run effectively making
+it re-scans all the files on the database on each run effectively making
 the incremental mode quadratic. I filed [a bug](https://github.com/markfasheh/duperemove/issues/303)
 to see if it could be fixed.
-
 Jack implemented incremental mode the same day! I tried it and saw an
 improvement. But the result was still too slow to run on the whole of
 `/nix/store` within a day. I could not easily pinpoint the problem of
@@ -113,21 +108,19 @@ improvement. But the result was still too slow to run on the whole of
 
 ## `duperemove` complexity intuition
 
-What are the `duperemove`'s scaling limits? I had about `4 million`
+What are the `duperemove` scaling limits? I had about `4 million`
 files taking `300GB` of storage in `/nix/store` on `NVMe` device.
 
-Quick quiz: How long should it take to dedupe that data you would say? A
+**Quick quiz**: How long should it take to dedupe that data you would say? A
 minute, an hour, a day?
 
 In theory all it takes to do is to read all the data out, checksum it
 and attempt the deduplication on identified candidates. Should be an
-IO-bound problem without too many random reads.
-
+`I/O`-bound problem without too many random reads.
 Given that `duperemove` has an optional `sqlite` database to persist
 details about previous runs it even skips data read of the files it
 already processed.
-
-If we have a reasonable fast IO storage capable of 1GB/s of sequential
+If we have a reasonable fast `I/O` storage capable of `1GB/s` of sequential
 read throughput then it should ideally take about `300GB / 1GB/s = ~5
 minutes`. And on top of that there should be some minor overhead to
 calculate checksums and store some state in `sqlite` database. That was
@@ -141,12 +134,11 @@ hours on my machine.
 I ran `perf top` and noticed that `duperemove` showed unusual reading on
 various stages of a run: at one point most of the time was spent in
 `sqlite` internals, at another one some `rb_next()` function took most
-of the time. I did not expect such things in an IO-mostly workload.
+of the time. I did not expect such things in an `I/O`-mostly workload.
+As it was not very convenient to experiment with `duperemove`
+behavior on real data I tried to throw synthetic workloads at it.
 
-As it was not very convenient to experiment with `duperemove`'s
-behaviour on real data I tried to throw synthetic workloads at it.
-
-I started simple: created `100 thousands` files of `1KB` size and ran
+I started simple: created `100K` files of `1KB` size and ran
 `duperemove` at it:
 
 ```bash
@@ -176,7 +168,6 @@ sys     0m8,922s
 
 Almost `40 seconds` of real time and almost `2 minutes` of user time
 (`duperemove` runs some actions in parallel) to process `100MB` of data.
-
 But what did `duperemove` do all that time? Let's ask `perf`:
 
 ```
@@ -245,9 +236,8 @@ That was a lot better: almost `3x` speed up just for removing a single
 redundant `memset()`. It's a safe change as `duperemove` guarantees that
 it initializes the area with data from the file before calculating the
 hash.
-
 Now `sqlite` is at the top of our profile. Looks like the rest of `80%`
-samples goes to IO wait time.
+samples goes to `I/O` wait time.
 
 ## needless work on small files
 
@@ -269,7 +259,6 @@ Dedupe for file "dd/20/453" had status (1) "data changed".
 
 Why does `duperemove` think data has changed? Those are static files
 I just created for test.
-
 The answer was surprising:
 
 - [good] `duperemove` skips inline extents in files as file systems can't
@@ -313,7 +302,6 @@ as well:
 
 A few lines above `duperemove` calculates count of non-inline extents
 with data in `nb_hash` variable. If it's zero then checksum is zero.
-
 The fix as is speeds the scan quite a bit:
 
 ```
@@ -371,7 +359,6 @@ All done?
 When I skimmed through existing bugs on `duperemove` bug tracker I
 noticed that `duperemove` only deduplicates extents of identical size
 and does not try to look into individual blocks for performance reason.
-
 That sounded a bit strange to me as break up of a file on extents is
 quite arbitrary at least on `btrfs`. You can easily have one extent for
 a huge file or a ton of really small ones.
@@ -476,18 +463,16 @@ QUERY PLAN
    `--SEARCH e USING COVERING INDEX idx_extent_digest (digest=?)
 ```
 
-The first plan is more complicated. One of it's problems is the use of
+The first plan is more complicated. One of its problems is the use of
 `SCAN` (full table scan) in `CO-ROUTINE nondupe_extents`. As I understand
 the output here full `extents` table scan is performed at least once for
 this whole query.
-
 Reading the second plan is easy: all searches use existing indexes in
 the tables. We fetch all extents for the `inode` and then leave only
 those that match a subquery. Subquery also uses only index lookup.
 
 Now the whole non-incremental `duperemove` run on my `300GB` dataset
 takes 9 minutes. And in incremental mode it takes about 4 minutes.
-
 Yay!
 
 ## Parting words
