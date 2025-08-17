@@ -11,17 +11,15 @@ I broke it at least three times:
 - [fix deleted `required pam_lastlog` module](https://github.com/NixOS/nixpkgs/pull/281182)
 - [fix broken empty password handling](https://github.com/NixOS/nixpkgs/pull/298994)
 
-It's not great. But at least each breakage is slightly different.
+It's not great. But at least each bug is slightly different.
 Exploring it gives me some insight into how `libpam` works.
-
-Let's have a look at the most recent breakage related to empty passwords.
+Let's look at the most recent breakage related to empty passwords.
 
 ## actual password handling bug
 
 In [`nixpkgs` issue#297920](https://github.com/NixOS/nixpkgs/issues/297920)
 Thomas M. DuBuisson reported that users with empty passwords no longer
 work on `NixOS`.
-
 An example `/etc/nixos/configuration.nix` snippet to create such an user
 is:
 
@@ -45,7 +43,7 @@ Password:
 Login incorrect
 ```
 
-Why did it break? Let's have a look at how passwords are stored in `linux`.
+Why did it break? Let's look at the way passwords are stored in `linux`.
 
 ## `/etc/shadow` structure
 
@@ -61,7 +59,6 @@ nulloktest:$6$D0XkOSlH$fWuW6/7aFD5ZD2YzBuerj0STra3LddBNoXMn5pomYRmdbmsjM6bGzIX7n
 
 [`man 5 shadow`](https://manpages.opensuse.org/Tumbleweed/shadow/shadow.5.en.html)
 from `shadow` package has more detail on what each field means.
-
 As hashed passwords are still sensitive information `/etc/shadow` is not
 readable by most users:
 
@@ -78,11 +75,9 @@ Programs that check passwords are usually ran as `root` or are
 `$6$D0XkOSlH$fWuW6/7aFD5ZD2YzBuerj0STra3LddBNoXMn5pomYRmdbmsjM6bGzIX7nQQS4bGepDBoao2U.IZRGhgAJ4qOp.`
 is not just a hash string of a well known hash algorithm. It used to be.
 But not any more.
-
 [`man 5 crypt`](https://manpages.opensuse.org/Tumbleweed/libxcrypt-devel/crypt.5.en.html)
 from `libxcrypt` package  explains the string format in detail. It's 10
 pages long!
-
 The main takeaway from that page is that there are a few ways to encode
 empty ("" password) and blank (no password prompt) passwords for a user:
 
@@ -120,7 +115,7 @@ But `libpam` can be used for non-root programs as well! The typical
 example is the session screen locker like `swaylock` or `i3lock`: those
 lock your screen until you type current user's password. How do they
 manage to validate current user's password without having a `SUID`
-`root` bit? `libpam` does it by by calling external `unix_chkpwd`
+`root` bit? `libpam` does it by calling external `unix_chkpwd`
 `SUID` `root` program from `libpam` package:
 
 ```
@@ -171,10 +166,8 @@ program only if `program` was not already ran as `root`. `libpam-1.6.0`
 in contrast always uses `unix_chkpwd`.
 
 In theory both versions should work the same.
-
 In practice `unix_chkpwd` disallows empty passwords (bug) but allows the
 blank ones (feature).
-
 Mechanically the bug happens as `unix_chkpwd` adds
 [this extra bit of code](https://github.com/linux-pam/linux-pam/commit/9e74e90147c530801e3ea3428d64371722c90e01):
 
@@ -252,11 +245,10 @@ code and check for password length and not for hash length to handle
 
 ## debugging tips
 
-`unix_chkpwd` is a `SUID` `root` binary. Moreover it changes it's
-behaviour based on actual user calling it. I wanted to find a way to
+`unix_chkpwd` is a `SUID` `root` binary. Moreover, it changes it's
+behavior based on actual user calling it. I wanted to find a way to
 probe directly it's ability to validate `/etc/shadow` contents without
 involving external `login` binary.
-
 On a system with `libpam` installed password checking session for an
 arbitrary user could be done this way:
 
@@ -267,10 +259,9 @@ $ printf "incorrect-password\0" | sudo unix_chkpwd testuser nullok; echo $?
 7
 ```
 
-You need to pass null-terminated password into `unix_chkpwd`'s `stdin`
+You need to pass null-terminated password into `unix_chkpwd` `stdin`
 descriptor. The error code will tell you back if the check succeeded or
 why it failed.
-
 I needed an equivalent check for a locally built `unix_chkpwd` from
 `linux-pam` `git` repository. I came up with this hack:
 
@@ -345,9 +336,9 @@ $6$AgpQ6azd$0YmJW0VFg0FwyPgSW1KSiF8cy5qB8NB/.IcMbjMa1OCbGH3ki9a4bkuhtMxQupeMeiag
 
 `libpam` updates are tricky. Every time I update `libpam` I break
 something. This time it was a somewhat benign case of empty password
-handling. We need more tests. The empty password fix fix was merged to
-`libpam` as [PR#784](https://github.com/linux-pam/linux-pam/pull/784)
-and to `nixpkgs` as [PR#298994](https://github.com/NixOS/nixpkgs/pull/298994).
+handling. We need more tests. The empty password fix was merged to
+`libpam` as [`PR#784`](https://github.com/linux-pam/linux-pam/pull/784)
+and to `nixpkgs` as [`PR#298994`](https://github.com/NixOS/nixpkgs/pull/298994).
 
 If you are affected by an empty password bug you can set the password to
 a blank hash with `hashedPassword = ""`. Or set it to blank with
