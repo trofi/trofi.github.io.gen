@@ -7,7 +7,6 @@ root: "http://trofi.github.io"
 [`duperemove-0.14`](https://github.com/markfasheh/duperemove/releases/tag/v0.14)
 was released yesterday and included a few small fixes I wrote about
 [before](/posts/304-duperemove-speedups.html).
-
 On top of that the new release contains an overhauled parallel file
 scanner and database handler that scale a lot better on large files.
 
@@ -128,13 +127,13 @@ break `duperemove`.
 As the scan takes at least 10 minutes on my input data I wondered if I
 could extract a smaller example to present for upstream.
 
-At first I though of crafting the files on the file system in a
+At first I though of crafting the files on the filesystem in a
 particular way to match the way `duperemove` breaks for me. But I also
 felt it would be a tedious task.
 
 Before actually trying to extract the first crash example I got an idea
 of fuzzing `duperemove`. In theory a simple sequence of random
-actions against a file system to create interesting enough file state
+actions against a filesystem to create interesting enough file state
 would be able to create a lot more interesting scenarios than I have.
 Maybe I'll get something that crashes `duperemove` faster?
 
@@ -241,13 +240,13 @@ sys     0m1.500s
 3 seconds!
 
 I'm not always as lucky: sometimes it takes 2 seconds, sometimes as much
-as 8 seconds. It feels like a very good result for such a dumb script.
+as 8 seconds. It feels like a great result for such a dumb script.
 
 ## parting words
 
 `duperemove` has a non-trivial state machine to track extent state to
 avoid multiple deduplication attempts. It clearly has a few bugs like
-[issue #329](https://github.com/markfasheh/duperemove/issues/329).
+[`Issue #329`](https://github.com/markfasheh/duperemove/issues/329).
 
 Fuzzing works great for a small set of well defined operations. I picked
 a minimal subset of operations to trigger the failures.
