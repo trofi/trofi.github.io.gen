@@ -6,7 +6,6 @@ root: "http://trofi.github.io"
 
 Today's mystery started from [this build failure](https://hydra.nixos.org/build/229663092)
 noticed by Vladimir on `staging-next` branch of `nixpkgs`.
-
 There `aarch64-linux` build
 [failed](https://hydra.nixos.org/log/k9mdaj5a9rbpkc8x9hj9mw3papraamcn-patchelf-0.15.0.drv)
 to compile `patchelf` as part of `stdenv` with this mysterious error:
@@ -33,7 +32,7 @@ ld: patchelf.o:...-xgcc-12.3.0/include/c++/12.3.0/ext/atomicity.h:71:
 collect2: error: ld returned 1 exit status
 ```
 
-It is the `build.log` in almost all of it's entirety. I had a small
+It is the `build.log` in almost all of its entirety. I had a small
 change in `staging-next` branch which should absolutely not cause that
 failure. But I was not sure (one can never be sure when it comes to the
 toolchain bugs).
@@ -46,30 +45,26 @@ library lookup paths in `cc-wrapper` or `ld-wrapper`? Or a heisenbug?
 I had some past experience with errors like that in recent the past
 [here](https://github.com/NixOS/nixpkgs/pull/158047) and
 [here](https://github.com/NixOS/nixpkgs/issues/201254).
-
 In both cases it was a `nixpkgs`-specific problem of mixing multiple
 toolchain versions in a single `stdenv`. I expect this kind of problem
 to come back from time to time until bootstrap process is changed to
-avoid any mixing of toolchain versions. Thus I was looking forward to
-debug yet another one of those.
+avoid any mixing of toolchain versions.
 
-I ran the bisect and got the
+Thus, I was looking forward to debug yet another one of those. I ran the
+bisect and got the
 [Merge pull request #245550 from trofi/gcc-restore-sys-include](https://github.com/NixOS/nixpkgs/commit/8470989a96eb1c0e0c12c30c1b7bd7174ed9349b).
 as the culprit.
-
 My own commit! Uh-on. One of the problems is that it's a merge commit of
 the change, not the change itself. Why did bisect skip the change
-itself? Why did the PR cause this failure at all? It did not make sense.
+itself? Why did the `PR` cause this failure at all? It did not make sense.
 Reverting the commit on top of `staging-next` did fix the `patchelf`
 linkage. Should it be the culprit then? I was about to submit the revert
 and move on to less cryptic things.
-
 But for some reason just before giving up I tried to run `--rebuild` on
 a random "good" commit and got the `patchelf` linkage failure! That
 meant the error was non-deterministic. It did not make sense.
-
 On one hand `sys-include` commit above is quite relevant to the way
-`gcc` bootstraps. On the other hand it is not supposed to lead to
+`gcc` bootstraps. On the other hand, it is not supposed to lead to
 non-deterministic failures.
 
 I had to start from the first principles to see where and how linkage
@@ -77,18 +72,16 @@ process breaks.
 
 ## What is this error about?
 
-Let's look at the specifics of code using atomics in `gcc`.
-
-`libstdc++` (`gcc`s `c++` template library) uses atomic operations in
-various containers. For example `<string>` uses atomics to implement
+Let's look at the specifics of code using `atomics` in `gcc`.
+`libstdc++` (`gcc` `c++` template library) uses atomic operations in
+various containers. For example, `<string>` uses `atomics` to implement
 copy-on-write semantics. Naturally `patchelf` uses a bit of
-`std::string` as well. Thus it's expected to use a bit of atomics like
+`std::string` as well. Thus, it's expected to use a bit of `atomics` like
 `__atomic_fetch_add()` builtin.
 
-Each architecture implements atomics in a slightly different way: some
-get away with a single instruction, some require quite a bit of code.
-Let's have a look at `x86_64` and `aarch64` to see how close they are.
-
+Each architecture implements `atomics` in a slightly different way: some
+do get away with a single instruction, some require quite a bit of code.
+Let's look at `x86_64` and `aarch64` to see how close they are.
 I'll use the very `/nix/store/c7qmp1dgqf3hh4fjw74y2k662nmaslcy-xgcc-12.3.0/include/c++/12.3.0/ext/atomicity.h:66`
 source code bit from the error we saw above.
 
@@ -100,9 +93,7 @@ int f(int * p, int v) {
 ```
 
 The function `f()` here atomically adds a `v` value stored at `p` and
-returns some result.
-
-`x86_64` generates the following code:
+returns some result. `x86_64` generates the following code:
 
 ```
 $ gcc -O2 -S a.c -o -
@@ -130,7 +121,7 @@ $ aarch64-unknown-linux-gnu-gcc -O2 -S a.c -o -
 ```
 
 We see a big difference here: `gcc` emits call into outside
-`__aarch64_ldadd4_acq_rel` function. It's code hides in `libgcc.a`:
+`__aarch64_ldadd4_acq_rel` function. Its code hides in `libgcc.a`:
 
 ```
 __aarch64_ldadd4_acq_rel:
@@ -151,7 +142,7 @@ __aarch64_ldadd4_acq_rel:
 ```
 
 Quite a bit of code here as well: if CPU supports `ldaddal` then
-`libgcc.a` uses that. Otherwise it falls back to
+`libgcc.a` uses that. Otherwise, it falls back to
 `ldaxr; add; stlxr; cbnz`.
 
 This amount of code is probably the reason why the code is not inlined
@@ -188,7 +179,7 @@ $ clang -O2 -S a.c -o - -target aarch64-unknown-linux -march=armv8.1-a
         ret
 ```
 
-All of the above tells us that sometimes `gcc` generates calls into
+This tells us that sometimes `gcc` generates calls into
 "external" libraries like `libgcc.a` (or `libgcc_s.so`) to implement
 larger primitives. And this decision might depend on the backend
 architecture and compiler flags.
@@ -196,11 +187,8 @@ architecture and compiler flags.
 ## Looking at the linkage command
 
 I filed [the bug](https://github.com/NixOS/nixpkgs/issues/246147) to
-start capturing important details of the bug to see how far into it I
-can get.
-
+start capturing important details of the bug.
 First I needed to extract exact attribute failing to build on `aarch64`.
-
 I added `boot.binfmt.emulatedSystems = [ "aarch64-linux" ];` to
 `/etc/nixos/configuration.nix` to get `binfmt-misc` wrapper and ran a
 few build commands like:
@@ -212,7 +200,6 @@ $ nix build --no-link -f. --argstr system aarch64-linux patchelf -L
 to point at the exact failing attribute. It ended up being
 `stdenv.__bootPackages.stdenv.__bootPackages.stdenv.__bootPackages.patchelf`.
 The attribute points right in the middle of `stdenv` bootstrap.
-
 I dropped into interactive shell to poke at the exact details of build
 failure against `good` and `bad` states with `nix develop`:
 
@@ -318,10 +305,9 @@ lrwxrwxrwx 1419 root root 3 Jan  1  1970 ...-xgcc-12.3.0/lib64 -> lib
 
 So even if the file was stripped twice, why would it be a problem? Isn't
 `strip` idempotent in this regard?
-
 It would as long as `strip` is ran sequentially. And it used to be the
 case for a while. But a few weeks ago the `strip` hook was made parallel
-in [PR #207101](https://github.com/NixOS/nixpkgs/pull/207101)!
+in [`PR#207101`](https://github.com/NixOS/nixpkgs/pull/207101)!
 
 As a result two `strip` commands had a chance to open `libgcc.a`, strip
 it and write the result back. Sometimes you are lucky and you get
@@ -331,8 +317,8 @@ something that works. But sometimes you are not so lucky and one of the
 
 ## The fix
 
-The fix (or the workaround) is not to attemt to process the same file
-twice. [PR #246164](https://github.com/NixOS/nixpkgs/pull/246164)
+The fix (or the workaround) is not to attempt to process the same file
+twice. [`PR#246164`](https://github.com/NixOS/nixpkgs/pull/246164)
 implements naive form of the symlink resolution via `realpath` and
 double-strip avoidance via `sort -u`:
 
@@ -361,9 +347,9 @@ skipping identical files.
 My initial guess of wrong library lookup paths was completely off. It
 was another case of non-deterministic build causing major toolchain
 breakage. I'm glad it was discovered so quickly after introduction.
-[PR #246164](https://github.com/NixOS/nixpkgs/pull/246164) should fix it
+[`PR#246164`](https://github.com/NixOS/nixpkgs/pull/246164) should fix it
 for good.
 
-Turns out `clang` and `gcc` generate a bit different code around atomics.
+Turns out `clang` and `gcc` generate a bit different code around `atomics`.
 
 Have fun!
