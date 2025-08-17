@@ -22,13 +22,11 @@ $ nix build -f. pkgsi686Linux.stdenv
 
 The actual error here is `stat: Value too large for defined data type`.
 While `type: install_name_tool: not found` is an unrelated distraction.
-
 Note that this failure happens a bit earlier than `pkgsi686Linux.stdenv`
 build itself. If we poke a bit around the action build failure happens
 in `pkgsi686Linux.stdenv.__bootPackages.stdenv.__bootPackages.stdenv.__bootPackages.stdenv.cc.cc` package in early bootstrap phases.
-
 From the error message failure happens in `preFixupLibGccPhase` phase.
-Let's have a look at its definition:
+Let's look at its definition:
 
 ```
 $ nix repl '<nixpkgs>'
@@ -80,7 +78,6 @@ $ nm -DC /nix/store/i9v173g8a5wwi8i8fd2wmdyr8ix6mla1-bootstrap-tools/bin/patchel
 Note that this `patchelf` comes from `bootstrapTools`.
 `pkgs/stdenv/linux/bootstrap-files/i686.nix` says it was updated last
 time in `2019` (4 years ago).
-
 For comparison currently built `patchelf` built on `i686` system does
 use `stat64` call:
 
@@ -106,7 +103,6 @@ $ nix-build '<nixpkgs/pkgs/stdenv/linux/make-bootstrap-tools.nix>' -A bootstrapF
 ```
 
 I did not have to build anything. Hydra has it cached today.
-
 We can point our seed binaries to freshly built version of those:
 
 ```diff
@@ -168,11 +164,10 @@ supports `stat64`.
 ## How should fix usually looks like?
 
 Setting `-D_FILE_OFFSET_BITS=64` explicitly should be a safe workaround.
-
 `autoconf`-based systems usually use
-[AC_SYS_LARGEFILE](https://www.gnu.org/software/autoconf/manual/autoconf-2.67/html_node/System-Services.html).
+[`AC_SYS_LARGEFILE`](https://www.gnu.org/software/autoconf/manual/autoconf-2.67/html_node/System-Services.html).
 It should set both `_FILE_OFFSET_BITS` and `_LARGE_FILES` where needed
-and also provides a nice `--disable-largefile` knob. Other build systems
+and provides a nice `--disable-largefile` knob. Other build systems
 have the equivalent or always enable it by default.
 
 `glibc` implements `stat` switch in `io/sys/stat.h` as:
@@ -194,19 +189,17 @@ extern int stat64 (const char *__restrict __file,
 #endif
 ```
 
-(I skipped a bit of `#define`ery where `stat` gets redirected to
+(I skipped a bit of `#define` boilerplate where `stat` gets redirected to
 `__xstat`.)
-
 The above hints that we will soon have a similar problem of switching
 to 64-bit `time_t` on 32-bit systems.
 
 ## Why did `patchelf` fail at all?
 
 I hear you ask: "why did `patchelf` fail at all"? Is `libgcc.so` such a
-large file by any definition? It's size is unlikely to overflow 32 bits
+large file by any definition? Its size is unlikely to overflow 32 bits
 (4GB). Why does `stat()` implementation matter here?
-
-And you are right: `libgcc_s.so.1` is only 139KB large.
+And you are right: `libgcc_s.so.1` is only `139KB` large.
 
 Here is the full structure `man 2 stat` knows about:
 
@@ -237,8 +230,8 @@ struct stat {
 };
 ```
 
-`stat()` has to fill all the fields. It does not known which ones
-userspace is going to need. The man page also tells us the overflowing
+`stat()` has to fill all the fields. It does not known which fields
+user space is going to need. The man page also tells us the overflowing
 condition:
 
 ```
@@ -254,14 +247,14 @@ ERRORS
 ```
 
 Note that it's 2GB limit and not a 4GB limit. And it is not just about
-the file size. In my case it's the inode number `ino_t st_ino;` field:
+the file size. In my case it's the `inode` number `ino_t st_ino;` field:
 
 ```
 $ ls -li foo
 4404087433 -rw-r--r-- 1 slyfox users 0 Sep  7 09:25 foo
 ```
 
-Here inode number overflows our 2GB limit. Let's use this trivial
+Here `inode` number overflows our 2GB limit. Let's use this trivial
 program to make sure it fails to `stat()`:
 
 ```c
@@ -299,20 +292,17 @@ stat() succeeded
 
 Yep! This is it.
 
-## Why are my inode numbers so big?
+## Why are my `inode` numbers so big?
 
-4 billion inodes is a lot. Why such a big number? Do I have so many
-files on disk? No, `find /` tells me I have around 25 million files
+4 billion `inodes` is a lot. Why such a big number? Do I have so many
+files on disk? No, `find /` tells me that I have around 25 million files
 (~100 times smaller than 2 billion mark).
-
-It comes down to the fact how exactly `btrfs` filesystem allocates inode
+It comes down to the fact how exactly `btrfs` filesystem allocates `inode`
 numbers.
-
-Compared to `ext4` (which uses first available inode number in inode
-table of fixed size) `btrfs` does not use a single inode table but uses
+Compared to `ext4` (which uses first available `inode` number in `inode`
+table of fixed size) `btrfs` does not use a single `inode` table but uses
 B-tree of "objects".
-
-`btrfs` strategy to allocate inodes is to increment the global number
+`btrfs` strategy to allocate `inodes` is to increment the global counter
 (per filesystem, number is populated in `btrfs_create_new_inode()`):
 
 ```c
@@ -364,12 +354,12 @@ int btrfs_init_root_free_objectid(struct btrfs_root *root)
 ```
 
 In the code above `btrfs` literally increments `root->free_objectid` as
-a way to generate new inode number. On fresh filesystems inode numbers
+a way to generate new `inode` number. On fresh filesystems `inode` numbers
 for files and directories start from `256` (`BTRFS_FIRST_FREE_OBJECTID`).
 On used filesystem they start from the next after largest already
-allocated inode.
+allocated `inode`.
 
-Note that file removal does not normally reclaim the inode numbers.
+Note that file removal does not normally reclaim the `inode` numbers.
 Let's poke a bit at it in action:
 
 ```
@@ -381,19 +371,21 @@ $ mount fs.raw m
 $ cd m
 
 # first file on disk:
+$ touch first
 $ ls -li first
 257 -rw-r--r-- 1 root root 0 Sep  7 15:10 first
 
 # second file on disk:
+$ rm first && touch first
 $ ls -li first
 258 -rw-r--r-- 1 root root 0 Sep  7 15:10 first
 ```
 
-Despite the same file name being deleted and recreated in place it's
-inode number increases.
+Despite the same filename being deleted and recreated in place it's
+`inode` number increases.
 
 There is one exception to "always increasing" rule: if we delete files
-with highest inode numbers and unmount/remount the filesystem we will be
+with highest `inode` numbers and unmount/remount the filesystem we will be
 able to unwind `free_objectid` back a bit:
 
 ```
@@ -410,10 +402,10 @@ $ ls -li first
 257 -rw-r--r-- 1 root root 0 Sep  7 15:11 first
 ```
 
-Note: after the remount the inode number is back to `257` (and not `259`).
-`256` inode is taken by `/` root directory.
+Note: after the remount the `inode` number is back to `257` (and not `259`).
+`256` `inode` is taken by `/` root directory.
 
-Back to the question why my filesystem has inode numbers above 4
+Back to the question why my filesystem has `inode` numbers above 4
 billion: apparently I managed to create that many files throughout the
 lifetime of this filesystem. It's a 2 years old `btrfs`. This means
 filesystem sees about 70 files per second being created and deleted.
@@ -422,7 +414,6 @@ filesystem sees about 70 files per second being created and deleted.
 
 After fixing `patchelf` locally I tried to build more `i686` packages
 (mainly `wine` dependencies) and discovered a few more similar failures.
-
 One of them was in `which` command:
 
 ```
@@ -450,9 +441,9 @@ Proposed `which` fix for `nixpkgs` as
 
 ## Parting words
 
-32-bit file APIs are not just about handling of files larger that 4GB
+32-bit file APIs are not just about handling of files larger than 4GB
 in size. Nowadays' filesystems can easily have other fields that don't
-fit into 32-bit counters. One of them is inode number. Next in the queue
+fit into 32-bit counters. One of them is `inode` number. Next in the queue
 will probably be 64-bit `time_t`.
 
 The 64-bit interfaces are opt-in for many 32-bit targets and will remain
@@ -463,11 +454,11 @@ adapt to it by adding `-D_FILE_OFFSET_BITS=64` (and soon
 While projects gradually migrate to new APIs `bootstrapTools` should be
 rebuilt to get the updates. I hope some form of
 <https://github.com/NixOS/nixpkgs/issues/253713> process will be in
-place to make it smoother. Otherwise one-off
+place to make it smoother. Otherwise, one-off
 <https://github.com/NixOS/nixpkgs/issues/253274> update will have to do.
 
 If you see a project that still uses 32-bit APIs please send a patch
 upstream to use 64-bit API if possible. Chances are it will fix real
-breakage on filesystems with 64-bit inodes.
+breakage on filesystems with 64-bit `inodes`.
 
 Have fun!
