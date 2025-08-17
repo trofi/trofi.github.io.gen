@@ -14,28 +14,28 @@ I had last time.
 
 Bugs I saw (in discovery order):
 
-- [tree-optimization/112711](https://gcc.gnu.org/PR112711): wrong code
+- [`tree-optimization/112711`](https://gcc.gnu.org/PR112711): wrong code
   on `llvm-16`, `bswap` and `assume(aligned)`.
-- [c++/112869](https://gcc.gnu.org/PR112869): `ICE` on `libmpt-0.7.3`
+- [`c++/112869`](https://gcc.gnu.org/PR112869): `ICE` on `libmpt-0.7.3`
   when built with `-std=c++20`.
-- [tree-optimization/112991](https://gcc.gnu.org/PR112991): `ICE` on
+- [`tree-optimization/112991`](https://gcc.gnu.org/PR112991): `ICE` on
   `p7zip` due to value numbering bugs.
-- [bootstrap/113132](https://gcc.gnu.org/PR113132): bootstrap build
+- [`bootstrap/113132`](https://gcc.gnu.org/PR113132): bootstrap build
   failure due to `-Werror`.
-- [bootstrap/113445](https://gcc.gnu.org/PR113445): bootstrap comparison
+- [`bootstrap/113445`](https://gcc.gnu.org/PR113445): bootstrap comparison
   failure due to instruction scheduler changes.
-- [tree-optimization/114249](https://gcc.gnu.org/PR114249): `ICE` on
+- [`tree-optimization/114249`](https://gcc.gnu.org/PR114249): `ICE` on
   `lvm2` (wrong type transform in `SLP`).
-- [c++/114439](https://gcc.gnu.org/PR114439): `icu4c` build failure due
+- [`c++/114439`](https://gcc.gnu.org/PR114439): `icu4c` build failure due
   to the initialization changes in `c++`.
-- [lto/114574](https://gcc.gnu.org/PR114574): `unbound` ICE in `-flto`
+- [`lto/114574`](https://gcc.gnu.org/PR114574): `unbound` ICE in `-flto`
   mode.
 
 ## fun bug
 
 Only one of 8 bug was a runtime failure on `llvm-16` in
 `__builtin_assume_aligned()` handling code. It's extracted from
-`EndiaTest.cpp`:
+`EndianTest.cpp`:
 
 ```c
 // $ cat EndianTest.cpp
@@ -80,7 +80,6 @@ Illegal instruction (core dumped)
 There `gcc` was too optimistic in assuming that
 `__builtin_assume_aligned()` returns address not aliased to input
 argument. As a result `gcc` erroneously removed dead-looking stores.
-
 [The fix](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=302461ad9a04d82fee904bddac69811d13d5bb6a)
 drops overly optimistic assumption.
 
@@ -110,6 +109,6 @@ I think the most impactful `gcc-14` change will probably be
 `-Werror=implicit-int`, `-Werror=implicit-function-declaration` and
 friends (see <https://gcc.gnu.org/gcc-14/porting_to.html> for more
 details). This will break quite a few old unmaintained but used
-everywhere C projects like `zip`, `opensp`, `jam`, `directfb`.
+everywhere `C` projects like `zip`, `opensp`, `jam`, `directfb`.
 
 Have fun!
