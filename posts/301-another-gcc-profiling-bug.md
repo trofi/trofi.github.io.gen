@@ -4,16 +4,15 @@ date: October 07, 2023
 root: "http://trofi.github.io"
 ---
 
-## The python PGO bug
+## The python `PGO` bug
 
 About [a year ago](/posts/243-gcc-profiler-internals.html) I had some
 fun debugging `gcc` crash on `python` code base built in `PGO` mode
 (optimized based on profile-feedback from test run).
-
-Scrolling through recent `gcc` bugs I noticed [PR111559](https://gcc.gnu.org/PR111559)
+Scrolling through recent `gcc` bugs I noticed [`PR111559`](https://gcc.gnu.org/PR111559)
 `"[14 regression] ICE when building Python with PGO"` bug reported by
-Sam James. It looked vaguely similar to the previous instance so I had
-a look.
+Sam James. It looked vaguely similar to the previous instance so I looked
+in.
 
 There `python` build of `-fprofile-use` stage was crashing `gcc` as:
 
@@ -30,13 +29,12 @@ Parser/parser.c:1706:1: internal compiler error: verify_flow_info failed
 ```
 
 This error tells us what exactly is wrong in the control flow graph when
-crashes `gcc` (as opposed to vague `SIGSEGV`).
+`gcc` crashes (as opposed to vague `SIGSEGV`).
 
 Normally `gcc` is very forgiving to input garbage profile data you pass
 to it. Worst case you should get badly optimized binary with correct
-behaviour. But in this case `gcc` complains about probabilities `gcc`
+behavior. But in this case `gcc` complains about probabilities `gcc`
 calculated itself. I did not see this error type before.
-
 I wanted to have a closer look.
 
 ## Reproducing
@@ -86,7 +84,7 @@ Configured with: ../source/configure ... --enable-checking=yes ...
 gcc version 14.0.0 99999999 (experimental) (GCC)
 ```
 
-Looks good. Moving on to to run reproducer as is:
+Looks good. Moving on to run reproducer as is:
 
 ```
 $$ wget https://www.python.org/ftp/python/3.11.5/Python-3.11.5.tar.xz
@@ -154,7 +152,7 @@ And `python` build system helpfully printed exact command to rerun.
 ## Reducing the input
 
 Once I got the reproducer I attempted to minimize it with
-[cvise](https://github.com/marxin/cvise) against preprocessed
+[`cvise`](https://github.com/marxin/cvise) against preprocessed
 `Parser/parser.c` file and it's `parser.gcda` file (`-fprofile-use` flag
 looks it up and loads profiling data).
 
@@ -197,9 +195,8 @@ Reduced test-cases:
 ```
 
 Note: in the `--command=...` script I had to maintain `Parser/`
-directory nesting in the interestingness test as `.gcda` files contain
-directory part of the file path.
-
+directory nesting in the test as `.gcda` files contain
+directory part of the filepath.
 This is the raw file produced by `cvise`:
 
 ```c
@@ -362,7 +359,6 @@ Parser/parser.c:10:9: internal compiler error: verify_flow_info failed
 There is literally one optimization: `_loop1_104_rule()` and
 `_loop1_106_rule()` have identical implementation and are folded into a
 single function.
-
 I supplied `main()` function, stubbed out missing functions and managed
 to get a source-only reproducer without the need for `*.gcda` files!
 
@@ -415,13 +411,13 @@ Even before looking at the `gcc` code I knew quite a bit about the
 failure: the identical code folding fails on a function most of which
 bodies is not executed: `if (p)` is always `false`.
 
-Before doing `gcc` bisection I had a look at recent `gcc` commits.
-[commit "Check that passes do not forget to define profile"](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=0c78240fd7d519)
+Before doing `gcc` bisection I looked at recent `gcc` commits.
+[`commit "Check that passes do not forget to define profile"`](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=0c78240fd7d519)
 added control flow graph verification against uninitialized branch
 probabilities.
 
 It was clearly the change that exposed problematic transformation. But
-it did not change existing transformations. Thus chances are it's not a
+it did not change existing transformations. Thus, chances are it's not a
 new problem: it only happens to be visible now. We need to find a place
 where uninitialized probability gets emitted by `gcc`.
 
@@ -460,7 +456,6 @@ added the following debugging patch to `gcc`:
 Here I extracted `dstbb->count.ipa () + srccount.ipa ()` denominator to
 a separate `den` variable and added assert that it should not be zero
 (as `probability_in()` turns those into undefined values).
-
 Making sure we get assertion trigger:
 
 ```
@@ -507,7 +502,7 @@ always
 
 I proposed the conservative fix by ignoring such updates that change
 probability from "initialized" to "uninitialized" as an
-["ipa-utils: avoid uninitialized probabilities on ICF [PR111559]" commit](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=043a6fcbc27f8721301eb2f72a7839f54f393003):
+[`"ipa-utils: avoid uninitialized probabilities on ICF [PR111559]" commit`](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=043a6fcbc27f8721301eb2f72a7839f54f393003):
 
 ```diff
 --- a/gcc/ipa-utils.cc
@@ -539,7 +534,6 @@ probability from "initialized" to "uninitialized" as an
 It might not be the best fix as we discard the fact that branch was
 never executed during the profile run. But at least we don't compromise
 correctness.
-
 This fixed the reduced example and the actual `python` `PGO` build for
 me. Yay! That was easier than I expected.
 
@@ -589,7 +583,7 @@ during IPA pass: inline
 Please submit a full bug report, with preprocessed source (by using -freport-bug).
 ```
 
-There `gcc`'s own build is using profile feedback information. That made
+There `gcc` own build is using profile feedback information. That made
 sense: there is a big chance `STL` (or other `gcc` internals) produces
 identical functions worth folding. And looking at the crash log in
 Franz's case `handle_noclone_attribute()` was folded with something else.
@@ -628,12 +622,11 @@ handle_noicf_attribute (tree *node, tree name,
 
 Both functions have identical implementations up to white space and
 local variable names.
-
 Looking at the manifestation of the crash I was pretty sure it's exactly
 the same merging issue. But in theory there might be a lot more places
 where we introduce undefined probabilities.
 
-## Building profiled gcc
+## Building profiled `gcc`
 
 I decided to build `profiledbootstrap` on `x86_64` Just In Case. In
 theory it's very simple. You just run two commands:
@@ -648,7 +641,7 @@ The only change from a trivial vanilla build is the non-default
 
 The build was very slow. Some `.cc` files took 15 minutes to compile.
 It's longer than the whole `--disable-bootstrap` build on my machines
-which takes around 8 minutes. I filed [PR11619](https://gcc.gnu.org/PR111619)
+which takes around 8 minutes. I filed [`PR11619`](https://gcc.gnu.org/PR111619)
 for `"'make profiledbootstrap' makes 10+ minutes on insn-recog.cc"`.
 
 To get the idea why some individual compilations take up to 15 minutes
@@ -683,11 +676,10 @@ Or if we put the picture in words:
 3. `stagetrain-gcc` is built using `-O2` by `stageprofile-gcc` to
    produce `.gcda` files and to produce next compiler stage
 4. `stagefeedback` is built using `-O2 -fprofile-use` by
-   `stagetrain-gcc` to produce final profile-optimised compiler.
+   `stagetrain-gcc` to produce final profile-optimized compiler.
 
 All of `[2.]-[3.]-[4.]` added are faster than single `[1.]` as all of
-them use  `-O2` option. And `[1.]` uses `CFLAGS=-O0` by default.
-
+them use `-O2` option. And `[1.]` uses `CFLAGS=-O0` by default.
 The speed-up workaround was to build `stage1-gcc` with optimizations
 (`-O2` instead of default `-O0`). `gcc` build system provides
 `STAGE1_CFLAGS` option for that. And while at it we will enable `-ggdb3`
@@ -699,7 +691,6 @@ $ make profiledbootstrap STAGE1_CFLAGS='-O2 -ggdb3' BOOT_CFLAGS='-O2 -ggdb3'
 ```
 
 That made the build a lot faster for me.
-
 The only problem is that build failed configuring `stagetrain-gcc`
 (equivalent of `stage3-gcc` for non-profiled builds):
 
@@ -744,7 +735,6 @@ internal compiler error: in diagnostic_report_diagnostic, at diagnostic.cc:1486
 ```
 
 That makes it a bit easier to debug.
-
 To improve debugging of intermediate stages and retain `-ggdb3` flags in
 all `gcc` build stages I also dropped `-gtoggle` from `stage2-gcc`.
 
@@ -819,10 +809,9 @@ $7 = (const gcov_fn_info * const) 0x0
 You would think that it's just an unhandled case of `NULL` functions in
 the table. At least that's what I thought initially. In reality it's not
 the case.
-
 The expected layout here is the following:
 
-- `gi_ptr` is the pointer to the table of performance counters per
+- `gi_ptr` is the pointer to the table of profiling counters per
    function for a module (usually for one `.c` file, in our case it is
    `gcc/cp/logic.cc`).
 - `gi_ptr->n_functions` is the `gi_ptr->functions` array size with
@@ -876,9 +865,8 @@ reasonable values:
 
 Aha, the first two entries have unexpected `NULL` values. The rest of
 them look as expected and are related to `__gcov` counters. Let's check
-if first two `NULL`s were always there or it's a later runtime
+if first two `NULL` were always there or it's a later runtime
 corruption.
-
 We care about `0x50b6480` address specifically (the first that contains
 unexpected `0x0`). Let's look at the array values at the very `gcc`
 start:
@@ -913,9 +901,8 @@ hash_table<subsumption_hasher, false, xcallocator>::~hash_table()
 ```
 
 That means something corrupted first two entries a while after.
-
 Let's catch the actual place where `0x0` clobber write happens using
-`gdb`'s watch points:
+`gdb` watch points:
 
 ```
 (gdb) watch -l *(void**)0x50b6480
@@ -937,7 +924,7 @@ __memset_avx2_unaligned_erms () at ../sysdeps/x86_64/multiarch/memset-vec-unalig
 Got it! `memset()` call from `ggc_common_finalize()` does byte-by-byte
 zeroing out of our entry!
 
-## GGC corruptor
+## `GGC` corruptor
 
 We can peek at the specific location of the writer:
 
@@ -958,17 +945,14 @@ We can peek at the specific location of the writer:
 1316          memset (rti->base, 0, rti->stride * rti->nelt);
 ```
 
-`ggc` is related to memory managed by `gcc`'s
+`ggc` is related to memory managed by `gcc`
 [garbage collector](https://gcc.gnu.org/onlinedocs/gccint/Type-Information.html)
-and to global counters related to precompiled headers.
-
+and to global counters related to pre-compiled headers.
 `ggc` is completely unrelated to statically allocated `gcov` counters.
 Specifically `ggc` should never touch function pointer area.
-
 `gt_ggc_rtab` is a table to garbage collector root pointers for global
 variables used by `gcc`. Those usually have fancy `GTY(())` annotations
 around the structs.
-
 Let's figure out what value `ggc` tries to wipe out off our counter
 metadata:
 
@@ -1072,7 +1056,6 @@ the first element  in the array. `nelts = 1 * (2) * (OVL_OP_MAX)` tells
 us how many elements there are in the array and `stride = sizeof
 (ovl_op_info[0][0])` tells us how many bytes there are to the beginning
 of the next pointer. All look sensible.
-
 But if we look again at how `ggc_common_finalize()` tries to wipe these
 pointers out we might notice the problem:
 
@@ -1086,7 +1069,6 @@ Instead of wiping out the pointers it wipes out the whole structs. And
 given that `memset()` starts at an offset `8` of the array it actually
 gets out of bounds of the `ovl_op_info` for 8 bytes. And when `// 6:`
 entry is wiped we'll get off-by-16 bytes `memset()`.
-
 These extra 16 bytes are exactly the corruption we see in our `gcov`
 counters.
 
@@ -1128,7 +1110,7 @@ around them:
      for (rti = *rt; rti->base != NULL; rti++)
 ```
 
-Andrew Pinkski also mentioned that `bootstrap-asan` also detects
+Andrew Pinkski mentioned that `bootstrap-asan` also detects
 out-of-bounds access in <https://gcc.gnu.org/PR111505> and I reproduced
 it as:
 
@@ -1139,7 +1121,7 @@ $ make
 
 The `gcc` fix fixed the `bootstrap-asan` for me. Yay!
 
-## C++, IFNDR and -fchecking=2
+## `C++`, `IFNDR` and `-fchecking=2`
 
 
 The `ggc` fix also allowed me to get past `stagetrain-gcc` build stage
@@ -1164,12 +1146,10 @@ make[3]: *** [Makefile:1188: rtl-tests.o] Error 1
 
 That looked like a bug in `c++` code of `gcc`. But why did it not fail
 earlier when `stage1-gcc` or `stageprofile` were being built?
-
 I filed <https://gcc.gnu.org/PR111647> we confirmed it's a `gcc` source
 code bug: `gcc` accepts slightly different `c++` in `-fhcecking=1` and
 `-fchecking=2` modes.
-
-I extracted the following example out of `gcc`'s source code:
+I extracted the following example out of `gcc` source code:
 
 ```c++
 // $ cat rtl-tests.cc
@@ -1217,12 +1197,11 @@ rtl-tests.cc:15:5: note: in instantiation of function template specialization 'p
 # failed, GOOD
 ```
 
-From there I learned that [IFNDR](https://en.cppreference.com/w/cpp/language/acronyms)
-means `"Ill-Formed, No Diagnostic Required"`. Which I would characterise
-as allowed Undefined Behaviour of the `C++` type checker: it might or
+From there I learned that [`IFNDR`](https://en.cppreference.com/w/cpp/language/acronyms)
+means `"Ill-Formed, No Diagnostic Required"`. Which I would characterize
+as allowed Undefined Behavior of the `C++` type checker: it might or
 might not detect a bug in the C++ and that's fine to be a conforming
 application.
-
 And [the fix](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=e465e5e4a969334f64cf0d6611de5273d73ea732)
 was simple:
 
@@ -1283,7 +1262,7 @@ The above sets `--enable-checking=release` to `gcc` releases (which
 defaults to `-fchecking=0`). A development `gcc` versions sets
 `--enable-checking=yes,extra` which defaults to `-fchecking=2`.
 
-But that is not all. `gcc`'s build system does the following `CFLAGS`
+But that is not all. `gcc` build system does the following `CFLAGS`
 overrides:
 
 - `stage1-gcc` gets built with default host's compiler flags
@@ -1332,7 +1311,7 @@ to disable `-Werror` for `stagefeedback`
  STAGEautoprofile_TFLAGS = $(STAGE2_TFLAGS)
 ```
 
-Otherwise build from `master` fails for missing profile data for
+Otherwise, build from `master` fails for missing profile data for
 binaries that not compiler by profile-generating compiler:
 
 ```
@@ -1342,7 +1321,6 @@ gcc/gcc/sort.cc:313:1: error: ‘gcc/build/sort.gcda’ profile count data file 
 
 And after that `make profiledbootstrap` built without any snags. And
 `make check` did not show any regressions.
-
 `--disable-werror` was a reasonable workaround as well for
 `-Werror`-related failures.
 
@@ -1352,7 +1330,6 @@ All done?
 
 I was using `--enable-checking=release` for a while to work around
 `IFNDR`-related failures in `profiledbootstrap`.
-
 After it was fixed I tried `make bootstrap4` on default
 `--enable-checking=yes,extra`. And it failed as:
 
@@ -1373,7 +1350,7 @@ x86_64-pc-linux-gnu/libstdc++-v3/src/c++17/fs_dir.o differs
 
 This was a case where `-fchecking=2` caused slightly different code
 generated with `-fchecking=1` and `-fchecking=2`. I filed
-[PR111663](https://gcc.gnu.org/PR111663) to clarify if it's an expected
+[`PR111663`](https://gcc.gnu.org/PR111663) to clarify if it's an expected
 outcome of `-fchecking=2` or we should fix `gcc` code generation.
 
 The following seems to be enough to expose unstable code generation:
@@ -1422,25 +1399,25 @@ $ sha1sum bug.o
 What looked like a simple `PGO` bug uncovered quite a list of adjacent
 `gcc` bugs in less exercised areas on `gcc` itself:
 
-- [PR111559](https://gcc.gnu.org/PR111559): `"[14 regression] ICE when
+- [`PR111559`](https://gcc.gnu.org/PR111559): `"[14 regression] ICE when
   building Python with PGO"`. [Fixed](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=043a6fcbc27f8721301eb2f72a7839f54f393003).
-- [PR111619](https://gcc.gnu.org/PR111619): `"'make profiledbootstrap'
+- [`PR111619`](https://gcc.gnu.org/PR111619): `"'make profiledbootstrap'
   makes 10+ minutes on insn-recog.cc"`. Not fixed yet.
-- [PR111629](https://gcc.gnu.org/PR111629): `"[14 Regression]
+- [`PR111629`](https://gcc.gnu.org/PR111629): `"[14 Regression]
   ggc_common_finalize() corrupts global memory outsuide GTY(()) objects"`.
   [Fixed](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=7525707c5f3edb46958c4fdfbe30de5ddfa8923a).
-- [PR111642](https://gcc.gnu.org/PR111642): `"[14 Regression] bootstrap4
+- [`PR111642`](https://gcc.gnu.org/PR111642): `"[14 Regression] bootstrap4
   or profiledbootstrap failure: poly-int.h:453:5: error: too many
   initializers"`. [Fixed](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=e465e5e4a969334f64cf0d6611de5273d73ea732).
-- [PR111647](https://gcc.gnu.org/PR111647): `"g++ accepts different c++
+- [`PR111647`](https://gcc.gnu.org/PR111647): `"g++ accepts different c++
   on -fchecking= anf checking=2"`. Not fixed yet.
-- [PR111653](https://gcc.gnu.org/PR111653): `"make bootstrap4 fails for
+- [`PR111653`](https://gcc.gnu.org/PR111653): `"make bootstrap4 fails for
   -fchecking=2 code generation changes"`
   Not fixed yet.
 
 At least I managed to drag the `PGO` bug itself to completion.
 
-`python` keeps breaking `gcc`'s `PGO` machinery.
+`python` keeps breaking `gcc` `PGO` machinery.
 
 `cvise` is still great at reducing source files (and even `.gcda` files!).
 
@@ -1452,7 +1429,7 @@ dropping `-gtoggle`.
 `./configure` options against `master` branch of `gcc`. But now it should!
 
 `make bootstrap4` is another rarely exercised and yet very useful sanity
-check of `gcc`'s options like `-fchecking=2` and code generation
+check of `gcc` options like `-fchecking=2` and code generation
 stability. It does not quite works yet, but we are almost there.
 
 `gcc` has it's own garbage collector subsystem able to track pointers
