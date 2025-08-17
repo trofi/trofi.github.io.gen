@@ -16,64 +16,64 @@ time I saw `19` of those. That almost twice as much than over
 
 Bugs (or patches) in the order I observed them:
 
-- [tree-optimization/111435](https://gcc.gnu.org/PR111435): `ICE` on
+- [`tree-optimization/111435`](https://gcc.gnu.org/PR111435): `ICE` on
   `gcc` code (`-m32`) due to infinite recursion in type conversion
   rule
-- [driver/111527](https://gcc.gnu.org/PR111527): `gcc` hits environment
+- [`driver/111527`](https://gcc.gnu.org/PR111527): `gcc` hits environment
   size limit early due to an internal `COLLECT_GCC_OPTIONS` variable
-- [rtl-optimization/111619](https://gcc.gnu.org/PR111619):
+- [`rtl-optimization/111619`](https://gcc.gnu.org/PR111619):
   `make profiledbootstrap` is very slow to build in unoptimized builds
-- [other/111629](https://gcc.gnu.org/PR111629): `make profiledbootstrap`
-  `SIGSEGV`s `gcc` on shutdown due to a `ggc` bug
-- [bootstrap/111642](https://gcc.gnu.org/PR111642):
-  `make profiledbootstrap` fails to type check `gcc`'s own `poly_int64` constructor
-- [c++/111647](https://gcc.gnu.org/PR111647): `-fchecking=0/2` disagree
+- [`other/111629`](https://gcc.gnu.org/PR111629): `make profiledbootstrap`
+  `SIGSEGV` `gcc` on shutdown due to a `ggc` bug
+- [`bootstrap/111642`](https://gcc.gnu.org/PR111642):
+  `make profiledbootstrap` fails to type check `gcc` own `poly_int64` constructor
+- [`c++/111647`](https://gcc.gnu.org/PR111647): `-fchecking=0/2` disagree
   on validity of `IFNDR` `c++` handling
-- [bootstrap/111653](https://gcc.gnu.org/PR111653): `-fchecking=0/2`
+- [`bootstrap/111653`](https://gcc.gnu.org/PR111653): `-fchecking=0/2`
   generate different code on the same input
 - [`libgcc` trampoline build fix](https://gcc.gnu.org/pipermail/gcc-patches/2023-October/633948.html):
   `libgcc` build failure in `libc`-less mode
-- [rtl-optimization/112107](https://gcc.gnu.org/PR112107): bootstrap
+- [`rtl-optimization/112107`](https://gcc.gnu.org/PR112107): bootstrap
   failure on `i686-linux`: enabling debug changed register allocator output
-- [middle-end/112321](https://gcc.gnu.org/PR112321): `gcc` `SIGSEGV` in
+- [`middle-end/112321`](https://gcc.gnu.org/PR112321): `gcc` `SIGSEGV` in
   `debug` mode as it generated invalid objects
-- [target/112332](https://gcc.gnu.org/PR112332): `ICE` in `gcc` when it
+- [`target/112332`](https://gcc.gnu.org/PR112332): `ICE` in `gcc` when it
   attempted to use `SIMD` instruction for stack access
 - [c/112347](https://gcc.gnu.org/PR112347): `ICE` on `jemalloc` in newly
   added `-Walloc-size` analysis
-- [bootstrap/112379](https://gcc.gnu.org/PR112379): bootstrap builds
+- [`bootstrap/112379`](https://gcc.gnu.org/PR112379): bootstrap builds
   failure: unused function when asserts are disabled (code under `#ifdef`)
-- [libstdc++/112467](https://gcc.gnu.org/PR112467): `__assume__` in
+- [`libstdc++/112467`](https://gcc.gnu.org/PR112467): `__assume__` in
   `libstdc++` broke `clang` usage of that library
-- [target/112523](https://gcc.gnu.org/PR112523): `mpfr`, `libsodium` and
+- [`target/112523`](https://gcc.gnu.org/PR112523): `mpfr`, `libsodium` and
   `unbound` tests were failing for an invalid `shrd` instruction use
 - [target/112540](https://gcc.gnu.org/PR112540): `gstreamer` `ICE` in
   `RTL` (invalid addressing mode for `SIMD`)
-- [target/112567](https://gcc.gnu.org/PR112567): `linux` ICE on `RTL`
+- [`target/112567`](https://gcc.gnu.org/PR112567): `linux` ICE on `RTL`
   due to `gcc` generating invalid objects
-- [ipa/112601](https://gcc.gnu.org/PR112601): `ICE` on `llvm-17.0.5`
+- [`ipa/112601`](https://gcc.gnu.org/PR112601): `ICE` on `llvm-17.0.5`
   code in `-fchecking=2` mode related to function attribute inference
-- [target/112613](https://gcc.gnu.org/PR112613): bad code in comparison
+- [`target/112613`](https://gcc.gnu.org/PR112613): bad code in comparison
   code when `AVX2` registers are present in generated code
 
 ## fun discovery
 
 I found a few new things as part of poking at those bugs:
 
-[IFNDR](https://en.cppreference.com/w/cpp/language/acronyms) "Ill-Formed,
+[`IFNDR`](https://en.cppreference.com/w/cpp/language/acronyms) "Ill-Formed,
 No Diagnostic Required" is the known invalid code from type checking
 standpoint that is allowed to be compiled. In this case the whole
-program has an undefined behaviour.
+program has an undefined behavior.
 
-`-Walloc-size` added in [PR71219](https://gcc.gnu.org/PR71219) detects
+`-Walloc-size` added in [`PR71219`](https://gcc.gnu.org/PR71219) detects
 interesting cases of `T * p = malloc(sz)` calls when it's clear that `sz`
 is smaller than `sizeof(T)`. It also works on `calloc()` and already
 found a few benign instances in
-[elfutils](https://sourceware.org/git/?p=elfutils.git;a=commitdiff;h=fb232b56ca4dc37a70fd4e581a0fc2c56dda5e0a),
-[waypipe](https://gitlab.freedesktop.org/mstoeckl/waypipe/-/merge_requests/19),
-[sway](https://github.com/swaywm/sway/commit/020a572ed615b8fe272c7566a27ee0abe73a58d7)
+[`elfutils`](https://sourceware.org/git/?p=elfutils.git;a=commitdiff;h=fb232b56ca4dc37a70fd4e581a0fc2c56dda5e0a),
+[`waypipe`](https://gitlab.freedesktop.org/mstoeckl/waypipe/-/merge_requests/19),
+[`sway`](https://github.com/swaywm/sway/commit/020a572ed615b8fe272c7566a27ee0abe73a58d7)
 and
-[swaybg](https://github.com/swaywm/swaybg/commit/435be14610a4b4538adc6a926160ed434ff630fa).
+[`swaybg`](https://github.com/swaywm/swaybg/commit/435be14610a4b4538adc6a926160ed434ff630fa).
 
 # histograms
 
@@ -92,7 +92,7 @@ Looking at the bug categories:
 - `libstdc++`: 1
 - `libgcc`: 1
 
-This cycle was very unusual: it has more bugs than I expected, it spans
+This cycle was very unusual: it has a few more bugs than I expected, it spans
 over 12 categories of compiler components, most of bugs are in `i386`
 target.
 
