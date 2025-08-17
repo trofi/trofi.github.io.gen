@@ -12,17 +12,17 @@ mere `10` bugs.
 
 Here are the bugs themselves:
 
-- [tree-optimization/110652](https://gcc.gnu.org/PR110652): bootstrap failure for `-Werror`.
-- [middle-end/110697](https://gcc.gnu.org/PR110697): bootstrap failure for `-Werror`.
-- [tree-optimization/110726](https://gcc.gnu.org/PR110726): wrong code on `llvm`: `a |= a == 0`.
-- [target/110787](https://gcc.gnu.org/PR110790): wrong code on `gmp`
-- [tree-optimization/110838](https://gcc.gnu.org/PR110838): wrong code on `x365`
-- [target/110880](https://gcc.gnu.org/PR110880): `aarch64` ICE on `highway-1.0.5`
-- [tree-optimization/111009](https://gcc.gnu.org/PR111009): wrong code on `perf` from `linux`
-- [tree-optimization/111048](https://gcc.gnu.org/PR111048): wrong code on `highway-1.0.6`
-- [target/111051](https://gcc.gnu.org/PR111051): `gcc` fails to use `avx2` primitives
+- [`tree-optimization/110652`](https://gcc.gnu.org/PR110652): bootstrap failure for `-Werror`.
+- [`middle-end/110697`](https://gcc.gnu.org/PR110697): bootstrap failure for `-Werror`.
+- [`tree-optimization/110726`](https://gcc.gnu.org/PR110726): wrong code on `llvm`: `a |= a == 0`.
+- [`target/110787`](https://gcc.gnu.org/PR110790): wrong code on `gmp`
+- [`tree-optimization/110838`](https://gcc.gnu.org/PR110838): wrong code on `x365`
+- [`target/110880`](https://gcc.gnu.org/PR110880): `aarch64` ICE on `highway-1.0.5`
+- [`tree-optimization/111009`](https://gcc.gnu.org/PR111009): wrong code on `perf` from `linux`
+- [`tree-optimization/111048`](https://gcc.gnu.org/PR111048): wrong code on `highway-1.0.6`
+- [`target/111051`](https://gcc.gnu.org/PR111051): `gcc` fails to use `avx2` primitives
 on `avx512` targeted functions on `highway-1.0.6`
-- [target/111060](https://gcc.gnu.org/PR111060): `i686-linux` `gcc` fails to build
+- [`target/111060`](https://gcc.gnu.org/PR111060): `i686-linux` `gcc` fails to build
 it's own `libbstdc++` due to missing `Float16` support.
 
 Histograms time!
@@ -50,12 +50,10 @@ compiler. Though this time `target`-specific bugs are frequent as well.
 
 3 out of 10 bugs were exposed by a `highway` library. It's such a great
 vectorizer benchmark for `gcc`!
-
 Initially I was a bit upset by the amount of C++ template indirections
-`highway` uses on it's implementation.
-
-As it exercises all the possible vector units available for the platform
-(`SSE{2,3,4}`, `AVX{1,2}` and many others) it was hard for me to narrow
+`highway` uses on its implementation.
+It exercises all the possible vector units available for the platform
+(`SSE{2,3,4}`, `AVX{1,2}` and many others). It was hard for me to narrow
 down to a single failing unit type: attempts to remove code for one of
 them fails the build for others.
 
@@ -63,7 +61,6 @@ But! I found an easy way to deal with it! We can disable most irrelevant
 targets in `hwy/detect_targets.h` by adding all the irrelevant targets
 to `HWY_BROKEN_TARGETS` define. I usually add everything except the
 broken target (usually `HWY_AVX2` :).
-
 And then reduction becomes trivial: I expand all the templates and get
 the simple function with a failure.
 
@@ -72,9 +69,8 @@ the simple function with a failure.
 `gcc` `master` still yields new bugs. It is still quite a bit of fun to
 get and extract build compiler failures from real world usage.
 
-I liked <https://gcc.gnu.org/PR111048> the most. There  `gcc` generated
+I liked [`PR111048`](https://gcc.gnu.org/PR111048) the most. There `gcc` generated
 wrong code for `highway-1.0.6` library in `-mavx2` mode.
-
 When handling the following loop:
 
 ```c
