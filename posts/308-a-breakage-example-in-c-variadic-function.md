@@ -52,10 +52,10 @@ Many distributions turn these warnings into errors by default.
 ## Argument count
 
 An ellipsis (`...`) means that the function accepts unknown count and
-unknown type of parameters. There has to be a way to somehow signal
+unknown type of parameters. There has to be a way to signal
 actual argument list in ellipsis. As `<stdarg.h>` does not provide a
 standard way to do it code author has to come up with their own scheme
-to solve the problem.
+to solve this problem.
 
 A few examples come to mind:
 
@@ -64,7 +64,7 @@ A few examples come to mind:
 - `int open(const char *pathname, int flags, mode_t mode)` uses `flags`
   to distinguish 3-argument form from 2-argument
   `int open(const char *pathname, int flags)`.
-- `glib`'s `gchar* g_strconcat (const gchar* string1, ...)` consumes
+- `glib` `gchar* g_strconcat (const gchar* string1, ...)` consumes
   parameters until `NULL` parameter is encountered.
 
 Each of the examples above implements a different scheme.
@@ -78,7 +78,7 @@ same `const gchar*` type.
 But the above is not an exhaustive list. You can bake any assumption
 into ellipsis meaning.
 
-## An example of variadic C function
+## An example of variadic `C` function
 
 I'll use yet another (arguably the simplest) form to pass argument count
 to a variadic function: I'll pass the number explicitly. Let's explore
@@ -118,7 +118,6 @@ $ gcc a.c -o a &&./a
 ```
 
 All good.
-
 Now I'll change the above program slightly:
 
 ```c
@@ -201,7 +200,6 @@ $ gcc a.c -o a &&./a
 ```
 
 Still all good!
-
 Running on `aarch64-linux` just in case:
 
 ```
@@ -229,13 +227,12 @@ Uh-oh. It's broken!
 What is worse: first seven parameters look totally fine and degradation
 start only `8th` one. Is it a coincidence? Some architecture-specific
 property? Or maybe a compiler bug?
-
 Or maybe you noticed a bug in the original program? How would you fix it
 or work it around?
 
 ## Argument passing mechanics
 
-Let's have a look at the generated code and check how parameters are
+Let's look at the generated code and check how parameters are
 passed across the call boundary. I'll use the same `17`-argument example
 above:
 
@@ -368,7 +365,7 @@ foo:
 
 The `main` function is trivial: it shows us that first 6 arguments are
 passed in registers alone (`%edi = 16`, `%esi = 1`, `%edx = 2`,
-`%ecx = 3`, `%r8d = 4` `%r9d = 5`). And starting from `7`th argument
+`%ecx = 3`, `%r8d = 4` `%r9d = 5`). And starting from `7th` argument
 they are passed via stack (`pushq $6`). This is a standard
 `x86_64-linux` calling convention.
 
@@ -383,14 +380,14 @@ A few notes before we continue:
 Instructions like `movl $1, %esi` tell the CPU to store `$1` to
 32-bit `esi` register (lower half of `rsi` register). `movl` (or any
 other write instruction that works on 32-bit registers) also zeroes out
-upper 64-bits of `rsi` register. Thus it's a functional equivalent of
+upper 64-bits of `rsi` register. Thus, it's a functional equivalent of
 `movq $1, %rsi`. But the encoding might be more efficient as it does not
 need a `REX` prefix.
 
 Instructions like `pushq $6` write full 64-bit constant on stack as if
 we pushed full `size_t` value instead of `int`.
 
-In both register store and memory store cases `int` literals are stored
+In both register-store and memory-store cases `int` literals are stored
 as 64-bit values. This means that on `x86_64` it's not too bad to mix
 these two types as the example does.
 
@@ -538,7 +535,7 @@ theory `gcc` could have used that instruction even for your unmodified
 case. But it does not have to.
 
 This is our corruption mechanic: we store 32 bits on stack for
-parammeters `8` and above and then read 64-bit values from store
+parameters `8` and above and then read 64-bit values from store
 locations in `C` pseudo-code:
 
 ```c
@@ -959,7 +956,7 @@ Final table:
 | `x86_64` | no | 6 | 7 |
 | **`aarch64`** | **yes** | 8 | 9 |
 
-Thus `aarch64` is not unique, but very close to it :)
+Thus, `aarch64` is not unique, but very close to it :)
 
 ## Parting words
 
@@ -972,8 +969,8 @@ a `printf()`-style function then compiler will not be able to help you
 with warnings. Make sure you have a way to validate passed types via
 other means.
 
-Sometimes breakages are very subtle: first `8` parameters would work
-just fine and `9`-th one will eat all your data. And it will happen only
+Sometimes breakage is very subtle: first `8` parameters would work
+just fine and `9th` one will eat all your data. And it will happen only
 on small set of architectures: `aarch64` and `ia64` :)
 
 `iwd` fix went upstream as
@@ -981,7 +978,7 @@ on small set of architectures: `aarch64` and `ia64` :)
 
 Have fun!
 
-## Is AMD64 actually immune to this?
+## Is `AMD64` actually immune to this?
 
 [No](https://en.wikipedia.org/wiki/Betteridge%27s_law_of_headlines).
 GCC's use of `push` instructions is controlled by two options,
