@@ -11,13 +11,12 @@ Current development phase is called `Zero Hydra Failures` (`ZHF`): at
 this time the main focus is to fix as many build failures in
 `nixpkgs/master` repository as possible before the final release.
 
-[Issue #265948](https://github.com/NixOS/nixpkgs/issues/265948) (and
+[`Issue#265948`](https://github.com/NixOS/nixpkgs/issues/265948) (and
 [the discourse topic](https://discourse.nixos.org/t/zero-hydra-failure-23-11-edition/35103))
 is the tracker where you can get hints on how to help fixing known
 broken packages and review already proposed fixes.
 
 It is a great time to contribute to `nixpkgs`!
-
 To follow the tradition let's fix one package here.
 
 ## `newlib` example
@@ -44,13 +43,11 @@ $out is empty
 ```
 
 I have no idea why the build fails. Let's find out the hard way.
-
 [The build tab](https://hydra.nixos.org/build/239066832) tells us
 that last successful build of `newlib` was around `2023-06-18`
 on `d9895270b775226e0fdabd7937af2d236abe4eb2` `nixpkgs` input. And first
 failed commit was `8277b539d371bf4308fc5097911aa58bfac1794f` around
 `2023-07-01`.
-
 Running bisect:
 
 ```
@@ -66,7 +63,7 @@ Date:   Sat Jun 24 01:13:17 2023 +0200
 
 The full diff of this
 [commit](https://github.com/NixOS/nixpkgs/commit/cf1b7c4d5c027837e71d284a838fbeb05b3fcb7f)
-is small an readable:
+is small and readable:
 
 ```diff
 --- a/pkgs/development/misc/newlib/default.nix
@@ -94,8 +91,7 @@ line. It causes build to fail if `$out` is empty. The `$out` was always
 empty for `newlib.x86_64-linux`. Normally the `newlib` output contains
 something only for bare-metal targets like
 `pkgsCross.x86_64-embedded.newlib`.
-
-Thus the fix is to constrain `newlib` to only those targets:
+Thus, the fix is to constrain `newlib` to only those targets:
 
 ```diff
 --- a/pkgs/development/misc/newlib/default.nix
@@ -112,12 +108,12 @@ Thus the fix is to constrain `newlib` to only those targets:
  })
 ```
 
-This change was proposed as [PR #266268](https://github.com/NixOS/nixpkgs/pull/266268).
+This change was proposed as [`PR#266268`](https://github.com/NixOS/nixpkgs/pull/266268).
 
 ## Parting words
 
-Fixing package breakages are usually easier if the package used to work
-at some point before. Otherwise we can always mark packages broken and
+Fixing package build failures is usually easier if the package used to work
+at some point before. Otherwise, we can always mark packages broken and
 schedule them for removal.
 
 Have fun!
