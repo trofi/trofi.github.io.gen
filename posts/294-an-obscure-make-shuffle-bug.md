@@ -6,17 +6,16 @@ root: "http://trofi.github.io"
 
 Most of the time `make --shuffle` finds somewhat trivial bugs of missing
 dependencies. I have collected a few examples [here](/posts/249-an-update-on-make-shuffle.html).
-
 It is sometimes hard, but still feasible to trigger these bugs without a
 shuffle by carefully placing a few `sleep 10` calls here and there to
 reorder rule execution.
 
 But today I'll talk about the bugs that could not be easily triggered by
-just waiting more. Should these bugs be treats as bugs in `Makefile`s?
+just waiting more. Should these bugs be treats as bugs in `Makefile`?
 Or are they bugs in the `make --shuffle` permutation algorithm? You be
 the judge!
 
-## A gist of the Makefile language
+## A gist of the `Makefile` language
 
 `Makefile` language is an interesting one: it has a strong spirit of a
 declarative family: it should not be very important in which order you
@@ -24,7 +23,6 @@ define rules and variables in the file, the rule execution order should
 not matter much either. That property makes the input very friendly to
 parallelism: you can consider a `Makefile` as a form of a serialized
 build graph.
-
 The graph analogy holds surprisingly well for most of the build systems
 out there. But sometimes you get the rare ones that are clearly
 not designed to be executed in parallel. Those are also fine. We can
@@ -33,8 +31,7 @@ add `.NOTPARALLEL:` to them and be done with it.
 If we ignore clearly unclean build systems there are a few GNU
 extensions that break the graph model a bit. Things like immediate
 variable assignments `A := B` are one of them.
-
-For example the following `Makefile` illustrates the subtlety of
+For example, the following `Makefile` illustrates the subtlety of
 immediate and deferred assignments:
 
 ```Makefile
@@ -44,13 +41,13 @@ V := 1
 AI := $(V)
 AD = $(V)
 a:
-        @echo a: V=$(V) AI=$(AI) AD=$(AD)
+	@echo a: V=$(V) AI=$(AI) AD=$(AD)
 
 V := 2
 BI := $(V)
 BD = $(V)
 b:
-        @echo b: V=$(V) BI=$(BI) BD=$(BD)
+	@echo b: V=$(V) BI=$(BI) BD=$(BD)
 ```
 
 Take some time time and try to predict the output here.
@@ -66,9 +63,7 @@ b: V=2 BI=2 BD=2
 Here both `V=` and `AD=` values are deferred until the final assignment.
 This is a well-known gotcha of `Makefiles`: immediate and deferred
 assignments can influence macro expansion and rule definition.
-
 Immediate assignment arguably does not break declarative model too much.
-
 Don't worry just yet: `make --shuffle` does not change output of this
 example.
 
@@ -76,21 +71,20 @@ example.
 
 Another `GNU make` extension is
 [Target-specific Variable Values](https://www.gnu.org/software/make/manual/html_node/Target_002dspecific.html).
-
 The typical use looks benign:
 
 ```Makefile
 all: foo bar
-        @echo all
+	@echo all
 
 foo: a.o b.o
-        @echo "foo ($^)"
+	@echo "foo ($^)"
 
 bar: c.o d.o
-        @echo "bar ($^)"
+	@echo "bar ($^)"
 
 %.o:
-        @echo cc $(CFLAGS) -o $@
+	@echo cc $(CFLAGS) -o $@
 
 foo: CFLAGS=-g
 ```
@@ -119,28 +113,26 @@ No surprises here either: all object files needed for `foo` use
 ![](/posts.data/294-an-obscure-make-shuffle-bug/1-mf-expanded.svg)
 
 So far so good. No ambiguities here.
-
 `make --shuffle` does not change this output either.
 
 ## Today's problem
 
 Now, what happens if we do share an object file across the targets and
 happen to use different overrides for it?
-
 Here is our toy example:
 
 ```Makefile
 all: foo bar
-        @echo all
+	@echo all
 
 foo: a.o b.o shared.o
-        @echo "foo ($^)"
+	@echo "foo ($^)"
 
 bar: c.o d.o shared.o
-        @echo "bar ($^)"
+	@echo "bar ($^)"
 
 %.o:
-        @echo cc $(CFLAGS) -o $@
+	@echo cc $(CFLAGS) -o $@
 
 foo: CFLAGS=-ffoo
 bar: CFLAGS=-fbar
@@ -211,7 +203,7 @@ from `all: foo bar` to `all: bar foo`:
 @@ -1,4 +1,4 @@
 -all: foo bar
 +all: bar foo
-        @echo all
+	@echo all
 
  foo: a.o b.o shared.o
 ```
@@ -219,7 +211,6 @@ from `all: foo bar` to `all: bar foo`:
 ![](/posts.data/294-an-obscure-make-shuffle-bug/2-mf-expanded-2.svg)
 
 This is a problem. And that can be triggered by `make --shuffle`!
-
 No shuffle:
 
 ```
@@ -227,9 +218,7 @@ $ for i in `seq 1 1000`; do make -j | grep -- '-o shared.o'; done | sort | uniq 
    1000 cc -ffoo -o shared.o
 ```
 
-Ideal consistency. Nothing shows the problem.
-
-With shuffle:
+Ideal consistency. Nothing shows the problem. With shuffle:
 
 ```
 $ for i in `seq 1 1000`; do make -j --shuffle | grep -- '-o shared.o'; done | sort | uniq -c
@@ -247,21 +236,20 @@ How would one fix it properly? This default recursive propagation is
 non-intuitive, `GNU make` provides a few keywords including `private`.
 `private` makes the variable override local to specified targets and
 does not recurse.
-
 I suggest the following fix:
 
 ```Makefile
 all: foo bar
-        @echo all
+	@echo all
 
 foo: a.o b.o shared.o
-        @echo "foo ($^)"
+	@echo "foo ($^)"
 
 bar: c.o d.o shared.o
-        @echo "bar ($^)"
+	@echo "bar ($^)"
 
 %.o:
-        @echo cc $(CFLAGS) -o $@
+	@echo cc $(CFLAGS) -o $@
 
 a.o b.o: private CFLAGS=-ffoo
 c.o d.o: private CFLAGS=-fbar
@@ -284,23 +272,22 @@ No instability!
 
 Is `private` really needed? In this toy example it would work the same
 with and without it.
-
 The troubles would start if any of `.o` files would have in
 prerequisites another `.o` file, say a generator that builds header
 files or some other input:
 
 ```Makefile
 all: foo bar
-        @echo all
+	@echo all
 
 foo: a.o b.o shared.o
-        @echo "foo ($^)"
+	@echo "foo ($^)"
 
 bar: c.o d.o shared.o
-        @echo "bar ($^)"
+	@echo "bar ($^)"
 
 %.o:
-        @echo cc $(CFLAGS) -o $@
+	@echo cc $(CFLAGS) -o $@
 
 a.o b.o: CFLAGS=-ffoo
 c.o d.o: CFLAGS=-fbar
@@ -311,9 +298,10 @@ shared.o: CFLAGS=-fshared
 all: gen
 
 gen: gen.o
-        @echo gen
+	@echo gen
+
 gen.h: gen
-        @echo gen.h
+	@echo gen.h
 
 shared.o: gen.h
 ```
@@ -321,7 +309,6 @@ shared.o: gen.h
 ![](/posts.data/294-an-obscure-make-shuffle-bug/3-mf.svg)
 
 This time we will check what flags are passed to `gen.o`.
-
 Without shuffle:
 
 ```
@@ -331,7 +318,6 @@ $ for i in `seq 1 1000`; do make -j | grep -- '-o gen.o'; done | sort | uniq -c
 
 Whoops: `-fshared` got leaked into `gen.o` build, but at least it's
 consistent.
-
 With `--shuffle`:
 
 ```
@@ -342,7 +328,6 @@ $ for i in `seq 1 1000`; do make -j --shuffle | grep -- '-o gen.o'; done | sort 
 
 33% instability! Why it's just 33% (and not, say,  50%) is an exercise
 for the reader.
-
 Adding `private` to all of `CFLAGS=` fixes the issue:
 
 ```Makefile
@@ -350,14 +335,13 @@ $ for i in `seq 1 1000`; do make -j --shuffle | grep -- '-o gen.o'; done | sort 
    1000 cc -o gen.o
 ```
 
-It's not just stable: it also removes unexpected -`fshared` flag as one
+It's not just stable: it also removes unexpected `-fshared` flag as one
 would probably expect.
 
 ## The real world example
 
 The above hypothetical example is almost 1-to-1 example of what happened
-to `efivar` in [PR #245](https://github.com/rhboot/efivar/pull/245).
-
+to `efivar` in [`PR#245`](https://github.com/rhboot/efivar/pull/245).
 There `make --shuffle` build occasionally failed as:
 
 ```
@@ -370,7 +354,6 @@ make[1]: *** [/build/source/src/include/rules.mk:38: libefisec.so] Error 1 shuff
 Initially I thought it was just a matter of missing `libefivar.so`
 dependency on `libefisec`. But Artem Klimov pointed out that those two
 are not expected to depend on one another.
-
 And indeed `Makefile` uses `LIBS` variable to specify dependencies:
 
 ```Makefile
@@ -392,7 +375,7 @@ external `LIBS=` dependencies. But `LIBS=` override gets leaked via
 order-only dependency.
 
 The fix is to add `private` keyword to prevent the `LIBS=...` leakage
-from `efisecdb` into libraries in it's prerequisite list:
+from `efisecdb` into libraries in its prerequisite list:
 
 ```diff
 --- a/src/Makefile
@@ -418,7 +401,7 @@ purposes. Individual global variables are also easier to override from
 the outside.
 
 `make --shuffle` might be able to expose instability problems in
-`Makefile`s that use target-specific variables not reproducible by
+`Makefile` that use target-specific variables not reproducible by
 using `make -j` alone.
 
 Have fun!
