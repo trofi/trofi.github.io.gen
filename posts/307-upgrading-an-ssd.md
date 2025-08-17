@@ -4,24 +4,21 @@ date: December 15, 2023
 root: "http://trofi.github.io"
 ---
 
-In search of bugs I build a lot of software locally. About ~20000
+In search of bugs I build a lot of software locally. About `~20000`
 packages per day. I usually keep all builds around to speed up
 regression debugging.
-
 That way (and with help of filesystem compression, `duperemove` and
 identical file hardlinking) I manage to fill up my `512G` SSD with build
 results within 2-3 weeks.
-
-Once the disk is full I have to trigger garbage collection that frees
+Once the disk gets full I have to trigger garbage collection that frees
 all that space and start over.
-
 I decided to switch to a larger `2T` SSD to expand the time budget to
 1-2 months.
 
 This is my boot disk on `btrfs` and I would like to preserve most of
-it's properties without too much of mountpoint juggling or machine
+its properties without too much of mount point juggling or machine
 downtime. AFAIU `rsync` does not handle advanced filesystem features
-like subvolume layouts and already deduplicated data.
+like `subvolume` layouts and already deduplicated data.
 
 I ended up plugging in a new device and did two commands to transfer all
 the data live from one device to another:
@@ -37,11 +34,11 @@ $ btrfs device remove /dev/nvme0n1p3 /
 
 It required a tiny bit of extra work to handle partitioning on a new
 device and `EFI` `vfat` partition move.
-
 Here is the sequence I used:
 
 1. Plug a new device in, it detected as `/dev/nvme1n1`.
 2. Partition new device:
+
    ```
    # fdisk /dev/nvme1n1
    g; n; 1; 2048 (default); +4G; t; 1 (EFI); n; 2; w
@@ -80,7 +77,6 @@ Here is the sequence I used:
 Done!
 
 It took 15 minutes to remove the device and evacuate all the data out.
-
 A snapshot of migration state somewhere in the middle of the process:
 
 ```
@@ -102,7 +98,7 @@ new block groups get allocated there. Deleting old devices is also
 straightforward: evacuated device stops being used for new object
 allocation and existing block groups are evacuated to other devices.
 
-`btrfs device remove` wipes filesystem superblock and removes the device
+`btrfs device remove` wipes filesystem `superblock` and removes the device
 from device tree of filesystem once data is fully drained. There is no
 easy way to access data on the old device after the move. It is slightly
 scary but has it's charm as well: there is no chance to accidentally
