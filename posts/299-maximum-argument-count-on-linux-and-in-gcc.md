@@ -6,13 +6,11 @@ root: "http://trofi.github.io"
 
 ## Tl;DR
 
-By default on `linux` argument list (and environment) is limited by
+By default on `linux` argument list (and environment size) is limited by
 less than `2MB` all bytes calculated across all arguments and environment
 (including `argv/envp` array overheads and null terminators).
-
 `ulimit -s` can increase this limit to `6MB`. Individual command line
 and environment `K=V` pairs are limited to `128KB`.
-
 And due to internal implementation deficiencies of `gcc` argument list
 for `gcc` happens to be limited by the same `128KB` limit.
 
@@ -37,7 +35,7 @@ limit. In case of `qemu` we pass around a few thousands of
 build inputs).
 
 Ideally I would like to be able to pass a lot more options without
-hitting the arguments limit (10x? 100x?). Luckily `gcc` and other tools
+hitting the arguments limit (10x more? 100x more?). Luckily `gcc` and other tools
 like `ld` do support a way to pass many options indirectly via response
 files:
 
@@ -55,15 +53,13 @@ $ gcc @a.rsp -c a.c
 
 But I'll leave response files to another post as it ended up being
 it's own rabbit hole.
-
-Instead let's explore how many arguments you can pass to a single
+Instead, let's explore how many arguments you can pass to a single
 command in `linux`.
 
 ## Exploring the argument count limits
 
 So what are the actual limits we are hitting against here? How many
 arguments can we pass to `gcc` without any problems?
-
 Let's explore it! I'll start by adding more and more `-g` options to
 `gcc` call until it starts failing for a command line limit:
 
@@ -88,12 +84,10 @@ compilation terminated.
 32768
 ```
 
-Our limit is somewhere below 32K (this is a lot lower than I expected).
-
+Our limit is somewhere below `32K` (this is a lot lower than I expected).
 In the above snippet we double the length of argument list to speed the
 search up a bit, thus it's not an exact value and some closest
 power-of-2 ceiling.
-
 Let's extend this snippet a bit and build more flexible argument count
 probe that returns us precise value. I called it `probe-argsize.bash`:
 
@@ -140,8 +134,7 @@ $$ touch a.c; ./probe-argsize.bash -g gcc -c a.c
 26118
 ```
 
-~26K parameters. Seems to work!
-
+`~26K` parameters. Seems to work!
 What if we make our argument a bit larger? Say, pass `-ggdb3` instead of
 `-g`?
 
@@ -150,10 +143,9 @@ $ touch a.c; ./probe-argsize.bash -ggdb3 gcc -c a.c
 14510
 ```
 
-Just ~14K. That degrades very quickly. The available length is decreased
+Just `~14K`. That degrades very quickly. The available length is decreased
 by half! (or something like that)
-
-How about longer option? I'll try ~100 bytes long one:
+How about longer option? I'll try `~100` bytes long one:
 
 ```
 $ touch a.c; ./probe-argsize.bash -I0123456789-90123456789-0123456789-0123456789-0123456789-0123456789-01234567889-0123456789-0123456789 \
@@ -164,8 +156,7 @@ $ touch a.c; ./probe-argsize.bash -I0123456789-90123456789-0123456789-0123456789
 1209 is extremely low. That is on par with what `qemu` exercises in
 `nixpkgs`. Looks like our limit here is about `~120K` bytes if we sum up
 all our argument lengths to `gcc`.
-
-What if the problem is in some internal `gcc` limit and not the OS
+What if the problem is in some internal `gcc` limit and not the `OS`
 itself? Let's `strace` `gcc` call just to make sure:
 
 ```
@@ -176,14 +167,13 @@ $$ strace -f gcc ${args[@]} -c a.c
 ```
 
 Here we see that `E2BIG` comes right from an `execve()` system call.
-Thus it's kernel's limitation of some sort.
+Thus, it's kernel's limitation of some sort.
 
 ## Getting the formula
 
 Can we easily increase the limit? Let's find out how `linux` implements
-limits in [fs/exec.c](https://github.com/torvalds/linux/blob/2cf0f715623872823a72e451243bbf555d10d032/fs/exec.c#L1888C1-L1894C13).
+limits in [`fs/exec.c`](https://github.com/torvalds/linux/blob/2cf0f715623872823a72e451243bbf555d10d032/fs/exec.c#L1888C1-L1894C13).
 Maybe there is a `linux`-specific hack somewhere we could pull out.
-
 There are a few places where `-E2BIG` is returned. This code looks most
 relevant:
 
@@ -229,7 +219,7 @@ static int do_execveat_common(int fd, struct filename *filename,
 
 I wondered if `MAX_ARG_STRINGS` could be one of our limits once
 we solve the smaller limit we are bumping into now, but nope it's defined
-in [include/uapi/linux/binfmts.h](https://github.com/torvalds/linux/blob/2cf0f715623872823a72e451243bbf555d10d032/include/uapi/linux/binfmts.h#L9)
+in [`include/uapi/linux/binfmts.h`](https://github.com/torvalds/linux/blob/2cf0f715623872823a72e451243bbf555d10d032/include/uapi/linux/binfmts.h#L9)
 as:
 
 ```c
@@ -321,9 +311,8 @@ limit = min(limit, CURRENT_STACK_LIMIT / 4);
 limit = max(limit, 128K);
 ```
 
-The above in plain words: argument limits (in bytes) are at least 128K
-and at most are 6MB. And by default it's `CURRENT_STACK_LIMIT / 4`.
-
+The above in plain words: argument limits (in bytes) are at least `128K`
+and at most are `6MB`. And by default it's `CURRENT_STACK_LIMIT / 4`.
 `CURRENT_STACK_LIMIT` default is set to `_STK_LIM` as well:
 
 ```
@@ -331,21 +320,18 @@ $ ulimit -s
 8192
 ```
 
-Thus the argument length limit by default is `2MB`. And wee can raise up
-to 6MB (3x) maximum if we set `ulimit -s` up to `24MB`. Setting stack
+Thus, the argument length limit by default is `2MB`. And wee can raise up
+to `6MB` (3x) maximum if we set `ulimit -s` up to `24MB`. Setting stack
 to anything higher would not affect argument limit.
-
 That is the theory. Does it match the practice?
-
-What did I miss? Why do we get only ~128K or argument limit for `gcc`
-and not ~2MB?
+What did I miss? Why do we get only `~128K` or argument limit for `gcc`
+and not `~2MB`?
 
 There is a small catch: I kept exploring limits of `gcc` executable. In
 `nixpkgs` it's a big shell wrapper. Part of wrapper's work is to set
 various environment variables. Not just pass through the arguments.
 And each environment variable is treated roughly like a command line
 parameter.
-
 Let's use known simple `printf` binary instead (it should not set any
 environment variables internally) and see what are it's limits:
 
@@ -423,12 +409,12 @@ $ ./probe-argsize.bash "" env -i $(which printf) "%s" --
 232134
 ```
 
-An exercise for the reader: why is it 822 arguments shorter that our
+An exercise for the reader: why is it 822 arguments shorter than our
 maximum theoretical value? A word of warning: it's not a very simple
 question.
 
 Given that `2MB` is derived from `1/4 * CURRENT_STACK_LIMIT` we can
-increase that as well using `ulimit -s`. Let's add 100x:
+increase that as well using `ulimit -s`. Let's add `100x`:
 
 ```
 $ ulimit -s
@@ -440,26 +426,22 @@ $ ./probe-argsize.bash "" env -i $(which printf) "%s" --
 ```
 
 Note that it's only a 3x improvement (and not a 100x improvement).
-
-This is exactly our `limit = 6MB;` absolute limit above. Once again: i
+This is exactly our `limit = 6MB;` absolute limit above. Once again: if
 you need to get maximum out of your argument limits on today's `linux`
 it's enough to set `ulimit -s` from `8MB` to `24MB`.
-
 Which gives us final formula of `6MB / 9 = 699050` argument count on
 64-bit systems.
-
 Fun fact: on 32-bit host kernel the limit should probably be slightly higher
 due to shorter pointer size:
 
 - `2MB / 5 = 419430` arguments (compared to `233016` on `64-bit`)
 - `6MB / 5 = 1258291` arguments (compared to `699050` on `64-bit`)
 
-That is 1.8x larger than 64-bit systems!
+That is `1.8x` larger than 64-bit systems!
 
 Once again: it's a pretty silly benchmark as it's not very useful to
 pass a million empty strings to the program. But it's a good model to
 understand the absolute limits.
-
 We can do more realistic estimates if we know average argument length
 in our use case. Say, if the bulk of our parameters are paths to the
 `/nix/store` we can safely say those are at least 50 bytes long.
@@ -474,11 +456,11 @@ default and almost `~60K` with larger stack size.
 
 ## `nixpkgs` `gcc` wrapper mystery
 
-So why does `gcc` have so much overhead of `-g` options? We get about
-`190K` options for for `printf -g` and only 20K for `gcc -g` above.
+So why does `gcc` have so much overhead for `-g` options? We get about
+`190K` options for `printf -g` and only 20K for `gcc -g` above.
 That is almost 10x reduction.
 
-Could `nixpkgs`'s `gcc` wrapper artificially inflate it's arguments
+Could `nixpkgs` `gcc` wrapper artificially inflate its arguments
 somehow? `strace` should help us verify that:
 
 ```
@@ -503,7 +485,6 @@ check their full effect.
 
 I'll write a complete small derivation to demonstrate the explosion
 closer to `qemu` failure mode.
-
 Here is a `default.nix` derivation that should demonstrate the point:
 
 ```nix
@@ -522,7 +503,7 @@ pkgs.stdenv.mkDerivation {
 }
 ```
 
-Now we can quickly build it and explore it's contents:
+Now we can quickly build it and explore its contents:
 
 ```
 $ nix-build
@@ -580,7 +561,7 @@ Here we see 6x explosion:
 - [new] `NIX_CFLAGS_COMPILE_FOR_TARGET` variable, we set ourselves
 
 None of these variables looks redundant: they serve the purpose to
-propagate flags across shell wrappers. Thus we'll have to keep in mind
+propagate flags across shell wrappers. Thus, we'll have to keep in mind
 this 6x explosion.
 
 And yet. 6x explosion does not explain why mere `-g` option can be
@@ -612,7 +593,7 @@ $ echo $((2 ** 17))
 ```
 
 It comes from `copy_string()` from the same
-[fs/exec.c](https://github.com/torvalds/linux/blob/2cf0f715623872823a72e451243bbf555d10d032/fs/exec.c#L523):
+[`fs/exec.c`](https://github.com/torvalds/linux/blob/2cf0f715623872823a72e451243bbf555d10d032/fs/exec.c#L523):
 
 ```c
 static int copy_strings(int argc, struct user_arg_ptr argv,
@@ -668,7 +649,6 @@ $ E=$(printf "%0*d" $((2 ** 17 - 2)) ) $(which printf) "1" >/dev/null; echo $?
 
 Here we run `printf 1` with a large `E=000000...000` variable and expose
 the same `128K` limit.
-
 This is bad news. As we saw above `gcc` uses single `COLLECT_GCC_OPTIONS`
 variable to pass all options around. And on top of that it quotes each
 argument.
@@ -720,14 +700,14 @@ becomes even more pessimistic:
 - for no overhead: `128 * 1024 / (220 + 9) / 4 = 143` variables!
 
 It might sound like a lot but it's not that much of a budget: some
-packaging systems (like `haskell`'s `hackage`) do like small
+packaging systems (like `haskell` `hackage`) do like small
 fine-grained packages and occasionally do install `C` header files.
-`nix` itself favours smaller packages to speed up rebuilds and shrink
+`nix` itself favors smaller packages to speed up rebuilds and shrink
 runtime closure. `pkg-config` is geared towards installing packages
 into individual directories.
 
 And what is worse: `NIX_CFLAGS_COMPILE` is not the only option
-that exhibits this behaviour. Here is the longer list following
+that exhibits this behavior. Here is the longer list following
 `mangleVarList` used in `nixpkgs`:
 
 ```
@@ -763,7 +743,7 @@ variables.
 Even on `linux` command line argument limits are hard. If you can try to
 use files to pass inputs of unbounded sizes.
 
-`linux` has unreachable `0-x7fffFFFF` argument count limit when executing
+`linux` has unreachable `0x7fffFFFF` argument count limit when executing
 the commands. It does have an overall limit `2MB` limit that one can
 increase to `6MB`. And on top of that individual arguments are limited
 by `128K` limit that you can't raise.
@@ -781,16 +761,16 @@ of thousands to tens of thousands.
 `gcc` is a special `COLLECT_GCC_OPTIONS` case and it has a limit of
 `128KB` making argument limits onto hundreds.
 
-Initially I planned to workaround `qemu` failure by using `gcc`'s
+Initially I planned to work around `qemu` failure by using `gcc`
 response files. I thought it would save the problem completely.
 Unfortunately `COLLECT_GCC_OPTIONS` contains already expanded response
 file contents and thus response files will only remove multiplication
-factor but will not sidestep 128KB limit.
+factor but will not sidestep `128KB` limit.
 
 On the bright side `COLLECT_GCC_OPTIONS` is an internal `gcc`
 implementation detail that should be fixable without much external
 impact. Even if we move it to proper argument list it should already
-unlock `2MB` limit. And if we could pass response files through we cloud
+unlock `2MB` limit. And if we could pass response files through we could
 sidestep the limit entirely. Filed <https://gcc.gnu.org/PR111527> to
 `gcc` upstream.
 
