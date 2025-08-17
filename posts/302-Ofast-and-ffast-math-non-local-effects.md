@@ -6,8 +6,8 @@ root: "http://trofi.github.io"
 
 ## Tl;DR:
 
-`-ffast-math` / `-Ofast` options are very tricky to use correctly:
-in addition to breaking your immediate floating point arithmetic code
+`-ffast-math` / `-Ofast` options are very tricky to use correctly!
+In addition to breaking your immediate floating point arithmetic code
 (which you might be prepared for) it also **breaks the code not compiled
 with these options** but happen to be present in the same address
 space:
@@ -37,7 +37,7 @@ All the red boxes are negatively affected by the module compiled with
 ## More words
 
 Let's start off with an executable example: we'll construct a very small
-`double` value and print it with some of it's properties:
+`double` value and print it with some of its properties:
 
 ### An example
 
@@ -77,7 +77,7 @@ I am using `volatile` on `also_small` to prevent `gcc` from folding
 constants at compile time. I also use `gcc` extension to write down
 floats in hexadecimal form (instead of decimal form).
 
-Quick quiz: what class should the above program print you think?
+**Quick quiz**: what class should the above program print you think?
 
 Let's run it and see the answer:
 
@@ -96,10 +96,9 @@ also_small = 0x0.00004p-1022 or 8.487983e-314 (FP_ZERO)
 ```
 
 Apparently it depends! On `-O2` the value is detected as `FP_SUBNORMAL`
-and on `-Ofast` (or `-ffast-math`) it goes as `FP_ZERO`. Thus `printf()`
+and on `-Ofast` (or `-ffast-math`) it goes as `FP_ZERO`. Thus, `printf()`
 disagrees and prints something that looks more like a small number than
 zero.
-
 That is unfortunate. But maybe it's expected by someone who uses
 `-Ofast`?
 
@@ -148,7 +147,7 @@ digraph G {
 
 ## Breakage mechanics
 
-Before looking at the implementation let's have a look at the option
+Before looking at the implementation let's look at the option
 descriptions `gcc` man page provides:
 
 ```
@@ -168,11 +167,9 @@ descriptions `gcc` man page provides:
 ```
 
 Note how vague the description is: it says your floating point code
-might do something funny that violates C standard but does not go into
+might do something funny that violates `C` standard but does not go into
 specifics.
-
 For most people it should be a good hint not to use the option lightly.
-
 The effect we see in `fpclassify()` in our example's instability is the
 result of `-funsafe-math-optimizations` option. That one is described as:
 
@@ -199,7 +196,6 @@ This option changes global setting of an `FP` unit at program start.
 This change affects not only the code explicitly compiled with
 `-ffast-math` but also affects everything else that resides in the same
 address space.
-
 Mechanically the `FPU` state changes when `gcc` links `crtfastmath.o`
 on `-Ofast` / `-ffast-math`. Object file is implemented via `spec`
 machinery:
@@ -265,8 +261,7 @@ real data in final applications.
 
 I did not know about this `-ffast-math` problem until `nixpkgs` updated
 `libsodium` library to `1.0.19` which started defaulting to
-`-Ofast` in ["Try using -Ofast / -O3 by default" commit](https://github.com/jedisct1/libsodium/commit/ad4584d45590654b9d863ced90d2b2561d5cfbda).
-
+`-Ofast` in [`"Try using -Ofast / -O3 by default" commit`](https://github.com/jedisct1/libsodium/commit/ad4584d45590654b9d863ced90d2b2561d5cfbda).
 After a `libsodium` upgrade test suites for various programs started
 failing with obscure errors of data corruption around `double` conversion
 to string and back. In some of the cases `libsodium` was not even used
@@ -302,12 +297,12 @@ That sounds quite unsafe.
 
 ## Why do we even have that lever?
 
-But why do these transformations exist at all? Why treat small `double`s
+But why do these transformations exist at all? Why treat small `double`
 differently compared to larger values? We don't do it with small
 integers after all (I hope!).
 
 Apparently at least older CPUs (and maybe modern ones as well?) were
-slower to handle denormalized values. Sometimes 100x slower. Thus
+slower to handle denormalized values. Sometimes 100x slower. Thus,
 cutting a corner here might have a visible win in applications that
 don't care about precision or predictability of the result.
 
@@ -332,13 +327,13 @@ three(ish) cases:
 
 - Normalized values (for `exp` in `1` - `2046` range): ${(-1)}^{sign}\times2^{exp-1023}\times1.{frac}$
 - Denormalized values: (for `exp == 0`): ${(-1)}^{sign}\times2^{exp-1022}\times0.{frac}$
-- `exp == 2047`: `NaN`s and infinities of sorts
+- `exp == 2047`: `NaN` and infinities of sorts
 
 The main detail here is implied `1.frac` vs `0.frac` in the first two
-cases. Otherwise the structure is the same. A few examples of value
+cases. Otherwise, the structure is the same. A few examples of value
 encodings:
 
-| value | encoded | sign/exp/frac | notes |
+| value | encoded | `sign`/`exp`/`frac` | notes |
 | --- | --- | --- | --- |
 | `0x1.5p0`     | `0x3ff5000000000000` | `0/0x3ff/0x0005000000000000` | A normalized value |
 | `0x1.0p-1022` | `0x0010000000000000` | `0/1/0` | Smallest normalized value |
@@ -363,16 +358,16 @@ idea which `FP` class we are looking at:
 - `0x7ff / 0xfff`: `NaN` or infinities
 
 Normalized values do not allow for `0.0` encoding: `frac` always has
-an implied leading `1.` start for fraction. Thus zeros have to be
+an implied leading `1.` start for fraction. Thus, zeros have to be
 encoded using denormalized scheme.
 
-(Positive) zero is encoded as all zero bits. Thus `memset()` on array of
+(Positive) zero is encoded as all zero bits. Thus, `memset()` on array of
 floats creates sensible array of zeros.
 
 There are two zeros: signed and unsigned.
 
 While zeros require subnormal encoding of an exponent they are
-considered a separate  `FP_ZERO` class from `FP_SUBNORMAL`
+considered a separate `FP_ZERO` class from `FP_SUBNORMAL`
 
 Normalized values use all their 52 bits of fraction for precision.
 Denormalized values usually use less as they maintain a few leading
@@ -397,9 +392,9 @@ also_small = 0x0.00004p-1022 or 8.487983e-314 (FP_ZERO)
 ```
 
 Is it hard to hit a denormalized value? It depends! If you operate on
-small values like $10^{-20}$ (micros) and use to raise it to higher
+small values like $2^{-20}$ (micros) and use to raise it to higher
 powers, like 16, then you get outside the normal range:
-${(10^{-20})}^{16} = 0x0.00000000007e8p^{-1022}$
+${(2^{-20})}^{16} = 0x0.00000000007e8p^{-1022}$
 
 These are very small values.
 
@@ -412,12 +407,10 @@ With such flushing enabled it is a lot easier to hit a `NaN` by dividing
 addition to breaking your immediate floating point arithmetic code
 `-ffast-math` / `-Ofast` also breaks the code not compiled with these
 options. This non-local effect is most problematic.
-
 `libsodium` tried it and broke a few reverse dependencies that relied on
 denormalized values to work as expected.
-
 For the time being `libsodium` [rolled back](https://github.com/jedisct1/libsodium/commit/0e0e2c16401e63777dce8c7958a3ca789055dfcf)
-`-Ofast` default. That  should stop `FP` code breakage for users of older
+`-Ofast` default. That should stop `FP` code breakage for users of older
 `gcc`.
 
 There probably is a lot more packages enabling `-Ofast` without
@@ -428,7 +421,7 @@ To notice the problem the code needs to exercise denormalized values
 which might require very small actual values as operands.
 
 What is worse: the truncation problems might come and go depending on
-what compiler decides to do with the intermediate values: perform
+what compiler decides to do with the intermediate values. It can perform
 an operation on `FP` unit and observe the truncation, pass it in
 memory and process using bitwise arithmetic and not observe the
 truncation or re-associate the operations and expose denormalized values.
@@ -436,7 +429,7 @@ This instability effect is very similar to `i387` `FPU` instability
 on `i386` documented at <https://gcc.gnu.org/wiki/x87note>.
 
 Floating point encoding is straightforward, but is full of corner cases:
-normalized, denormalized, zeros, infinities and `NaN`s. Handling all the
+normalized, denormalized, zeros, infinities and `NaN`. Handling all the
 cases requires extra work from the programmer and the CPU.
 
 `MXCSR_DAZ` and `MXCSR_FTZ` status bits allow CPU to treat most
