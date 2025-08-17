@@ -9,7 +9,7 @@ root: "http://trofi.github.io"
 `nixpkgs` provides [a lot of packages](https://repology.org/repository/nix_unstable).
 Today `repology.org` says it's `106937` packages for `89083` projects.
 
-As I understand it `repology`'s `project` means upstream project name.
+As I understand it `repology` `project` means upstream project name.
 If we pick `python:networkx` `repology` name then `nixpkgs` provides a
 few versions of `networkx` for each python version:
 
@@ -25,8 +25,8 @@ definitions hiding in `nixpkgs`? You could easily access packages like
 `python3.11-networkx-3.1-riscv64-unknown-linux-gnu`. None of them are
 listed on `repology`.
 
-Abundance of various package flavours like this one is a well-known fact 
-or a seasoned user of `nixpkgs`.
+Abundance of various package flavors like this one is a well-known fact 
+for a seasoned user of `nixpkgs`.
 
 A few days ago I attempted to update `autoconf` from `2.71` to `2.72`
 version. It's supposed to be a minor maintenance release without
@@ -38,11 +38,10 @@ building correctly.
 
 `NixOS` and `nixpkgs` users almost never deal with exact package names:
 resolving a package name to package definition is slow and ambiguous.
-
-Instead `nixpkgs` encourages users to use "attribute names" using
+Instead, `nixpkgs` encourages users to use "attribute names" using
 `nix`-language level constructs.
 
-For example `python3.11-networkx-3.1` would have a name of
+For example, `python3.11-networkx-3.1` would have a name of
 `python3Packages.networkx` on my system. The same package also has quite
 a few aliases:
 
@@ -68,12 +67,11 @@ nix-repl> python311.pkgs.networkx
 
 The `.drv` files have identical hash part which means all the names are
 equivalent when used as is.
-
 Simpler examples of attributes are `re2c` and `gnugrep`. More complex
 ones are `python3Packages.ninja`, `linuxPackages_latest.kernel.configfile` and
 `pkgsCross.riscv64.re2c`.
 
-Thus to answer a question of what packages should I test after
+Thus, to answer a question of what packages should I test after
 `autoconf` upgrade I would prefer to get attribute names instead of
 package names.
 
@@ -120,18 +118,15 @@ sys     0m17,102s
 Here I changed `netpbm` package in `HEAD` commit and that caused the
 rebuild of `63` `x86_64-linux` packages (and `32` `x86_64-darwin` ones).
 In this case rebuilding all `63` of them is not a big deal.
-
 But even here some of the packages are probably not worth testing.
 `netpbm` has something to do with image formats and `cleavis` is about
 the encryption. I would guess `cleavis` would not be impacted by the
 update at all.
-
 It would be nice to find all **direct** users of `netpbm` instead and
 rebuild those.
 
 The very first topic I created on `NixOS discourse` was about
 [reverse dependencies lookup](https://discourse.nixos.org/t/how-do-you-find-reverse-dependencies/15057).
-
 I was a bit surprised there was no standard tool like that and wrote a
 hack to do it:
 
@@ -179,42 +174,36 @@ nix-repl> import ./arevdeps.nix netpbm pkgs.python3Packages lib
 
 In practice it's not very convenient and I never did it. The command
 already takes a while to run and running it multiple times is no fun.
-
 I decided to extend initial script to handle nested attributes.
 
 ## Naive attempt to extend the hack
 
 In theory it's one small extension: add a tiny amount of code to descend
 into child attributes and you are done.
-
 Sounds good, did not work.
-
 The result started crashing on various syntax errors in various
-`nixpkgs` files. When I worked error around `nix` ate `100GB` of `RAM`
+`nixpkgs` files. When I worked syntax errors around `nix` ate `100GB` of `RAM`
 and crashed without producing the result.
-
 I'll spare you the implementation details of a modified script.
 
 Unbounded `RAM` usage is very unfortunate as the script in theory could
 run in constant space. It's not very simple in practice as `nix` uses
 [`boehm-gc`](https://en.wikipedia.org/wiki/Boehm_garbage_collector) to
-control it's heap usage. I'm not sure a single loaded `<nixpkgs>` tree
+control its heap usage. I'm not sure a single loaded `<nixpkgs>` tree
 allows for any garbage collection of `.drv` files.
-
 I filed <https://github.com/NixOS/nix/issues/9671> issue to see if there
 are any obvious references `nix` could remove to make garbage collection
 more efficient.
-
 But in the shorter term I had to try something else.
 
 ## A step back: just list all the attributes
 
 I realized there are multiple problems with my hack and I attempted to
-solve a simple problem. I wanted to just list all the available
+solve a simpler problem. I wanted to just list all the available
 attributes in `<nixpkgs>`. Ideally not just those known to `hydra` CI
 builder but the ones hiding in `pkgsCross` in other places.
 
-Quiz question: how hard is it to get a list of such attributes to
+**Quiz question**: how hard is it to get a list of such attributes to
 explore?
 
 Getting an attribute list of a single set is trivial via single call of
@@ -317,7 +306,6 @@ Not all error types can be caught by `builtins.tryEval`: only `throw`
 and `aasert` calls (these are explicitly present in the call) are
 catchable. The rest is considered a bug in `nix` expression and can't be
 caught. I guess it's the way to signal invalid `.nix` programs.
-
 Lack of error recovery means that I can't do attribute filtering like
 in a single `nix` expression! I had 2 options:
 
@@ -441,7 +429,7 @@ user    0m58,368s
 sys     0m5,910s
 ```
 
-Second level also works! This time it took 25GB and a bit more than 1
+Second level also works! This time it took `25GB` and a bit more than 1
 minute to print the result. There are a few issues with it: some
 attribute trees like `__splicedPackages` and `pkgsHostTarget` are
 redundant. We already get attributes like `python3Packages.ninja`.
@@ -451,23 +439,23 @@ But are not quite at `pkgsCross.riscv64.re2c` yet.
 
 I ran the naive script above and derived the following fixes:
 
-- [PR 277117](https://github.com/NixOS/nixpkgs/pull/277117):
+- [`PR#277117`](https://github.com/NixOS/nixpkgs/pull/277117):
   `netbsd.libcurses` constructed invalid type of `NIX_CFLAGS_COMPILE`.
-- [PR 276984](https://github.com/NixOS/nixpkgs/pull/276984):
+- [`PR#276984`](https://github.com/NixOS/nixpkgs/pull/276984):
   `beam.packages.erlangR23` referred to non-existent `erlang_23`
   attribute.
-- [PR 276985](https://github.com/NixOS/nixpkgs/pull/276985):
+- [`PR#276985`](https://github.com/NixOS/nixpkgs/pull/276985):
   `coq-kernel.launcher` used an alias instead of package name.
-- [PR 276995](https://github.com/NixOS/nixpkgs/pull/276995):
+- [`PR#276995`](https://github.com/NixOS/nixpkgs/pull/276995):
   `haskell.packages.ghc810.mod` used non-existent `mod_0_1_2_2` attribute
-  in it's definition.
-- [PR 276986](https://github.com/NixOS/nixpkgs/pull/276986):
+  in its definition.
+- [`PR#276986`](https://github.com/NixOS/nixpkgs/pull/276986):
   `dockerTools.tests.docker-tools` used an alias instead of actual name.
-- [PR 277211](https://github.com/NixOS/nixpkgs/pull/277211):
+- [`PR#277211`](https://github.com/NixOS/nixpkgs/pull/277211):
   `nixosTests.nixops` had an unsatisfied function argument.
-- [PR 277355](https://github.com/NixOS/nixpkgs/pull/277355):
+- [`PR#277355`](https://github.com/NixOS/nixpkgs/pull/277355):
   `stdenv` used `abort`.
-- [PR 277364](https://github.com/NixOS/nixpkgs/pull/277364):
+- [`PR#277364`](https://github.com/NixOS/nixpkgs/pull/277364):
   `python312Packages.array-record` accessed non-existent attribute.
 
 Getting 8 bugs just like that impressed me. I optimized lister a bit to
@@ -485,7 +473,7 @@ by `hydra` CI. The `passthry.tests` in particular are **not** used by
 it renders a failure as inconclusive gray. The assumption is that the
 reviewer look at the underlying failure and makes a decision.
 
-Thus I added a knob to descend into attributes of derivations
+Thus, I added a knob to descend into attributes of derivations
 [this way](https://github.com/trofi/nixpkgs-overlays/commit/50ed200dc06ee1b6ec8ad8ca879a9948cc85135e):
 
 ```diff
@@ -525,276 +513,276 @@ as it derives too many attributes for (still!) naive script to handle.
 
 But even with such a limited lister I managed to get to these bugs:
 
-- [PR#277399](https://github.com/NixOS/nixpkgs/pull/277399):
+- [`PR#277399`](https://github.com/NixOS/nixpkgs/pull/277399):
   `bazel-watcher.bazel.tests` had a `optionalSttrs` typo instead of
   `optionalAttrs`.
-- [PR#277400](https://github.com/NixOS/nixpkgs/pull/277400):
+- [`PR#277400`](https://github.com/NixOS/nixpkgs/pull/277400):
   `bitcoind-knots` referred to non-existent test.
-- [PR#277402](https://github.com/NixOS/nixpkgs/pull/277402):
+- [`PR#277402`](https://github.com/NixOS/nixpkgs/pull/277402):
   `cargo` tried to pull tests for a package that does not define it.
-- [PR#277404)](https://github.com/NixOS/nixpkgs/pull/277404):
+- [`PR#277404`](https://github.com/NixOS/nixpkgs/pull/277404):
   `corosync` did not specify a test input argument that it used.
-- [PR#277408](https://github.com/NixOS/nixpkgs/pull/277408):
+- [`PR#277408`](https://github.com/NixOS/nixpkgs/pull/277408):
   `lua-wrapper` uses non-existent attributes to define paths.
-- [PR#277420](https://github.com/NixOS/nixpkgs/pull/277420):
+- [`PR#277420`](https://github.com/NixOS/nixpkgs/pull/277420):
   `displaylink` referred to non-existent test.
-- [PR#277434](https://github.com/NixOS/nixpkgs/pull/277434):
+- [`PR#277434`](https://github.com/NixOS/nixpkgs/pull/277434):
   `gnupg22` incorrectly refers to the test suite.
-- [PR#277435](https://github.com/NixOS/nixpkgs/pull/277435):
+- [`PR#277435`](https://github.com/NixOS/nixpkgs/pull/277435):
   `pisocsope.rules` looked `writeTextDir` in `lib` instead of `pkgs`.
-- [PR#277473](https://github.com/NixOS/nixpkgs/pull/277473):
+- [`PR#277473`](https://github.com/NixOS/nixpkgs/pull/277473):
   `guacamole-client` was referring to deleted test.
-- [PR#277474](https://github.com/NixOS/nixpkgs/pull/277474):
+- [`PR#277474`](https://github.com/NixOS/nixpkgs/pull/277474):
   `mutmut` used `testers` attribute without use.
-= [PR#277494](https://github.com/NixOS/nixpkgs/pull/277494):
+= [`PR#277494`](https://github.com/NixOS/nixpkgs/pull/277494):
   `buildFHSEnv` did not fully handle `multiPaths = null`.
-- [PR#277512](https://github.com/NixOS/nixpkgs/pull/277512):
+- [`PR#277512`](https://github.com/NixOS/nixpkgs/pull/277512):
   `owncast` referred to non-existent test.
-- [PR#277517](https://github.com/NixOS/nixpkgs/pull/277517):
+- [`PR#277517`](https://github.com/NixOS/nixpkgs/pull/277517):
   `python3Packages.pypaBuildHook.tests` test referred non-existent `.nix`
   file.
-- [PR#277543](https://github.com/NixOS/nixpkgs/pull/277543):
+- [`PR#277543`](https://github.com/NixOS/nixpkgs/pull/277543):
   `pythonInterpreters.pypy39_prebuilt` referred to deleted `pypy38`
   attribute, not `pypy39`.
-- [PR#277580](https://github.com/NixOS/nixpkgs/pull/277580):
+- [`PR#277580`](https://github.com/NixOS/nixpkgs/pull/277580):
   `tigervnc.tests` referred to non-existent test.
-- [PR#277581](https://github.com/NixOS/nixpkgs/pull/277581):
+- [`PR#277581`](https://github.com/NixOS/nixpkgs/pull/277581):
   `wezterm.tests` referred to commented out tests.
-- [PR#277590](https://github.com/NixOS/nixpkgs/pull/277590):
+- [`PR#277590`](https://github.com/NixOS/nixpkgs/pull/277590):
   `devpod.tests` passed incorrect parameter to a test function.
-- [PR#277593](https://github.com/NixOS/nixpkgs/pull/277593):
+- [`PR#277593`](https://github.com/NixOS/nixpkgs/pull/277593):
   `fakeroot.tests` passed incorrect parameter to a test function.
-- [PR#277595](https://github.com/NixOS/nixpkgs/pull/277595):
+- [`PR#277595`](https://github.com/NixOS/nixpkgs/pull/277595):
   `findup.tests` passed incorrect parameter to a test function.
-- [PR#277600](https://github.com/NixOS/nixpkgs/pull/277600):
+- [`PR#277600`](https://github.com/NixOS/nixpkgs/pull/277600):
   `jellyfin-ffmpeg.tests` is missing `pkg-config` annotation.
-- [PR#277617](https://github.com/NixOS/nixpkgs/pull/277617):
+- [`PR#277617`](https://github.com/NixOS/nixpkgs/pull/277617):
   `build-support/go` code constructed inaccessible `vendorSha256`
   attribute.
-- [PR#277715](https://github.com/NixOS/nixpkgs/pull/277715):
+- [`PR#277715`](https://github.com/NixOS/nixpkgs/pull/277715):
   `octoprint` referred to non-existent attribute in `tests`.
-- [PR#277741](https://github.com/NixOS/nixpkgs/pull/277741):
+- [`PR#277741`](https://github.com/NixOS/nixpkgs/pull/277741):
   `pypy2Packages.attrs` refers non-existent `.nix` file.
-- [PR#277751](https://github.com/NixOS/nixpkgs/pull/277751):
+- [`PR#277751`](https://github.com/NixOS/nixpkgs/pull/277751):
   `python3Packages.openllm`: fix `passthru` dependency references and
   fix variable shadowing.
-- [PR#277777](https://github.com/NixOS/nixpkgs/pull/277777):
+- [`PR#277777`](https://github.com/NixOS/nixpkgs/pull/277777):
   `python3Packages.openllm-client`: fix `passthru` dependency references.
-- [PR#277788](https://github.com/NixOS/nixpkgs/pull/277788):
+- [`PR#277788`](https://github.com/NixOS/nixpkgs/pull/277788):
   `python3Packages.openllm-core`: fix `passthru` dependency references.
-- [PR#277880](https://github.com/NixOS/nixpkgs/pull/277880):
+- [`PR#277880`](https://github.com/NixOS/nixpkgs/pull/277880):
   `valhalla` was missing `pkgConfigModules` definition.
-- [PR#277899](https://github.com/NixOS/nixpkgs/pull/277899):
+- [`PR#277899`](https://github.com/NixOS/nixpkgs/pull/277899):
   `zammad.src.meta` failed to evaluate due to incorrect position
   assumption: no metadata attributes were defined in the `.nix` files.
-- [PR#277973](https://github.com/NixOS/nixpkgs/pull/277973):
+- [`PR#277973`](https://github.com/NixOS/nixpkgs/pull/277973):
   `ruff.tests` referred `ruff-lsp` alias instead of direct name.
-- [PR#277982](https://github.com/NixOS/nixpkgs/pull/277982):
+- [`PR#277982`](https://github.com/NixOS/nixpkgs/pull/277982):
   `spark.tests`: referred to `nixosTest` alias.
-- [PR#278034](https://github.com/NixOS/nixpkgs/pull/278034):
+- [`PR#278034`](https://github.com/NixOS/nixpkgs/pull/278034):
   `nixosTests.kernel-generic` attempted to use `bool` value as a kernel
   derivation.
-- [PR#278044](https://github.com/NixOS/nixpkgs/pull/278044):
+- [`PR#278044`](https://github.com/NixOS/nixpkgs/pull/278044):
   `aaxtomp3`: fix invalid reference to `glibc` for non-`glibc` targets.
-- [PR#278069](https://github.com/NixOS/nixpkgs/pull/278069):
+- [`PR#278069`](https://github.com/NixOS/nixpkgs/pull/278069):
   `haskell.packages.ghc810` refer to non-existent packages.
-- [PR#278074](https://github.com/NixOS/nixpkgs/pull/278074):
+- [`PR#278074`](https://github.com/NixOS/nixpkgs/pull/278074):
   `haskell.packages.ghc865Binary` refer to non-existent packages.
-- [PR#278076](https://github.com/NixOS/nixpkgs/pull/278076):
+- [`PR#278076`](https://github.com/NixOS/nixpkgs/pull/278076):
   `haskell.packages.ghc98` refer to non-existent packages.
-- [PR#278224](https://github.com/NixOS/nixpkgs/pull/278224):
+- [`PR#278224`](https://github.com/NixOS/nixpkgs/pull/278224):
   `haskell.packages.ghcjs` lacks `llvmPackages` attribute implied by
   `ghc-8.10` packages.
-- [PR#278528](https://github.com/NixOS/nixpkgs/pull/278528):
+- [`PR#278528`](https://github.com/NixOS/nixpkgs/pull/278528):
   `python3Packages.paddlepaddle`: unhandled error in `src` attribute
   dereference.
-- [PR#278915](https://github.com/NixOS/nixpkgs/pull/278915):
+- [`PR#278915`](https://github.com/NixOS/nixpkgs/pull/278915):
   `nvidia-x11` unconditionally refers to `/share/` even if libraries are
   the only enabled bit.
-- [PR#278950](https://github.com/NixOS/nixpkgs/pull/278950):
+- [`PR#278950`](https://github.com/NixOS/nixpkgs/pull/278950):
   `pythonInterpreters.pypy39_prebuilt` failed the `test` evaluation as
   it exposed unhandled `pythonAttr = null` value. The test expected a
   real object.
-- [PR#279018](https://github.com/NixOS/nixpkgs/pull/279018):
+- [`PR#279018`](https://github.com/NixOS/nixpkgs/pull/279018):
   `systemd.tests.systemd-journal-upload` has invalid maintainer
   specified.
-- [PR#279404](https://github.com/NixOS/nixpkgs/pull/279404):
+- [`PR#279404`](https://github.com/NixOS/nixpkgs/pull/279404):
   `llvmPackages.bintools.bintools` did not define expected
   `targetPackages`.
-- [PR#279463](https://github.com/NixOS/nixpkgs/pull/279463):
+- [`PR#279463`](https://github.com/NixOS/nixpkgs/pull/279463):
   `stdenv.adapters`: fix `overrideLibcxx` definition.
-- [PR#280319](https://github.com/NixOS/nixpkgs/pull/280319):
+- [`PR#280319`](https://github.com/NixOS/nixpkgs/pull/280319):
   `rubyModules` defined `gemType` via non-existent sets.
-- [PR#280470](https://github.com/NixOS/nixpkgs/pull/280470):
+- [`PR#280470`](https://github.com/NixOS/nixpkgs/pull/280470):
   `pkgsLLVM.dmd` accessed non-existent `libgcc` attribute.
-- [PR#283737](https://github.com/NixOS/nixpkgs/pull/283737):
+- [`PR#283737`](https://github.com/NixOS/nixpkgs/pull/283737):
   `tests.cross.sanity` referred non-existent `qt5.qutebrowser`.
-- [PR#289397](https://github.com/NixOS/nixpkgs/pull/289397):
+- [`PR#289397`](https://github.com/NixOS/nixpkgs/pull/289397):
   `nixosTests.keepalived` defined `maintainers` attribute in an
   incorrect scope.
-- [PR#292677](https://github.com/NixOS/nixpkgs/pull/292677):
+- [`PR#292677`](https://github.com/NixOS/nixpkgs/pull/292677):
   `distrobuilder.tests` referred renamed test attribute.
-- [PR#292762](https://github.com/NixOS/nixpkgs/pull/292762):
+- [`PR#292762`](https://github.com/NixOS/nixpkgs/pull/292762):
   `lxc.tests` referred renamed test attribute.
-- [PR#295431](https://github.com/NixOS/nixpkgs/pull/295431):
+- [`PR#295431`](https://github.com/NixOS/nixpkgs/pull/295431):
   `pypy27Packages.pulsar-client` dereferenced non-existent attribute.
-- [PR#295448](https://github.com/NixOS/nixpkgs/pull/295448):
+- [`PR#295448`](https://github.com/NixOS/nixpkgs/pull/295448):
   `ttyd.tests` referred unmentioned `nixosTests`.
-- [PR#296264](https://github.com/NixOS/nixpkgs/pull/296264):
+- [`PR#296264`](https://github.com/NixOS/nixpkgs/pull/296264):
   `python3.pkgs.openllm-core.optional-dependencies.full` referred
   renamed attribute.
-- [PR#296497](https://github.com/NixOS/nixpkgs/pull/296497):
+- [`PR#296497`](https://github.com/NixOS/nixpkgs/pull/296497):
   `apptainer.gpuChecks.saxpy` refers the attribute from the wrong place.
-- [PR#305811](https://github.com/NixOS/nixpkgs/pull/305811):
+- [`PR#305811`](https://github.com/NixOS/nixpkgs/pull/305811):
   `lxd.ui` is an export of non-=existent attribute.
-- [PR#305843](https://github.com/NixOS/nixpkgs/pull/305843):
+- [`PR#305843`](https://github.com/NixOS/nixpkgs/pull/305843):
   `pypy27Packages.pluthon` used invalid form of `lib.optionals` call.
-- [PR#305925](https://github.com/NixOS/nixpkgs/pull/305925):
+- [`PR#305925`](https://github.com/NixOS/nixpkgs/pull/305925):
   `redlib.tests` referred non-existent `nixosTests.redlib`.
-- [PR#313791](https://github.com/NixOS/nixpkgs/pull/313791):
+- [`PR#313791`](https://github.com/NixOS/nixpkgs/pull/313791):
   `haskell.packages.ghc865Binary.exceptions` referred to missing package.
-- [PR#313792](https://github.com/NixOS/nixpkgs/pull/313792):
+- [`PR#313792`](https://github.com/NixOS/nixpkgs/pull/313792):
   `haskell.packages.ghcjs.exceptions` referred to missing package.
-- [PR#314092](https://github.com/NixOS/nixpkgs/pull/314092):
+- [`PR#314092`](https://github.com/NixOS/nixpkgs/pull/314092):
   `nextcloud-notify_push.tests` referred to missing package.
-- [PR#314109](https://github.com/NixOS/nixpkgs/pull/314109):
+- [`PR#314109`](https://github.com/NixOS/nixpkgs/pull/314109):
   `githooks.tests` used invalid parameter to `testers.testVersion` helper.
-- [PR#314196](https://github.com/NixOS/nixpkgs/pull/314196):
+- [`PR#314196`](https://github.com/NixOS/nixpkgs/pull/314196):
   `nixVersions.git.tests` used invalid attribute name when defined tests.
-- [PR#317956](https://github.com/NixOS/nixpkgs/pull/317956):
+- [`PR#317956`](https://github.com/NixOS/nixpkgs/pull/317956):
   `lix.tests` failed to evaluate as it tried to use non-existent
   attribute.
-- [PR#319518](https://github.com/NixOS/nixpkgs/pull/319518):
+- [`PR#319518`](https://github.com/NixOS/nixpkgs/pull/319518):
   `ollama.tests` used incorrect construct to merge attributes.
-- [PR#325111](https://github.com/NixOS/nixpkgs/pull/325111):
+- [`PR#325111`](https://github.com/NixOS/nixpkgs/pull/325111):
   `nextcloud-notify_push.tests` referred already deleted attribute.
-- [PR#329253](https://github.com/NixOS/nixpkgs/pull/329253):
+- [`PR#329253`](https://github.com/NixOS/nixpkgs/pull/329253):
   `autoprefixer.tests` refers to renamed attribute.
-- [PR#329490](https://github.com/NixOS/nixpkgs/pull/329490):
+- [`PR#329490`](https://github.com/NixOS/nixpkgs/pull/329490):
   `pypy27Packages.corner.nativeBuildInputs` refers non-existent attribute.
-- [PR#329505](https://github.com/NixOS/nixpkgs/pull/329505):
+- [`PR#329505`](https://github.com/NixOS/nixpkgs/pull/329505):
   `pypy27Packages.ray.optional-dependencies` refers to non-existent
   attribute.
-- [PR#329511](https://github.com/NixOS/nixpkgs/pull/329511):
+- [`PR#329511`](https://github.com/NixOS/nixpkgs/pull/329511):
   `python3Packages.pytorch-bin.tests` passes non-existent parameters.
-- [PR#329512](https://github.com/NixOS/nixpkgs/pull/329512):
+- [`PR#329512`](https://github.com/NixOS/nixpkgs/pull/329512):
   `pypy27Packages.pyreqwest-impersonate` defines non-optional attributes
   as optional.
-- [PR#329515](https://github.com/NixOS/nixpkgs/pull/329515):
+- [`PR#329515`](https://github.com/NixOS/nixpkgs/pull/329515):
   `varnish60Packages.modules` used invalid `hash` format.
-- [PR#331682](https://github.com/NixOS/nixpkgs/pull/331682):
+- [`PR#331682`](https://github.com/NixOS/nixpkgs/pull/331682):
   `nixosTests.bittorrent` used an alias in package inputs.
-- [PR#332822](https://github.com/NixOS/nixpkgs/pull/332822):
+- [`PR#332822`](https://github.com/NixOS/nixpkgs/pull/332822):
   `octave.buildEnv` called the function with undefined attribute.
-- [PR#337406](https://github.com/NixOS/nixpkgs/pull/337406):
+- [`PR#337406`](https://github.com/NixOS/nixpkgs/pull/337406):
   `apacheKafka.tests` referred to a broken attribute.
-- [PR#337728](https://github.com/NixOS/nixpkgs/pull/337728):
+- [`PR#337728`](https://github.com/NixOS/nixpkgs/pull/337728):
   `tectonic.tests` referred to a non-existent attribute.
-- [PR#338559](https://github.com/NixOS/nixpkgs/pull/338559):
+- [`PR#338559`](https://github.com/NixOS/nixpkgs/pull/338559):
   `pypy27Packages.incremental` constructs incorrect derivation with an
   associative array field.
-- [PR#338596](https://github.com/NixOS/nixpkgs/pull/338596):
+- [`PR#338596`](https://github.com/NixOS/nixpkgs/pull/338596):
   `pypy2Packages.python-engineio-v3` constructs incorrect derivation with an
   associative array field.
-- [PR#338597](https://github.com/NixOS/nixpkgs/pull/338597):
+- [`PR#338597`](https://github.com/NixOS/nixpkgs/pull/338597):
   `pypy2Packages.python-socketio-v4` constructs incorrect derivation with an
   associative array field.
-- [PR#341497](https://github.com/NixOS/nixpkgs/pull/341497):
+- [`PR#341497`](https://github.com/NixOS/nixpkgs/pull/341497):
   `dotnet/build-dotnet-module` fails to handle missing `pname`.
-- [PR#341985](https://github.com/NixOS/nixpkgs/pull/341985):
+- [`PR#341985`](https://github.com/NixOS/nixpkgs/pull/341985):
   `perlInterpreters.perl536` requires already deleted attribute.
-- [PR#346336](https://github.com/NixOS/nixpkgs/pull/346336):
+- [`PR#346336`](https://github.com/NixOS/nixpkgs/pull/346336):
   `libtorrent` and `rtorrent` `updaterScript` passed non-existent
   parameters.
-- [PR#346689](https://github.com/NixOS/nixpkgs/pull/346689):
+- [`PR#346689`](https://github.com/NixOS/nixpkgs/pull/346689):
   `nix-plugin-pijul.tests` fix the invalid attribute reference.
-- [PR#346746](https://github.com/NixOS/nixpkgs/pull/346746):
+- [`PR#346746`](https://github.com/NixOS/nixpkgs/pull/346746):
   `python3Packages.sshfs.optional-dependencies.pkcs11` fix incorrect
   attribute name.
-- [PR#347172](https://github.com/NixOS/nixpkgs/pull/347172):
+- [`PR#347172`](https://github.com/NixOS/nixpkgs/pull/347172):
   `python3Packages.sshfs.optional-dependencies.pyopenssl`: fix incorrect
   attribute name.
-- [PR#347439](https://github.com/NixOS/nixpkgs/pull/347439):
+- [`PR#347439`](https://github.com/NixOS/nixpkgs/pull/347439):
   `python3Packages.ifcopenshell.tests` did not pass enough parameters.
-- [PR#348104](https://github.com/NixOS/nixpkgs/pull/348104):
+- [`PR#348104`](https://github.com/NixOS/nixpkgs/pull/348104):
   `faiss.passthru` attributes were dropped without removing references
   to it.
-- [PR#352825](https://github.com/NixOS/nixpkgs/pull/352825):
+- [`PR#352825`](https://github.com/NixOS/nixpkgs/pull/352825):
   `pyamlboot.tests` passed the parameter if incorrect type.
-- [PR#355051](https://github.com/NixOS/nixpkgs/pull/355051):
+- [`PR#355051`](https://github.com/NixOS/nixpkgs/pull/355051):
   `pypy3Packages.home-assistant-chip-clusters` dereferenced `null`.
-- [PR#361669](https://github.com/NixOS/nixpkgs/pull/361669):
+- [`PR#361669`](https://github.com/NixOS/nixpkgs/pull/361669):
   `kubernetes-kcp.tests` was not passing a required parameter.
-- [PR#367950](https://github.com/NixOS/nixpkgs/pull/367950):
+- [`PR#367950`](https://github.com/NixOS/nixpkgs/pull/367950):
   `darktable` update script was called with incorrect parameters.
-- [PR#368853](https://github.com/NixOS/nixpkgs/pull/368853):
+- [`PR#368853`](https://github.com/NixOS/nixpkgs/pull/368853):
   `haskell.packages.ghc865Binary.exceptions` uses invalid attribute name.
-- [PR#368899](https://github.com/NixOS/nixpkgs/pull/368899):
+- [`PR#368899`](https://github.com/NixOS/nixpkgs/pull/368899):
   `haskell.packages.ghcjs.exceptions` uses invalid attribute name.
-- [PR#372859](https://github.com/NixOS/nixpkgs/pull/372859):
+- [`PR#372859`](https://github.com/NixOS/nixpkgs/pull/372859):
   `pre-commit.tests` was not updated to use `gitMinimal` attribute.
-- [PR#374899](https://github.com/NixOS/nixpkgs/pull/374899):
+- [`PR#374899`](https://github.com/NixOS/nixpkgs/pull/374899):
   `redict.tests` definition uses non-existent test reference.
-- [PR#377693](https://github.com/NixOS/nixpkgs/pull/377693):
+- [`PR#377693`](https://github.com/NixOS/nixpkgs/pull/377693):
   `python3Packages.langchain-ollama` used non-existent attribute names.
-- [PR#384282](https://github.com/NixOS/nixpkgs/pull/384282):
+- [`PR#384282`](https://github.com/NixOS/nixpkgs/pull/384282):
   `matrix-synapse.tools` referred to already deleted attribute.
-- [PR#385653](https://github.com/NixOS/nixpkgs/pull/385653):
+- [`PR#385653`](https://github.com/NixOS/nixpkgs/pull/385653):
   `lego.tests` refers to non-existent test.
-- [PR#389369](https://github.com/NixOS/nixpkgs/pull/389369):
+- [`PR#389369`](https://github.com/NixOS/nixpkgs/pull/389369):
   `nixosTests.floorp` referred to unavailable attribute
-- [PR#397002](https://github.com/NixOS/nixpkgs/pull/397002):
+- [`PR#397002`](https://github.com/NixOS/nixpkgs/pull/397002):
   `apacheKafka.tests` referred to wrong attribute
-- [PR#399997](https://github.com/NixOS/nixpkgs/pull/399997):
+- [`PR#399997`](https://github.com/NixOS/nixpkgs/pull/399997):
   `python3Packages.ray` built infinite recursion
-- [PR#400179](https://github.com/NixOS/nixpkgs/pull/400179):
+- [`PR#400179`](https://github.com/NixOS/nixpkgs/pull/400179):
   `zed-editor.tests` refers to non-existent attribute.
-- [PR#400739](https://github.com/NixOS/nixpkgs/pull/400739):
+- [`PR#400739`](https://github.com/NixOS/nixpkgs/pull/400739):
   `darwin.moltenvk` dereferences `null` on some targets.
-- [PR#406668](https://github.com/NixOS/nixpkgs/pull/406668):
+- [`PR#406668`](https://github.com/NixOS/nixpkgs/pull/406668):
   `cudaPackages_11_0.autoAddCudaCompatRunpath.libcudaPath` dereferences
   `null`.
-- [PR#411823](https://github.com/NixOS/nixpkgs/pull/411823):
+- [`PR#411823`](https://github.com/NixOS/nixpkgs/pull/411823):
   `lauti.tests` refers to non-existent `nixosTests.lauti` test.
-- [PR#412479](https://github.com/NixOS/nixpkgs/pull/412479):
+- [`PR#412479`](https://github.com/NixOS/nixpkgs/pull/412479):
   `discourse.discourseAllPlugins.tests` refers missing `lib` attribute.
-- [PR#412881](https://github.com/NixOS/nixpkgs/pull/412881):
+- [`PR#412881`](https://github.com/NixOS/nixpkgs/pull/412881):
   `pythonInterpreters.pypy310_prebuilt` deferred to non-existent attribute.
-- [PR#414769](https://github.com/NixOS/nixpkgs/pull/414769):
+- [`PR#414769`](https://github.com/NixOS/nixpkgs/pull/414769):
   `minimal-bootstrap` was using incomplete `fetchurl`.
-- [PR#418248](https://github.com/NixOS/nixpkgs/pull/418248):
+- [`PR#418248`](https://github.com/NixOS/nixpkgs/pull/418248):
   `servarr-ffmpeg.tests`relied on fields missing in `metadata`.
-- [PR#418334](https://github.com/NixOS/nixpkgs/pull/418334):
+- [`PR#418334`](https://github.com/NixOS/nixpkgs/pull/418334):
   `actual-server.webUi` referred to a deleted attribute.
-- [PR#422612](https://github.com/NixOS/nixpkgs/pull/422612):
+- [`PR#422612`](https://github.com/NixOS/nixpkgs/pull/422612):
   `cassandra.tests` referred to non-existent attribute.
-- [PR#429767](https://github.com/NixOS/nixpkgs/pull/429767):
+- [`PR#429767`](https://github.com/NixOS/nixpkgs/pull/429767):
   `haskell.packages.ghc865Binary.exceptions` referred to a non-existent
   attribute.
-- [PR#430449](https://github.com/NixOS/nixpkgs/pull/430449):
+- [`PR#430449`](https://github.com/NixOS/nixpkgs/pull/430449):
   `steamPackages.steam-fhsenv-without-steam` is an alias to deleted
   attribute.
-- [PR#431112](https://github.com/NixOS/nixpkgs/pull/431112):
+- [`PR#431112`](https://github.com/NixOS/nixpkgs/pull/431112):
   `fetchurl` did not handle `mirror://` prefix in URLs.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
 
-- [Issue#277285](https://github.com/NixOS/nixpkgs/issues/277285):
+- [`Issue#277285`](https://github.com/NixOS/nixpkgs/issues/277285):
   `pkgsStatic.php` enters infinite loop and exhausts all available
   memory.
-- [Issue#277628](https://github.com/NixOS/nixpkgs/issues/277628):
+- [`Issue#277628`](https://github.com/NixOS/nixpkgs/issues/277628):
   `godot3-mono.nugetSource.meta` detects infinite recursion on
   evaluation.
-- [Issue#277698](https://github.com/NixOS/nixpkgs/issues/277698):
+- [`Issue#277698`](https://github.com/NixOS/nixpkgs/issues/277698):
   `ocamlPackages.janeStreet_0_15` has unsatisfied attributes.
-- [Issue#280377](https://github.com/NixOS/nixpkgs/issues/280377):
+- [`Issue#280377`](https://github.com/NixOS/nixpkgs/issues/280377):
   `tests.cuda` has an unsatisfied `backendStdenv` attribute.
 
 ## Did I get the list package for `autoconf`?
 
 Sort of: I managed to write the hack to get a list of packages using
-`autoconf` in a few layers deep below top level. It's good enough for
+`autoconf` in a few layers deep below top level. It is good enough for
 testing close to exhaustive.
 
 But I did not get exhaustive at all. There are two main problems still:
@@ -812,7 +800,7 @@ But I did not get exhaustive at all. There are two main problems still:
    And each scope has those self-referential package structures.
 
 2. Even if the attribute set was finite in `<nixpkgs>` the mere act of
-   listing them takes 100s of GB. It looks like it's because `nix` does
+   listing them takes `100s` of `GB`. It looks like it's because `nix` does
    not collect already evaluated garbage expressions that still have
    references from other parts of the tree. The packages loops in
    `nixpkgs` from `[1.]` do not help in that at all.
@@ -824,7 +812,7 @@ packages at a time to avoid infinite memory growth.
 
 Another option would be to write a separate tool using `nix` as a
 library to parse and evaluate `.nix` code that does this job
-specifically. But I'd prefer to try to fix `nix` `GC` behaviour first. I
+specifically. But I'd prefer to try to fix `nix` `GC` behavior first. I
 think it's tractable.
 
 ## Parting words
@@ -866,7 +854,7 @@ And see what you get.
 Next steps I'd like to take at some future point:
 
 - batch package listing and package instantiation in smaller batches to
-  get RAM usage down to a few `GB`s.
+  get RAM usage down to a few `GBs`.
 - explore `nix` and garbage collection mechanisms to make it friendlier
   to large evaluations like `all-attrs.nix`
 
