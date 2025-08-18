@@ -6,10 +6,8 @@ root: "http://trofi.github.io"
 
 Time to time I find myself needing to plot histograms and approximations
 in occasional posts.
-
 Similar to [inline `graphviz`](/posts/300-inline-graphviz-dot-in-hakyll.html)
 support today I added `gnuplot` `svg` inlining support into this blog.
-
 The trivial example looks this way:
 
 ```{render=gnuplot}
@@ -18,11 +16,11 @@ plot [-pi:pi] sin(x)
 
 The above is generated using the following `.md` snippet:
 
+````
+```{render=gnuplot}
+plot [-pi:pi] sin(x)
 ```
-    ```{render=gnuplot}
-    plot [-pi:pi] sin(x)
-    ```
-```
+````
 
 `hakyll` [integration](https://github.com/trofi/trofi.github.io.gen/commit/4fb830628c6923873c0b21b2ac444a73d4d47cee)
 is also straightforward:
@@ -42,10 +40,8 @@ inlineGnuplot x = return x
 
 Here we call `gnuplot --default-settings -e "set terminal svg" -` and
 pass our script over `stdin`. Easy!
-
 For those who wonder what `gnuplot` is capable of have a look at
 [`gnuplot.info` demo page](http://www.gnuplot.info/demo_svg_4.6/).
-
 As a bonus here is the time chart of my commits into `nixpkgs`:
 
 ```{render=gnuplot}
