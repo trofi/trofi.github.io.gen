@@ -30,13 +30,11 @@ Segmentation fault (core dumped)
 
 `sage` is an `ipython` `REPL` with a bunch of bindings for math
 libraries like [`GAP`](https://www.gap-system.org/).
-
 It is said that the bug happens only when `sagemath` is built against
 `python-3.12` while `python-3.11` would work without the problems.
-
 Normally it would be a strong hint of a `sagemath` bug. But the reporter
 suspected it's a `gcc` problem as building `sage` with `-O1` made the
-bug go away. Thus the bug is at least dependent on generated code and is
+bug go away. Thus, the bug is at least dependent on generated code and is
 likely not just a logic bug.
 
 **Quick quiz: where do you think the bug lies?** In `gcc`, `sagemath` or
@@ -68,12 +66,9 @@ Building it did not work as is:
 $ nix build -f. sage
 ...
 
-
 error: ipython-genutils-0.2.0 not supported for interpreter python3.12
 
-
 error: nose-1.3.7 not supported for interpreter python3.12
-
 
 > src/gmpy2_convert_gmp.c:464:76: error: ‘PyLongObject’ {aka ‘struct _longobject’} has no member named ‘ob_digit’
 >   464 |                    sizeof(templong->ob_digit[0])*8 - PyLong_SHIFT, templong->ob_digit);
@@ -81,7 +76,6 @@ error: nose-1.3.7 not supported for interpreter python3.12
 > error: command '/nix/store/8mjb3ziimfi3rki71q4s0916xkm4cm5p-gcc-wrapper-13.2.0/bin/gcc' failed with exit code 1
 > /nix/store/558iw5j1bk7z6wrg8cp96q2rx03jqj1v-stdenv-linux/setup: line 1579: pop_var_context: head of shell_variables not a function context
 For full logs, run 'nix log /nix/store/g7mf3p2cylf74j3ypq2ifcspx61isb36-python3.12-gmpy2-2.1.2.drv'.
-
 
 > ModuleNotFoundError: No module named 'distutils'
 > configure: error: Python explicitly requested and python headers were not found
@@ -104,30 +98,27 @@ not yet upstreamed changes to get earlier `python-3.12` support.
 All the above means that porting fixes are sometimes not trivial and
 might vary from a distribution to distribution if they want to get
 `python-3.12` tested earlier.
-
 I did not feel confident to patch at least 4 `python` libraries to get
 `sagemath` to build. I switched the tactic to reproduce the bug on the
 system reporters were using and to explore it there.
-
 Original reporter used Arch Linux to reproduce the failure. Another user
 [reported](https://github.com/sagemath/sage/pull/36407#issuecomment-2093792864)
 that `Gentoo` users also seen the similar problem.
 
 ## The second reproducer attempt: `Gentoo` package from `::sage-on-gentoo`
 
-I had a `Gentoo` chroot lying around for `nix` packaging testing. I
+I had a `Gentoo` `chroot` lying around for `nix` packaging testing. I
 tried to reproduce `sagemath` failure there by using
 [`::sage-on-gentoo`](https://github.com/cschwan/sage-on-gentoo) overlay.
 Unfortunately neither latest release of `sagemath-standard-10.3` nor
 `sagemath-standard-9999` `git` versions did build for me as is. I filed
 2 bugs:
 
-- [cschwan/sage-on-gentoo#783](https://github.com/cschwan/sage-on-gentoo/issues/783): `=sci-mathematics/sagemath-standard-10.3` fails as: `AttributeError: Can't pickle local object '_prepare_extension_detection.<locals>.<lambda>'`
-- [cschwan/sage-on-gentoo#784](https://github.com/cschwan/sage-on-gentoo/issues/784): `=sci-mathematics/sage_setup-9999` fails as: `tar (child): sage-setup-*.tar.gz: Cannot open: No such file or directory`
+- [`cschwan/sage-on-gentoo#783`](https://github.com/cschwan/sage-on-gentoo/issues/783): `=sci-mathematics/sagemath-standard-10.3` fails as: `AttributeError: Can't pickle local object '_prepare_extension_detection.<locals>.<lambda>'`
+- [`cschwan/sage-on-gentoo#784`](https://github.com/cschwan/sage-on-gentoo/issues/784): `=sci-mathematics/sage_setup-9999` fails as: `tar (child): sage-setup-*.tar.gz: Cannot open: No such file or directory`
 
 I hoped that `pickle` failure was fixed in latest `git` and I could avoid
 the second pickle bug by using it.
-
 At least the `tar` failure looked like a packaging issue:
 
 ```
@@ -163,7 +154,6 @@ somehow [it's code](https://github.com/scikit-build/scikit-build-core/blob/f6ed5
 the extra attributes to `cmake`-based package builds and failed the build.
 
 At least I finally got `sage` tool in my `$PATH`!
-
 I took me two evenings to get `sagemath` to build. At last I could look
 at the crash now.
 
@@ -194,8 +184,7 @@ case of [packaging error](https://bugs.gentoo.org/927767). `Gentoo` uses
 very unusual path to python launcher and breaks too simplistic
 `argv[0]+"/../share"` path construction used in `cysignals`. Adding a
 few more `"../../../"` should do as a workaround.
-
-I was able to workaround `gdb` launch failure by attaching `gdb` to
+I was able to work around `gdb` launch failure by attaching `gdb` to
 already running process before pasting the problematic command into the
 `REPL`:
 
@@ -213,7 +202,6 @@ Using host libthread_db library "/lib64/libthread_db.so.1".
 
 To get more details from the crash site I ran `continue` in `gdb` and
 typed the trigger expression: `libgap.AbelianGroup(0,0,0)`.
-
 To my surprise I got not a `SIGSEGV` but a `SIGABRT`:
 
 ```
@@ -231,8 +219,7 @@ The default signal handler for `SIGABRT` normally crashes the process
 and generates a core dump. `sagemath` installs `SIGABRT` handler (via
 `cysignals` library) to report and recover from some errors like argument
 type errors in the interpreter session.
-
-`gdb` always intercepts `SIGABRT` before executing the handler. Thus I
+`gdb` always intercepts `SIGABRT` before executing the handler. Thus, I
 needed to explicitly continue execution in `gdb` session:
 
 ```
@@ -248,7 +235,6 @@ Yay! I got the `SIGSEGV`!
 
 A simple `NULL` dereference. What could be easier to debug? Just check
 where it was set to `NULL` and do something about it, right?
-
 First thing I wondered about is how does `SIGABRT` handler look like? It
 was an idle curiosity. I expected to see some simple global variable tweak.
 Alas what I found was [`longjmp()`](https://github.com/sagemath/cysignals/blob/035ed1605a8741a6f265a55cc682b26ea6e5d1c2/src/cysignals/implementation.c#L279):
@@ -273,8 +259,8 @@ static void cysigs_interrupt_handler(int sig)
 ```
 
 One has to be
-[very](https://trofi.github.io/posts/188-grub-0.97-and-gcc-4.9.html)
-[careful](https://trofi.github.io/posts/205-stack-protection-on-mips64.html)
+[very](/posts/188-grub-0.97-and-gcc-4.9.html)
+[careful](/posts/205-stack-protection-on-mips64.html)
 with `setjmp()` / `longjmp()`.
 
 ## The example `setjmp()` / `longjmp()` failure mode
@@ -282,7 +268,6 @@ with `setjmp()` / `longjmp()`.
 The `C` standard has a few constructs that don't mix well with `C`
 abstract machine. `setjmp()` / `longjmp()` is one of those. It's a
 frequent source of subtle and latent bugs.
-
 In theory `setjmp()` / `longjmp()` is a portable way to save and restore
 the execution at a certain point in the program. It's a non-local
 `goto`. It is very powerful: you can jump from a few nested calls with
@@ -327,7 +312,7 @@ statement twice:
   location.
 
 I'm using `__attribute__((noipa))` to keep `foo()` from being inlined
-into `main()` to ease `foo()`'s code exploration.
+into `main()` to ease `foo()` code exploration.
 
 The test against the unoptimized build confirms that `a += 1` gets
 executed twice:
@@ -417,8 +402,8 @@ Here `gcc` did quite a bit of code motion:
 
 **Note that `gcc` moved all `a` manipulation across `setjmp()` and even
 `longjmp()` boundaries**. `setjmp()` is expected to be
-just a C function for `gcc`. `gcc` does not have to have any special
-knowledge about control flow semantics of those functions. Thus this
+just a `C` function for `gcc`. `gcc` does not have to have any special
+knowledge about control flow semantics of those functions. Thus, this
 optimization transformation while completely breaking the original
 code's intent is legitimate and expected.
 
@@ -531,11 +516,9 @@ propagation and stack reuse. The time will tell.
 
 After I noticed `setjmp()` / `longjmp()` use in `sagemath` I wondered how
 many `volatile` keywords it has in the code where those were used.
-
 To my surprise it had none. That was a good hint in a sense that it
 looked like the problem we are dealing with. From that point I was
 reasonably sure it's an application bug and not a `gcc` bug.
-
 Still, having the concrete corruption evidence would help to clear any
 doubts and would help the reporter to craft a fix for `sagemath`.
 
@@ -567,7 +550,7 @@ of code to create bindings for `C` libraries to be used in `python`
 libraries. In this case `sagemath` created bindings for `libgap`
 discrete algebra library.
 
-The `cython` code for a function we a `SIGSEGV` in looked
+The `cython` code for a function we saw a `SIGSEGV` in looked
 [this way](https://github.com/sagemath/sage/blob/744939e037a67193e730d7205e612e2d58197fca/src/sage/libs/gap/element.pyx#L2504):
 
 ```python
@@ -1178,14 +1161,11 @@ static PyObject *__pyx_pf_4sage_4libs_3gap_7element_19GapElement_Function_2__cal
 
 `cython` does a great job annotating generated code with corresponding
 source code. Very useful! While it's a lot of boilerplate the code is
-straightforward.
-
-A few important facts:
+straightforward. A few important facts:
 
 1. `sig_GAP_Enter()` is our `setjmp()` in disguise of a few
    macros defined at the beginning of the file. You can't see `longjmp()`
    calls here but they are lurking in various `GAP_CallFunc3Args()` calls.
-
 2. There is a ton of local variables being updated in this file. And
    none of them has `volatile` annotations.
 
@@ -1243,11 +1223,11 @@ list
 ```
 
 `gdb` says that crash happens at line
-`26535 __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;`. Thus `__pyx_t_6 = 0;`
+`26535 __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;`. Thus, `__pyx_t_6 = 0;`
 is our primary suspect.
 
 To trace the life of `__pyx_t_6` in assembly code I built `element.c`
-with `-S -fverbose-asm` flags and got this tiny snippet of variable
+with extra `-S -fverbose-asm` flags and got this tiny snippet of variable
 reference:
 
 ```asm
@@ -1258,11 +1238,9 @@ reference:
 ```
 
 It's the first few instructions of `__Pyx_XDECREF()` implementation.
-
-The main take away here is that `__pyx_t_6` is stored on stack at the
+The main takeaway here is that `__pyx_t_6` is stored on stack at the
 address `%rbp-200`. We can trace all the updates at that location and
 see what is missing.
-
 Before doing that I navigated to the beginning of crashing
 `__pyx_pf_4sage_4libs_3gap_7element_19GapElement_Function_2__call__`
 function as:
@@ -1359,22 +1337,19 @@ Thread 1 "sage-ipython" received signal SIGSEGV, Segmentation fault.
 ```
 
 We arrived at a final `SIGSEGV` signal.
-
 Curiously we see only two stores (one `NULL` store and one
 non-`NULL` store) at inspected address. Both are before the `SIGABRT`
 signal (and thus `longjmp()` call). I was initially afraid that stack
 got corrupted by stack reuse in nested functions. But it's not the case
 and our case is a lot simpler than it could be. Phew.
-
 This session allowed me to finally understand the control flow happening
 here.
 
 ## `sagemath` breakage mechanics
 
-Armed with `__pyx_t_6` `runtime` behaviour I think I got the properties
+Armed with `__pyx_t_6` `runtime` behavior I think I got the properties
 `__pyx_pf_4sage_4libs_3gap_7element_19GapElement_Function_2__call__` had
 to force `gcc` into `SIGSEGV`.
-
 Slightly oversimplified function has the following form:
 
 ```c
@@ -1405,7 +1380,7 @@ beginning of a function and return back to it from `use_post_setjmp()`
 helper after we changed the value of a local variable.
 
 `__pyx_t_6` is not marked `volatile`. `gcc` noticed that `__pyx_t_6` is
-always expected to be `NULL` when it reaches the final statement . And
+always expected to be `NULL` when it reaches the final statement. And
 `gcc` optimizes the function code into the following equivalent:
 
 ```c
@@ -1436,12 +1411,10 @@ it [here](https://gcc.gnu.org/PR114872#c24)).
 The presence of `longjmp()` effectively skips the
 `__pyx_t_6 = NULL;` assignment and executes `if (__pyx_t_6 != NULL) deref(NULL);`.
 That leads to `SIGSEGV`.
-
 Phew. We finally have the breakage mechanics caused by `gcc` code motion.
 
 This bug is known for a while in `sagemath` bug tracker as an
-[Issue#37026](https://github.com/sagemath/sage/issues/37026).
-
+[`Issue#37026`](https://github.com/sagemath/sage/issues/37026).
 Fixing it will probably require adding `volatile` marking to quite a few
 temporary variables in `.pyx` files of `sagemath`. Or alternatively
 avoid the `setjmp()` / `longjmp()` pattern in inner functions if
@@ -1450,7 +1423,7 @@ constraints.
 
 ## Bonus: how `setjmp()` / `longjmp()` works in `glibc`
 
-Let's have a look what `glibc` does `<S-Del>` on `x86_64` at
+Let's look at what `glibc` does in `setjmp()` on `x86_64` at
 [`sysdeps/x86_64/setjmp.S`](https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/x86_64/setjmp.S;h=40807e73b51c362464730212d7c973848be612bf;hb=HEAD):
 
 ```asm
@@ -1486,7 +1459,6 @@ END (__sigsetjmp)
 ```
 
 `%rdi` is our `env` parameter in `int setjmp(jmp_buf env);` signature.
-
 `__sigsetjmp` does a few things:
 
 - is saves `r12`, `r13`, `r14`, `r15`, `rbx`, `rsp`, `rbp` registers into
@@ -1496,10 +1468,8 @@ END (__sigsetjmp)
 - the only twist is that some of the stack-related registers are
   obfuscated with `PTR_MANGLE` macro. The macro mixes in stack canary
   into the value.
-
 - `__sigsetjmp` also saves return address as `mov (%rsp), %RAX_LP` to be
   able to resume from it later.
-
 - `__sigsetjmp` also handles shadow call stack if that exists, I skipped
   it entirely for simplicity
 
@@ -1569,15 +1539,15 @@ crashes.
 
 `cysignals` uses `SIGABRT` and `setjmp()` / `longjmp()` to recover from
 errors. `sagemath` decided to use it in `C` bindings. Unfortunately it
-does not mix well with `cython`'s use of local variables and leads to
+does not mix well with `cython` use of local variables and leads to
 broken code.
 
 I was lucky to look at the `SIGABRT` handler first to notice `longjmp()`
 there. If `gdb` hook would not fail for a wrong `share` path I would
 take me a lot more time to discover `setjmp()` clue.
 
-We were lucky that `gcc` did not delete `NULL`-dereference code and
-generated something that `SIGSEGV`s on execution. Otherwise it would be
+I was lucky as `gcc` did not delete `NULL`-dereferencing code and
+generated something that crashes on execution. Otherwise, it would be
 at best resource leak and use-after-free or data corruption at worst.
 
 `setjmp()` / `longjmp()` is very hard to use correctly in large
@@ -1590,7 +1560,7 @@ interaction between two aspects `sagemath` used:
 
 - `cython` usage that generates a ton of local variables it mutates
   along the way without the `volatile` annotations
-- use of `cysignals`' `sig_GAP_Enter()` (aka `setjmp()`) error recovery
+- use of `cysignals` `sig_GAP_Enter()` (aka `setjmp()`) error recovery
   in the same function
 
 `gcc` can detect some of the clobber cases with `-Wclobbered` flag.
