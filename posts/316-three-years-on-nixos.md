@@ -4,7 +4,7 @@ date: June 2, 2024
 root: "http://trofi.github.io"
 ---
 
-This year I decided to shift yearly updates on my `NixOS` endeavours
+This year I decided to shift yearly updates on my `NixOS` endeavors
 ([2023 instance](/posts/290-two-years-on-nixos.html)). This time
 the occasion is [`NixOS 24.05 release`](https://nixos.org/blog/announcements/2024/nixos-2405/).
 
@@ -13,14 +13,14 @@ the occasion is [`NixOS 24.05 release`](https://nixos.org/blog/announcements/202
 Looking at the `git log` for `/etc/nixos` for the desktop system I see
 the following things happening over the past year:
 
-- follow `fonts.fonts` to `fonts.packages` rename (added in [PR#244332](https://github.com/NixOS/nixpkgs/pull/244332))
+- follow `fonts.fonts` to `fonts.packages` rename (added in [`PR#244332`](https://github.com/NixOS/nixpkgs/pull/244332))
 - follow `pipewire` migration to `extraConfig` (added in
-  [PR#282377](https://github.com/NixOS/nixpkgs/pull/282377)).
+  [`PR#282377`](https://github.com/NixOS/nixpkgs/pull/282377)).
 - follow `programs.gnupg.agent.pinentryFlavor` to
   `programs.gnupg.agent.pinentryPackage` migration (added in
-  [PR#133542](https://github.com/NixOS/nixpkgs/pull/133542)).
+  [`PR#133542`](https://github.com/NixOS/nixpkgs/pull/133542)).
 - follow the rename from `nix.unstable` to `nix.latest` (added in
-  [PR#305951](https://github.com/NixOS/nixpkgs/pull/305951)).
+  [`PR#305951`](https://github.com/NixOS/nixpkgs/pull/305951)).
 
 All four were trivial to tweak and did not cause much confusion.
 
@@ -41,14 +41,14 @@ This time I had two non-trivial problems in upstream packages:
   <https://lore.kernel.org/lkml/ZicOSiEWHJJcahi%2F@yujie-X299/t/> around
   `6.9` kernel. The crashes were nasty as scheduler crash locks up the
   machine and does not print anything when it happens. Luckily
-  `systemd` recovered crash log from `EFI`s `nvram` and it was clear
+  `systemd` recovered crash log from `EFI` `nvram` and it was clear
   from the backtrace that it's a bug related to scheduling kernel
   subsystem.
 
 ## Community support
 
 `NixOS` community remains to be a friendly place that welcomes
-newcomers, experiments and day-to-day maintenance work. This year
+newcomers, experiments, and day-to-day maintenance work. This year
 `NixOS Foundation` received some heat for how it governs some aspects of
 the community. `NixOS Foundation` proposed a
 [few major changes](https://discourse.nixos.org/t/nixos-foundation-board-giving-power-to-the-community/44552)
@@ -78,7 +78,7 @@ The trickiest from technical standpoint was the fix for
 
 The most satisfying was to
 [reduce the runtime closure](/posts/298-unexpected-runtime-dependencies-in-nixpkgs.html)
-for many packages that use `__FILE__` just for for debug messages.
+for many packages that use `__FILE__` just for debug messages.
 
 Surprisingly I managed to get about 800 commits into `nixpkgs` this year.
 About ~90 of them is fixes to get compatibility with `gcc-13`. About 60
@@ -99,10 +99,10 @@ it. Things Just Work.
 
 As an experiment I gave [`hyprland`](https://hyprland.org/) a short try.
 I had to switch back to `sway`. I had two issues with
-`hyprland`: new applications are visibly changing layout a few times
-before they settle on final window size (I could not get used to it) and
-configuration language quirks (I frequently missed commas where empty
-arguments are required).
+`hyprland`. New applications are visibly changing layout a few times
+before they settle on final window size (I could not get used to it, so
+flickery). And configuration language quirks (I frequently missed commas
+where empty arguments are required).
 
 I also did a bit of fresh `gcc` testing. This time frame also coincided
 with `gcc-14` development and release cycle. `nixpkgs` ended up being a
@@ -116,4 +116,4 @@ I found about 50 `gcc` bugs and even fixed at least
 `NixOS` still works fine for me. I did not do as much as I managed to
 last year. But looking back the list looks impressive.
 
-Give it a go if you did not yet :)
+Give `NixOS` a go if you did not yet :)
