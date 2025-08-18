@@ -6,16 +6,13 @@ root: "http://trofi.github.io"
 
 I somehow missed the beginning of `ZHF` phase
 [this release cycle](https://github.com/NixOS/nixpkgs/issues/309482).
-
 For those who don't know `ZHF` (or Zero Hydra Failures) is the time when
 most build failures are squashed before final `NixOS-24.05` release
 (see [full release schedule](https://github.com/NixOS/nixpkgs/issues/303285)).
 
 To follow the tradition let's fix one bug for `ZHF`.
-
 I picked [`miniupnpc`](https://hydra.nixos.org/build/261188699) build
 failure. Surprisingly it blocks about 60 packages!
-
 The failure looks trivial:
 
 ```
@@ -37,9 +34,8 @@ error: cannot download miniupnpc-2.2.7.tar.gz from any mirror
 ```
 
 Upstream source is unavailable and `curl` times out fetching it.
-
 With great suggestions from others to switch the package to `github`
-source fetch I came up with [PR#314510](https://github.com/NixOS/nixpkgs/pull/314510):
+source fetch I came up with [`PR#314510`](https://github.com/NixOS/nixpkgs/pull/314510):
 
 ```diff
 --- a/pkgs/tools/networking/miniupnpc/default.nix
@@ -78,7 +74,6 @@ source fetch I came up with [PR#314510](https://github.com/NixOS/nixpkgs/pull/31
 
 The fix is slightly larger than the average one-liner as we have to
 fiddle with the source-fetching helper. But otherwise it's simple.
-
 Testing:
 
 ```
@@ -93,6 +88,6 @@ As `24.05` branch was already created the fix will have to be backported
 to it by adding a specific label. One of the maintainers will have to do
 it.
 
-Otherwise contributing to `ZHF` is very easy. Give it a try!
+Otherwise, contributing to `ZHF` is very easy. Give it a try!
 
 Have fun!
