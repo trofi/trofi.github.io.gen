@@ -36,8 +36,8 @@ conversion using following steps:
 
 1. Place 4 identical 32-bit integer `0x4f000000` values into 128-bit
    `iv` variable (likely an `xmm` register).
-2. Bit cast `4 x 0x4f00000` into `4 x 2147483648.0` of 32-bit `float`s.
-3. Convert `4 x 2147483648.0` 32-bit `float`s into `4 x int32_t` by
+2. Bit cast `4 x 0x4f00000` into `4 x 2147483648.0` of 32-bit `floats`.
+3. Convert `4 x 2147483648.0` 32-bit `floats` into `4 x int32_t` by
    truncating the fractional part and leaving the integer one.
 4. Print the conversion result in hexadecimal form.
 
@@ -93,11 +93,11 @@ overflow happens: sometimes the result is 2^31^ and sometimes it's
 
 `-O0` case:
 
-```asm
-; $ rizin ./a0
-; [0x00401050]> aaaa
-; [0x00401050]> s main
-; [0x00401136]> pdf
+```
+$ rizin ./a0
+[0x00401050]> aaaa
+[0x00401050]> s main
+[0x00401136]> pdf
             ; DATA XREF from entry0 @ 0x401068
 ; int main(int argc, char **argv, char **envp);
 ; ...
@@ -128,15 +128,15 @@ overflow happens: sometimes the result is 2^31^ and sometimes it's
 ```
 
 While it's a lot of superfluous code we do see there `cvttps2dq`
-instruction and `printf()` call against it's result.
+instruction and `printf()` call against its result.
 
 `-O1` case:
 
-```asm
+```
 $ rizin ./a1
-; [0x00401040]> aaaa
-; [0x00401040]> s main
-; [0x00401126]> pdf
+[0x00401040]> aaaa
+[0x00401040]> s main
+[0x00401126]> pdf
             ; DATA XREF from entry0 @ 0x401058
 ; int main(int argc, char **argv, char **envp);
           subq  $8, %rsp
@@ -155,7 +155,6 @@ $ rizin ./a1
 
 Here we don't see `cvttps2dq` at all! `gcc` just puts `0x7fffffff`
 constants into registers and calls `printf()` directly.
-
 For completeness let's try to find out the exact optimization pass that
 performs this constant folding. Normally I would expect it to be a tree
 optimization, and thus `-fdump-tree-all` would tell me where the magic
@@ -190,7 +189,7 @@ int main ()
 Here we see that `_mm_set1_epi32()` and `_mm_castsi128_ps()` were
 "folded" into a `2.147483648e+9` successfully, but `_mm_cvttps_epi32()`
 was not. And yet the final assembly does not contain the call. Let's
-have a loot at the `RTL` passes that usually follow `tree` ones as part
+look at the `RTL` passes that usually follow `tree` ones as part
 of the optimization:
 
 ```
@@ -262,7 +261,7 @@ a.c.352r.final
 a.c.353r.dfinish
 ```
 
-It's a long list of passes! Let's have a look at the first `266r.expand`:
+It's a long list of passes! Let's look at the first `266r.expand`:
 
 ```
 $ cat a.c.266r.expand
@@ -301,7 +300,7 @@ $ cat a.c.266r.expand
 ```
 
 Here `V4SF` means the vector type of 4 floats, `V4SI` is a vector type
-of 4 `int`s, `SI` is an `int` type, `DI` is a `long` type. It looks like
+of 4 `int`, `SI` is an `int` type, `DI` is a `long` type. It looks like
 our `float->int32_t` conversion happens in two early `RTL` instructions:
 
 ```
@@ -389,7 +388,7 @@ is used.
 documentation says that `fix_trunc` is a `float-to-int` conversion. Note
 that this conversion does not look specific to our intrinsic. Any
 code that casts floats would use the same helper. That explains why
-`_mm_cvttps_epi32()` semantics around the overflow are not honoured and
+`_mm_cvttps_epi32()` semantics around the overflow are not honored and
 generic floating conversion code it performed by `gcc` as if it was
 written as `(int)(2147483648.0f)`. Apparently both `0x7fffffff` and
 `0x80000000` values are correct under that assumption.
@@ -397,8 +396,8 @@ written as `(int)(2147483648.0f)`. Apparently both `0x7fffffff` and
 The problem is that `_mm_cvttps_epi32()` is more specific than any valid
 `float->int` conversion. `intel` manual specifically says that at
 [`CVTTPS2DQ` description](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html)
-in "Intel® 64 and IA-32 Architectures Software Developer’s Manual Combined
-Volumes: 1, 2A, 2B, 2C, 2D, 3A, 3B, 3C, 3D, and 4":
+in `"Intel® 64 and IA-32 Architectures Software Developer’s Manual Combined
+Volumes: 1, 2A, 2B, 2C, 2D, 3A, 3B, 3C, 3D, and 4"`:
 
 ```
 Description
@@ -410,12 +409,12 @@ if this exception is masked, the indefinite integer value (80000000H) is
 returned.
 ```
 
-Thus `0x80000000` would be a correct value here and not `0x7fffffff`.
+Thus, `0x80000000` would be a correct value here and not `0x7fffffff`.
 
 ## avoiding the `_mm_cvttps_epi32()` non-determinism
 
 OK, `gcc` decided to treat it as problematic when handling overflow
-condition. That should be easy to workaround by checking first if our
+condition. That should be easy to work around by checking first if our
 value is in range first, right? Say, something like the following
 pseudocode:
 
@@ -507,9 +506,8 @@ int main() {
 
 Here `_mm_and_si128()` and `_mm_andnot_si128()` are used to mask away
 converted values larger than `2147483648.0f`.
-
 If we look at the diagram it looks this way (I collapsed vector values
-into `... x4` form as all of the values should be identical):
+into `... x4` form as all the values should be identical):
 
 ```{render=dot}
 digraph G {
@@ -542,8 +540,7 @@ digraph G {
 
 Here `conv -> na` green arrow shows where we throw away all the indefinite
 values. They all get substituted for `yes = 0x7FFFffff x4` value.
-
-Thus the program should finally be deterministic, right? Let's check:
+Thus, the program should finally be deterministic, right? Let's check:
 
 ```
 $ gcc bug.cc -O0 -o a && ./a
@@ -555,8 +552,8 @@ Illegal instruction (core dumped)
 It does not. Only `-O0` case works (just like before). Looking at the
 assembly again, just `-O2` this time:
 
-```asm
-; $ rizin ./a
+```
+$ rizin ./a
 ; [0x004010a0]> aaaa
 ; [0x004010a0]> s main
 ; [0x00401040]> pdf
@@ -585,7 +582,7 @@ assembly again, just `-O2` this time:
 ```
 
 At the first glance `cvttps2dq` instruction is present, thus `gcc` was
-not able to completely constant fold it away. Thus it's not immediately
+not able to completely constant fold it away. Thus, it's not immediately
 obvious why it's incorrect. Let's have a look at the control flow
 diagram reconstructed from the assembly:
 
@@ -620,7 +617,7 @@ digraph G {
 
 In practice `pcmpeqd %xmm0, %xmm1` instruction that was supposed to
 implement `_mm_cmpeq_epi32(conv_masked, _mm_set1_epi32(INT32_MAX))` gets
-`INT32_MAX` not  as a constant (say, from `%xmm3`), but as a `%xmm0`
+`INT32_MAX` not as a constant (say, from `%xmm3`), but as a `%xmm0`
 register assuming it already has the expected value. Red line shows
 where the assumption is introduced and brown dotted line shows what it
 is removing.
@@ -710,9 +707,8 @@ index 5caf1dfd957f..f6b4d73b593c 100644
  				       mode);
 ```
 
-It fixes both tree optimizations if `RTL` optimizations not to assume a
+It fixes both tree optimizations of `RTL` optimizations not to assume a
 specific value on known overflows.
-
 After the fix `gcc` generates something that passes the test at hand:
 
 ```
@@ -720,11 +716,10 @@ $ g++ bug.cc -o bug -O2 && ./bug
 ```
 
 And the `highway` test suite.
-
 For completeness the generated code now looks like this:
 
-```asm
-; $ rizin ./a
+```
+$ rizin ./a
 ; [0x004010a0]> aaaa
 ; [0x004010a0]> s main
 ; [0x00401040]> pdf
@@ -754,7 +749,7 @@ For completeness the generated code now looks like this:
 \                 retq
 ```
 
-This code looks slightly closed to originally written `C` code: `%xmm2`
+This code looks slightly closer to originally written `C` code: `%xmm2`
 collects masked result of `cvttps2dq` and `%xmm1` contains `0x7FFFffff`
 value.
 
