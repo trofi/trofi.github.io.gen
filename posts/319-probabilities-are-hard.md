@@ -96,7 +96,6 @@ results.
 **Quiz question**: do you see the bug in this implementation?
 
 This version was shipped in `make-4.4.1`.
-
 I ran `make` from `git` against `nixpkgs` and discovered a ton of
 parallelism bugs. I could not be happier than that. I never got to
 actual testing the quality of permutation probabilities.
@@ -198,7 +197,7 @@ never gets considered for future shuffle iterations.
 
 At least for me it's more obvious to see why this algorithm does not
 introduce any biases. But then again I did not suspect problems in the
-previous one either. I realised I don't have a good intuition on why the
+previous one either. I realized I don't have a good intuition on why the
 initial algorithm manages to produce biases. Where does bias come from
 if we pick the target element with equal probability from all the
 elements available?
@@ -273,7 +272,6 @@ Here the program implement both current (broken) and new (fixed) shuffle
 implementations. The histogram is collected over 10 million runs.
 Then it prints a probability of each element to be found at a location.
 We shuffle an array of `LEN = 3` elements: `{ 0, 1, 2, }`.
-
 Here is the output of the program:
 
 ```
@@ -336,7 +334,7 @@ plot '$map2' matrix using 1:2:3 with image pixels notitle, \
      '$map2' matrix using 1:2:(sprintf("%g",$3)) with labels notitle
 ```
 
-## a bit of arithmetics
+## a bit of arithmetic
 
 To get a bit better understanding of the bias let's get exact probability
 value for each element move for 3-element array.
@@ -466,8 +464,7 @@ void random_shuffle_array_fixed (void) {
 }
 ```
 
-Now let's have a look at a shuffle with `1/(i+1)` probability.
-
+Now let's look at a shuffle with `1/(i+1)` probability.
 Our initial state is the same `{ 0, 1, 2, }` with probabilities `1/1`:
 
 - probability at index `0`:
@@ -590,7 +587,7 @@ set title "Broken probability distribution for 30-element array"
 plot '$map1' matrix using 1:2:3 with image pixels notitle
 ```
 
-This plot shows a curious `i == j` cutoff line where probability changes
+This plot shows a curious `i == j` cut off line where probability changes
 drastically:
 
 - `15->15` (or any `i->i`) shuffle probability is lowest and is about `2.8%`
