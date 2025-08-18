@@ -4,12 +4,12 @@ date: May 18, 2024
 root: "http://trofi.github.io"
 ---
 
-[highway](https://github.com/google/highway) test suite is a great
-stress test for `gcc`'s vectorization and SIMD intrinsics code
+[`highway`](https://github.com/google/highway) test suite is a great
+stress test for `gcc` vectorization and SIMD intrinsics code
 generators:
 
 - at compile time `highway` instantiates all the vector extensions your CPU could support
-- at runtime it runs the tests on all of the supported extensions against
+- at runtime it runs the tests on all the supported extensions against
   various vector sizes
 
 It cover many corner cases of what could possibly go wrong with vectored
@@ -73,7 +73,7 @@ about. This increases build times and complicated debugging via code
 tweaking as code has to compile for all active targets, not just one.
 
 I disabled all targets except the problematic one. In our case the
-problematic target is `EMU128`. Thus the local change to leave `EMU128`
+problematic target is `EMU128`. Thus, the local change to leave `EMU128`
 as the only available option is:
 
 ```diff
@@ -91,7 +91,6 @@ as the only available option is:
 ```
 
 Here I disabled anything that build system reports as supported.
-
 Before the change I had `Compiled HWY_TARGETS:   AVX3_SPR AVX3_ZEN4 AVX3 AVX2 SSE4 SSSE3 SSE2`
 in this output:
 
@@ -120,7 +119,6 @@ Current CPU supports:   AVX2 SSE4 SSSE3 SSE2 EMU128 SCALAR
 ```
 
 Leaving a single compiled target speeds the builds a few times up.
-
 Then I picked the specific binary that implements failing test. In this
 case it was `tests/reverse_test`:
 
@@ -172,7 +170,6 @@ be applied to many tests. In this case I kept only one failing test:
 The test was still failing (sometimes it's not the case when mere
 presence of unrelated code changes the inlining and vectorization
 decisions).
-
 Then I shrunk the cases down to 16-bit element sizes by inlining a
 `ForUI163264` definition:
 
@@ -190,9 +187,7 @@ Then I shrunk the cases down to 16-bit element sizes by inlining a
 
 Then I removed all the other unrelated test asserts from the
 `hwy/tests/reverse_test.cc` file.
-
 Then I inlined obvious template parameters right into local test class.
-
 Then I extracted random generated data used in the failing vectors (using
 `printf()` statements) and inlined values into `.cc` file. Sometimes
 I had to sprinkle `__attribute__((noipa))` attributes on local functions
@@ -243,7 +238,6 @@ Here I was lucky! I immediately spotted the bug. We see both:
 
 The rotate part is broken here: it should have been logical `psrlw`
 shift, not arithmetic (sign-preserving) `psraw` shift.
-
 At this point my test looked this way:
 
 ```c++
@@ -271,7 +265,6 @@ HWY_NOINLINE void TestAllReverseLaneBytes() {
 ````
 
 I looked at the `ReverseLaneBytes()` implementation. It had two parts.
-
 The first part was generic for all targets:
 
 ```c++
@@ -369,7 +362,6 @@ HWY_AFTER_TEST();
 Adding `#pragma GCC optimize(0)` to the beginning of the file makes the
 bug to go away. It's a good hint that it's a compiler bug: the test looks
 obviously correct (not much hidden code is left in the templates).
-
 But the only way to make sure is to finish the reduction down to a
 self-contained example. We will need it anyway to report upstream.
 
@@ -425,11 +417,9 @@ Illegal instruction (core dumped)
 I reported the bug as [`PR115146`](https://gcc.gnu.org/PR115146).
 Bisecting `gcc` pointed me to this
 ["vector shift" change](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=a71f90c5a7ae29).
-
 This change looks very close to the culprit as the code explicitly picks
-the "arithmetic" flavour of shift instruction (should be "logical"
+the "arithmetic" flavor of shift instruction (should be "logical"
 instead).
-
 By now the original change author already provided a test patch in the
 report! So quick!
 
