@@ -6,8 +6,7 @@ date: December 12, 2024
 ## TL;DR
 
 Did you ever have to deal with a huge list of conflicts on rebase caused
-by automatic reformatting of an upstream code base?
-
+by automatic reformatting of an upstream codebase?
 If you got into a similar situation you might be able to automatically
 recreate your changes with `git filter-branch --tree-filter` and a
 `git commit --allow-empty` trick.
@@ -18,31 +17,25 @@ I have local fork of `staging` branch of
 [`nixpkgs`](https://github.com/NixOS/nixpkgs/) `git` repository to do
 various tests against experimental upstream packages (like `gcc` from
 `master` branch) or experimental `nix` features (like `ca-derivations`).
-
 I have about 350 patches in the fork. I sync this forked branch about
 daily against the upstream `nixpkgs/staging`. Most of the time
 `git pull --rebase` is enough and no conflicts are there. Once a month
 there is one or two files to tweak. Not a big deal.
 
 A few days ago `nixpkgs` landed a partial source code reformatting
-patch as [PR#322537](https://github.com/NixOS/nixpkgs/pull/322537). It
+patch as [`PR#322537`](https://github.com/NixOS/nixpkgs/pull/322537). It
 automatically re-indents ~21000 `.nix` files in the repository with a
 `nixfmt` tool. My `git pull --rebase` generated conflicts on first few
 patches against my branch. I aborted it with `git rebase --abort`.
-
 I would not be able to manually solve such a huge list of commits and I
 wondered if I could somehow regenerate my patches against the indented
 source.
-
 In theory rebasing past such change should be a mechanical operation: I
 have the source tree before the patch and after the patch. All I need to
 do is to autoformat both `before` and `after` trees and then `diff`
 them.
-
 I managed to do it with help of `git commit --allow-empty` and
 `git filter-branch --tree-filter`.
-
-Here are my exact commands used:
 
 ### actual commands
 
@@ -122,7 +115,7 @@ It took `git filter-branch --tree-filter` about 5 minutes to rebase
 `326` commits that touch ~200 files. My understanding is that most time
 is spent on `nixfmt` utility itself and not on `git` operations.
 `nixfmt` is not very fast: it takes about a minute to reformat the whole
-of `nixpkgs` (~300MB of `.nix` files).
+of `nixpkgs` (`~300MB` of `.nix` files).
 
 `nixpkgs` plans for reformat event more sources in future. I will likely
 be using this tip a few more times.
