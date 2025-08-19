@@ -77,7 +77,7 @@ v.s:
   .fs[3] = 0x000043
 ```
 
-Whoops. That that is clearly uninitialized value left after `use_stack()`
+Whoops. That is clearly uninitialized value left after `use_stack()`
 execution. `valigrind` is also not happy about it:
 
 ```
@@ -92,7 +92,6 @@ Use of uninitialised value of size 8
  Uninitialised value was created by a stack allocation
    at 0x401190: do_it (a.c:12)
 ```
-
 
 Disassembly:
 
@@ -118,13 +117,13 @@ Disassembly:
 
 Is it a bug?
 
-`gcc-15` intentionally changed the zeroing behaviour to do less in
+`gcc-15` intentionally changed the zeroing behavior to do less in
 [`PR116416`](https://gcc.gnu.org/PR116416) with
 [this commit](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=0547dbb725b6d8e878a79e28a2e171eafcfbc1aa)
 to generate more optimal code.
 
 Fun fact: the patch also adds a `-fzero-init-padding-bits=unions`
-option to enable the old behaviour.
+option to enable the old behavior.
 
 ## the real bug
 
@@ -138,7 +137,7 @@ The following tests FAILED:
        113 - psa_crypto_storage_format.v0-suite (Failed)
 ```
 
-I initially thought it's a compiler bug related to arithmetics. But
+I initially thought it's a compiler bug related to arithmetic. But
 exploring the failing test I found the following pattern:
 
 ```c
@@ -268,9 +267,8 @@ $ valgrind --track-origins=yes --trace-children=yes --num-callers=50 --track-fds
 Unfortunately I don't think there is a simple fix for that (apart from
 enabling new `-fzero-init-padding-bits=unions` compiler flag if it's
 supported.
-
 I filed the issue upstream as
-[Issue #9814](https://github.com/Mbed-TLS/mbedtls/issues/9814) hoping to
+[`Issue #9814`](https://github.com/Mbed-TLS/mbedtls/issues/9814) hoping to
 get some guidance.
 
 ## parting words
@@ -285,7 +283,7 @@ At least `valgrind` is able to detect trivial cases of uninitialized
 use of partially initialized unions.
 
 `gcc-15` also provides `-fzero-init-padding-bits=unions` to flip the old
-behaviour back on. This will allow nailing down bugs using a single
+behavior back on. This will allow nailing down bugs using a single
 compiler version instead of comparing to `gcc-14`.
 
 I suspect `gcc` historically zero-initialized the whole enums to be
