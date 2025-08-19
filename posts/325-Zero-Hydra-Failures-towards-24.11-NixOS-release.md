@@ -8,10 +8,8 @@ squashed before final `NixOS-24.11` release
 (see [full release schedule](https://github.com/NixOS/nixpkgs/issues/352882)).
 
 To follow the tradition let's fix one bug for `ZHF`.
-
 I picked [`xorg.libAppleWM`](https://hydra.nixos.org/build/276690936) build
 failure. It's not a very popular package.
-
 The failure looks trivial:
 
 ```
@@ -21,9 +19,8 @@ gcc: error: unrecognized command-line option '-iframeworkwithsysroot'
 ```
 
 The build was happening for `x86_64-linux` target. While this package
-is `MacOS`-specific: it uses Darwin APIs and links to it's libraries
+is `MacOS`-specific: it uses Darwin APIs and links to its libraries
 directly. No reason to try to build it on `x86_64-linux`.
-
 The fix is to constrain the package to `darwin` targets (the default
 platforms for `xorg` packages is `unix`):
 
@@ -43,13 +40,13 @@ platforms for `xorg` packages is `unix`):
 ```
 
 This fix is now known as
-[PR#353618](https://github.com/NixOS/nixpkgs/pull/353618).
+[`PR#353618`](https://github.com/NixOS/nixpkgs/pull/353618).
 
 ## Parting words
 
 I picked very lazy example of a broken package.
 <https://github.com/NixOS/nixpkgs/issues/352882> contains more links and
-hints on how to find and fix known breakages.
+hints on how to find and fix known failures.
 
 As usual contributing towards `ZHF` is very easy. Give it a try!
 
