@@ -22,10 +22,10 @@ I got about 30 of those:
   `libvpx-1.14.1` due to a vectorizer bug that tried to access outside
   array boundary.
 - [`middle-end/116814`](https://gcc.gnu.org/PR116814): ICE on
-  `libjack2-1.9.22`i due to `gcc`'s inability to generate code for
+  `libjack2-1.9.22` due to `gcc` inability to generate code for
   saturated subtraction
 - [`tree-optimization/116817`](https://gcc.gnu.org/PR116817): ICE on
-  `libajantv2-16.2` `gcc`'s vectorizer broke on a loop invariant
+  `libajantv2-16.2` `gcc` vectorizer broke on a loop invariant
 - [`libstdc++/116857`](https://gcc.gnu.org/PR116857): `mingw32` build
   failure, was exposed after re-enabling most warnings on `gcc` headers.
 - [`c++/116880`](https://gcc.gnu.org/PR116880): `co_await` use-after-free
@@ -34,7 +34,7 @@ I got about 30 of those:
   failure due to `gcc` regression in assigning external linkage to local
   variables.
 - [`bootstrap/117039`](https://gcc.gnu.org/PR117039): `-Werror=` `libcpp`
-  `gcc` buld failure due to format string problems.
+  `gcc` build failure due to format string problems.
 - [`c++/117114`](https://gcc.gnu.org/PR117114): `-Woverloaded-virtual`
   false positives due to a `gcc` in how it tracks methods in case of
   multiple inheritance.
@@ -44,7 +44,7 @@ I got about 30 of those:
   used by `python-3.12.7` and others. `gcc` generated invalid bytes that
   represent the array.
 - [`c/117190`](https://gcc.gnu.org/PR117190): ICE on `linux-6.11.3`,
-  another case of `gcc`'s inability to generate static const arrays
+  another case of `gcc` inability to generate static const arrays
   similar to the previous entry.
 - [`target/117194`](https://gcc.gnu.org/PR117194): wrong code on
   `highway-1.2.0` in vectorizer code. `gcc` used incorrect order of
@@ -63,7 +63,7 @@ I got about 30 of those:
   on `grep` and `libgcrypt` in a code that handles zero-extension.
 - [`middle-end/117496`](https://gcc.gnu.org/PR117496): infinite recursion
   on `cdrkit` due to `a | b` pattern generating still foldable result.
-- [`bootstrap/117843`](https://gcc.gnu.org/PR117843): fortran bootstrap
+- [`bootstrap/117843`](https://gcc.gnu.org/PR117843): `fortran` bootstrap
   build failure (`-Werror`). A missing enum entry handling.
 - [`c++/117980`](https://gcc.gnu.org/PR117980): ICE on `nix-2.25.2` where
   `gcc` transformation broke the type of underlying expression.
@@ -278,7 +278,7 @@ As usual what are the subsystems we found the bugs in?
 - `preprocessor`: 1
 
 Surprisingly this time `c++` is at the top of the list. It feels like
-coroutine related bugs pushed the needle. Otherwise `middle-end` and
+coroutine related bugs pushed the needle. Otherwise, `middle-end` and
 `tree-optimization` that follow are expected.
 
 ## parting words
@@ -286,7 +286,7 @@ coroutine related bugs pushed the needle. Otherwise `middle-end` and
 Of the bugs above it looks like I reported only 18 of those while 13
 were already reported by others.
 
-Optimised handling of global constant arrays (`#embed`-style code) caused
+Optimized handling of global constant arrays (`#embed`-style code) caused
 numerous bugs in various subsystems from compiler crashes to wrong code.
 
 The most disruptive change probably is the switch to
