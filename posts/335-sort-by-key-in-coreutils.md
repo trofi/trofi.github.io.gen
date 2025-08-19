@@ -7,7 +7,7 @@ This post is about `sort` tool from `GNU coreutils`. Until today I
 foolishly thought that to sort a file by a second (and just second
 column) you just need to use `sort -k2` option.
 
-Indeed that does seem to work for a simple case:
+Indeed, that does seem to work for a simple case:
 
 ```
 $ printf "1 2\n2 1\n"
