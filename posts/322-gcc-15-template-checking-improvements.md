@@ -232,7 +232,7 @@ unusable functions. An alternative fix would need to look closer to a
 
 `gcc-15` will reject more invalid unusable `c++` code in uninstantiated
 templates. The simplest code change might be to just delete broken code.
-More involved fix would require some knowledge of the code base to fix
+More involved fix would require some knowledge of the codebase to fix
 the declaration lookups (or to fix obvious typos).
 
 Have fun!
