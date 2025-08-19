@@ -11,9 +11,9 @@ ignore this one as well :)
 
 `helix` is a nice program: I switched to it from `vim` as a default text
 editor. If you never heard of `helix` editor and are `vim` or `nvim`
-user I suggest you to have a look at it. `hx --tutor` is short and yet
+user I suggest you to look at it. `hx --tutor` is short and yet
 it covers a few cool things. <https://helix-editor.com/> has a nice
-`asciinema` intro into how it looks like.
+`asciinema` intro and shows expected look and feel.
 
 ## Background
 
@@ -76,17 +76,15 @@ int like_this_one(long long);
 
 `vim` does not do any special highlighting in a `c` block.
 
-Many days later I encountered a mastodon thread that mentioned `vim`'s
+Many days later I encountered a mastodon thread that mentioned `vim`
 proposal to use `TextMate` grammar
-[Issue#9087](https://github.com/vim/vim/issues/9087). It discussed
+[`Issue#9087`](https://github.com/vim/vim/issues/9087). It discussed
 various options of different highlighter engines, their pros, cons, and
 what `vim` should use longer term.
-
 [`Tree-sitter`](https://tree-sitter.github.io/tree-sitter/) was
 specifically mentioned multiple times there as The Solution to all
 the highlighting problems an editor could have. It's a long discussion
 with many branches.
-
 From there I learned about (and started using) a few `tree-sitter` based
 programs, like [`bat`](https://github.com/sharkdp/bat),
 [`difftastic`](https://difftastic.wilfred.me.uk/) and
@@ -95,7 +93,6 @@ programs, like [`bat`](https://github.com/sharkdp/bat),
 `helix` editor was mentioned as one of `tree-sitter` users. I heard
 about `helix` before from my friend. At the time I just started my `vim`
 journey and I did not give `helix` a serious try.
-
 But this time I felt I was able to compare both.
 
 ## My setup
@@ -187,7 +184,7 @@ whitespace to:
 bash-prompt-suffix = dev>
 ```
 
-`toml` on the other hand is more predictable in this regard. It is quite
+`toml` on the other hand, is more predictable in this regard. It is quite
 common and expressive enough to encode simple arrays and strings with
 any contents.
 
@@ -202,7 +199,7 @@ Using full `RGB` range to define color elements is great. `helix` comes
 with a nice dark default theme suitable for long editing sessions.
 
 The only caveat of a default theme is that some colors are not unique
-for cases where it matters. For example to work around a bug in default
+for cases where it matters. For example, to work around a bug in default
 theme I needed to pick a different color for secondary selection:
 
 ```toml
@@ -220,12 +217,12 @@ not know I need it until I tried :)
 ### Selection and multi-selection feels intuitive
 
 `helix` does show what navigation commands select before I about to do
-an action. An example would be `vim`'s `df"` sequence compared to
-`helix`'s `f"d` sequence. Before pressing `d` I am more confident what
+an action. An example would be `vim` `df"` sequence compared to
+`helix` `f"d` sequence. Before pressing `d` I am more confident what
 it is about to delete.
 
 After using `helix` for a while I am actually more comfortable using
-`vim`'s `f` / `t` (and similar) navigation commands because I understand
+`vim` `f` / `t` (and similar) navigation commands because I understand
 better what they actually do.
 
 Multi-selection is also very natural: you create a bunch of cursors
@@ -239,7 +236,7 @@ using them in `vim` as well.
 
 ### IDE experience is unexpectedly good
 
-The `LSP`s provide you a navigation, hints, symbol search and so much
+The `LSPs` provide you a navigation, hints, symbol search and so much
 more. It's so easy to explore new and existing projects for various
 cross-references. Before jumping into the target you can look at the bit
 of context in preview and it might be enough for a thing you are
@@ -345,7 +342,7 @@ of a simple keyword-based completer.
 `helix` feels like a good modern `vim` successor for my use cases. It's
 extensive use of `RGB` colors and unicode characters gives a look and
 feel of a program beyond a terminal application. A ton of pre-configured
-`LSP`s makes it a nice lightweight code navigator on par with IDE
+`LSPs` makes it a nice lightweight code navigator on par with IDE
 experience.
 
 Have fun!
