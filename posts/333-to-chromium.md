@@ -10,10 +10,10 @@ desktop.
 
 ## On `firefox`
 
-I was a happy `firefox` since it's `1.5` release. Internet says it was
+I was a happy `firefox` user since the `1.5` release. Internet says it was
 released in 2005. This made a 20-year run for me. The web changed so
 much since then. Adobe Flash went away and web 2.0 `javascript`-heavy
-applications took it's place. At some point I had to start using content
+applications took its place. At some point I had to start using content
 filtering extensions to be able to browse the web.
 
 `firefox` was able to keep up with the times most of the time. It felt
@@ -30,7 +30,7 @@ few performance warts I don't know how to deal with:
 - Branch selection (drop-down menu) at pull request creation time on
   `github` is visibly slow on repositories with many branches (`200+`
   in `nixpkgs`).
-- `firefox` startup time on mostly empty user profiles on HDDs are very
+- `firefox` start up time on mostly empty user profiles on `HDDs` are very
   slow: about tens of seconds.
 
 Over past few years I have encountered a few widespread bugs in `firefox`:
@@ -57,7 +57,7 @@ most performance hiccups I encountered in `firefox` disappeared (but a
 new one appeared, mentioned below).
 
 Helper pages like `chrome://about`, `chrome://flags` and `chrome://gpu`
-are a reasonable substitute for `firefox`'s `about:config`.
+are a reasonable substitute for `firefox` `about:config`.
 
 I also discovered a few bugs/warts/known-issues as well:
 
@@ -80,7 +80,7 @@ I also discovered a few bugs/warts/known-issues as well:
 
 - `chromium` syncs on disk somewhat frequently. There is a 15-years old
   <https://issues.chromium.org/issues/41198599> that mentions it's all
-  the actions user does are synced on dusk time to time. I don't think
+  the actions user does are synced on disk time to time. I don't think
   it's a real problem for modern SSDs, but still it feel quite wasteful.
 
 - `sway` sometimes crashes completely when I visit certain utility
