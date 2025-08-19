@@ -3,7 +3,7 @@ title: "blog tweaks"
 date: July 06, 2024
 ---
 
-Tl;DR:
+## Tl;DR
 
 A few changes happened to this blog in the past few weeks:
 
@@ -15,18 +15,16 @@ A few changes happened to this blog in the past few weeks:
   instead of just stripped tags.
 
   As a small bonus `RSS` feed should not be as large to download.
-
 - `RSS` feed now includes source code snippets without syntax
   highlighting.
 
   I never included `css` style into `rss` feed. `highlighting-kate` uses
   various tags and decorates them with links heavily. This change fixes
   source code rendering in `liferea`.
-
 - `RSS` feed now embeds `https://` self-links instead of `http://`
   (except for a few recent entries to avoid breaking reading history).
 
-More words:
+## More words
 
 I started this blog in 2010. In 2013 I moved it to
 [`hakyll`](https://jaspervdj.be/hakyll/) static site generator. The
@@ -44,7 +42,7 @@ The only "non-trivial" tweaks I did were
 [`dot` support](/posts/300-inline-graphviz-dot-in-hakyll.html)
 and [`gunplot` support](/posts/318-inline-gnuplot.html).
 
-Fast forward to 2024 few weeks ago I boasted to my friend how cool my
+Fast forward to 2024 a few weeks ago I boasted to my friend how cool my
 new `gnuplot` embeddings are. To what the response was "What pictures?".
 Apparently `miniflux` does not like `<svg>` tags embedded into `<html>`
 and strips them away leaving only bits of `<title>` tags that almost
@@ -56,7 +54,7 @@ That meant my cool hack with `svg` embedding did not quite work for
 
 It's not a big change, but it does violate some `hakyll` assumptions.
 Apparently `hakyll` can output only one destination file for a source
-file. For example `foo.md` can only produce `foo.html` and not `foo.html`
+file. For example, `foo.md` can only produce `foo.html` and not `foo.html`
 plus indefinite amount of pictures. There is a
 [version support](https://jaspervdj.be/hakyll/tutorials/06-versions.html)
 in `hakyll`, but it assumes that we know number of outputs upfront. It's
@@ -87,7 +85,7 @@ Here `inlines` is the list of pairs of filenames and their contents to
 write on disk and `pandoc` is the primary content one would normally
 write as `H.Item String`.
 
-While at it I disabled syntax highlighting in `RSS` feed as `liferea`
+While at it, I disabled syntax highlighting in `RSS` feed as `liferea`
 rendered highlighted source as an unreadable mess. And `miniflux` just
 stripped out all the links and styles. [The change](https://github.com/trofi/trofi.github.io.gen/commit/1dc9d5a9d6b54db928f3fdaef1c0dcb4b6d567df)
 is somewhat long, but it's gist is a single extra `writerHighlightStyle`
