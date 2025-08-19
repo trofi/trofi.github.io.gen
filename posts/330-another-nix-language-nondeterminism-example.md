@@ -6,9 +6,7 @@ date: December 26, 2024
 Today I found another source of non-determinism in `nix expression language`.
 This time it's a
 [`builtins.sort`](https://github.com/NixOS/nix/issues/12106) primitive!
-
 How do you break `sort`?
-
 Compared to the
 [previous non-determinism instance](/posts/292-nix-language-nondeterminism-example.html)
 this case of non-determinism breaking `sort` is not as arcane.
@@ -39,7 +37,6 @@ nix-repl> builtins.sort (a: b: a < b) [ 4 3 2 1 ]
 All nice and good: we pass the comparison predicate and get some result
 back. In the first case we are passing a builtin comparator. In the
 second case we write a lambda that implements `<`. Nothing fancy.
-
 Normally `sort` function expects a bunch of properties from the passed
 predicate, like
 ["strict weak ordering"](https://en.wikipedia.org/wiki/Weak_ordering#Strict_weak_orderings)
@@ -63,12 +60,11 @@ on different platforms?
 ## triggering the non-determinism
 
 Today I tried to build `nix` package with `gcc` `STL`
-[debugging enabled](https://gcc.gnu.org/onlinedocs/libstdc++/manual/debug_mode_using.html#debug_mode.using.mode). In theory it's simple: you pass `-D_GLIBCXX_DEBUG` via
+[debugging enabled](https://gcc.gnu.org/onlinedocs/libstdc++/manual/debug_mode_using.html#debug_mode.using.mode).
+In theory it's simple: you pass `-D_GLIBCXX_DEBUG` via
 `CXXFLAGS` and you get your debugging for free.
-
 I was chasing an unrelated `nix` memory corruption bug and did just that.
-I hoped for a simple case like the past [PR#8825](https://github.com/NixOS/nix/pull/8825).
-
+I hoped for a simple case like the past [`PR#8825`](https://github.com/NixOS/nix/pull/8825).
 To my surprise `nixpkgs` evaluation started triggering `libstdc++`
 assertions. For the above "suspicious sort" example the execution was:
 
@@ -147,14 +143,13 @@ Here `comparator()` calls user-supplied function written in
 `nix expression language` directly (if we ignore a performance special
 case) into `std::stable_sort()`. The comment suggests that `std::sort()`
 was already crashing here.
-
-This means that today `builtins.sort` semantics are following `c++`'s
-`std::stable_sort()` along with it's undefined behaviours and
+This means that today `builtins.sort` semantics are following `c++`
+`std::stable_sort()` along with it's undefined behaviors and
 instability for non-conformant `comparator()` predicate.
 
 ## tracking down bad predicates
 
-`nixpkgs` is a vast code base. It's quite hard to figure out which part
+`nixpkgs` is a vast codebase. It's quite hard to figure out which part
 of `nix expression language` code triggers this condition from a `C++`
 stack trace. I added the following hack into local `nix` to convert
 those violations into nix-level exceptions:
@@ -192,7 +187,6 @@ those violations into nix-level exceptions:
 Here before calling the `compare(a,b)` against two different list
 elements we are making sure that `compare(a,a)` and `compare(b,b)` does
 not return `true`.
-
 And now the error is a bit less intimidating:
 
 ```
@@ -238,7 +232,6 @@ This points us at
 ```
 
 Can you quickly say if `preferable` satisfies `lessThan` requirements?
-
 `left >= right` is generally problematic for sorts:
 
 ```
@@ -273,7 +266,7 @@ nix-repl> builtins.sort (a: b: !(b >= a)) [ 4 3 3 1 ]
 ]
 ```
 
-I proposed a seemingly trivial change as [PR#368366](https://github.com/NixOS/nixpkgs/pull/368366):
+I proposed a seemingly trivial change as [`PR#368366`](https://github.com/NixOS/nixpkgs/pull/368366):
 
 ```diff
 --- a/pkgs/development/cuda-modules/generic-builders/multiplex.nix
@@ -310,8 +303,7 @@ $ nix build --no-link -f. cmdstan --show-trace
 
 Here you can already see that the pattern is suspiciously similar:
 `sort versionAtLeast` probably does not do what it's expected to do.
-
-Proposed a similar fix as [PR#368429](https://github.com/NixOS/nixpkgs/pull/368429).
+Proposed a similar fix as [`PR#368429`](https://github.com/NixOS/nixpkgs/pull/368429).
 
 Other packages affected:
 
