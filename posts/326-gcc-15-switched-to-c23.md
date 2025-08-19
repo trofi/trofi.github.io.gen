@@ -9,9 +9,8 @@ In November `gcc`
 [merged](https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=55e3bd376b2214e200fa76d12b67ff259b06c212)
 the switch from `C17` (`-std=gnu17`) to `C23` (`-std=c23`) language
 standard used by default for `C` code.
-
-This will cause quite a few build breakages in projects written in
-C. A few example fixes:
+This will cause quite a few build failures in projects written in
+`C`. A few example fixes:
 
 - [`libffi`](https://github.com/libffi/libffi/pull/861/files): optional
   `va_start` parameter.
@@ -25,10 +24,10 @@ C. A few example fixes:
 
 `C23` has a few high-visibility breaking changes compared to `C17`.
 
-### `bool`, `true`, and `false` are unconditionally predefined
+### `bool`, `true`, and `false` are unconditionally defined now
 
 `true` and `false` are now predefined constants (instead of being a
-part of `<stdbool.h>` macros and `typedef`s). Thus code like below does
+part of `<stdbool.h>` macros and `typedefs`). Thus, code like below does
 not compile any more:
 
 ```c
@@ -50,7 +49,6 @@ $ printf 'typedef int bool;' | gcc -c -x c -
 ```
 
 The fix is usually to use `<stdbool.h>` or avoid name collisions.
-
 Example affected project is `linux`.
 
 ### partially defined `int (*)()` function prototypes are just `int (*)(void)` now
@@ -195,13 +193,14 @@ of the following projects:
 - `gmp`
 - `bash`
 
-That's more than 80 packages, or about 4% of all the packages I have.
+That's more than 80 packages, or about 4% of all the packages I have
+installed.
 
 Looks like `gcc-15` will be a disruptive release (just like `gcc-14`)
 that will require quite a few projects to adapt to new requirements
 (either by fixing code or by slapping `-std=gnu17` as a requirement).
 
-Most of the breakages above are not yet fixed upstream. These can be
+Most of the build failures above are not yet fixed upstream. These can be
 good first contribution fixes if you are thinking of making one.
 
 Have fun!
