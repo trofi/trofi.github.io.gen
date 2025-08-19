@@ -25,7 +25,7 @@ checking for OpenGL support... no
 configure: error: *** OpenGL not found!
 ```
 
-To get a bit more detail into it I usually use `nix develop`:
+To get a bit more detail I usually use `nix develop`:
 
 ```
 $ nix develop -f. hheretic
@@ -40,7 +40,6 @@ no Makefile or custom buildPhase, doing nothing
 
 Here I ran `genericBuild` to start a build process similar to what a
 `nix build -f. hheretic` would do.
-
 I got expected error (and a bit of extra stuff). Now I can peek at
 `config.log` to check why `OpenGL` was not detected:
 
@@ -82,9 +81,8 @@ first thing I tried was this patch:
 ```
 
 Running `nix build -f. hheretic` against it makes the package build
-successfully. THe change is proposed as a
-[PR#403458](https://github.com/NixOS/nixpkgs/pull/403458) now.
-
+successfully. The change is proposed as a
+[`PR#403458`](https://github.com/NixOS/nixpkgs/pull/403458) now.
 As a bonus let's figure out when the package broke. In the
 [history tab](https://hydra.nixos.org/job/nixos/trunk-combined/nixpkgs.hheretic.x86_64-linux)
 we can see that:
@@ -121,8 +119,7 @@ bisect found first bad commit
 
 Looking at <https://github.com/NixOS/nixpkgs/commit/e47403cf2a2c76ae218bbf519c538b0ed419fa5f>
 the `GitHub` UI says it corresponds to
-[PR#389106](https://github.com/NixOS/nixpkgs/pull/389106).
-
+[`PR#389106`](https://github.com/NixOS/nixpkgs/pull/389106).
 Added
 [the comment](https://github.com/NixOS/nixpkgs/pull/389106#issuecomment-2845845704)
 there to get attention of relevant authors.
