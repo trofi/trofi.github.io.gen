@@ -764,6 +764,8 @@ But even with such a limited lister I managed to get to these bugs:
   attribute.
 - [`PR#431112`](https://github.com/NixOS/nixpkgs/pull/431112):
   `fetchurl` did not handle `mirror://` prefix in URLs.
+- [`PR#435400`](https://github.com/NixOS/nixpkgs/pull/435400):
+ `bluesky-pds.tests` referred to outdated attribute name.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
