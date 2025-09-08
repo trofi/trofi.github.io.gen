@@ -6,7 +6,9 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2025
 
-8 Aug: `nixpkgs` big: [`isMachO` magix detector incorrectly read file header](https://github.com/NixOS/nixpkgs/pull/432097)
+7 Sep: `isl` bug: [`make --shuffle` failed occasionally](https://groups.google.com/g/isl-development/c/BmC9Ve7L4f0)
+
+8 Aug: `nixpkgs` bug: [`isMachO` magic detector incorrectly read file header](https://github.com/NixOS/nixpkgs/pull/432097)
 
 5 Aug: `ed` bug: [Test suite fails intermittently due to pipe to `true`: `ed ... | true`](https://lists.gnu.org/archive/html/bug-ed/2025-08/msg00000.html)
 
