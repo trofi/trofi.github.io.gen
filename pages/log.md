@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2025
 
+21 Sep: `chromium` bug: [on `sway` `chromium` lost detection of video acceleration](https://issues.chromium.org/issues/446395287)
+
 7 Sep: `isl` bug: [`make --shuffle` failed occasionally](https://groups.google.com/g/isl-development/c/BmC9Ve7L4f0)
 
 8 Aug: `nixpkgs` bug: [`isMachO` magic detector incorrectly read file header](https://github.com/NixOS/nixpkgs/pull/432097)
