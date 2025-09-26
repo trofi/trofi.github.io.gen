@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2025
 
+23 Sep: `cmake` bug: [`gcc-16` exposed uncompilable code via devirtualization](https://gitlab.kitware.com/cmake/cmake/-/issues/27256)
+
 21 Sep: `chromium` bug: [on `sway` `chromium` lost detection of video acceleration](https://issues.chromium.org/issues/446395287)
 
 7 Sep: `isl` bug: [`make --shuffle` failed occasionally](https://groups.google.com/g/isl-development/c/BmC9Ve7L4f0)
