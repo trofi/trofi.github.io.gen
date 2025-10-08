@@ -6,6 +6,10 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2025
 
+8 Oct: `binutils` `ld` performance bug: [`ld.bfd` has non-linear slowdown on section count, triggered on `ghc` binaries](http://sourceware.org/PR33530)
+
+8 Oct: `nix` bug: [`ca-derivations` builds are failing on `2.32`](https://github.com/NixOS/nix/issues/14193)
+
 23 Sep: `cmake` bug: [`gcc-16` exposed uncompilable code via devirtualization](https://gitlab.kitware.com/cmake/cmake/-/issues/27256)
 
 21 Sep: `chromium` bug: [on `sway` `chromium` lost detection of video acceleration](https://issues.chromium.org/issues/446395287)
