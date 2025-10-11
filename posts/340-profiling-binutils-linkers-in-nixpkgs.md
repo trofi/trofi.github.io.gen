@@ -1,6 +1,6 @@
 ---
 title: "profiling binutils linkers in nixpkgs"
-date: October 9, 2025
+date: October 11, 2025
 ---
 
 ## background
