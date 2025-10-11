@@ -769,6 +769,9 @@ But even with such a limited lister I managed to get to these bugs:
 - [`PR#441567`](https://github.com/NixOS/nixpkgs/pull/441567):
   `haskell.packages.ghc902Binary.apply-refact` referred to already deleted
   attribute.
+- [`PR#450935`](https://github.com/NixOS/nixpkgs/pull/450935):
+  `defaultPkgConfigPackages.libsystemd.tests` referred to already deleted
+  attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
