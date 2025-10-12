@@ -392,7 +392,7 @@ To trigger section garbage collection
 linker option.
 Note that `ghc` only enables garbage collection for `GNU ld` (I think
 both `ld.gold` and `ld.bfd` count as GNU). `lld` and `mold`
-both the option as well.
+both support `-Wl,--gc-sections` option as well.
 
 If we look at the implementation
 of `_bfd_elf_gc_mark` we see a suspicious
