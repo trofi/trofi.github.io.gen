@@ -130,7 +130,7 @@ $ perl ~/dev/git/FlameGraph/flamegraph.pl out.folded > gold.svg
 
 [![`gold.svg`](/posts.data/340-profiling-binutils-linkers-in-nixpkgs/gold.svg "ld.gold profile on pandoc")](/posts.data/340-profiling-binutils-linkers-in-nixpkgs/gold.svg)
 
-The profile looks more balanced. THe staircase around sorting looks
+The profile looks more balanced. The staircase around sorting looks
 peculiar. Most of the time is spent
 on section sorting in `gold::Output_section::sort_attached_input_sections`.
 It's also a great hint: **how many sections should there be so that sorting
