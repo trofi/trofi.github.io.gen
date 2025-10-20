@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2025
 
+20 Oct: `nix` [crash on newlines](https://github.com/NixOS/nix/issues/14311)
+
 8 Oct: `binutils` `ld` performance bug: [`ld.bfd` has non-linear slowdown on section count, triggered on `ghc` binaries](http://sourceware.org/PR33530)
 
 8 Oct: `nix` bug: [`ca-derivations` builds are failing on `2.32`](https://github.com/NixOS/nix/issues/14193)
