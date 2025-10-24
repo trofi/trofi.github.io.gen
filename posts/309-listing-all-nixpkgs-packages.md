@@ -774,6 +774,8 @@ But even with such a limited lister I managed to get to these bugs:
   attribute.
 - [`PR#451620`](https://github.com/NixOS/nixpkgs/pull/451620): misspelled
   the test name.
+- [`PR#455308`](https://github.com/NixOS/nixpkgs/pull/455308): reference
+  to already deleted file.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
