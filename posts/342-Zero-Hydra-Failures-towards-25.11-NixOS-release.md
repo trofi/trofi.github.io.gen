@@ -3,7 +3,7 @@ title: "Zero Hydra Failures towards 25.11 NixOS release"
 date: November 3, 2025
 ---
 
-It is November again! THe usual plan is to have a `NixOS-.25.11` release
+It is November again! The usual plan is to have a `NixOS-.25.11` release
 on 30th ([full schedule](https://github.com/NixOS/nixpkgs/issues/443568)).
 
 Yesterday the schedule got to
