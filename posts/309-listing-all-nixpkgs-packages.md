@@ -782,6 +782,8 @@ But even with such a limited lister I managed to get to these bugs:
   is incorrectly spelled as `libxccStdenv`.
 - [`PR#459585`](https://github.com/NixOS/nixpkgs/pull/459585):
   `h2o.tests` required missing `lib` parameter.
+- [`PR#460017`](https://github.com/NixOS/nixpkgs/pull/460017):
+  `haskell.packages.ghc912.extensions` defers to a deleted package.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
