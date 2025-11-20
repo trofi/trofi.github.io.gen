@@ -784,6 +784,9 @@ But even with such a limited lister I managed to get to these bugs:
   `h2o.tests` required missing `lib` parameter.
 - [`PR#460017`](https://github.com/NixOS/nixpkgs/pull/460017):
   `haskell.packages.ghc912.extensions` defers to a deleted package.
+- [`PR#463387`](https://github.com/NixOS/nixpkgs/pull/463387):
+  `python3Packages.msgspec.optional-dependencies` used invalid type for
+  `pythonOlder` argument.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
