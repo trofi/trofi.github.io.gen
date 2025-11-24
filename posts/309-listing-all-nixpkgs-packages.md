@@ -787,6 +787,8 @@ But even with such a limited lister I managed to get to these bugs:
 - [`PR#463387`](https://github.com/NixOS/nixpkgs/pull/463387):
   `python3Packages.msgspec.optional-dependencies` used invalid type for
   `pythonOlder` argument.
+- [`PR#464482`](https://github.com/NixOS/nixpkgs/pull/464482): `vte.tests`
+  override already removed flag.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
