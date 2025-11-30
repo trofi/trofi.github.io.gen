@@ -789,6 +789,8 @@ But even with such a limited lister I managed to get to these bugs:
   `pythonOlder` argument.
 - [`PR#464482`](https://github.com/NixOS/nixpkgs/pull/464482): `vte.tests`
   override already removed flag.
+- [`PR#466522`](https://github.com/NixOS/nixpkgs/pull/466522):
+  `haskellPackages.3d-graphics-example`: fix attribute name.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
