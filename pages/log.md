@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2025
 
+14 Dec: `nixpkgs` [`fetchurl` fallback bug](https://github.com/NixOS/nixpkgs/pull/470643)
+
 11 Nov: `valgrind` [build system bug](https://bugs.kde.org/show_bug.cgi?id=511972)
 
 20 Oct: `nix` [crash on newlines](https://github.com/NixOS/nix/issues/14311)
