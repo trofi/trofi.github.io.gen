@@ -1,7 +1,7 @@
 {
   description = "Development environment for trofi.github.io.gen";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "flake:nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
   };
   outputs = { self, nixpkgs, flake-utils }:
