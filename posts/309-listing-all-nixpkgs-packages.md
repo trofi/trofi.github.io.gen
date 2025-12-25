@@ -795,6 +795,8 @@ But even with such a limited lister I managed to get to these bugs:
   `python314Packages.ray.src` defines invalid `sha256` attribute type.
 - [`PR#473831`](https://github.com/NixOS/nixpkgs/pull/473831):
   `aws-cdk-cli.tests` used incorrect attribute name.
+- [`PR#474199`](https://github.com/NixOS/nixpkgs/pull/474199):
+  `pkgsLLVM.git-doc` used invalid `gitFull.doc` nonexistent attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
