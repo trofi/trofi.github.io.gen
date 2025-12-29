@@ -797,6 +797,8 @@ But even with such a limited lister I managed to get to these bugs:
   `aws-cdk-cli.tests` used incorrect attribute name.
 - [`PR#474199`](https://github.com/NixOS/nixpkgs/pull/474199):
   `pkgsLLVM.git-doc` used invalid `gitFull.doc` nonexistent attribute.
+- [`PR#475144`](https://github.com/NixOS/nixpkgs/pull/475144):
+  mix of `++` and `+` in attempt to concatenate lists.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
