@@ -799,6 +799,8 @@ But even with such a limited lister I managed to get to these bugs:
   `pkgsLLVM.git-doc` used invalid `gitFull.doc` nonexistent attribute.
 - [`PR#475144`](https://github.com/NixOS/nixpkgs/pull/475144):
   mix of `++` and `+` in attempt to concatenate lists.
+- [`PR#478016`](https://github.com/NixOS/nixpkgs/pull/478016): fix typo in
+  attribute name.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
