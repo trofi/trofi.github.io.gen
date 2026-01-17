@@ -803,6 +803,8 @@ But even with such a limited lister I managed to get to these bugs:
   attribute name.
 - [`PR#479832`](https://github.com/NixOS/nixpkgs/pull/479832):
   `llm.tests` referred to non-existent attributes.
+- [`PR#480960`](https://github.com/NixOS/nixpkgs/pull/480960):
+  `python3Packages.raylib-python-cffi.tests` was missing an `src` input.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
