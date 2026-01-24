@@ -805,6 +805,8 @@ But even with such a limited lister I managed to get to these bugs:
   `llm.tests` referred to non-existent attributes.
 - [`PR#480960`](https://github.com/NixOS/nixpkgs/pull/480960):
   `python3Packages.raylib-python-cffi.tests` was missing an `src` input.
+- [`PR#483299`](https://github.com/NixOS/nixpkgs/pull/483299):
+  `lib.hasFile` used non-existent `builtins.hasFile`.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
