@@ -807,6 +807,8 @@ But even with such a limited lister I managed to get to these bugs:
   `python3Packages.raylib-python-cffi.tests` was missing an `src` input.
 - [`PR#483299`](https://github.com/NixOS/nixpkgs/pull/483299):
   `lib.hasFile` used non-existent `builtins.hasFile`.
+- [`PR#492601`](https://github.com/NixOS/nixpkgs/pull/492601):
+  `sile.tests` referred to invalid attributes after a rename.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
