@@ -809,6 +809,8 @@ But even with such a limited lister I managed to get to these bugs:
   `lib.hasFile` used non-existent `builtins.hasFile`.
 - [`PR#492601`](https://github.com/NixOS/nixpkgs/pull/492601):
   `sile.tests` referred to invalid attributes after a rename.
+- [`PR#495004`](https://github.com/NixOS/nixpkgs/pull/495004):
+  `dart-source.fetchGitHashesScript` was deleted by accident.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
