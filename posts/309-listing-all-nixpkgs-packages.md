@@ -813,6 +813,8 @@ But even with such a limited lister I managed to get to these bugs:
   `dart-source.fetchGitHashesScript` was deleted by accident.
 - [`PR#495980`](https://github.com/NixOS/nixpkgs/pull/495980):
   `libweaver.updateScript` passes non-existent parameter.
+- [`PR#496827`](https://github.com/NixOS/nixpkgs/pull/496827):
+  `pypy3Packages.zarr.optional-dependencies`: dereferences `null`.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
