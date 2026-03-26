@@ -815,6 +815,8 @@ But even with such a limited lister I managed to get to these bugs:
   `libweaver.updateScript` passes non-existent parameter.
 - [`PR#496827`](https://github.com/NixOS/nixpkgs/pull/496827):
   `pypy3Packages.zarr.optional-dependencies`: dereferences `null`.
+- [`PR#`](https://github.com/NixOS/nixpkgs/pull/503616):
+  `xdg-desktop-portal.tests` referred to a stale path.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
