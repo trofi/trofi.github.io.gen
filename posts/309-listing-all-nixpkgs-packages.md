@@ -815,8 +815,10 @@ But even with such a limited lister I managed to get to these bugs:
   `libweaver.updateScript` passes non-existent parameter.
 - [`PR#496827`](https://github.com/NixOS/nixpkgs/pull/496827):
   `pypy3Packages.zarr.optional-dependencies`: dereferences `null`.
-- [`PR#`](https://github.com/NixOS/nixpkgs/pull/503616):
+- [`PR#503616`](https://github.com/NixOS/nixpkgs/pull/503616):
   `xdg-desktop-portal.tests` referred to a stale path.
+- [`PR#503961`](https://github.com/NixOS/nixpkgs/pull/503961):
+  `coqPackages_9_1.verified-extraction` uses undefined variable.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
