@@ -4,6 +4,10 @@ title: log
 
 These are notable or amusing bugs and patches I dealt with in the past.
 
+## 2026
+
+12 Apr: `nix` [`ca-derivations` are very slow to query cache](https://github.com/NixOS/nix/issues/15668)
+
 ## 2025
 
 14 Dec: `nixpkgs` [`fetchurl` fallback bug](https://github.com/NixOS/nixpkgs/pull/470643)
