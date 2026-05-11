@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2026
 
+11 May: `nix` [`content-addressed` `.tmp` file collision](https://github.com/NixOS/nix/issues/15839)
+
 19 Apr: `nix` [`content-addressed` / `builtins.readFile` hangup](https://github.com/NixOS/nix/issues/15713)
 
 17 Apr: `gnome-calculator` [calculated `sqrt(-1)` incorrectly on `mpc-1.4.0`](https://github.com/NixOS/nixpkgs/pull/504502#issuecomment-4271420294)
