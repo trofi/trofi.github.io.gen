@@ -6,6 +6,8 @@ These are notable or amusing bugs and patches I dealt with in the past.
 
 ## 2026
 
+23 May: `ferron` [`CONNECT` ACL handling bug](https://github.com/ferronweb/ferron/issues/714)
+
 19 May: `nix` [`content-addressed` path store deletion breaks re-installs](https://github.com/NixOS/nix/issues/15880)
 
 11 May: `nix` [`content-addressed` `.tmp` file collision](https://github.com/NixOS/nix/issues/15839)
