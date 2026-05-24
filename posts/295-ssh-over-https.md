@@ -22,7 +22,8 @@ The `~/.ssh/https-tunnel.bash` helper script we use above:
 
 ```sh
 #!/usr/bin/env bash
-{ printf "CONNECT ssh-server:22 HTTP/1.0\r\n\r\n"; cat; } | socat - SSL:https-server:443
+
+{ printf "CONNECT $1:$2 HTTP/1.1\r\nHost: $1\r\n\r\n"; cat; } | socat - "SSL:$3:$4"
 ```
 
 Example server entry for `apache2` `HTTPS`:
@@ -177,7 +178,8 @@ method is easy to implement manually. I did it via one-line script:
 ```sh
 $ cat ~/.ssh/https-tunnel.bash
 #!/usr/bin/env bash
-{ printf "CONNECT ssh-server:22 HTTP/1.0\r\n\r\n"; cat; } | socat - SSL:https-server:443
+
+{ printf "CONNECT ssh-server:22 HTTP/1.1\r\nHost: ssh-server\r\n\r\n"; cat; } | socat - "SSL:$3:$4"
 ```
 
 Now we can use this script as is for `SSH` over `HTTPS` tunneling:
