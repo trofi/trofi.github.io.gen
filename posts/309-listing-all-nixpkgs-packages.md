@@ -821,6 +821,8 @@ But even with such a limited lister I managed to get to these bugs:
   `coqPackages_9_1.verified-extraction` uses undefined variable.
 - [`PR#517810`](https://github.com/NixOS/nixpkgs/pull/517810):
   `nim.nim.nimTarget` uses non-existent variable.
+- [`PR#523603`](https://github.com/NixOS/nixpkgs/pull/523603):
+  `quickwit.tests` referred already deleted test.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
