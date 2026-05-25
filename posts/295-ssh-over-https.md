@@ -49,6 +49,9 @@ And on the client side we use `socat` to create `TLS` connection with a
 sent `CONNECT` method as a header.
 Now you can use `$ ssh ssh-via-https` to reach `ssh-server`.
 
+**UPDATE**: `nginx` variant of the configuration
+[is here](/posts/350-CONNECT-passthrough-on-nginx.html).
+
 More words below:
 
 ## Background
@@ -207,5 +210,8 @@ a useful hack to wrap any `TCP` payload stream into `TLS` host stream.
 The `ServerAliveInterval` `openssh` knob allows you to keep the
 connection alive if underlying transport is not friendly to idle
 connections.
+
+`nginx` variant of the configuration
+[is here](/posts/350-CONNECT-passthrough-on-nginx.html).
 
 Have fun!
