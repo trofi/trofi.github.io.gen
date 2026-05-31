@@ -202,7 +202,7 @@ source directories in the final output. I tried to inject
 +    fi
 +
 +    # Try hard to avoid hardcoding of -dev outputs via __FILE__.
-+    # THe typical examples are: asserts in nlohmann_json leaking into
++    # The typical examples are: asserts in nlohmann_json leaking into
 +    # nix executable closure, asserts from lttng-ust leaking into
 +    # pipewire.
 +    mangled_store=$(printf "%s" "$1" | sed -e "s|$NIX_STORE/[a-z0-9]\{32\}-|$NIX_STORE/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-|g")

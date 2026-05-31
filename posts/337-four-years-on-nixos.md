@@ -40,7 +40,7 @@ This time I had the following non-trivial problems in upstream packages:
   out what is so special about `gcc` warnings. Ended up being quite easy.
 - `perf` stated to hang up on my system: <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=c21986d33d6beb269a35b38dcb8adaa5bd228527>.
   It came up after I ran system-wide profiler to see what `wine` does to
-  use 100% CPU on an ancient game. THe fix was trivial once looked at.
+  use 100% CPU on an ancient game. The fix was trivial once looked at.
   I don't remember what changed to expose the hangups. Maybe I just never
   did it before? Ended up being easy as well.
 - `mpv` started failing GPU rendering due to `libplacebo` / `shaderc`
