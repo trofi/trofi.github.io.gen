@@ -829,6 +829,8 @@ But even with such a limited lister I managed to get to these bugs:
   `pypy3Packages.adb-shell` refers to an incorrect `passthru` slot.
 - [`PR#526836`](https://github.com/NixOS/nixpkgs/pull/526836):
   `bats.tests` referred to a removed `python27` argument.
+- [`PR#541102`](https://github.com/NixOS/nixpkgs/pull/541102):
+  `flytectl.tests` refers to an invalid `version` attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
