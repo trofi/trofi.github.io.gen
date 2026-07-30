@@ -831,6 +831,8 @@ But even with such a limited lister I managed to get to these bugs:
   `bats.tests` referred to a removed `python27` argument.
 - [`PR#541102`](https://github.com/NixOS/nixpkgs/pull/541102):
   `flytectl.tests` refers to an invalid `version` attribute.
+- [`PR#547466`](https://github.com/NixOS/nixpkgs/pull/547466):
+  `coqPackages_8_15.aac-tactics` was referring wrong tag.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
