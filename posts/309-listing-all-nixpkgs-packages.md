@@ -835,6 +835,8 @@ But even with such a limited lister I managed to get to these bugs:
   `coqPackages_8_15.aac-tactics` was referring wrong tag.
 - [`PR#565323`](https://github.com/NixOS/nixpkgs/pull/565323):
   `swift.swiftArch`, `swift.swiftOs` use invalid wanr wrapper.
+- [`PR#572354`](https://github.com/NixOS/nixpkgs/pull/572354):
+  `python3Packages.tomlkit.tests` uses invalid override.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
