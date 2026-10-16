@@ -837,6 +837,8 @@ But even with such a limited lister I managed to get to these bugs:
   `swift.swiftArch`, `swift.swiftOs` use invalid wanr wrapper.
 - [`PR#572354`](https://github.com/NixOS/nixpkgs/pull/572354):
   `python3Packages.tomlkit.tests` uses invalid override.
+- [`PR#574962`](https://github.com/NixOS/nixpkgs/pull/574962):
+  `minio-client.tests` refers to already deleted packages.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
