@@ -841,6 +841,8 @@ But even with such a limited lister I managed to get to these bugs:
   `minio-client.tests` refers to already deleted packages.
 - [`PR#577007`](https://github.com/NixOS/nixpkgs/pull/577007):
   `multipath-tools.tests` refers to a deleted test.
+- [`PR#577511`](https://github.com/NixOS/nixpkgs/pull/577511):
+  `openiscsi.tests` refers to a deleted test.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
