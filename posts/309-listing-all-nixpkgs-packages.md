@@ -847,6 +847,8 @@ But even with such a limited lister I managed to get to these bugs:
   `beekeeper-studio` refers to deleted `systemd-nspawn-configfile`.
 - [`PR#580685`](https://github.com/NixOS/nixpkgs/pull/580685):
   `libmodsecurity.tests` refers to a renamed attribute.
+- [`PR#580695`](https://github.com/NixOS/nixpkgs/pull/580695):
+  `mailcap.tests` refers to a renamed attribute.
 
 Note: It's not the full list of required fixes. For more complex cases I
 filed a few bugs to get maintainers' help:
