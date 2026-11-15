@@ -118,19 +118,19 @@ As a result a bunch of minor cleanups happened:
 
 It allowed me to test various targets. Namely:
 
-  Target                                    Bits    Endianness   Codegen
-  ----------------------------------------- ------- ------------ ---------
-  cross-aarch64-unknown-linux-gnu/ghc       64      LE           LLVM
-  cross-alpha-unknown-linux-gnu/ghc         64      LE           UNREG
-  cross-armv7a-unknown-linux-gnueabi/ghc    32      LE           LLVM
-  cross-hppa-unknown-linux-gnu/ghc          32      BE           UNREG
-  cross-m68k-unknown-linux-gnu/ghc          32      BE           UNREG
-  cross-mips64-unknown-linux-gnu/ghc        32/64   BE           UNREG
-  cross-powerpc64-unknown-linux-gnu/ghc     64      BE           NCG
-  cross-powerpc64le-unknown-linux-gnu/ghc   64      LE           NCG
-  cross-s390x-unknown-linux-gnu/ghc         64      BE           UNREG
-  cross-sparc-unknown-linux-gnu/ghc         32      BE           UNREG
-  cross-sparc64-unknown-linux-gnu/ghc       64      BE           UNREG
+| Target                                    | Bits    | Endianness   | Codegen   |
+| ----------------------------------------- | ------- | ------------ | --------- |
+| cross-aarch64-unknown-linux-gnu/ghc       | 64      | LE           | LLVM      |
+| cross-alpha-unknown-linux-gnu/ghc         | 64      | LE           | UNREG     |
+| cross-armv7a-unknown-linux-gnueabi/ghc    | 32      | LE           | LLVM      |
+| cross-hppa-unknown-linux-gnu/ghc          | 32      | BE           | UNREG     |
+| cross-m68k-unknown-linux-gnu/ghc          | 32      | BE           | UNREG     |
+| cross-mips64-unknown-linux-gnu/ghc        | 32/64   | BE           | UNREG     |
+| cross-powerpc64-unknown-linux-gnu/ghc     | 64      | BE           | NCG       |
+| cross-powerpc64le-unknown-linux-gnu/ghc   | 64      | LE           | NCG       |
+| cross-s390x-unknown-linux-gnu/ghc         | 64      | BE           | UNREG     |
+| cross-sparc-unknown-linux-gnu/ghc         | 32      | BE           | UNREG     |
+| cross-sparc64-unknown-linux-gnu/ghc       | 64      | BE           | UNREG     |
 
 I am running all of this on `x86_64` (64-bit `LE` platform).
 Quite a list! With help of `qemu` we can even test whether cross-compiler
