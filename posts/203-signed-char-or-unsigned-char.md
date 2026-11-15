@@ -14,7 +14,7 @@ It took me a while to debug the issue but it boiled down to an infinite
 loop of trying to find `EOF` when reading a file. Let's look at the
 simplified version of buggy code in `sqlite`:
 
-``` c
+```c
 #include <stdio.h> /* #define EOF (-1) */
 
 int main() {
@@ -118,7 +118,7 @@ underlying Instruction Set Architecture. Or ... not :), read on!
 Let's look at generated code for two simple functions fetching single
 char from memory into register and compare generated code:
 
-``` c
+```c
 signed   long sc2sl (signed   char * p) { return *p; }
 unsigned long uc2ul (unsigned char * p) { return *p; }
 ```
@@ -128,7 +128,7 @@ unsigned long uc2ul (unsigned char * p) { return *p; }
 `Alpha` is a 64-bit architecture. Does not support unaligned reads in its
 basic ISA. **You have been warned**.
 
-``` asm
+```asm
 ; alpha-unknown-linux-gnu-gcc -O2 -c a.c && objdump -d a.o
 
 sc2sl:
@@ -163,7 +163,7 @@ bit of time to understand `sc2sl` implementation.
 `creemj` noted on `#gentoo-alpha` `BWX` ISA extension (enabled
 with `-mbwx` in `gcc`):
 
-``` asm
+```asm
 ; alpha-unknown-linux-gnu-gcc -O2 -mbwx -c a.c && objdump -d a.o
 
 sc2sl:
@@ -431,19 +431,19 @@ differ quite a bit.
 
 Here is my silly table:
 
-  architecture   signedness   preferred signedness   match
-  -------------- ------------ ---------------------- --------
-  alpha          SIGNED       UNSIGNED               **NO**
-  arm            UNSIGNED     AMBIVALENT             YES
-  hppa           SIGNED       UNSIGNED               **NO**
-  ia64           SIGNED       UNSIGNED               **NO**
-  m68k           SIGNED       AMBIVALENT             YES
-  mips           SIGNED       AMBIVALENT             YES
-  powerpc        UNSIGNED     UNSIGNED               YES
-  s390(64)       UNSIGNED     UNSIGNED               YES
-  sh             SIGNED       SIGNED                 YES
-  sparc          SIGNED       AMBIVALENT             YES
-  x86            SIGNED       AMBIVALENT             YES
+| architecture   | signedness   | preferred signedness   | match    |
+| -------------- | ------------ | ---------------------- | -------- |
+| alpha          | SIGNED       | UNSIGNED               | **NO**   |
+| arm            | UNSIGNED     | AMBIVALENT             | YES      |
+| hppa           | SIGNED       | UNSIGNED               | **NO**   |
+| ia64           | SIGNED       | UNSIGNED               | **NO**   |
+| m68k           | SIGNED       | AMBIVALENT             | YES      |
+| mips           | SIGNED       | AMBIVALENT             | YES      |
+| powerpc        | UNSIGNED     | UNSIGNED               | YES      |
+| s390(64)       | UNSIGNED     | UNSIGNED               | YES      |
+| sh             | SIGNED       | SIGNED                 | YES      |
+| sparc          | SIGNED       | AMBIVALENT             | YES      |
+| x86            | SIGNED       | AMBIVALENT             | YES      |
 
 What do we see here:
 
