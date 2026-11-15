@@ -11,8 +11,7 @@ date: October 19, 2010
 
 1. Использование логических (`|`, `&`) операций вместо булевых (`||`, `&&`):
 
-
-~~~~ { .cpp }
+```cpp
  int CheckFileMask (const char * lpPath)
  {
      int result = CheckPathName (lpPath);
@@ -36,7 +35,7 @@ date: October 19, 2010
 
      return result >= 0;
  }
-~~~~
+```
 
 `Clang` говорит:
 
@@ -46,7 +45,7 @@ date: October 19, 2010
 
 исправляем:
 
-~~~~ { .cpp }
+```cpp
  int CheckFileMask (const char * lpPath)
  {
      int result = CheckPathName (lpPath);
@@ -70,15 +69,15 @@ date: October 19, 2010
 
      return result >= 0;
  }
-~~~~
+```
 
 2. Неиспользуемый результат в выражении:
 
 Оригинал:
 
-~~~~ { .cpp }
+```cpp
      while( ( * lpTmp == ' ' ) || ( * lpTmp == '\t' ) ) * lpTmp ++;
-~~~~
+```
 
 Предупреджение:
 
@@ -87,9 +86,9 @@ date: October 19, 2010
                                                            ^ ~~~~~~~~
 Исправляем:
 
-~~~~ { .cpp }
+```cpp
      while( ( * lpTmp == ' ' ) || ( * lpTmp == '\t' ) ) lpTmp ++;
-~~~~
+```
 
 Было еще несколько красивых ошибок типизации, про которые лень писать.
 
@@ -99,7 +98,7 @@ date: October 19, 2010
 Рассмотрим пример из бага, который я [завел](http://gcc.gnu.org/bugzilla/show_bug.cgi?id=46075)
 и тут же огрёб:
 
-~~~~ { .cpp }
+```cpp
 template<typename T> struct my_T {
     my_T() {
         my_foo ((const T *)0);
@@ -120,8 +119,7 @@ int main() {
     User u;
     return 0;
 }
-
-~~~~
+```
 
 Этот код `g++` собирает, а `clang++` - нет:
 
@@ -148,7 +146,7 @@ int main() {
 и, как следствие, не подлежат поиску в `ADL` при специализации (это текущая формулировака поиска Кёнига
 в стандарте). Вот если бы я вместо `char` объявил свой тип - всё было бы хорошо:
 
-~~~~ { .cpp }
+```cpp
 template<typename T> struct my_T {
     my_T() {
         my_foo ((const T *)0);
@@ -170,7 +168,7 @@ int main() {
     User u;
     return 0;
 }
-~~~~
+```
 
 `g++` с таким положением дел не согласен и считает это
 [ошибкой в стандарте](http://www.open-std.org/JTC1/SC22/WG21/docs/cwg_active.html#225).
