@@ -1,17 +1,22 @@
 // TODO: is there a better way to structure modules vs files?
 mod cmd;
 mod error;
+mod opts;
 mod post;
 mod result;
 mod rewrite;
 mod store;
 mod template;
 
+use std::io::Write;
+use clap::Parser;
+
 use crate::result::Result;
 
 fn handle_glob(glob_pattern: &str,
                router: &dyn Fn(&std::path::Path) -> Result<std::path::PathBuf>,
                handler: &dyn Fn(&std::path::Path, &std::path::Path) -> Result<()>) -> Result<()> {
+    log::trace!("Handle {glob_pattern:?} glob");
     for pb in glob::glob(glob_pattern)? {
         let p = pb?;
         if p.is_dir() { continue }
@@ -22,6 +27,12 @@ fn handle_glob(glob_pattern: &str,
 }
 
 fn main() -> Result<()> {
+    let o = crate::opts::Opts::parse();
+    env_logger::Builder::new()
+        .format(|buf, record| writeln!(buf, "{}: {}", record.level(), record.args()))
+        .filter_level(o.verbose.log_level_filter())
+        .init();
+
     struct FeedMeta {
         title: &'static str,
         desc: &'static str,
@@ -40,7 +51,7 @@ fn main() -> Result<()> {
         history: 30,
     };
 
-    let store = store::Store::new("out")?;
+    let store = store::Store::new(&o.out)?;
 
     struct RenderedPost {
         path: Box<std::path::Path>,
