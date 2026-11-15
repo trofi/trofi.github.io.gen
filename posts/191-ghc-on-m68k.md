@@ -328,17 +328,17 @@ int main() {
 
 Here is the result for a few targets:
 
-  target                        `sizeof (int)` `__alignof__ (int)`
-  ----------------------------- -------------- -----------------------
-  x86_64-pc-linux-gnu           4              4
-  i686-pc-linux-gnu             4              4
-  powerpc-unknown-linux-gnu     4              4
-  powerpc64-unknown-linux-gnu   4              4
-  sparc-unknown-linux-gnu       4              4
-  sparc64-unknown-linux-gnu     4              4
-  ia64-unknown-linux-gnu        4              4
-  `<you get the pattern>`       `...`          `...`
-  m68k-unknown-linux-gnu        4              **2**(!)
+| target                       | `sizeof (int)` | `__alignof__ (int)` |
+| ---------------------------- | -------------- | ------------------- |
+| x86_64-pc-linux-gnu          | 4              | 4                   |
+| i686-pc-linux-gnu            | 4              | 4                   |
+| powerpc-unknown-linux-gnu    | 4              | 4                   |
+| powerpc64-unknown-linux-gnu  | 4              | 4                   |
+| sparc-unknown-linux-gnu      | 4              | 4                   |
+| sparc64-unknown-linux-gnu    | 4              | 4                   |
+| ia64-unknown-linux-gnu       | 4              | 4                   |
+| `<you get the pattern>`      | `...`          | `...`               |
+| m68k-unknown-linux-gnu       | 4              | **2**(!)            |
 
 The fix for this is simple: we need to add
 `__attribute__((aligned(sizeof(int))))` to all closure
