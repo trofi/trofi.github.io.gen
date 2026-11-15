@@ -25,12 +25,12 @@ date: August 7, 2010
   (нужно нажать какую-нибудь клавишу, пока она не начала грузить ядро)
 4. с хост машины запустил:
 
-~~~~
+```
 # это один терминал. Присоединяемся в sheevaplug по JTAG
 $ sudo openocd -f /usr/share/openocd/scripts/board/sheevaplug.cfg
-~~~~
+```
 
-~~~~
+```
 # другой терминал
 $ nc localhost 4444
 Open On-Chip Debugger
@@ -46,12 +46,12 @@ timed out while waiting for target halted
 Command handler execution failed
 in procedure 'wait_halt' called at file "/usr/share/openocd/scripts/board/sheevaplug.cfg", line 30
 in procedure 'sheevaplug_init'
-~~~~
+```
 
   Тут `sheevaplug` начинает грузиться и ее надо быро стопить, пока она не загрузила ядро.
   Баг `openocd`? Я сделал чуть по-другому:
 
-~~~~
+```
 # всё тот же другой терминал (тем временем sheevaplug висит в промпте u-boot)
 $ nc localhost 4444
 Open On-Chip Debugger
@@ -65,7 +65,7 @@ target state: halted
 target halted in ARM state due to debug-request, current mode: Supervisor
 cpsr: 0x000000d3 pc: 0xffff0000
 MMU: disabled, D-Cache: disabled, I-Cache: disabled
-~~~~
+```
 
   `target state: halted` <- ура. После сборки `u-boot`  у нас есть несколько файлов:
 
@@ -73,7 +73,7 @@ MMU: disabled, D-Cache: disabled, I-Cache: disabled
   - `u-boot` - `elf`-образ с символами. По нем очень интересно лазить
     дизассемблером и отладчиком. Его мы сейчас и загрузим в наш девайс
 
-~~~~
+```
 # обязательно нужно задавать абсолютный путь,
 # иначе openocd будет вести себя очень неадекватно
 > load_image /home/slyfox/u-boot/u-boot
@@ -82,11 +82,11 @@ load_image /home/slyfox/u-boot/u-boot
 downloaded 330616 bytes in 2.880506s (112.087 KiB/s)
 > resume 0x00600000
 resume 0x00600000
-~~~~
+```
 
   Ловим `sheevaplug` в `minicom` и можем проверить базовую работоспособность:
 
-~~~~
+```
 Marvell>> version
 U-Boot 2010.03-00176-g42f7128 (Aug 06 2010 - 22:24:34)
 Marvell-Sheevaplug
@@ -100,7 +100,7 @@ NAND read: device 0 offset 0x100000, size 0x400000
 Marvell>> setenv bootargs console=ttyS0,115200 root=/dev/sda3 rw rootwait
 # boot
 Marvell>> bootm 0x01000000
-~~~~
+```
 
   То есть вся проблема - словить `sheevaplug` в состоянии `target state: halted`.
   Я этого сразу не просёк и писал `u-boot` пока `sheevaplug` работает. Пока я грузил
@@ -109,7 +109,7 @@ Marvell>> bootm 0x01000000
 
 5. флешим сам загрузчик из уже загруженной операционки.
 
-~~~~
+```
 sh-4.0# cd /boot/
 sh-4.0# ls
 System.map-2.6.35      config-2.6.35.old    vmlinuz-2.6.35
@@ -127,7 +127,7 @@ mtd2: 1fb00000 00020000 "root"
 sh-4.0# flash_eraseall /dev/mtd0; nandwrite -p /dev/mtd0 /boot/u-boot.kwb-20100806
 sh-4.0# /sbin/reboot
 # перезагружаемся и перепроверяем, что всё хорошо
-~~~~
+```
 
 Мне не хотелось флэшить `u-boot` из него-же самого через `TFTP`, потому что там надо
 было всякие выравнивания высчитывать. Не хотелось ошибиться. Можно было загрузить/записать
