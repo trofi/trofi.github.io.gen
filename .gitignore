@@ -7,3 +7,9 @@ dist
 Setup.hi
 Setup.o
 Setup
+
+# site results
+out
+
+# rust bits
+target

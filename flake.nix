@@ -19,6 +19,11 @@
           p.pandoc
           p.text
         ]))
+
+        pkgs.rustc
+        pkgs.cargo
+        pkgs.rust-analyzer
+
         pkgs.gnuplot
         pkgs.graphviz
       ];
