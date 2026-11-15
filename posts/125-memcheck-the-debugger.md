@@ -18,34 +18,34 @@ date: October 21, 2010
 
 1. **обращение за пределы выделенной памяти вроде такого:**
 
-~~~~ { .c }
+```c
 int main() {
     char * p = malloc (1);
     p[1] = '!'; // пишем сразу за границу буфера
     free (p);
     return 0;
 }
-~~~~
+```
 
 2. **использование неинициализированных данных**
 
-~~~~ { .c }
+```c
 #include <stdio.h>
 int main() {
     int trash; // не инициализируем
     printf ("%d\n", trash);
     return 0;
 }
-~~~~
+```
 
 3. **утечки памяти**
 
-~~~~ { .c }
+```c
 int main() {
     char * p = malloc (1); // и не освобождаем
     return 0;
 }
-~~~~
+```
 
 Чтобы получить детальную иформацию о том, где произошла ошибка - нужно:
 
@@ -57,7 +57,7 @@ int main() {
 
 Собираем, запускаем (я взял пример `2.` выше):
 
-~~~~
+```
 $ gcc -ggdb -O0 main.c -o main
 $ valgrind --track-origins=yes ./main
 ==2396== Use of uninitialised value of size 8
@@ -67,7 +67,7 @@ $ valgrind --track-origins=yes ./main
 ==2396==    by 0x400552: main (main.c:4)
 ==2396==  Uninitialised value was created by a stack allocation
 ==2396==    at 0x400534: main (main.c:2)
-~~~~
+```
 
 Из этого всего мы видим, что в строке `main.c:4` произошло использование
 неинициализированной переменной размера 8. Создано значение на стеке в строке `main.c:2`.
@@ -109,7 +109,7 @@ $ valgrind --track-origins=yes ./main
 
 Итак, наша коммандная строка параноика довольно жирная. Слепим микроскрипт:
 
-~~~~ { .sh }
+```sh
 #!/bin/sh
 
 # лежит где-то в ~/bin/vg.sh
@@ -125,13 +125,13 @@ valgrind \
     --malloc-fill=0xa1   \
     --free-fill=0xa1     \
 "$@"
-~~~~
+```
 
 Юзать так:
 
-~~~~ { .sh }
+```sh
 vg.sh --log-file=valgrind.log ./my-nice-program --my-nice-params
-~~~~
+```
 
 `valgrind` позволяет не только ковыряться в уже готовых бинарниках.
 В свой исходник можно вставлять специальные макросы, коотрые
@@ -140,7 +140,7 @@ vg.sh --log-file=valgrind.log ./my-nice-program --my-nice-params
 решать самые разные задачи. Например, представим, что у нас в программе
 есть свой распределитель памяти и мы хотим отслеживать утечки в нем:
 
-~~~~ { .c }
+```c
 #include <stdlib.h>
 
 typedef unsigned char u8;
@@ -181,28 +181,28 @@ int main () {
     mempool_destroy ();
     return 0;
 }
-~~~~
+```
 
-~~~~
+```
 $ g++ -ggdb -O0 a.c -o a
 $ vg.sh ./a
 ...
 ==24548== HEAP SUMMARY:
 ==24548==     in use at exit: 0 bytes in 0 blocks
 ==24548==   total heap usage: 1 allocs, 1 frees, 1,000 bytes allocated
-~~~~
+```
 
 Но `p1` то не освобожден!
 У `valgrind` есть чудомакросы, помечающие память, как выделенную из аллокатора:
 
-~~~~ { .c }
+```c
 VALGRIND_MALLOCLIKE_BLOCK(addr, sizeB, rzB, is_zeroed)
 VALGRIND_FREELIKE_BLOCK(addr, rzB)
-~~~~
+```
 
 Их больше, но заюзаем только эти. Изменим исходнег:
 
-~~~~ { .c }
+```c
 #include <stdlib.h>
 #include <valgrind/valgrind.h> // 1
 
@@ -246,9 +246,9 @@ int main () {
     mempool_destroy ();
     return 0;
 }
-~~~~
+```
 
-~~~~
+```
 $ g++ -ggdb -O0 a.c -W -Wall -o a
 a.c: In function ‘int main()’:
 a.c:35: предупреждение: неиспользуемая переменная ‘p1’
@@ -263,7 +263,7 @@ $ vg.sh ./a
 ==8958==    at 0x4C2635E: malloc (vg_replace_malloc.c:236)
 ==8958==    by 0x4008E5: mempool_init(unsigned long) (a.c:11)
 ==8958==    by 0x400A8C: main (a.c:33)
-~~~~
+```
 
 Оп! Мы немножко запутали `valgrind` тем, что у нас `p1` и `mempool` - один адрес.
 Из-за этого он неправильно отределяет точку выделения памяти. Это баг в `valgrind`.
@@ -271,7 +271,7 @@ $ vg.sh ./a
 
 Второй пример - поиск врага, неожиданно модифицирующего память.
 
-~~~~ { .c }
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -301,14 +301,14 @@ void process (const char * p)
     char * q = (char *)p; // ужас! сейчас испоганит!
     q[33] = '-';
 }
-~~~~
+```
 
 Глядя на прототип функции `process` никак не скажешь,
 что она может изменить данные `p[33]`, но тест `printf` говорит об обратном.
 
 Как найти врага? Сделаем память "недоступной" и проверим:
 
-~~~~ { .c }
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -341,11 +341,11 @@ void process (const char * p)
     char * q = (char *)p; // ужас! сейчас испоганит!
     q[33] = '-';
 }
-~~~~
+```
 
 Запускаем:
 
-~~~~
+```
 $ g++ -ggdb -O0 a.c -W -Wall -o a
 $ vg.sh ./a
 ...
@@ -365,7 +365,7 @@ before process: p[33] = +
 ==22521== 
 after process:  p[33] = -
 ...
-~~~~
+```
 
 `read` нас не очень интересует, а вот `write` - это и есть наш запрятанный глюк:
 `(a.c:31)`
