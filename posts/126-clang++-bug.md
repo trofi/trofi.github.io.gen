@@ -10,7 +10,7 @@ date: October 25, 2010
 
 `interface.hpp`:
 
-~~~~ { .cpp }
+```cpp
 //====---- interface.hpp ----=====//
 #ifndef __interface_hpp__
 #define __interface_hpp__
@@ -26,11 +26,11 @@ class I {
 };
 
 #endif // __interface_hpp__
-~~~~
+```
 
 `interface.cc`:
 
-~~~~ { .cpp }
+```cpp
 //====---- interface.cc ----=====//
 #include "interface.hh"
 
@@ -50,7 +50,7 @@ int main (int argc, char * * argv)
     _d.Startup(FN_ARGV);
     return 0;
 }
-~~~~
+```
 
 Итак, мы тут видим:
 
@@ -60,7 +60,7 @@ int main (int argc, char * * argv)
 Запускаем всё это таким злым скриптом (генерим 32-битный код,
 так как на `amd64` `stdcall` ничего не значит и там всё работает):
 
-~~~~ { .sh }
+```sh
 #!/bin/sh
 
 export LANG=C
@@ -80,18 +80,18 @@ $CXX     $CXXFLAGS *.$OEXT -o prog
 
 ./prog
 
-~~~~
+```
 
-~~~~
+```
 $ ./mk.sh
 ./mk.sh: line 18:  5606 Segmentation fault      ./prog
-~~~~
+```
 
 Ух, свалилось. Посмотрим во что собралась наша `I::Startup()`:
 
 `g++`:
 
-~~~~
+```
 $ objdump -d -S interface.cc.o_gcc 
 
 00000000 <_ZN1I7StartupEiiiiii>:
@@ -106,7 +106,7 @@ void I::Startup(FN_ARGS) //STDCALL
    8:   83 c4 0c                add    $0xc,%esp
    b:   c2 1c 00                ret    $0x1c
 
-~~~~
+```
 
 `g++` правильно реализует `stdcall` конвенцию: вызывает функцию `foo()` и сам чистит за собой стек:
 
@@ -114,7 +114,7 @@ void I::Startup(FN_ARGS) //STDCALL
 
 `clang++`:
 
-~~~~
+```
 objdump -d -S interface.cc.o_clang 
 
 00000000 <_ZN1I7StartupEiiiiii>:
@@ -126,7 +126,7 @@ void I::Startup(FN_ARGS) //STDCALL
     foo();
    0:   e9 fc ff ff ff          jmp    1 <_ZN1I7StartupEiiiiii+0x1>
 
-~~~~
+```
 
 Oшибка: `I::Startup()` не трогает стек, будто мы в `cdecl` функции. Естественно, это ведет
 к тому, что после возврата из функции `foo()` мы вернемся в `main()`, но у него будет сдвинутый
