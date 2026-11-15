@@ -9,22 +9,22 @@ date: November 24, 2010
 Даже будучи бывшим `lfs`ником сборка кросскомпилятора меня немного пугала.
 В `gentoo` кросскомпиляторы собираются на удивление просто средствами `dev-util/crossdev`:
 
-~~~~ { .shell }
+```shell
 $ crossdev mingw32 # соберет mingw32-gcc и mingw32-g++
 $ crossdev x86_64-pc-linux-gnu # соберет x86_64-pc-linux-gnu-gcc и x86_64-pc-linux-gnu-g++
-~~~~
+```
 
 Само ядро собирается так-же просто, как и в `native` среде. Единственное различие - надо
 явно задавать кросспрефикс и архитектуру:
 
-~~~~ { .shell }
+```shell
 $ ARCH=amd64 CROSS=x86_64-pc-linux-gnu- make menuconfig
 $ ARCH=amd64 CROSS=x86_64-pc-linux-gnu- make
-~~~~
+```
 
 Смотрим, что же там нам поставил `crossdev`:
 
-~~~~ { .shell }
+```shell
 $ echo 'int main() { return 0; }' > test.c
 
 $ mingw32-gcc test.c -o test.exe
@@ -34,7 +34,7 @@ test.exe: PE32 executable for MS Windows (console) Intel 80386 32-bit
 $ x86_64-pc-linux-gnu-gcc test.c -o test.elf64
 $ file test.elf64
 test.elf64: ELF 64-bit LSB shared object, x86-64, version 1 (GNU/Linux), dynamically linked (uses shared libs), for GNU/Linux 2.6.9, not stripped
-~~~~
+```
 
 Итак, простые бинарники мы собирать готовы. Всё было бы хорошо, если бы
 `crossdev` не был прибит гвоздями к `emerge`. Что же делать пользователям
@@ -54,7 +54,7 @@ test.elf64: ELF 64-bit LSB shared object, x86-64, version 1 (GNU/Linux), dynamic
 
 Открываем `/usr/portage/sys-devel/crossdev/files/crossdev` и видим примерно такой порядок действий:
 
-~~~~ { .shell }
+```shell
 ## настройка окружения:
 CTARGET=mingw32
 cross="cross-${CTARGET}"
@@ -72,14 +72,14 @@ CROSSCOMPILE_OPTS="bootstrap" USE="-* nocxx" emerge $cross/gcc
 CROSSCOMPILE_OPTS=""                         emerge $cross/w32api
 # 5.
 USE="${LUSE} ${USE}" CROSSCOMPILE_OPTS=""    emerge $cross/mingw-runtime
-~~~~
+```
 
 Концептуально всё просто. Итак, теперь конкретная пошаговая инструкция
 для пользователей `paludis`:
 
 1. Создадим и наполним оверлей `cross-repo`:
 
-~~~~ { .shell }
+```shell
 # создаем
 $ cat /etc/paludis/repositories/cross-repo.conf
 master_repository = gentoo
@@ -116,14 +116,14 @@ done
 for i in gcc gdb binutils
   do ln -s /usr/portage/sys-devel/$i cross-mingw32/$i
 done
-~~~~
+```
 
 2. Сконфигурим окружение для `paludis`.
    Нам нужно задавать особое значение для `$CTARGET` (эта переменная указывает на то, для какой
    платформы будет генерить бинарники получившийся кросскомпилятор).
    Для этого добавим следующую штуку в `/etc/paludis/bashrc`:
 
-~~~~ { .sh }
+```sh
    case "${CATEGORY}" in
     cross-*)
         ABI=cross
@@ -148,7 +148,7 @@ done
         esac
     ;;
    esac
-~~~~
+```
 
    Выглядит длинно, но пугаться не надо. Тут мы вырезаем всякие артефакты, которые пытаются выпрагнуть из
    нашей текущей системы (`*_cross`: `multilib ABI` и `CTARGET`) и явно заменяем `CC`, `CXX` и `LD` для всех, кто в `cross-`
@@ -157,40 +157,40 @@ done
 
 3. Выставляем переменные окружения для сборки:
 
-~~~~ { .shell }
+```shell
 $ cat /etc/paludis/use.conf.d/cross-mingw32.conf
 
 cross-mingw32/* crosscompile_opts: headers-only
 cross-mingw32/gcc -* nocxx
-~~~~
+```
 
 4. Ставим `binutils`, хедеры `libc` и `gcc-quick` (из шага `3.` выше):
 
-~~~~ { .shell }
+```shell
 $ paludis -i cross-mingw32/{binutils,w32api,mingw-runtime,gcc}
-~~~~
+```
 
 5. Убираем `bootstrap` переменные. Они нам больше не понадобятся - обновление
    `binutils` и `gcc` их не потребует:
 
-~~~~ { .shell }
+```shell
 $ cat /etc/paludis/use.conf.d/cross-mingw32.conf
 
 #### cross-mingw32/* crosscompile_opts: headers-only
 #### cross-mingw32/gcc -* nocxx
 
 cross-mingw32/gcc -nls -gcj -gtk -mudflap
-~~~~
+```
 
 6. Собираем полноценный кросскомпилятор:
 
-~~~~ { .shell }
+```shell
 $ paludis -i cross-mingw32/{w32api,mingw-runtime,gcc}
-~~~~
+```
 
 7. Тестируем:
 
-~~~~ { .shell }
+```shell
 $ cd ~/.wine/drive_c # :]
 $ cat > a.c <<EOF
 #include <stdio.h>
@@ -204,7 +204,7 @@ EOF
 $ mingw32-gcc a.c -o a.exe
 $ wine a.exe
 hello!
-~~~~
+```
 
 Готово! Ссылки, которые помогали мне забороть это дело:
 
@@ -217,7 +217,7 @@ hello!
 
 1. Продолжаем забивать симлинками наш оверлей:
 
-~~~~
+```
 $ cd $HOME/portage/cross
 
 $ echo cross-armv5tel-softfloat-linux-gnueabi >> profiles/categories
@@ -227,47 +227,47 @@ ln -s /usr/portage/sys-libs/glibc           cross-armv5tel-softfloat-linux-gnuea
 for i in gcc gdb binutils
   do ln -s /usr/portage/sys-devel/$i cross-armv5tel-softfloat-linux-gnueabi/$i
 done
-~~~~
+```
 
 2. `bashrc` у `paludis` уже был сконфигурен.
 
 3. Готовимся к `stage1` и выставляем минимальные USE:
 
-~~~~ { .shell }
+```shell
 $ cat /etc/paludis/use.conf.d/cross-armv5tel-softfloat-linux-gnueabi.conf
 
 cross-armv5tel-softfloat-linux-gnueabi/* crosscompile_opts: headers-only
 cross-armv5tel-softfloat-linux-gnueabi/gcc -* nocxx
-~~~~
+```
 
 4. [Опять] Ставим `binutils`, хедеры `libc` и `gcc-quick` (из шага `3.` выше):
 
-~~~~ { .shell }
+```shell
 $ paludis -i cross-armv5tel-softfloat-linux-gnueabi/{binutils,linux-headers,glibc,gcc}
-~~~~
+```
 
 5. Убираем `bootstrap` переменные. Они нам больше не понадобятся - обновление
    `binutils` и `gcc` их не потребует:
 
-~~~~ { .shell }
+```shell
 $ cat /etc/paludis/use.conf.d/cross-mingw32.conf
 
 #### cross-armv5tel-softfloat-linux-gnueabi/* crosscompile_opts: headers-only
 #### cross-armv5tel-softfloat-linux-gnueabi/gcc -* nocxx
 
 cross-armv5tel-softfloat-linux-gnueabi/gcc -nls -gcj -gtk -mudflap
-~~~~
+```
 
 6. Собираем полноценный кросскомпилятор:
 
-~~~~ { .shell }
+```shell
 $ paludis -i cross-armv5tel-softfloat-linux-gnueabi/glibc
 $ paludis -i cross-armv5tel-softfloat-linux-gnueabi/gcc
-~~~~
+```
 
 7. Тестируем:
 
-~~~~ { .shell }
+```shell
 $ cat > a.c <<EOF
 #include <stdio.h>
 int main()
@@ -283,6 +283,6 @@ $ uname -m
 armv5tel
 $ ./a.elf
 hello!
-~~~~
+```
 
 Всё работает!
