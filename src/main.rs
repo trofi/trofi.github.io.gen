@@ -175,7 +175,7 @@ fn main() -> Result<()> {
             .entries(
                 posts.iter().rev().take(feed_meta.history).map(|e| {
                     let post_url = format!("{}/{}", feed_meta.root, e.path.to_str().expect("unencodable str"));
-                    let post_link = format!("{}/{}", e.post.metadata.root.as_ref().unwrap_or(&post_url), e.path.to_str().expect("unencodable str"));
+                    let post_link = format!("{}/{}", e.post.metadata.root.clone().unwrap_or(feed_meta.root.to_string()), e.path.to_str().expect("unencodable str"));
                     atom_syndication::EntryBuilder::default()
                         .published(e.post.metadata.date.expect("a date").fixed_offset())
                         .updated(e.post.metadata.date.expect("a date").fixed_offset())
@@ -224,7 +224,7 @@ fn main() -> Result<()> {
             .items(
                 posts.iter().rev().take(feed_meta.history).map(|e| {
                     let post_url = format!("{}/{}", feed_meta.root, e.path.to_str().expect("unencodable str"));
-                    let post_link = format!("{}/{}", e.post.metadata.root.as_ref().unwrap_or(&post_url), e.path.to_str().expect("unencodable str"));
+                    let post_link = format!("{}/{}", e.post.metadata.root.clone().unwrap_or(feed_meta.root.to_string()), e.path.to_str().expect("unencodable str"));
                     rss::ItemBuilder::default()
                         .dublin_core_ext(
                             rss::extension::dublincore::DublinCoreExtensionBuilder::default()
