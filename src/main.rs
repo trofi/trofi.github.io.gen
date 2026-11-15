@@ -164,14 +164,15 @@ fn main() -> Result<()> {
             .entries(
                 posts.iter().rev().take(feed_meta.history).map(|e| {
                     let post_url = format!("{}/{}", feed_meta.root, e.path.to_str().expect("unencodable str"));
+                    let post_link = format!("{}/{}", e.post.metadata.root.as_ref().unwrap_or(&post_url), e.path.to_str().expect("unencodable str"));
                     atom_syndication::EntryBuilder::default()
                         .published(e.post.metadata.date.expect("a date").fixed_offset())
                         .updated(e.post.metadata.date.expect("a date").fixed_offset())
-                        .id(post_url.clone())
+                        .id(post_link.clone())
                         .title(e.post.metadata.title.clone())
                         .link(
                             atom_syndication::LinkBuilder::default()
-                                .href(post_url.clone())
+                                .href(post_link.clone())
                                 .build())
                         .summary(
                              atom_syndication::TextBuilder::default()
@@ -212,6 +213,7 @@ fn main() -> Result<()> {
             .items(
                 posts.iter().rev().take(feed_meta.history).map(|e| {
                     let post_url = format!("{}/{}", feed_meta.root, e.path.to_str().expect("unencodable str"));
+                    let post_link = format!("{}/{}", e.post.metadata.root.as_ref().unwrap_or(&post_url), e.path.to_str().expect("unencodable str"));
                     rss::ItemBuilder::default()
                         .dublin_core_ext(
                             rss::extension::dublincore::DublinCoreExtensionBuilder::default()
@@ -219,10 +221,10 @@ fn main() -> Result<()> {
                                 .build()
                         )
                         .title(e.post.metadata.title.clone())
-                        .link(post_url.clone())
+                        .link(post_link.clone())
                         .guid(
                             rss::GuidBuilder::default()
-                                .value(post_url.clone())
+                                .value(post_link.clone())
                                 .build()
                         )
                         .description(rewrite::absolutize_html(&e.post.md_html_for_feed, &post_url).expect("rss absolutized"))
