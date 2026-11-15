@@ -30,13 +30,13 @@ date: July 19, 2010
 Собрал я бинарник `6.10.4` и пытался собрать `6.12.3`. `GHC` доходил до фазы сборки
 самого себя и падал с очень пространной ошибкой:
 
-~~~~
+```
 "inplace/bin/ghc-stage2"   -H32m -O -H64m -O0 -w ...
  ghc-stage2: internal error: evacuate: strange closure type 15
       (GHC version 6.12.3 for ia64_unknown_linux)
       Please report this as a GHC bug:  http://www.haskell.org/ghc/reportabug
  make[1]: *** [libraries/dph/dph-base/dist-install/build/Data/Array/Parallel/Base/Hyperstrict.o] Aborted
-~~~~
+```
 
 Ошибка гласит о том, что замыкание "статического" типа (в сегмете кода) якобы одновременно находится и в куче.
 Проблема оказалась в виртуальных адресах регионов памяти на системе `ia64` (спасибо `zygoloid`).
@@ -61,7 +61,7 @@ date: July 19, 2010
 
 Посмотрим на распределение памяти в типичном процессе на `amd64`:
 
-~~~~
+```
 $ pmap $$
 23807:   bash
 0000000000400000    824K r-x--  /bin/bash                  # code
@@ -78,7 +78,7 @@ $ pmap $$
 00007fff0f7ff000      4K r-x--    [ anon ]                 # stack bottom, red zone? или вообще in-userspace vdso. хз
 ffffffffff600000      4K r-x--    [ anon ]                 # vdso
  total            25296K
-~~~~
+```
 
 Как видим, старших 4 байта адреса всегда равны нулю (кроме `vdso`, там все единицы).
 `GHC` на этом и сэкономил. Минимальная самостоятельная единица, выделяемая `storage manager` - `1MB` (20 bits).
@@ -91,7 +91,7 @@ ffffffffff600000      4K r-x--    [ anon ]                 # vdso
 
 Посмотрим на распределение памяти в типичном процессе на `ia64`:
 
-~~~~
+```
 itanium $ pmap $$
 30584:   -bash
 0000000000000000     16K r----    [ anon ]              # zero address mapping (sysctl vm.mmap_min_addr)
@@ -106,7 +106,7 @@ itanium $ pmap $$
 60000fffffd1c000    336K rw---    [ stack ]             # stack
 a000000000000000    128K r-x--    [ anon ]              # ? vdso?
  total             7440K
-~~~~
+```
 
 Итак, что мы видим: если отбросить старшие 4 байта адреса из секций `code` и `heap` мы
 можем получить (и получаем в нашем случае!) коллизию - то есть на статический код наш Ъ-алгоритм находит
@@ -125,7 +125,7 @@ a000000000000000    128K r-x--    [ anon ]              # ? vdso?
 
 Итого, текущая картина по бинарникам:
 
-~~~~
+```
 package                               alpha   amd64   ia64   ppc   ppc64   sparc   x86   x86-fbsd
 ----------------------------------- ------- ------- ------ ----- ------- ------- ----- ----------
 ghc-6.12.3                           ~alpha  ~amd64  ~ia64        ~ppc64          ~x86  ~x86-fbsd
@@ -137,7 +137,7 @@ ghc-6.6                              ~alpha  ~amd64         ~ppc          ~sparc
 ghc-6.6.1                            ~alpha   amd64  ~ia64   ppc           sparc   x86           
 ghc-6.8.2                             alpha   amd64   ia64  ~ppc           sparc   x86           
 ghc-6.8.2-r1                                  amd64                                x86           
-~~~~
+```
 
 Остались `ppc`, `ppc64` и `sparc` :)
 
