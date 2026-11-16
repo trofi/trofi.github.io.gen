@@ -12,20 +12,15 @@
   in {
     devShells.default = pkgs.mkShell {
       nativeBuildInputs = [
-        (pkgs.haskellPackages.ghcWithPackages (p: [
-          p.hakyll
-          p.mtl
-          p.pandoc-types
-          p.pandoc
-          p.text
-        ]))
-
         pkgs.rustc
         pkgs.cargo
         pkgs.rust-analyzer
 
         pkgs.gnuplot
         pkgs.graphviz
+
+        # for run_watcher.sh
+        pkgs.inotify-tools
       ];
     };
   });

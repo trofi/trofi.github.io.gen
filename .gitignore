@@ -1,13 +1,3 @@
-# hakyll results:
-_cache
-_site
-
-# haskell bits
-dist
-Setup.hi
-Setup.o
-Setup
-
 # site results
 out
 

@@ -4,7 +4,7 @@ set -e
 
 commit_id=`git log -1 --format=format:"%h: %s (%ai)"`
 
-cd _site
+cd out
 if [ ! -d .git ]; then
     git init
 
