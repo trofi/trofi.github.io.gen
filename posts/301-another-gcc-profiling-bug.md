@@ -830,14 +830,14 @@ digraph {
   mod1_fns [label="{ <0> [0] | <1> [1] | ... | <n> [n_functions-1] }"];
 
   gi_ptr -> mod1:head:W
-  mod1:fn_info:w -> mod1_fns:0:W
+  mod1:fn_info:w -> mod1_fns:0:n
 
   mod1_fns:n:e -> "__gcov.f${N-1}"
   mod1_fns:1:e -> "__gcov.f1"
   mod1_fns:0:e -> "__gcov.f0"
 
   mod2 [label="{ <head> ... | <next> info * next|name='...'|...}"];
-  mod1:next:e -> mod2:head:e
+  mod1:next:e -> mod2:head:n
   mod2:next:e -> "NULL"
 }
 ```
