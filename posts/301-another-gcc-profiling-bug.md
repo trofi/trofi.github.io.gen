@@ -829,7 +829,7 @@ digraph {
 
   mod1_fns [label="{ <0> [0] | <1> [1] | ... | <n> [n_functions-1] }"];
 
-  gi_ptr -> mod1:head:W
+  gi_ptr -> mod1:head:w
   mod1:fn_info:w -> mod1_fns:0:n
 
   mod1_fns:n:e -> "__gcov.f${N-1}"
