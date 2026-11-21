@@ -1,6 +1,7 @@
 // TODO: is there a better way to structure modules vs files?
 mod cmd;
 mod error;
+mod feed;
 mod opts;
 mod post;
 mod result;
@@ -32,24 +33,6 @@ fn main() -> Result<()> {
         .format(|buf, record| writeln!(buf, "{}: {}", record.level(), record.args()))
         .filter_level(o.verbose.log_level_filter())
         .init();
-
-    struct FeedMeta {
-        title: &'static str,
-        desc: &'static str,
-        root: &'static str,
-        author: &'static str,
-        email: &'static str,
-        history: usize,
-    }
-
-    let feed_meta = FeedMeta {
-        title: "trofi - All posts",
-        desc: "trofi's blog",
-        root: "https://trofi.github.io",
-        author: "Sergei Trofimovich",
-        email: "slyich@gmail.com",
-        history: 30,
-    };
 
     let store = store::Store::new(&o.out)?;
 
@@ -94,7 +77,7 @@ fn main() -> Result<()> {
             });
         }
 
-        let url = format!("{}/{}", feed_meta.root, op.to_str().expect("unencodable str"));
+        let url = format!("{}/{}", o.root, op.to_str().expect("unencodable str"));
         let post = template::render_page(&r.md_html, &r.metadata);
         let rpost = crate::rewrite::relativize_html(&post, &url)?;
 
@@ -139,117 +122,35 @@ fn main() -> Result<()> {
         };
 
         let post = template::render_page(&html, &metadata);
-        let rpost = crate::rewrite::relativize_html(&post, &format!("{}/blog.html", feed_meta.root))?;
+        let rpost = crate::rewrite::relativize_html(&post, &format!("{}/blog.html", o.root))?;
 
         store.store_file("blog.html", rpost.as_bytes())?;
     }
 
-    {
-        let feed_path = "feed/atom.xml";
-        let feed = atom_syndication::FeedBuilder::default()
-            .title(feed_meta.title)
-            .subtitle(
-                atom_syndication::TextBuilder::default()
-                    .value(feed_meta.desc)
-                    .build())
-            .updated(posts.iter().filter(|e|
-                // TODO: move out of RSS handling and make less ugly
-                e.post.metadata.date.is_some()).last().map(|e|
-                    e.post.metadata.date.expect("a date").fixed_offset()).expect("a value"))
-            .id(format!("{}/{}", feed_meta.root, feed_path))
-            .links(vec![
-                atom_syndication::LinkBuilder::default()
-                    .rel("self")
-                    .href(format!("{}/{}", feed_meta.root, feed_path))
-                    .build(),
-                atom_syndication::LinkBuilder::default()
-                    .href(feed_meta.root)
-                    .build(),
-            ])
-            .author(
-                atom_syndication::PersonBuilder::default()
-                    .name(feed_meta.author)
-                    .email(Some(feed_meta.email.to_string()))
-                    .build(),
-            )
-            .entries(
-                posts.iter().rev().take(feed_meta.history).map(|e| {
-                    let post_url = format!("{}/{}", feed_meta.root, e.path.to_str().expect("unencodable str"));
-                    let post_link = format!("{}/{}", e.post.metadata.root.clone().unwrap_or(feed_meta.root.to_string()), e.path.to_str().expect("unencodable str"));
-                    atom_syndication::EntryBuilder::default()
-                        .published(e.post.metadata.date.expect("a date").fixed_offset())
-                        .updated(e.post.metadata.date.expect("a date").fixed_offset())
-                        .id(post_link.clone())
-                        .title(e.post.metadata.title.clone())
-                        .link(
-                            atom_syndication::LinkBuilder::default()
-                                .href(post_link.clone())
-                                .build())
-                        .summary(
-                             atom_syndication::TextBuilder::default()
-                                .r#type(atom_syndication::TextType::Html)
-                                .value(rewrite::absolutize_html(&e.post.md_html_for_feed, &post_url).expect("atom absolutized"))
-                                .build())
-                        .build()
-                }).collect::<Vec<_>>()
-            )
-            .build()
-            .to_string();
+    let feed_meta = crate::feed::FeedMeta {
+        title: "trofi - All posts",
+        desc: "trofi's blog",
+        root: "https://trofi.github.io",
+        author: "Sergei Trofimovich",
+        email: "slyich@gmail.com",
+        atom_rel_path: "feed/atom.xml",
+        rss_rel_path: "feed/rss.xml",
+    };
+    let feed_history = 30;
+    let feed_posts: Vec<crate::feed::FeedPost> =posts
+        .iter()
+        .rev()
+        .take(feed_history)
+        .map(|p|
+            crate::feed::FeedPost{
+                path: &p.path,
+                post: &p.post,
+            }
+        ).collect();
 
-        store.store_file(feed_path, feed.as_bytes())?;
-    }
-
-    {
-        let feed_path = "feed/rss.xml";
-        let rfc822_time_format = "%a, %d %b %Y %H:%M:%S %z";
-        let feed = rss::ChannelBuilder::default()
-            .title(feed_meta.title)
-            .link(feed_meta.root)
-            .last_build_date(posts.iter().filter(|e|
-                // TODO: move out of RSS handling and make less ugly
-                e.post.metadata.date.is_some()).last().map(|e|
-                    e.post.metadata.date.expect("a date").format(rfc822_time_format).to_string()))
-            .atom_ext(
-                rss::extension::atom::AtomExtensionBuilder::default()
-                    .link(
-                        atom_syndication::LinkBuilder::default()
-                            .rel("self")
-                            .href(format!("{}/{}", feed_meta.root, feed_path))
-                            .mime_type(Some("application/rss+xml".to_string()))
-                            .build(),
-                    )
-                    .build()
-            )
-            .description(feed_meta.desc)
-            .items(
-                posts.iter().rev().take(feed_meta.history).map(|e| {
-                    let post_url = format!("{}/{}", feed_meta.root, e.path.to_str().expect("unencodable str"));
-                    let post_link = format!("{}/{}", e.post.metadata.root.clone().unwrap_or(feed_meta.root.to_string()), e.path.to_str().expect("unencodable str"));
-                    rss::ItemBuilder::default()
-                        .dublin_core_ext(
-                            rss::extension::dublincore::DublinCoreExtensionBuilder::default()
-                                .creator(feed_meta.author.to_string())
-                                .build()
-                        )
-                        .title(e.post.metadata.title.clone())
-                        .link(post_link.clone())
-                        .guid(
-                            rss::GuidBuilder::default()
-                                .value(post_link.clone())
-                                .build()
-                        )
-                        .description(rewrite::absolutize_html(&e.post.md_html_for_feed, &post_url).expect("rss absolutized"))
-                        .pub_date(
-                            e.post.metadata.date.expect("a date").format(rfc822_time_format).to_string()
-                        )
-                        .build()
-                }).collect::<Vec<_>>()
-            )
-            .build()
-            .to_string();
-
-        store.store_file(feed_path, feed.as_bytes())?;
-    }
+    let feed = crate::feed::render_feed(&feed_meta, &feed_posts)?;
+    store.store_file(feed_meta.atom_rel_path, feed.atom.as_bytes())?;
+    store.store_file(feed_meta.rss_rel_path, feed.rss.as_bytes())?;
 
     Ok(())
 }

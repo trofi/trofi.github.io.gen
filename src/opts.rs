@@ -12,4 +12,8 @@ pub(crate) struct Opts {
     /// Pass output directory to store output to.
     #[arg(short, long, default_value = "out")]
     pub(crate) out: String,
+
+    /// Root URI path for the site.
+    #[arg(long, default_value = "https://trofi.github.io")]
+    pub(crate) root: String,
 }
