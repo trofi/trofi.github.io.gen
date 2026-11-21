@@ -2,8 +2,6 @@
 
 export LANG=C.UTF-8
 
-set -e
-
 rm -rfv out/
 
 while :
