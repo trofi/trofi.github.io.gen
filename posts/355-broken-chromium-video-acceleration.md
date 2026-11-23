@@ -1,7 +1,7 @@
----
-title: "Broken chromium video acceleration"
-date: November 22, 2026
----
++++
+title = "Broken chromium video acceleration"
+date = "November 22, 2026"
++++
 
 ## Tl;DR
 
