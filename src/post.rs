@@ -14,6 +14,8 @@ pub(crate) struct Metadata {
     // Overwrite ID in RSS feeds.
     // TODO: remove with blog post data
     pub(crate) root: Option<String>,
+
+    pub(crate) tags: Option<Vec<String>>,
 }
 
 pub(crate) const BLOG_DATE_FORMAT: &str = "%B %e, %Y";

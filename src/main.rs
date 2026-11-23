@@ -111,6 +111,13 @@ fn main() -> Result<()> {
                        @if let Some(ref date) = p.post.metadata.date {
                            (date.format(crate::post::BLOG_DATE_FORMAT))
                        }
+                       @if let Some(ref tags) = p.post.metadata.tags {
+                           @for (ix, tag) in tags.iter().enumerate() {
+                               @if ix > 0 { "," }
+                               " #"
+                               (tag)
+                           }
+                       }
                    }
                }
             }
@@ -119,6 +126,7 @@ fn main() -> Result<()> {
             title: "blog".to_string(),
             date: None,
             root: None,
+            tags: None,
         };
 
         let post = template::render_page(&html, &metadata);

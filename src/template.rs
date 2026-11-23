@@ -31,7 +31,18 @@ pub(crate) fn render_page(html: &str, meta: &crate::post::Metadata) -> String {
             div id="content" {
                 h1 { (meta.title) }
                 @if let Some(ref date) = meta.date {
-                    div.info { (date.format(crate::post::BLOG_DATE_FORMAT)) }
+                    div.info {
+                        (date.format(crate::post::BLOG_DATE_FORMAT))
+
+                        @if let Some(ref tags) = meta.tags {
+                            br;
+                            @for (ix, tag) in tags.iter().enumerate() {
+                                @if ix > 0 { "," }
+                                " #"
+                                (tag)
+                            }
+                        }
+                    }
                 }
                 (maud::PreEscaped(html))
             }
