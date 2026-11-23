@@ -1,6 +1,6 @@
----
-title: log
----
++++
+title = "log"
++++
 
 These are notable or amusing bugs and patches I dealt with in the past.
 

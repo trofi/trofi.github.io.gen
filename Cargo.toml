@@ -18,5 +18,6 @@ maud = "0"
 rss = { version = "2", features = ["atom"] }
 serde = { version = "1", features = ["derive"] }
 thiserror = "2"
+toml = "1"
 url = "2"
 yaml_serde = "0"

@@ -137,26 +137,23 @@ impl<'a> PostMangler<'a> {
     }
 }
 
-fn get_front_matters(root: comrak::Node) -> Vec<String> {
-    let mut r: Vec<String> = Vec::new();
+// extract one of:
+//   "---\n<yaml>\n---\n<md>"
+//   "+++\n<toml>\n+++\n<md>"
+// TODO: drop YAML once all posts are converted
+fn get_header_metadata(header_and_md_str: &str) -> Result<(Metadata, &str)> {
 
-    for node in root.children() {
-        if let comrak::nodes::NodeValue::FrontMatter(ref text) = node.data.borrow().value {
-            r.push(text.clone());
+    // yaml
+    if let Some(v) = header_and_md_str.strip_prefix("---\n") {
+        if let Some((yaml, md_str)) = v.split_once("---\n") {
+            return Ok((yaml_serde::from_str(yaml).expect("deserialized yaml"), md_str));
         }
     }
 
-    r
-}
-
-fn parse_front_matters(fms: &[String]) -> Result<Metadata> {
-    assert!(fms.len() <= 1);
-
-    for fm in fms {
-        for e in fm.split("---") {
-            let v = e.trim();
-            if v.len() == 0 { continue }
-            return Ok(yaml_serde::from_str(v).expect("deserialized yaml"));
+    // toml
+    if let Some(v) = header_and_md_str.strip_prefix("+++\n") {
+        if let Some((toml, md_str)) = v.split_once("+++\n") {
+            return Ok((toml::from_str(toml).expect("deserialized toml"), md_str));
         }
     }
 
@@ -164,7 +161,8 @@ fn parse_front_matters(fms: &[String]) -> Result<Metadata> {
 }
 
 impl Post {
-    pub(crate) fn new_from_str(md_str: &str, op: &std::path::Path, store: &crate::store::Store) -> Result<Self> {
+    pub(crate) fn new_from_str(header_and_md_str: &str, op: &std::path::Path, store: &crate::store::Store) -> Result<Self> {
+        let (metadata, md_str) = get_header_metadata(header_and_md_str)?;
         let arena = comrak::Arena::new();
     
         let mut options = comrak::Options::default();
@@ -174,7 +172,6 @@ impl Post {
             .math_dollars(true)
             .subscript(true)
             .superscript(true)
-            .front_matter_delimiter("---".to_owned())
             // TODO: auto-generate `id="..."` to <h1> & co headers.
             // .header_id_prefix("".to_owned())
             .build();
@@ -183,8 +180,6 @@ impl Post {
     
         let root = comrak::parse_document(&arena, md_str, &options);
     
-        let front_matters = get_front_matters(root);
-
         let mut mangler = PostMangler::new(root, op, store);
         mangler.mangle_inplace_code_blocks()?;
 
@@ -202,8 +197,6 @@ impl Post {
         // render unhighlighed posts for RSS readers
         let mut md_html_for_feed = String::new();
         comrak::format_html(root, &options, &mut md_html_for_feed)?;
-
-        let metadata = parse_front_matters(&front_matters)?;
 
         Ok(Post {
             metadata,
