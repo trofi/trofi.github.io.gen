@@ -1,0 +1,20 @@
+name: "Test"
+on:
+  pull_request:
+    types: [opened,edited,synchronize,reopened]
+  push:
+    branches:
+      - 'main'
+jobs:
+  tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    if: github.repository_owner == 'trofi'
+    steps:
+    - uses: actions/checkout@v7
+    - uses: cachix/install-nix-action@v31
+    - run: |
+        nix develop --no-write-lock-file --command -- cargo test --release
+        nix develop --no-write-lock-file --command -- cargo  run --release
