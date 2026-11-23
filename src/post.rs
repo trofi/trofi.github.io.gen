@@ -146,14 +146,14 @@ fn get_header_metadata(header_and_md_str: &str) -> Result<(Metadata, &str)> {
     // yaml
     if let Some(v) = header_and_md_str.strip_prefix("---\n") {
         if let Some((yaml, md_str)) = v.split_once("---\n") {
-            return Ok((yaml_serde::from_str(yaml).expect("deserialized yaml"), md_str));
+            return Ok((yaml_serde::from_str(yaml)?, md_str));
         }
     }
 
     // toml
     if let Some(v) = header_and_md_str.strip_prefix("+++\n") {
         if let Some((toml, md_str)) = v.split_once("+++\n") {
-            return Ok((toml::from_str(toml).expect("deserialized toml"), md_str));
+            return Ok((toml::from_str(toml)?, md_str));
         }
     }
 

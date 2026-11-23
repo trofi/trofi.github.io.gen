@@ -34,6 +34,12 @@ pub(crate) enum BlogError {
 
     #[error("HTML Rewriting error: {0:?}")]
     HTMLRewriting(lol_html::errors::RewritingError),
+
+    #[error("YAML parse error: {0:?}")]
+    YAMLParse(yaml_serde::Error),
+
+    #[error("TOML parse error: {0:?}")]
+    TOMLParse(toml::de::Error),
 }
 
 impl From<std::fmt::Error> for BlogError {
@@ -87,5 +93,17 @@ impl From<std::string::FromUtf8Error> for BlogError {
 impl From<lol_html::errors::RewritingError> for BlogError {
     fn from(error: lol_html::errors::RewritingError) -> Self {
         BlogError::HTMLRewriting(error)
+    }
+}
+
+impl From<yaml_serde::Error> for BlogError {
+    fn from(error: yaml_serde::Error) -> Self {
+        BlogError::YAMLParse(error)
+    }
+}
+
+impl From<toml::de::Error> for BlogError {
+    fn from(error: toml::de::Error) -> Self {
+        BlogError::TOMLParse(error)
     }
 }
