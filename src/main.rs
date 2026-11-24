@@ -10,6 +10,7 @@ mod store;
 mod template;
 
 use std::io::Write;
+use chrono::Datelike;
 use clap::Parser;
 
 use crate::result::Result;
@@ -103,23 +104,28 @@ fn main() -> Result<()> {
     {
         let html = maud::html! {
             "All posts on a single page:"
-            ul {
-               @for p in posts.iter().rev() {
-                   li {
-                       a href={ "/" (p.path.to_str().expect("unencodable str")) } { (p.post.metadata.title) }
-                       " - "
-                       @if let Some(ref date) = p.post.metadata.date {
-                           (date.format(crate::post::BLOG_DATE_FORMAT))
-                       }
-                       @if let Some(ref tags) = p.post.metadata.tags {
-                           @for (ix, tag) in tags.iter().enumerate() {
-                               @if ix > 0 { "," }
-                               " #"
-                               (tag)
-                           }
-                       }
-                   }
-               }
+            @for py in posts.chunk_by(|l,r| l.post.metadata.date.expect("L").year() == r.post.metadata.date.expect("R").year()).rev() {
+                @if let Some(ref date) = py[0].post.metadata.date {
+                    h2 { (date.year()) }
+                }
+                ul {
+                    @for p in py.iter().rev() {
+                        li {
+                            @if let Some(ref date) = p.post.metadata.date {
+                                (date.format("%b %e"))
+                            }
+                            ": "
+                            a href={ "/" (p.path.to_str().expect("unencodable str")) } { (p.post.metadata.title) }
+                            @if let Some(ref tags) = p.post.metadata.tags {
+                                @for (ix, tag) in tags.iter().enumerate() {
+                                    @if ix > 0 { "," }
+                                    " #"
+                                    (tag)
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }.into_string();
         let metadata = crate::post::Metadata {
