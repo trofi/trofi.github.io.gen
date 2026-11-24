@@ -15,7 +15,8 @@ pub(crate) struct Metadata {
     // TODO: remove with blog post data
     pub(crate) root: Option<String>,
 
-    pub(crate) tags: Option<Vec<String>>,
+    // Use BTreeSet to automatically sort tags.
+    pub(crate) tags: Option<std::collections::BTreeSet<String>>,
 }
 
 pub(crate) const BLOG_DATE_FORMAT: &str = "%B %e, %Y";
