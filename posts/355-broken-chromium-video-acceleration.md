@@ -1,7 +1,7 @@
 +++
 title = "Broken chromium video acceleration"
 date = "November 22, 2026"
-tags = ["mesa", "chromium", "bug", "nixos"]
+tags = ["chromium", "bug", "wayland", "polaris", "amd"]
 +++
 
 ## Tl;DR
