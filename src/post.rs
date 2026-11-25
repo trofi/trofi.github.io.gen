@@ -97,10 +97,7 @@ impl<'a> PostMangler<'a> {
                     let result = converter.convert_with_local_state(&math.literal, block_mode)?;
 
                     data.value = if math.display_math {
-                        comrak::nodes::NodeValue::HtmlBlock(comrak::nodes::NodeHtmlBlock {
-                            block_type: 0,
-                            literal: result.mathml,
-                        })
+                        comrak::nodes::NodeValue::HtmlBlock(comrak::nodes::NodeHtmlBlock::new(result.mathml))
                     } else {
                         comrak::nodes::NodeValue::HtmlInline(result.mathml)
                     };
@@ -114,10 +111,10 @@ impl<'a> PostMangler<'a> {
     
                 data.value = comrak::nodes::NodeValue::Image(
                     Box::new(
-                        comrak::nodes::NodeLink {
-                            url: format!("/{filename}"),
-                            title: "".to_owned(),
-                        }));
+                        comrak::nodes::NodeLink::new(
+                            format!("/{filename}"),
+                            "".to_owned()
+                        )));
             }
 
             if let comrak::nodes::NodeValue::CodeBlock(ref ncb) = data.value && ncb.info == "{render=gnuplot}" {
@@ -130,10 +127,10 @@ impl<'a> PostMangler<'a> {
     
                 data.value = comrak::nodes::NodeValue::Image(
                     Box::new(
-                        comrak::nodes::NodeLink {
-                            url: format!("/{filename}"),
-                            title: "".to_owned(),
-                        }));
+                        comrak::nodes::NodeLink::new(
+                            format!("/{filename}"),
+                            "".to_owned(),
+                        )));
             }
         }
         Ok(())
