@@ -1,7 +1,8 @@
----
-title: "Trying out niri"
-date: May 30, 2026
----
++++
+title = "Trying out niri"
+date = "May 30, 2026"
+tags = ["niri"]
++++
 
 I have been using `sway` for [a while](/posts/261-trying-out-wayland.html).
 `sway` is good. I can remember only one bug where `chromium` was able
