@@ -1,7 +1,8 @@
----
-title: "gcc-16 devirtualization changes"
-date: September 27, 2025
----
++++
+title = "gcc-16 devirtualization changes"
+date = "September 27, 2025"
+tags = ["gcc", "bug"]
++++
 
 ## A quiz
 
