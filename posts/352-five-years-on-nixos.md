@@ -1,7 +1,8 @@
----
-title: "Five years on NixOS"
-date: August 02, 2026
----
++++
+title = "Five years on NixOS"
+date = "August 02, 2026"
+tags = ["nixos"]
++++
 
 Another yer, another instance of my `NixOS` journey log
 ([2025 instance](/posts/337-four-years-on-nixos.html)).
