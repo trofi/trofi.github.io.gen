@@ -1,8 +1,9 @@
----
-title: "gcc simd intrinsics bug"
-date: June 16, 2024
-root: "http://trofi.github.io"
----
++++
+title = "gcc simd intrinsics bug"
+date = "June 16, 2024"
+tags = ["gcc", "bug", "highway", "simd"]
+root = "http://trofi.github.io"
++++
 
 `highway` keeps yielding very interesting `gcc` bugs. Some of them are
 so obscure that I don't even understand `gcc` developers' comments on
