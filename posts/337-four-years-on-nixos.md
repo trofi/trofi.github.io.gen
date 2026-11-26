@@ -1,8 +1,9 @@
----
-title: "four years on NixOS"
-date: August 20, 2025
-root: "http://trofi.github.io"
----
++++
+title = "four years on NixOS"
+date = "August 20, 2025"
+tags = ["nixos"]
+root = "http://trofi.github.io"
++++
 
 It's another yearly instance of my `NixOS` journey
 ([2024 instance](/posts/316-three-years-on-nixos.html)). I meant to
