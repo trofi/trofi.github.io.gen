@@ -1,8 +1,9 @@
----
-title: "Zero Hydra Failures towards 24.05 NixOS release"
-date: May 25, 2024
-root: "http://trofi.github.io"
----
++++
+title = "Zero Hydra Failures towards 24.05 NixOS release"
+date = "May 25, 2024"
+tags = ["ZHF", "bug", "nixos", "nixpkgs"]
+root = "http://trofi.github.io"
++++
 
 I somehow missed the beginning of `ZHF` phase
 [this release cycle](https://github.com/NixOS/nixpkgs/issues/309482).
