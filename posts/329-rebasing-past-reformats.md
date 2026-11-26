@@ -1,7 +1,8 @@
----
-title: "Rebasing past reformats"
-date: December 12, 2024
----
++++
+title = "Rebasing past reformats"
+date = "December 12, 2024"
+tags = ["nixpkgs", "git"]
++++
 
 ## TL;DR
 
