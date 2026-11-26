@@ -1,7 +1,8 @@
----
-title: "To chromium"
-date: April 20, 2025
----
++++
+title = "To chromium"
+date = "April 20, 2025"
+tags = ["chromium", "firefox", "bug"]
++++
 
 ## Tl;DR
 
