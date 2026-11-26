@@ -1,7 +1,8 @@
----
-title: "Zero Hydra Failures towards 25.05 NixOS release"
-date: May 1, 2025
----
++++
+title = "Zero Hydra Failures towards 25.05 NixOS release"
+date = "May 1, 2025"
+tags = ["ZHF", "bug", "nixos", "nixpkgs"]
++++
 
 It's May 1 and that means `NixOS-25.05` is almost
 [there](https://github.com/NixOS/nixpkgs/issues/390768). Today the
