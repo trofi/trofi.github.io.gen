@@ -1,8 +1,9 @@
----
-title: "gcc-14 bugs, pile 4"
-date: April 13, 2024
-root: "http://trofi.github.io"
----
++++
+title = "gcc-14 bugs, pile 4"
+date = "April 13, 2024"
+tags = ["gcc", "bug"]
+root = "http://trofi.github.io"
++++
 
 In a few weeks `gcc-14` branch should see a `14.1.0` release.
 
