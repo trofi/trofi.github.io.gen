@@ -106,7 +106,12 @@ fn main() -> Result<()> {
             "All posts on a single page:"
             @for py in posts.chunk_by(|l,r| l.post.metadata.date.expect("L").year() == r.post.metadata.date.expect("R").year()).rev() {
                 @if let Some(ref date) = py[0].post.metadata.date {
-                    h2 { (date.year()) }
+                    h2 {
+                        (date.year())
+                        " ("
+                        (py.len())
+                        ")"
+                    }
                 }
                 ul {
                     @for p in py.iter().rev() {
