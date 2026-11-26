@@ -1,7 +1,8 @@
----
-title: "Trying out helix editor"
-date: February 15, 2025
----
++++
+title = "Trying out helix editor"
+date = "February 15, 2025"
+tags = ["helix", "vim"]
++++
 
 This is another February story about text editors similar to the
 [`vim` one](/posts/277-from-mcedit-to-vim.html). You might want to
