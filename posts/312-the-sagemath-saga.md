@@ -1,8 +1,9 @@
----
-title: "the sagemath saga"
-date: May 12, 2024
-root: "http://trofi.github.io"
----
++++
+title = "the sagemath saga"
+date = "May 12, 2024"
+tags = ["bug", "sagemath", "longjmp", "gcc"]
+root = "http://trofi.github.io"
++++
 
 It's a story of me was
 [nerd sniped](https://fosstodon.org/@sheerluck@misskey.io/112372289317724185)
