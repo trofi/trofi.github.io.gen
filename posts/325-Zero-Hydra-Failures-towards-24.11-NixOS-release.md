@@ -1,7 +1,8 @@
----
-title: "Zero Hydra Failures towards 24.11 NixOS release"
-date: November 4, 2024
----
++++
+title = "Zero Hydra Failures towards 24.11 NixOS release"
+date = "November 4, 2024"
+tags = ["ZHF", "bug", "nixos", "nixpkgs"]
++++
 
 `ZHF` (or Zero Hydra Failures) is the time when most build failures are
 squashed before final `NixOS-24.11` release
