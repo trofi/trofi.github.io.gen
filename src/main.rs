@@ -103,7 +103,9 @@ fn main() -> Result<()> {
 
     {
         let html = maud::html! {
-            "All posts on a single page:"
+            "All "
+            (posts.len())
+            " posts on a single page:"
             @for py in posts.chunk_by(|l,r| l.post.metadata.date.expect("L").year() == r.post.metadata.date.expect("R").year()).rev() {
                 @if let Some(ref date) = py[0].post.metadata.date {
                     h2 {
