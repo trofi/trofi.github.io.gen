@@ -1,7 +1,8 @@
----
-title: "Zero Hydra Failures towards 25.11 NixOS release"
-date: November 3, 2025
----
++++
+title = "Zero Hydra Failures towards 25.11 NixOS release"
+date = "November 3, 2025"
+tags = ["ZHF", "bug", "nixos", "nixpkgs"]
++++
 
 It is November again! The usual plan is to have a `NixOS-.25.11` release
 on 30th ([full schedule](https://github.com/NixOS/nixpkgs/issues/443568)).
