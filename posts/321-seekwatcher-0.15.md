@@ -1,7 +1,8 @@
----
-title: "seekwatcher 0.15"
-date: July 07, 2024
----
++++
+title = "seekwatcher 0.15"
+date = "July 07, 2024"
+tags = ["seekwatcher", "release"]
++++
 
 [`seekwatcher-0.15` is here](https://github.com/trofi/seekwatcher/releases/tag/v0.15)!
 
