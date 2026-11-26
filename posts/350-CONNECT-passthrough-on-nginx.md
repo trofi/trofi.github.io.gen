@@ -1,7 +1,8 @@
----
-title: "CONNECT passthrough on nginx"
-date: May 25, 2026
----
++++
+title = "CONNECT passthrough on nginx"
+date = "May 25, 2026"
+tags = ["nginx", "ssh", "tunnel"]
++++
 
 [A while ago](/posts/295-ssh-over-https.html) I explored easy hacks on
 how to encapsulate `SSH` into `HTTPS` on `apache2`. Since then I moved a few
