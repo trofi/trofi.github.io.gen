@@ -1,7 +1,8 @@
----
-title: "gcc-15 bugs, pile 1"
-date: August 25, 2024
----
++++
+title = "gcc-15 bugs, pile 1"
+date = "August 25, 2024"
+tags = ["gcc", "bug"]
++++
 
 About 4 months have passed since `gcc-14.1.0` release. Around the same
 time `gcc-15` development has started and a few major changes were
