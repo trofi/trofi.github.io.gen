@@ -1,7 +1,8 @@
----
-title: "zellij terminal emulator"
-date: December 28, 2025
----
++++
+title = "zellij terminal multiplexor"
+date = "December 28, 2025"
+tags = ["zellij", "tmux"]
++++
 
 ## my `tmux` setup
 
