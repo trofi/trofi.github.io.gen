@@ -1,7 +1,8 @@
----
-title: "Zero Hydra Failures towards 26.11 NixOS release"
-date: November 10, 2026
----
++++
+title = "Zero Hydra Failures towards 26.11 NixOS release"
+date = "November 10, 2026"
+tags = ["nixos", "nixpkgs", "ZHF"]
++++
 
 PSA: `NixOS-26.11` is about to be released by the end of
 [November](https://github.com/NixOS/nixpkgs/issues/567567). Release process
