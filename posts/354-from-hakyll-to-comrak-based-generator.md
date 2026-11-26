@@ -1,7 +1,7 @@
----
-title: "From hakyll to comrak based generator"
-date: November 15, 2026
----
++++
+title = "From hakyll to comrak based generator"
+date = "November 15, 2026"
++++
 
 Tl;DR: I decided to gradually switch from
 [`hakyll-`based framework](https://jaspervdj.be/hakyll/) for this blog
