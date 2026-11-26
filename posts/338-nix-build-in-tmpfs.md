@@ -1,7 +1,8 @@
----
-title: "nix-build in tmpfs"
-date: August 22, 2025
----
++++
+title = "nix-build in tmpfs"
+date = "August 22, 2025"
+tags = ["nix", "tmpfs"]
++++
 
 I build a lot of `nix` packages locally. Until `nix-2.30` release
 `nix-build` command triggered builds in `/tmp` directory by default.
