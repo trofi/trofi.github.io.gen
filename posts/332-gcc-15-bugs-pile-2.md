@@ -1,7 +1,8 @@
----
-title: "gcc-15 bugs, pile 2"
-date: April 19, 2025
----
++++
+title = "gcc-15 bugs, pile 2"
+date = "April 19, 2025"
+tags = ["gcc", "bug"]
++++
 
 8 more months have passed since my previous
 [pile report](/posts/323-gcc-15-bugs-pile-1.html). `gcc-15` was
