@@ -1,7 +1,8 @@
----
-title: "sequoia pgp"
-date: February 14, 2026
----
++++
+title = "sequoia pgp"
+date = "February 14, 2026"
+tags = ["sequoia", "PGP"]
++++
 
 ## TL;DR
 
