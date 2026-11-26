@@ -1,7 +1,8 @@
----
-title: "C union initialization and gcc-15"
-date: December 1, 2024
----
++++
+title = "C union initialization and gcc-15"
+date = "December 1, 2024"
+tags = ["gcc", "mbedtls", "bug"]
++++
 
 ## a contrived example
 
