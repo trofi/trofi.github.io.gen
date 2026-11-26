@@ -1,7 +1,8 @@
----
-title: "blog tweaks"
-date: July 06, 2024
----
++++
+title = "blog tweaks"
+date = "July 06, 2024"
+tags = ["blog", "rss", "svg", "css"]
++++
 
 ## Tl;DR
 
