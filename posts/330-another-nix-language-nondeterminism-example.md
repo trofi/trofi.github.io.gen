@@ -1,7 +1,8 @@
----
-title: "Another Nix Expression Language non-determinism example"
-date: December 26, 2024
----
++++
+title = "Another Nix Expression Language non-determinism example"
+date = "December 26, 2024"
+tags = ["nix", "bug"]
++++
 
 Today I found another source of non-determinism in `nix expression language`.
 This time it's a
