@@ -1,7 +1,8 @@
----
-title: "gcc-15 template checking improvements"
-date: July 22, 2024
----
++++
+title = "gcc-15 template checking improvements"
+date = "July 22, 2024"
+tags = ["gcc", "bug"]
++++
 
 ## Tl;DR
 
