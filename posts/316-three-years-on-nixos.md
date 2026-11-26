@@ -1,8 +1,9 @@
----
-title: "Three years on NixOS"
-date: June 2, 2024
-root: "http://trofi.github.io"
----
++++
+title = "Three years on NixOS"
+date = "June 2, 2024"
+tags = ["nixos"]
+root = "http://trofi.github.io"
++++
 
 This year I decided to shift yearly updates on my `NixOS` endeavors
 ([2023 instance](/posts/290-two-years-on-nixos.html)). This time
