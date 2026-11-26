@@ -1,7 +1,8 @@
----
-title: "nixpkgs and repology changes"
-date: January 25, 2026
----
++++
+title = "nixpkgs and repology changes"
+date = "January 25, 2026"
+tags = ["nixpkgs", "nix-olde", "repology", "bug"]
++++
 
 ## Tl;DR: `nixpkgs` changed the way it exports data to `repology` and many packages need fixing
 
