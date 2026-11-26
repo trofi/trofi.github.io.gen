@@ -1,7 +1,8 @@
----
-title: "sort by key in coreutils"
-date: May 8, 2025
----
++++
+title = "sort by key in coreutils"
+date = "May 8, 2025"
+tags = ["coreutils", "TIL"]
++++
 
 This post is about `sort` tool from `GNU coreutils`. Until today I
 foolishly thought that to sort a file by a second (and just second
