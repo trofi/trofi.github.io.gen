@@ -1,7 +1,8 @@
----
-title: "another memory corruption case"
-date: April 2, 2026
----
++++
+title = "another memory corruption case"
+date = "April 2, 2026"
+tags = ["hardware", "bug", "DRAM", "memtest"]
++++
 
 It's another story of a mysterious memory corruption being debugged.
 
