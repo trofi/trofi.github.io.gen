@@ -1,6 +1,7 @@
 +++
 title = "From hakyll to comrak based generator"
 date = "November 15, 2026"
+tags = ["blog", "rust", "comrak"]
 +++
 
 Tl;DR: I decided to gradually switch from
