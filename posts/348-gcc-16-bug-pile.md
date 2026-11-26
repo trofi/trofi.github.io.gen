@@ -1,7 +1,8 @@
----
-title: "gcc-16 bugs"
-date: April 23, 2026
----
++++
+title = "gcc-16 bugs"
+date = "April 23, 2026"
+tags = ["gcc", "bug"]
++++
 
 Almost exactly a year passed since my previous
 [pile report](/posts/332-gcc-15-bugs-pile-2.html). `gcc-16` was
