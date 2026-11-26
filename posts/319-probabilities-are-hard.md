@@ -1,8 +1,9 @@
----
-title: "probabilities are hard"
-date: June 23, 2024
-root: "http://trofi.github.io"
----
++++
+title = "probabilities are hard"
+date = "June 23, 2024"
+tags = ["make", "bug"]
+root = "http://trofi.github.io"
++++
 
 ## `make --shuffle` background
 
