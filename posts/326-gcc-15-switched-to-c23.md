@@ -1,7 +1,8 @@
----
-title: "gcc-15 switched to C23"
-date: November 17, 2024
----
++++
+title = "gcc-15 switched to C23"
+date = "November 17, 2024"
+tags = ["gcc", "c23", "bug"]
++++
 
 ## Tl;DR
 
