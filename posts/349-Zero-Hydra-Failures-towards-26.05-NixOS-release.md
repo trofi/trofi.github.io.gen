@@ -1,7 +1,8 @@
----
-title: "Zero Hydra Failures towards 26.05 NixOS release"
-date: May 4, 2026
----
++++
+title = "Zero Hydra Failures towards 26.05 NixOS release"
+date = "May 4, 2026"
+tags = ["ZHF", "nixos", "nixpkgs", "bug"]
++++
 
 `NixOS-26.05` is around the corner!
 [The schedule](https://github.com/NixOS/nixpkgs/issues/503391) says it
