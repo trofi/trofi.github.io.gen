@@ -1,7 +1,8 @@
----
-title: "profiling binutils linkers in nixpkgs"
-date: October 11, 2025
----
++++
+title = "profiling binutils linkers in nixpkgs"
+date = "October 11, 2025"
+tags = ["binutils", "ld", "nixpkgs", "bug", "ghc"]
++++
 
 ## background
 
