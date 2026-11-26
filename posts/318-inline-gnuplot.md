@@ -1,8 +1,9 @@
----
-title: "inline gnuplot"
-date: June 22, 2024
-root: "http://trofi.github.io"
----
++++
+title = "inline gnuplot"
+date = "June 22, 2024"
+tags = ["blog", "gnuplot", "svg", "hakyll"]
+root = "http://trofi.github.io"
++++
 
 Time to time I find myself needing to plot histograms and approximations
 in occasional posts.
