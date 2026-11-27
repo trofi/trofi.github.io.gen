@@ -1,7 +1,8 @@
----
-title: "parallel installs in nixpkgs"
-date: March 15, 2023
----
++++
+title = "parallel installs in nixpkgs"
+tags = ["nixpkgs", "bug"]
+date = "March 15, 2023"
++++
 
 ## Tl;DR
 
