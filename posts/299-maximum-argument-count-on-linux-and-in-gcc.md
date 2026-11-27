@@ -1,8 +1,9 @@
----
-title: "Maximum argument count on linux and in gcc"
-date: September 21, 2023
-root: "http://trofi.github.io"
----
++++
+title = "Maximum argument count on linux and in gcc"
+date = "September 21, 2023"
+tags = ["gcc", "nixpkgs", "bug"]
+root = "http://trofi.github.io"
++++
 
 ## Tl;DR
 
