@@ -1,7 +1,8 @@
----
-title: "fontconfig on 160 DPI"
-date: March 25, 2023
----
++++
+title = "fontconfig on 160 DPI"
+tags = ["nixos", "hidpi", "fonts"]
+date = "March 25, 2023"
++++
 
 ## Tl;DR
 
