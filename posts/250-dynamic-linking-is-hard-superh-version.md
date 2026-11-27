@@ -1,7 +1,8 @@
----
-title: "Dynamic linking is hard (SuperH version)"
-date: July 10, 2022
----
++++
+title = "Dynamic linking is hard (SuperH version)"
+date = "July 10, 2022"
+tags = ["superh", "bug", "ghc"]
++++
 
 I got a bit more free weekend time and I'm slowly going through a
 backlog of topics to write about.
