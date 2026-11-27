@@ -1,7 +1,8 @@
----
-title: "nixpkgs cross-compilation improvements"
-date: July 30, 2022
----
++++
+title = "nixpkgs cross-compilation improvements"
+date = "July 30, 2022"
+tags = ["nixpkgs", "bug"]
++++
 
 ## TL;DR
 
