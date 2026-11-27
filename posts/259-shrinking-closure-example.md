@@ -1,7 +1,8 @@
----
-title: "Shrinking closure example"
-date: September 24, 2022
----
++++
+title = "Shrinking closure example"
+date = "September 24, 2022"
+tags = ["nixpkgs", "bug"]
++++
 
 Sometimes I check `nixpkgs` packages I use for unexpected
 development-only runtime dependencies. I do it mostly to shrink download
