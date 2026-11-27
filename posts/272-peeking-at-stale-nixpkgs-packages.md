@@ -1,7 +1,8 @@
----
-title: "peeking at stale nixpkgs packages"
-date: December 27, 2022
----
++++
+title = "peeking at stale nixpkgs packages"
+date = "December 27, 2022"
+tags = ["nixpkgs", "repology"]
++++
 
 As a `nixpkgs` user I want it to help me solve my and others' problems.
 The upstream package bugs are frequently already fixed upstream and we
