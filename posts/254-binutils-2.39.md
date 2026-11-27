@@ -1,7 +1,8 @@
----
-title: "binutils 2.39"
-date: August 12, 2022
----
++++
+title = "binutils 2.39"
+date = "August 12, 2022"
+tags = ["binutils", "TIL", "bug"]
++++
 
 A week ago new [2.39 release](https://sourceware.org/pipermail/binutils/2022-August/122246.html)
 of `binutils` saw the light of day.
