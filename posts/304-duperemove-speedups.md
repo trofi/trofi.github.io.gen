@@ -1,8 +1,9 @@
----
-title: "duperemove speedups"
-date: November 12, 2023
-root: "http://trofi.github.io"
----
++++
+title = "duperemove speedups"
+date = "November 12, 2023"
+tags = ["duperemove", "bug"]
+root = "http://trofi.github.io"
++++
 
 [`duperemove`](https://github.com/markfasheh/duperemove/) is a great
 tool to reduce on-disk file redundancy for file systems that support
