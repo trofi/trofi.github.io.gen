@@ -1,7 +1,8 @@
----
-title: "Building vanilla gcc on NixOS"
-date: July 8, 2023
----
++++
+title = "Building vanilla gcc on NixOS"
+tags = ["gcc", "nixpkgs", "nixos", "howto"]
+date = "July 8, 2023"
++++
 
 This post's main goal is to build unpatched vanilla `gcc` itself (and to
 run its test suite). The focus is `gcc` development and not `gcc` usage
@@ -37,24 +38,19 @@ paths to `glibc` headers and libraries, hardening features defaults,
 slight binary renames, options mangling and many other small things.
 
 Fun fact: `cc-wrapper` is `25K` of extra shell code.
-
 All the above makes `gcc` test suite incompatible with `nixpkgs`
 patches.
-
 It's not always easy to tell if the bug is introduced by an upstream
 logic or by `nixpkgs` changes.
-
 It's hard to upstream found `gcc` bugs or to work on `gcc` fixes
 without the fear of being affected by downstream changes.
-
 And once you have prepared a `gcc` patch for upstream it would be nice
 to run `gcc` test suite to see if the local change introduced any
 regressions.
-
 Wouldn't it be nice to just build vanilla `gcc` every now and then to
 see how unmodified `gcc` behaves?
 
-## Th perfect build
+## The perfect build
 
 In an ideal world a program should be compilable by running
 `./configure && make && make install` (or an equivalent for other build
