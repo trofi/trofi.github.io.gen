@@ -1,8 +1,9 @@
----
-title: "gcc-14 bugs, pile 3"
-date: November 22, 2023
-root: "http://trofi.github.io"
----
++++
+title = "gcc-14 bugs, pile 3"
+date = "November 22, 2023"
+tags = ["gcc", "bug"]
+root = "http://trofi.github.io"
++++
 
 This week [GCC 14 entered stage 3](https://gcc.gnu.org/pipermail/gcc/2023-November/242898.html).
 Most major features are already pushed to `master` branch and the main
