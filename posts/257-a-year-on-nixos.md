@@ -1,7 +1,8 @@
----
-title: "A year on NixOS"
-date: September 04, 2022
----
++++
+title = "A year on NixOS"
+date = "September 04, 2022"
+tags = ["nixos"]
++++
 
 Discourse told me that one year has passed since I switched over to
 `NixOS` for my main desktop system. It feels like it was yesterday.
