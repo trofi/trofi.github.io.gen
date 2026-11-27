@@ -1,7 +1,8 @@
----
-title: "GNU make 4.4 is out!"
-date: November 01, 2022
----
++++
+title = "GNU make 4.4 is out!"
+date = "November 01, 2022"
+tags = ["make", "release"]
++++
 
 Yesterday `GNU make` project
 [announced 4.4 release](https://lists.gnu.org/archive/html/bug-make/2022-10/msg00247.html)!
