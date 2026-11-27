@@ -1,8 +1,9 @@
----
-title: "Two years on NixOS"
-date: July 9, 2023
-root: "http://trofi.github.io"
----
++++
+title = "Two years on NixOS"
+date = "July 9, 2023"
+tags = ["nixos"]
+root = "http://trofi.github.io"
++++
 
 Yet another year has passed since I switched to `NixOS` as my main
 desktop system. Time to look back and see how it went
