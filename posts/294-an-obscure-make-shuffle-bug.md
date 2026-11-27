@@ -1,8 +1,9 @@
----
-title: "An obscure make --shuffle bug"
-date: August 11, 2023
-root: "http://trofi.github.io"
----
++++
+title = "An obscure make --shuffle bug"
+date = "August 11, 2023"
+tags = ["make", "shuffle", "efivar", "bug"]
+root = "http://trofi.github.io"
++++
 
 Most of the time `make --shuffle` finds somewhat trivial bugs of missing
 dependencies. I have collected a few examples [here](/posts/249-an-update-on-make-shuffle.html).
