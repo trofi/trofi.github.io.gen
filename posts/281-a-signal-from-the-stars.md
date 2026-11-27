@@ -1,7 +1,8 @@
----
-title: "a signal from the stars"
-date: March 04, 2023
----
++++
+title = "a signal from the stars"
+tags = ["btrfs", "ssd", "discard", "howto"]
+date = "March 04, 2023"
++++
 
 ## The distress beacon
 
