@@ -1,7 +1,8 @@
----
-title: "nixpkgs overlay nano howto"
-date: July 31, 2022
----
++++
+title = "nixpkgs overlay nano howto"
+date = "July 31, 2022"
+tags = ["nixpkgs", "howto"]
++++
 
 `nixpkgs` is a huge repository of various packages. But what if you want
 to package a tiny package and don't plan to share it with anyone. Is it
