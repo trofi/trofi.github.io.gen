@@ -1,7 +1,8 @@
----
-title: "GCC's new -Wdangling-reference warning"
-date: November 05, 2022
----
++++
+title = "GCC's new -Wdangling-reference warning"
+date = "November 05, 2022"
+tags = ["gcc"]
++++
 
 Tl;DR: `gcc` [just got](https://gcc.gnu.org/PR106393)
 new `-Wdangling-reference` diagnostic to catch some use-after-free bugs
