@@ -1,7 +1,8 @@
----
-title: "DNS over TLS"
-date: June 18, 2023
----
++++
+title = "DNS over TLS"
+tags = ["dns", "tls", "unbound", "howto"]
+date = "June 18, 2023"
++++
 
 A few months ago I finally got optical internet connection with native
 `IPv6` . This prompted me to slightly reconfigure my devices: I
