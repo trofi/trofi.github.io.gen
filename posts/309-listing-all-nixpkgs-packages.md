@@ -1,8 +1,9 @@
----
-title: "listing all nixpkgs packages"
-date: December 30, 2023
-root: "http://trofi.github.io"
----
++++
+title = "listing all nixpkgs packages"
+date = "December 30, 2023"
+tags = ["nixpkgs", "bug"]
+root = "http://trofi.github.io"
++++
 
 ## Intro
 
