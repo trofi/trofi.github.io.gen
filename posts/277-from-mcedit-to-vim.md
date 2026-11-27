@@ -1,7 +1,8 @@
----
-title: "from mcedit to vim"
-date: February 04, 2023
----
++++
+title = "from mcedit to vim"
+date = "February 04, 2023"
+tags = ["mcedit", "vim", "bug", "howto"]
++++
 
 ## Tl;DR
 
