@@ -1,7 +1,8 @@
----
-title: "Zero Hydra Failures towards 22.11 NixOS release"
-date: November 08, 2022
----
++++
+title = "Zero Hydra Failures towards 22.11 NixOS release"
+date = "November 08, 2022"
+tags = ["ZHF", "bug", "nixos", "nixpkgs"]
++++
 
 The end of November is near and that means `NixOS` will get a release
 soon. One of the late stages is Zero Hydra Failures phase: there everyone
