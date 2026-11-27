@@ -1,8 +1,9 @@
----
-title: "Another gcc profiling bug"
-date: October 07, 2023
-root: "http://trofi.github.io"
----
++++
+title = "Another gcc profiling bug"
+date = "October 07, 2023"
+tags = ["gcc", "bug", "pgo"]
+root = "http://trofi.github.io"
++++
 
 ## The python `PGO` bug
 
