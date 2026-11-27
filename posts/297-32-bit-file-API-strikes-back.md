@@ -1,8 +1,9 @@
----
-title: "32-bit file API strikes back"
-date: September 7, 2023
-root: "http://trofi.github.io"
----
++++
+title = "32-bit file API strikes back"
+date = "September 7, 2023"
+tags = ["nixpkgs", "bug", "32bit"]
+root = "http://trofi.github.io"
++++
 
 It was another day of me trying a new `gcc` version.
 
