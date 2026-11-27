@@ -1,8 +1,9 @@
----
-title: "fuzzing duperemove"
-date: November 21, 2023
-root: "http://trofi.github.io"
----
++++
+title = "fuzzing duperemove"
+date = "November 21, 2023"
+tags = ["duperemove", "bug", "fuzz"]
+root = "http://trofi.github.io"
++++
 
 [`duperemove-0.14`](https://github.com/markfasheh/duperemove/releases/tag/v0.14)
 was released yesterday and included a few small fixes I wrote about
