@@ -1,7 +1,8 @@
----
-title: "A few more gcc-13 bugs"
-date: October 21, 2022
----
++++
+title = "A few more gcc-13 bugs"
+date = "October 21, 2022"
+tags = ["gcc", "bug"]
++++
 
 Another 6 months have passed since I wrote anything about `gcc` bugs.
 `gcc-13` should release around April next year (in about 6 months).
