@@ -1,7 +1,8 @@
----
-title: "Registered on mastodon"
-date: December 18, 2022
----
++++
+title = "Registered on mastodon"
+date = "December 18, 2022"
+tags = ["mastodon"]
++++
 
 PSA: I registered on [`Mastodon`](https://en.wikipedia.org/wiki/Mastodon_(social_network))
 as [`@trofi@fosstodon.org`](https://fosstodon.org/@trofi).
