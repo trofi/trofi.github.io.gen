@@ -1,7 +1,8 @@
----
-title: "From irssi to weechat"
-date: May 11, 2023
----
++++
+title = "From irssi to weechat"
+tags = ["irssi", "weechat", "howto"]
+date = "May 11, 2023"
++++
 
 I started using `IRC` in 2003, around the same time I started using
 `linux`. My IRC client of choice was `xchat`. I had a lot of fun
