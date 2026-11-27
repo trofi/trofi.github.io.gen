@@ -1,7 +1,8 @@
----
-title: "Trying out wayland"
-date: September 28, 2022
----
++++
+title = "Trying out wayland"
+date = "September 28, 2022"
+tags = ["wayland", "sway", "x11"]
++++
 
 ## TL;DR
 
