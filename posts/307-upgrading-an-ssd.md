@@ -1,8 +1,9 @@
----
-title: "upgrading an ssd"
-date: December 15, 2023
-root: "http://trofi.github.io"
----
++++
+title = "upgrading an ssd"
+date = "December 15, 2023"
+tags = ["btrfs", "nixos"]
+root = "http://trofi.github.io"
++++
 
 In search of bugs I build a lot of software locally. About `~20000`
 packages per day. I usually keep all builds around to speed up
