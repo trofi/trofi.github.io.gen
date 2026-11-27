@@ -1,7 +1,8 @@
----
-title: "xlibsWrapper yak"
-date: December 27, 2022
----
++++
+title = "xlibsWrapper yak"
+date = "December 27, 2022"
+tags = ["nixpkgs", "bug"]
++++
 
 During one of the raids on [stale `nixpkgs` packages](/posts/272-peeking-at-stale-nixpkgs-packages.html)
 I found `Xaw3d` package which was present in two forms in `nixpkgs`:
