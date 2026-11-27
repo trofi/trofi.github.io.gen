@@ -1,7 +1,8 @@
----
-title: "Zero Hydra Failures towards 23.05 NixOS release"
-date: May 10, 2023
----
++++
+title = "Zero Hydra Failures towards 23.05 NixOS release"
+tags = ["ZHF", "bug", "nixos", "nixpkgs"]
+date = "May 10, 2023"
++++
 
 ## `ZHF`
 
