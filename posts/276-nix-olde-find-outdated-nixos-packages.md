@@ -1,7 +1,8 @@
----
-title: "nix-olde - find outdated NixOS packages"
-date: January 19, 2023
----
++++
+title = "nix-olde - find outdated NixOS packages"
+date = "January 19, 2023"
+tags = ["nix-olde", "release"]
++++
 
 ## Tl;DR
 
