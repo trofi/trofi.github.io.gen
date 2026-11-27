@@ -1,8 +1,9 @@
----
-title: "gcc-14 bugs, pile 1"
-date: July 12, 2023
-root: "http://trofi.github.io"
----
++++
+title = "gcc-14 bugs, pile 1"
+date = "July 12, 2023"
+tags = ["gcc", "bug", "howto"]
+root = "http://trofi.github.io"
++++
 
 Around beginning of the May `gcc-14` development got opened for major
 changes to be merged into `master` branch. 2 months have passed since
