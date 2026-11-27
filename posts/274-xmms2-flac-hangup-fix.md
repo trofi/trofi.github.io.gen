@@ -1,7 +1,8 @@
----
-title: "xmms2 FLAC hangup fix"
-date: December 30, 2022
----
++++
+title = "xmms2 FLAC hangup fix"
+date = "December 30, 2022"
+tags = ["xmms2", "bug", "flac"]
++++
 
 Over past few months I noticed that `xmms2` started getting stuck on some
 songs in my playlist. The typical symptom is lack of sound after the
