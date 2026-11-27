@@ -1,7 +1,8 @@
----
-title: "one-liner to fix CSS on phones"
-date: August 04, 2022
----
++++
+title = "one-liner to fix CSS on phones"
+date = "August 04, 2022"
+tags = ["blog", "css", "howto"]
++++
 
 I noticed that this blog was unreadable on the phones: main text was
 readable, but code snippets had 2.5x smaller fonts and required manual
