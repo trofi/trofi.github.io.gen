@@ -1,7 +1,8 @@
----
-title: "Fixing wine-wayland on POLARIS"
-date: November 28, 2022
----
++++
+title = "Fixing wine-wayland on POLARIS"
+date = "November 28, 2022"
+tags = ["wine", "wayland", "amd", "polaris", "howto"]
++++
 
 After [switching to `wayland`](/posts/261-trying-out-wayland.html) I got
 most GUI programs to use `wayland` backend render. The two main
