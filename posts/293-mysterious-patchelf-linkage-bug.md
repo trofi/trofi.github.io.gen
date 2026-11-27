@@ -1,8 +1,9 @@
----
-title: "Mysterious patchelf linkage bug"
-date: July 31, 2023
-root: "http://trofi.github.io"
----
++++
+title = "Mysterious patchelf linkage bug"
+date = "July 31, 2023"
+tags = ["nixpkgs", "bug"]
+root = "http://trofi.github.io"
++++
 
 Today's mystery started from [this build failure](https://hydra.nixos.org/build/229663092)
 noticed by Vladimir on `staging-next` branch of `nixpkgs`.
