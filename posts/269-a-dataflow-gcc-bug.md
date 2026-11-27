@@ -1,7 +1,8 @@
----
-title: "A dataflow gcc bug"
-date: December 10, 2022
----
++++
+title = "A dataflow gcc bug"
+date = "December 10, 2022"
+tags = ["gcc", "bug"]
++++
 
 Let's look at a simpler `gcc` bug today:
 [`PR107879`](https://gcc.gnu.org/PR107879). There `ffmpeg-4` started
