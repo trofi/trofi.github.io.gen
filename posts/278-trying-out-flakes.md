@@ -1,7 +1,8 @@
----
-title: "trying out flakes"
-date: February 05, 2023
----
++++
+title = "trying out flakes"
+date = "February 05, 2023"
+tags = ["nix", "flake", "howto"]
++++
 
 ## Tl;DR
 
