@@ -1,7 +1,8 @@
----
-title: "A small update on 'make --shuffle' mode"
-date: June 21, 2022
----
++++
+title = "A small update on 'make --shuffle' mode"
+date = "June 21, 2022"
+tags = ["make", "bug"]
++++
 
 ## Tl;DR
 
