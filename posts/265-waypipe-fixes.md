@@ -1,7 +1,8 @@
----
-title: "Waypipe fixes"
-date: November 07, 2022
----
++++
+title = "Waypipe fixes"
+date = "November 07, 2022"
+tags = ["waypipe", "bug", "wayland", "amd", "polaris"]
++++
 
 `waypipe` is a great hack! It allows you to run `wayland` applications
 on a remote host and show the picture on local machine (somewhat similar
