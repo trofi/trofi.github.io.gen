@@ -1,7 +1,8 @@
----
-title: "cooling failure"
-date: February 25, 2023
----
++++
+title = "cooling failure"
+tags = ["bug", "hardware"]
+date = "February 25, 2023"
++++
 
 About 2 years ago I got my new desktop. It's a 16-core AMD CPU with
 128GB RAM. My plan was to compile A Lot :)
