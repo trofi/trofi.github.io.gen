@@ -1,7 +1,8 @@
----
-title: "GNU make's 'Secondary Expansion' feature"
-date: September 16, 2022
----
++++
+title = "GNU make's 'Secondary Expansion' feature"
+date = "September 16, 2022"
+tags = ["make", "bug", "glibc"]
++++
 
 People occasionally ask me when
 [`make --shuffle`](/posts/238-new-make-shuffle-mode.html) feature will
