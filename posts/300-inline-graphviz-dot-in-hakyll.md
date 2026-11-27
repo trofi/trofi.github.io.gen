@@ -1,8 +1,9 @@
----
-title: "Inline graphviz dot in hakyll"
-date: October 06, 2023
-root: "http://trofi.github.io"
----
++++
+title = "Inline graphviz dot in hakyll"
+date = "October 06, 2023"
+tags = ["blog", "graphviz", "haskell", "hakyll"]
+root = "http://trofi.github.io"
++++
 
 [A while ago](https://github.com/trofi/trofi.github.io.gen/commit/0872d9dc50c9d15b50ceda16d408a45e5655c913)
 I added `.dot` file support into this blog and used it on
