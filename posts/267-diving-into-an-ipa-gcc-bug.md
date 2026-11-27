@@ -1,7 +1,8 @@
----
-title: "Diving into an IPA gcc bug"
-date: November 19, 2022
----
++++
+title = "Diving into an IPA gcc bug"
+date = "November 19, 2022"
+tags = ["gcc", "bug", "howto"]
++++
 
 `gcc` has a nice set of optimizations based on inter-procedural
 analysis (`IPA`). Some of them are simpler (like `early-inliner`),
@@ -938,7 +939,7 @@ Now let's try to figure out why does `ipa-cp` add a problematic
 
 `gcc` frequently has great comments in the source code on details of
 what a pass is supposed to do. `ipa-cp` is no exception: it hides
-in [`gcc/ipa-cp.cc` file](<https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/ipa-cp.cc;h=d2bcd5e5e691ced8dba4b496b9d044eb2777d2b2;hb=HEAD#l23):
+in [`gcc/ipa-cp.cc` file](https://gcc.gnu.org/git/?p=gcc.git;a=blob;f=gcc/ipa-cp.cc;h=d2bcd5e5e691ced8dba4b496b9d044eb2777d2b2;hb=HEAD#l23):
 
 ```
   23 /* Interprocedural constant propagation (IPA-CP).
