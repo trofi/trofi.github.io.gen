@@ -1,8 +1,9 @@
----
-title: "Nix Expression Language non-determinism example"
-date: July 17, 2023
-root: "http://trofi.github.io"
----
++++
+title = "Nix Expression Language non-determinism example"
+date = "July 17, 2023"
+tags = ["nix", "bug", "nixpkgs"]
+root = "http://trofi.github.io"
++++
 
 Today Vladimir Kryachko found a very
 [curious `nixpkgs` bug](https://github.com/NixOS/nixpkgs/issues/244045)!
