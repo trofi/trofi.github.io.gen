@@ -1,7 +1,8 @@
----
-title: "nixpkgs bootstrap deep dive"
-date: January 05, 2023
----
++++
+title = "nixpkgs bootstrap deep dive"
+date = "January 05, 2023"
+tags = ["nixpkgs", "bug", "howto"]
++++
 
 ## The problem
 
