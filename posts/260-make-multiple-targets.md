@@ -1,7 +1,8 @@
----
-title: "GNU make amends rules with multiple targets"
-date: September 25, 2022
----
++++
+title = "GNU make amends rules with multiple targets"
+date = "September 25, 2022"
+tags = ["make", "ghc", "bug"]
++++
 
 ## TL;DR
 
