@@ -1,7 +1,8 @@
----
-title: "nix and guix for Gentoo in 2023"
-date: May 19, 2023
----
++++
+title = "nix and guix for Gentoo in 2023"
+tags = ["nix", "guix", "gentoo"]
+date = "May 19, 2023"
++++
 
 Another year has passed since I shared anything related to
 [`::nix-guix`](https://github.com/trofi/nix-guix-gentoo/) Gentoo overlay.
