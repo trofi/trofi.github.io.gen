@@ -1,8 +1,9 @@
----
-title: "a breakage example in C variadic function"
-date: December 20, 2023
-root: "http://trofi.github.io"
----
++++
+title = "a breakage example in C variadic function"
+date = "December 20, 2023"
+tags = ["bug", "iwd", "c"]
+root = "http://trofi.github.io"
++++
 
 ## Intro
 
