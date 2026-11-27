@@ -1,8 +1,9 @@
----
-title: "-Ofast and -ffast-math non-local effects"
-date: October 25, 2023
-root: "http://trofi.github.io"
----
++++
+title = "-Ofast and -ffast-math non-local effects"
+date = "October 25, 2023"
+tags = ["fp", "gcc", "sodium", "bug"]
+root = "http://trofi.github.io"
++++
 
 ## Tl;DR:
 
