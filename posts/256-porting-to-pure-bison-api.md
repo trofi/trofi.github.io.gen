@@ -1,7 +1,8 @@
----
-title: "Porting to pure Bison API"
-date: September 04, 2022
----
++++
+title = "Porting to pure Bison API"
+date = "September 04, 2022"
+tags = ["bison", "howto"]
++++
 
 A few weeks ago I started code cleanup for
 [Ski](https://github.com/trofi/ski/commits/master).
