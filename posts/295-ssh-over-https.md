@@ -1,8 +1,9 @@
----
-title: "SSH over HTTPS"
-date: August 30, 2023
-root: "http://trofi.github.io"
----
++++
+title = "SSH over HTTPS"
+date = "August 30, 2023"
+tags = ["ssh", "tunnel", "apache"]
+root = "http://trofi.github.io"
++++
 
 Tl;DR: to pass `SSH` through `HTTPS` you need to tweak client and server
 sides as the following:
