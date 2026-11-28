@@ -1,7 +1,8 @@
----
-title: "A year on gcc from git"
-date: March 07, 2021
----
++++
+title = "A year on gcc from git"
+date = "March 07, 2021"
+tags = ["gcc", "bug", "glibc"]
++++
 
 Almost [a year](/posts/213-gcc-10-in-gentoo.html) passed since
 `gcc-10` arrival in `gentoo`. This means `gcc-11` will release very
