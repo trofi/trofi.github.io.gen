@@ -1,7 +1,8 @@
----
-title: "ncurses update journey"
-date: January 03, 2022
----
++++
+title = "ncurses update journey"
+date = "January 03, 2022"
+tags = ["nixpkgs", "ncurses", "bug"]
++++
 
 A few months ago I decided to upgrade a few packages in `nixpkgs` to
 the latest available versions upstream. Some packages like `gzip`,
