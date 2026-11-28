@@ -1,7 +1,8 @@
----
-title: masking a package in gentoo overlay
-date: June 24, 2017
----
++++
+title = "masking a package in gentoo overlay"
+date = "June 24, 2017"
+tags = ["gentoo", "howto"]
++++
 
 It's a post on how to selectively mask an `ebuild` in the overlay. The
 running example will be a package `app-misc/foo` using `systemd`
