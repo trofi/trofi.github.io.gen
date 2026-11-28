@@ -1,7 +1,8 @@
----
-title: "AoC in rust"
-date: December 25, 2021
----
++++
+title = "AoC in rust"
+date = "December 25, 2021"
+tags = ["AoC", "rust", "haskell"]
++++
 
 ## Tl;DR
 
