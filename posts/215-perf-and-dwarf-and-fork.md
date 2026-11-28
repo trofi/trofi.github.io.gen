@@ -1,7 +1,8 @@
----
-title: "perf and DWARF and fork()"
-date: April 10, 2020
----
++++
+title = "perf and DWARF and fork()"
+date = "April 10, 2020"
+tags = ["perf", "dwarf"]
++++
 
 ## Tl;DR
 
