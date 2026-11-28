@@ -1,7 +1,8 @@
----
-title: "stack growth direction: how hard can it be?"
-date: June 26, 2017
----
++++
+title = "stack growth direction: how hard can it be?"
+date = "June 26, 2017"
+tags = ["ia64", "bug", "glibc", "ruby"]
++++
 
 This is another horror story with lots of technical details on how
 `glibc` was unhappy (again!) on `ia64`.
