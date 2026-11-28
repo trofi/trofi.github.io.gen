@@ -1,7 +1,8 @@
----
-title: "Filter out AAAA DNS responses"
-date: November 07, 2020
----
++++
+title = "Filter out AAAA DNS responses"
+date = "November 07, 2020"
+tags = ["unbound", "howto"]
++++
 
 ## `Tl;DR`: with `RPZ` we can hide `AAAA` records while preserving other records
 
