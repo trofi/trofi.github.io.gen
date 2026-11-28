@@ -1,7 +1,8 @@
----
-title: "ptrace() and accidental boot fix on ia64"
-date: August 04, 2018
----
++++
+title = "ptrace() and accidental boot fix on ia64"
+date = "August 04, 2018"
+tags = ["linux", "kernel", "bug", "ia64", "strace", "gcc"]
++++
 
 This story is another dive into `linux` kernel internals. It has started
 as a `strace` hangup on `ia64` and ended up being an unusual case of
