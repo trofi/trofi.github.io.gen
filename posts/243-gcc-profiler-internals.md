@@ -1,7 +1,8 @@
----
-title: "gcc profiler internals"
-date: May 01, 2022
----
++++
+title = "gcc profiler internals"
+date = "May 01, 2022"
+tags = ["gcc", "howto", "bug"]
++++
 
 I occasionally encounter profiler bugs in `gcc`. Two related examples I
 remember are [`tauthon` (`python2` fork)](https://gcc.gnu.org/PR96394) and
@@ -995,7 +996,7 @@ I say "infeasible" as I successfully reduced
 `tauthon` once in <https://gcc.gnu.org/PR96394>. It took me almost 2 months
 to extract small reproducer manually. I don't think I'll do it ever again :)
 
-First time it was fun: I found a lot more than I imagined about python`
+First time it was fun: I found a lot more than I imagined about `python`
 implementation: how it embeds it's own bytecode into executable, how bootstrap
 python loads the rest of python modules using this bootstrap code.
 
