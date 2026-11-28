@@ -1,7 +1,8 @@
----
-title: "Delay Slots strike back"
-date: February 27, 2021
----
++++
+title = "Delay Slots strike back"
+date = "February 27, 2021"
+tags = ["gcc", "bug", "hppa", "howto", "python"]
++++
 
 Jeroen found another problem on `hppa` (`PA-RISC`) after switch to
 `gcc-10`: `Python-3.9.0b3` started crashing at build time:
@@ -429,7 +430,7 @@ A few other architectures that use delay slot are: `mips`, `superh`,
 `sparc`. But not `arm`, not `powerpc` and not `riscv`.
 Having slightly tweaked my example I managed to reproduce the same bug
 on `sh4`(`superh`): <https://gcc.gnu.org/PR96015#c27>.
-The bug ended up being in `gcc` `reporg` pass: a late pass that
+The bug ended up being in `gcc` `reorg` pass: a late pass that
 handles instruction reordering to pick the better sequence. It made
 incorrect assumptions about instructions with delay slots.
 
