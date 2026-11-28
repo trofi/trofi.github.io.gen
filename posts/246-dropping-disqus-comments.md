@@ -1,7 +1,8 @@
----
-title: "dropping disqus comments"
-date: June 01, 2022
----
++++
+title = "dropping disqus comments"
+date = "June 01, 2022"
+tags = ["blog"]
++++
 
 This personal blog gets roughly one comment a month. For some reason
 `disqus` decided to add automatically generated advertisement section
