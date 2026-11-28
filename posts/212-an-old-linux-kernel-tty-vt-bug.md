@@ -1,7 +1,8 @@
----
-title: "An old linux kernel tty/vt bug"
-date: June 26, 2019
----
++++
+title = "An old linux kernel tty/vt bug"
+date = "June 26, 2019"
+tags = ["linux", "kernel", "bug"]
++++
 
 This post is another one in series of obscure bugs. This time elusive
 bug manifested on my desktop for years until it was pinned down by luck.
