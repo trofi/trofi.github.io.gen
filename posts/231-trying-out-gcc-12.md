@@ -1,7 +1,8 @@
----
-title: "Trying out gcc-12"
-date: November 14, 2021
----
++++
+title = "Trying out gcc-12"
+date = "November 14, 2021"
+tags = ["gcc", "bug"]
++++
 
 Having updated locally new `NixOS` system to `gcc-11.2.0` I decided
 I'm familiar enough with `NixOS` to try yet unreleased `gcc-12` on
