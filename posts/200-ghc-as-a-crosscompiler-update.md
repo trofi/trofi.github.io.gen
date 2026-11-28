@@ -1,7 +1,8 @@
----
-title: GHC as a cross-compiler update
-date: April 15, 2017
----
++++
+title = "GHC as a cross-compiler update"
+date = "April 15, 2017"
+tags = ["ghc", "bug", "gentoo", "howto", "qemu"]
++++
 
 ## TL;DR:
 
