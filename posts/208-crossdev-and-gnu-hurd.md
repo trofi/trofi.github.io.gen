@@ -1,7 +1,8 @@
----
-title: "crossdev and GNU Hurd"
-date: April 14, 2018
----
++++
+title = "crossdev and GNU Hurd"
+date = "April 14, 2018"
+tags = ["gentoo", "crossdev", "hurd", "howto", "bug"]
++++
 
 Tl;DR: `crossdev` is a tool to generate a cross-compiler for you in
 `gentoo` and with some hacks (see below) you can even cross-compile to
