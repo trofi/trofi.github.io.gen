@@ -1,7 +1,8 @@
----
-title: "GCC 10 in Gentoo"
-date: March 23, 2020
----
++++
+title = "GCC 10 in Gentoo"
+date = "March 23, 2020"
+tags = ["gcc", "gentoo", "bug", "linux", "kernel", "efi", "howto"]
++++
 
 New `gcc` releases are always great fun to have: new optimisations, new
 CPUs and platforms supported, new diagnostic warnings.
