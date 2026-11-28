@@ -1,7 +1,8 @@
----
-title: "A month on NixOS"
-date: October 11, 2021
----
++++
+title = "A month on NixOS"
+date = "October 11, 2021"
+tags = ["nixos", "howto"]
++++
 
 About a month ago I decided to give `NixOS` a try on my main desktop. I
 was slightly worried I could not use it due to lack of software I
