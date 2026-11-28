@@ -1,7 +1,8 @@
----
-title: "Nix and Guix in Gentoo in 2022"
-date: February 9, 2022
----
++++
+title = "Nix and Guix in Gentoo in 2022"
+date = "February 9, 2022"
+tags = ["nix", "guix", "gentoo"]
++++
 
 ## A new home
 
