@@ -1,7 +1,8 @@
----
-title: "mitigating bufferbloat"
-date: April 26, 2020
----
++++
+title = "mitigating bufferbloat"
+date = "April 26, 2020"
+tags = ["linux", "kernel", "cake", "howto"]
++++
 
 ## Tl;DR
 
