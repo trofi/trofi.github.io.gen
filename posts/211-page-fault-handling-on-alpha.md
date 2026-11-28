@@ -1,7 +1,8 @@
----
-title: "page fault handling on alpha"
-date: January 4, 2019
----
++++
+title = "page fault handling on alpha"
+date = "January 4, 2019"
+tags = ["linux", "kernel", "bug", "alpha", "strace", "qemu", "howto", "gdb"]
++++
 
 ## Bug
 
@@ -608,7 +609,7 @@ carefully skipped here:
 Once `do_page_fault()` gets control it updates `regs` struct in
 memory for faulted task using `dpf_reg()` macro. It looks unusual:
 
-- refers to negative offsets sometimes: `(r) \<= 15 ? (r)-16` (out of
+- refers to negative offsets sometimes: `(r) <= 15 ? (r)-16` (out of
   `struct pt_regs`)
 - defines not one but a few ranges of registers: `0-8`, `9-15`, `16-18`,
   `19-...`
