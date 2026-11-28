@@ -1,7 +1,8 @@
----
-title: "nix gc speedup improvements"
-date: April 04, 2022
----
++++
+title = "nix gc speedup improvements"
+date = "April 04, 2022"
+tags = ["nix", "bug"]
++++
 
 I wondered the other day: why does my `nix store gc` take an hour to run
 on a system with a few terabytes of garbage packages to clean up. Is it
