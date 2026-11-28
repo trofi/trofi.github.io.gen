@@ -1,7 +1,8 @@
----
-title: "signed char or unsigned char?"
-date: September 17, 2017
----
++++
+title = "signed char or unsigned char?"
+date = "September 17, 2017"
+tags = ["TIL", "sqlite", "bug"]
++++
 
 Yesterday I debugged an interesting
 [bug](https://bugs.gentoo.org/630698): `sqlite` test suite was hanging up
