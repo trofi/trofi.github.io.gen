@@ -1,7 +1,8 @@
----
-title: "debuigging LTO builds"
-date: May 19, 2020
----
++++
+title = "debuigging LTO builds"
+date = "May 19, 2020"
+tags = ["gcc", "lto", "howto", "bug"]
++++
 
 ## `LTO`
 
@@ -231,10 +232,10 @@ function  default     3  libintl_dgettext
 
 Here is my interpretation of the above:
 
-1.  Definition site looks at expected: it's a nice `libintl_dgettext`
+1.  Definition site looks as expected: it's a nice `libintl_dgettext`
     symbol.
 2.  Call site is strange: depending on `-demangle` option it
-    completely changes it's name.
+    completely changes its name.
 
 This means `dgettext` prototype is not a typical prototype you
 would expect:
