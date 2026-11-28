@@ -1,7 +1,8 @@
----
-title: "Stack protection on mips64"
-date: December 16, 2017
----
++++
+title = "Stack protection on mips64"
+date = "December 16, 2017"
+tags = ["mips", "bug", "glibc", "longjmp", "howto", "qemu"]
++++
 
 ## Bug
 
