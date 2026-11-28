@@ -1,7 +1,8 @@
----
-title: "nixpkgs bootstrap intro"
-date: March 24, 2022
----
++++
+title = "nixpkgs bootstrap intro"
+date = "March 24, 2022"
+tags = ["nixpkgs", "howto", "bug"]
++++
 
 This post is an informal walk through bootstrap setup of `nixpkgs`.
 It's quite long and has many facets we look at here. If you don't
