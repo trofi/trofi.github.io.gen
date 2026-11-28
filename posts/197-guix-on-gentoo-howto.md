@@ -1,7 +1,8 @@
----
-title: guix on gentoo howto
-date: February 11, 2017
----
++++
+title = "guix on gentoo howto"
+date = "February 11, 2017"
+tags = ["guix", "gentoo", "howto"]
++++
 
 ## TL;DR
 
