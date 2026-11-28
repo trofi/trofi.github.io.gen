@@ -1,7 +1,8 @@
----
-title: "How do shared library collisions break?"
-date: June 18, 2022
----
++++
+title = "How do shared library collisions break?"
+date = "June 18, 2022"
+tags = ["bug", "ld", "elf"]
++++
 
 ## background
 
