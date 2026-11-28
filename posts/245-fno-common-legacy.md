@@ -1,9 +1,10 @@
----
-title: "-fno-common legacy"
-date: May 13, 2022
----
++++
+title = "-fno-common legacy"
+date = "May 13, 2022"
+tags = ["gcc", "gentoo", "bug", "nixpkgs"]
++++
 
-## `-fno-commn` in `::gentoo`
+## `-fno-common` in `::gentoo`
 
 Around January 2020 (more than 2 years ago) `gcc` development version
 switched the default from `-fcommon` to `-fno-common`: <https://gcc.gnu.org/PR85678>.
@@ -53,7 +54,7 @@ breakage. And there was a PR to restore the default:
 collaborative tools at my disposal I decided to sort it out for `nixpkgs`.
 I messed it up once before and learned something. Should be easy this time :)
 
-`-fno-commn` default was released as `gcc-10.1.0` on May 7. That
+`-fno-common` default was released as `gcc-10.1.0` on May 7. That
 makes it almost exactly 2 years ago. Since then some projects adapted to
 `-fno-common` upstream and released newer versions. But some did not.
 What is the ratio of those?
