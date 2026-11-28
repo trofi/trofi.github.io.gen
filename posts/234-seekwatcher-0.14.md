@@ -1,7 +1,8 @@
----
-title: "seekwatcher 0.14"
-date: January 17, 2022
----
++++
+title = "seekwatcher 0.14"
+date = "January 17, 2022"
+tags = ["seekwatcher", "release", "howto"]
++++
 
 About 10 years ago I [tried out](/posts/169-seekwatcher.html)
 `seekwatcher` for the first time (unfortunately past videos and
@@ -15,7 +16,7 @@ replacement and kept tweaking `seekwatcher` for minor failures like
 result as `0.13`. Looking at it 2 years later effectively nobody uses
 `0.13`: <https://repology.org/project/seekwatcher/versions>. This is
 fine. Most distributions effectively abandoned `seekwatcher` or never
-had it packages in the first place. I myself did not have a reason to
+had it packaged in the first place. I myself did not have a reason to
 use it for years and did not notice it's build broke again.
 
 I spent this weekend to refurbish it a bit. The result is a new [0.14
