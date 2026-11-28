@@ -1,7 +1,8 @@
----
-title: "Having fun with bash completion"
-date: August 23, 2021
----
++++
+title = "Having fun with bash completion"
+date = "August 23, 2021"
+tags = ["bash", "howto"]
++++
 
 **2025 UPDATE**: I switched to [`fzf`](https://junegunn.github.io/fzf/)
 (`Alt-C`) as a better alternative to the hack below.
