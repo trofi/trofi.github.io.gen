@@ -1,7 +1,8 @@
----
-title: "ia64 ptrace: off-by-one yak"
-date: August 7, 2021
----
++++
+title = "ia64 ptrace: off-by-one yak"
+date = "August 7, 2021"
+tags = ["gentoo", "ia64", "strace", "bug", "linux", "kernel"]
++++
 
 `gentoo` has one alive `ia64` machine: `HP rx3600` nicknamed
 `guppy`. It's an old box, and yet it's specs are not too different
