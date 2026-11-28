@@ -1,7 +1,8 @@
----
-title: "When make -j$(nproc) fails"
-date: October 28, 2021
----
++++
+title = "When make -j$(nproc) fails"
+date = "October 28, 2021"
+tags = ["make", "bug", "nixpkgs"]
++++
 
 The other day I noticed that `nixpkgs` repository has slightly
 outdated `bison-3.7.6` package while `3.8.2` was available upstream.
@@ -443,7 +444,7 @@ succeeds due to deterministic rule execution order.
 **The question**: Do you think there could be a bug when parallel build
 almost always succeeds while sequential would always fail?
 
-I encountered it once in my life: <https://bugs.gentoo.org/566620>. By
+I encountered it once in my life: <https://bugs.gentoo.org/566620>.
 There missing dependency was always satisfied by a builder from other
 rules running in parallel.
 The fix adds missing dependency (as expected):
