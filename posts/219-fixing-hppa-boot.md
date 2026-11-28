@@ -1,7 +1,8 @@
----
-title: "Fixing HPPA boot"
-date: July 06, 2020
----
++++
+title = "Fixing HPPA boot"
+date = "July 06, 2020"
+tags = ["gcc", "hppa", "bug", "palo"]
++++
 
 It feels like I did not have much chance to fix anything complicated on
 `hppa` machines (aka `PA-RISC`). But recently ...
