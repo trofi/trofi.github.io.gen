@@ -1,7 +1,8 @@
----
-title: "Bisects all the way down"
-date: September 01, 2021
----
++++
+title = "Bisects all the way down"
+date = "September 01, 2021"
+tags = ["git", "nixpkgs", "bug"]
++++
 
 Bisect is a great tool to nail down regression in a project like
 `linux` where you usually have no slightest idea what broke your
