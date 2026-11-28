@@ -1,7 +1,8 @@
----
-title: "Debugging wine"
-date: December 06, 2020
----
++++
+title = "Debugging wine"
+date = "December 06, 2020"
+tags = ["wine", "howto", "gcc", "bug"]
++++
 
 Sometimes I test `gcc` toolchains against less popular targets like
 `i686-w64-mingw32` (32-bit windows). As a cheap runtime test I use
@@ -648,8 +649,7 @@ NTSTATUS WINAPI RtlMultiByteToUnicodeN( WCHAR *dst, DWORD dstlen, DWORD *reslen,
 }
 ```
 
-`gdb` says corruption happens at a line `if (reslen) *reslen = ret
-\* sizeof(WCHAR);`. But what is wrong with it?
+`gdb` says corruption happens at a line `if (reslen) *reslen = ret * sizeof(WCHAR);`. But what is wrong with it?
 The hint is seen in backtrace itself:
 
 ``` 
