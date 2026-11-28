@@ -1,7 +1,8 @@
----
-title: "Minor atl1c kernel driver bug"
-date: January 22, 2022
----
++++
+title = "Minor atl1c kernel driver bug"
+date = "January 22, 2022"
+tags = ["linux", "kernel", "bug", "nixos", "howto"]
++++
 
 This weekend I converted my last physical non-`NixOS` machine to `NixOS`.
 I was postponing it for a while as it's an internet facing machine that
