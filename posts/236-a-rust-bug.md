@@ -1,7 +1,8 @@
----
-title: "A rust bug"
-date: February 8, 2022
----
++++
+title = "A rustc bug"
+date = "February 8, 2022"
+tags = ["rust", "rustc", "llvm", "bug", "nixpkgs", "howto"]
++++
 
 This is a post that documents a few tips to track down elusive problem
 in a `rust` codebase of medium size: a few crates a few megabytes
@@ -293,7 +294,7 @@ I used `#[inline(never)]` to make sure we don't get affected by
 optimizer decisions during reduction. I don't know if it has any
 effect.
 Here we spawn 128 no-op threads that set some thread-local global
-variable. There is just nothing to break here! Note that `main()
+variable. There is just nothing to break here! Note that `main()`
 still has to hide out in `doctest` comment to trigger `SIGSEGV`.
 
 I filed the [bug against `rust`](https://github.com/rust-lang/rust/issues/92869).
