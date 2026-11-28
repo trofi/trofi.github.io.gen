@@ -1,7 +1,8 @@
----
-title: "tracking down mysterious memory corruption"
-date: July 14, 2018
----
++++
+title = "tracking down mysterious memory corruption"
+date = "July 14, 2018"
+tags = ["hardware", "bug", "DRAM"]
++++
 
 I've bought my current desktop machine around 2011 (7 years ago) and
 mostly had no problems with it save one exception: occasionally (once
