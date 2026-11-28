@@ -1,7 +1,8 @@
----
-title: c-reduce nano howto
-date: March 5, 2017
----
++++
+title = "c-reduce nano howto"
+date = "March 5, 2017"
+tags = ["creduce", "howto", "guile", "bug"]
++++
 
 What is `c-reduce`? The [home page](http://embed.cs.utah.edu/creduce/)
 gives very nice explanation:
@@ -188,7 +189,7 @@ Random findings:
   simplification! We need to build similar tools for `haskell`. It's
   quite tedious to do shrinking by hands.
 - old compilers have scary bugs :)
-- It is tricky to figure out what `-march=native` expands to. `gc -v`
+- It is tricky to figure out what `-march=native` expands to. `gcc -v`
   can help you in that :)
 
 Have fun!
