@@ -1,7 +1,8 @@
----
-title: "Endianness of a single byte: big or little?"
-date: November 18, 2017
----
++++
+title = "Endianness of a single byte: big or little?"
+date = "November 18, 2017"
+tags = ["sparc", "radvd", "bug"]
++++
 
 ## Bug
 
