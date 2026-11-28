@@ -1,9 +1,10 @@
----
-title: "farewell, gentoo dev"
-date: August 8, 2021
----
++++
+title = "farewell, gentoo dev"
+date = "August 8, 2021"
+tags = ["gentoo"]
++++
 
-**PSA**: I asked my <slyfox@gentoo.org> account to be retired.
+**PSA**: I asked my `<slyfox@gentoo.org>` account to be retired.
 
 ## a bit of history
 
