@@ -1,7 +1,8 @@
----
-title: "readline config"
-date: December 12, 2020
----
++++
+title = "readline config"
+date = "December 12, 2020"
+tags = ["readline", "howto"]
++++
 
 `bash` and a few other tools use `readline` library to implement
 interactive command line interface with history support, tab completion
