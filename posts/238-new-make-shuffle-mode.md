@@ -1,7 +1,8 @@
----
-title: "New make --shuffle mode"
-date: February 23, 2022
----
++++
+title = "New make --shuffle mode"
+date = "February 23, 2022"
+tags = ["make", "bug"]
++++
 
 ## TL;DR:
 
