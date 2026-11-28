@@ -1,7 +1,8 @@
----
-title: "Filing STABLEREQ for lazies"
-date: March 23, 2020
----
++++
+title = "Filing STABLEREQ for lazies"
+date = "March 23, 2020"
+tags = ["gentoo", "release"]
++++
 
 ## Tl;DR
 
