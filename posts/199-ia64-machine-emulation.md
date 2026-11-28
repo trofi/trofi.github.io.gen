@@ -1,7 +1,8 @@
----
-title: ia64 machine emulation
-date: March 19, 2017
----
++++
+title = "ia64 machine emulation"
+date = "March 19, 2017"
+tags = ["ia64", "ski", "linux", "kernel", "bug", "howto"]
++++
 
 ## TL;DR
 
