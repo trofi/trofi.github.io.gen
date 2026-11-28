@@ -1,7 +1,8 @@
----
-title: "Linker script weird tricks or EFI on ia64"
-date: February 2, 2018
----
++++
+title = "Linker script weird tricks or EFI on ia64"
+date = "February 2, 2018"
+tags = ["ia64", "efi", "ld", "elilo", "gnu-efi"]
++++
 
 One of `gentoo` [bugs](https://bugs.gentoo.org/579278) was about
 `gentoo` install `CD` not being able to boot `Itanium` (`ia64`) boxes.
