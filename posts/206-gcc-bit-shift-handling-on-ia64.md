@@ -1,7 +1,8 @@
----
-title: "GCC bit shift handling on ia64"
-date: December 23, 2017
----
++++
+title = "GCC bit shift handling on ia64"
+date = "December 23, 2017"
+tags = ["gcc", "bug", "ia64"]
++++
 
 Over the past week I've spent quite some time poking at toolchain
 packages in Gentoo and fixing fresh batch of bugs. The bugs popped up
