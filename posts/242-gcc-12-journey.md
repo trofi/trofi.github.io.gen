@@ -1,7 +1,8 @@
----
-title: "gcc-12 journey"
-date: April 24, 2022
----
++++
+title = "gcc-12 journey"
+date = "April 24, 2022"
+tags = ["gcc", "bug"]
++++
 
 It's the end of April. This [means](https://gcc.gnu.org/releases.html)
 `gcc-12` will likely get released soon.
