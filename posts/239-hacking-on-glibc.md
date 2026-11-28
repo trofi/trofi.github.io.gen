@@ -1,7 +1,8 @@
----
-title: "Hacking on glibc"
-date: March 13, 2022
----
++++
+title = "Hacking on glibc"
+date = "March 13, 2022"
+tags = ["glibc", "howto"]
++++
 
 # Intro
 
