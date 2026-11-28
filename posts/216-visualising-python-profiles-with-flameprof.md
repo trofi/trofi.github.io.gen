@@ -1,7 +1,8 @@
----
-title: "visualising python profiles with flameprof"
-date: April 11, 2020
----
++++
+title = "visualising python profiles with flameprof"
+date = "April 11, 2020"
+tags = ["python", "flameprof", "howto"]
++++
 
 ## Tl;DR
 
